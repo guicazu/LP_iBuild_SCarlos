@@ -2034,7 +2034,7 @@
             <li><a href="#blog">Blog</a></li>
             <li><a href="#contato">Contato</a></li>
         </ul>
-        <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="nav-cta">Fale Conosco</a>
+        <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="nav-cta">Faça seu Orçamento</a>
         <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
             <span></span><span></span><span></span>
         </div>
@@ -2918,7 +2918,7 @@
 
     <script src="journey-pap.js"></script>
 
-    <!-- iBUILD São Carlos - Botão lateral "Quero Construir" com modal e formulário Bitrix24 -->
+    <!-- iBUILD São Carlos - Botão lateral "Quero Construir sem Dor de Cabeça" com modal e formulário Bitrix24 -->
 <style>
 /* Estilos do botão lateral flutuante */
 #ibuild-side-btn {
@@ -2928,7 +2928,7 @@
     transform: translateY(-50%);
     z-index: 9998;
     background-color: #c9a227;
-    color: #ffffff;
+    color: #000000;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -3085,7 +3085,7 @@
 </style>
 
 <!-- Botão lateral flutuante -->
-<button id="ibuild-side-btn" type="button" aria-label="Quero Construir">Quero Construir</button>
+<button id="ibuild-side-btn" type="button" aria-label="Quero Construir sem Dor de Cabeça">Quero Construir sem Dor de Cabeça</button>
 
 <!-- Overlay do modal -->
 <div id="ibuild-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="ibuild-modal-title">
@@ -3093,7 +3093,7 @@
     <div id="ibuild-modal-container">
         <!-- Cabeçalho do modal -->
         <div id="ibuild-modal-header">
-            <h2 id="ibuild-modal-title" class="ibuild-modal-title">Quero Construir</h2>
+            <h2 id="ibuild-modal-title" class="ibuild-modal-title">Quero Construir sem Dor de Cabeça</h2>
             <button id="ibuild-modal-close" type="button" aria-label="Fechar">&times;</button>
         </div>
         <!-- Corpo do modal onde o formulário Bitrix24 será carregado -->
@@ -3160,6 +3160,15 @@
 
     // Abre o modal ao clicar no botão lateral
     sideBtn.addEventListener('click', openModal);
+
+    // Faz o botão do header abrir o mesmo modal do botão flutuante lateral
+var headerBtn = document.getElementById('ibuild-header-btn');
+if (headerBtn) {
+    headerBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal();
+    });
+}
 
     // Fecha o modal ao clicar no botão de fechar (X)
     closeBtn.addEventListener('click', closeModal);
