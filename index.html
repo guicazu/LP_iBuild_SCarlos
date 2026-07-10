@@ -2271,80 +2271,88 @@
                 </p>
             </div>
 
-            <div class="journey-steps">
-                <!-- Passo 1 -->
-                <div class="journey-step reveal">
-                    <div class="journey-step-number">01</div>
-                    <div class="journey-step-title">Apresentação</div>
-                    <div class="journey-step-desc">Conhecemos você e apresentamos nosso método construtivo.</div>
-                </div>
-                <!-- Passo 2 -->
-                <div class="journey-step reveal reveal-delay-1">
-                    <div class="journey-step-number">02</div>
-                    <div class="journey-step-title">Recebimento do Projeto</div>
-                    <div class="journey-step-desc">Analisamos suas necessidades e o terreno.</div>
-                </div>
-                <!-- Passo 3 -->
-                <div class="journey-step reveal reveal-delay-2">
-                    <div class="journey-step-number">03</div>
-                    <div class="journey-step-title">Orçamento</div>
-                    <div class="journey-step-desc">Elaboramos orçamento detalhado, sem surpresas.</div>
-                </div>
-                <!-- Passo 4 -->
-                <div class="journey-step reveal reveal-delay-3">
-                    <div class="journey-step-number">04</div>
-                    <div class="journey-step-title">Fechamento</div>
-                    <div class="journey-step-desc">Alinhamos condições e formalizamos o contrato.</div>
-                </div>
-                <!-- Passo 5 -->
-                <div class="journey-step reveal">
-                    <div class="journey-step-number">05</div>
-                    <div class="journey-step-title">Alinhamento</div>
-                    <div class="journey-step-desc">Entendemos seu sonho e necessidades.</div>
-                </div>
-                <!-- Passo 6 -->
-                <div class="journey-step reveal reveal-delay-1">
-                    <div class="journey-step-number">06</div>
-                    <div class="journey-step-title">Projeto Executivo</div>
-                    <div class="journey-step-desc">Apresentamos o projeto arquitetônico e estrutural.</div>
-                </div>
-                <!-- Passo 7 -->
-                <div class="journey-step reveal reveal-delay-2">
-                    <div class="journey-step-number">07</div>
-                    <div class="journey-step-title">Cronograma</div>
-                    <div class="journey-step-desc">Definimos prazos e marcos da obra.</div>
-                </div>
-                <!-- Passo 8 -->
-                <div class="journey-step reveal reveal-delay-3">
-                    <div class="journey-step-number">08</div>
-                    <div class="journey-step-title">Início da Obra</div>
-                    <div class="journey-step-desc">A obra começa. Você acompanha tudo pelo celular.</div>
-                </div>
-                <!-- Passo 9 -->
-                <div class="journey-step reveal">
-                    <div class="journey-step-number">09</div>
-                    <div class="journey-step-title">Acabamentos</div>
-                    <div class="journey-step-desc">Escolha de pisos, revestimentos e metais.</div>
-                </div>
-                <!-- Passo 10 -->
-                <div class="journey-step reveal reveal-delay-1">
-                    <div class="journey-step-number">10</div>
-                    <div class="journey-step-title">Checklist</div>
-                    <div class="journey-step-desc">Vistoria completa antes da entrega.</div>
-                </div>
-                <!-- Passo 11 -->
-                <div class="journey-step reveal reveal-delay-2">
-                    <div class="journey-step-number">11</div>
-                    <div class="journey-step-title">Manual</div>
-                    <div class="journey-step-desc">Você recebe o manual do proprietário.</div>
-                </div>
-                <!-- Passo 12 -->
-                <div class="journey-step reveal reveal-delay-3">
-                    <div class="journey-step-number">12</div>
-                    <div class="journey-step-title">Entrega</div>
-                    <div class="journey-step-desc">O grande dia! Entregamos as chaves.</div>
-                </div>
-            </div>
+            <div class="pap-flow" id="papFlow">
+      <div class="pap-line"></div>
+      <div class="pap-line-glow" id="papLineGlow"></div>
+      <div class="pap-progress-label" id="papProgressLabel">0%</div>
+      <div class="pap-mobile-track">
+        <div class="pap-mobile-track-fill" id="papMobileTrackFill"></div>
+      </div>
+      <div class="pap-nodes">
+        <div class="pap-node top" onclick="openPap(0)">
+          <div class="pap-num">1</div>
+          <div class="pap-label">Apresentação<br>da iBUILD</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path></svg></div>
+          <div class="pap-tooltip"><strong>Apresentação da iBUILD</strong><br>Reunião de apresentação onde você conhece a iBUILD, nosso método construtivo, tecnologia e como trabalhamos para entregar a sua casa com tranquilidade.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(1)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+          <div class="pap-label">Recebimento<br>do Projeto</div>
+          <div class="pap-num">2</div>
+          <div class="pap-tooltip"><strong>Recebimento do Projeto</strong><br>Analisamos suas necessidades, terreno e condições para iniciar o planejamento.</div>
+        </div>
+        <div class="pap-node top" onclick="openPap(2)">
+          <div class="pap-num">3</div>
+          <div class="pap-label">Realização de<br>Orçamento</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path></svg></div>
+          <div class="pap-tooltip"><strong>Realização de Orçamento</strong><br>Elaboramos um orçamento completo e detalhado, com valores fechados e sem surpresas.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(3)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+          <div class="pap-label">Reunião de<br>Fechamento</div>
+          <div class="pap-num">4</div>
+          <div class="pap-tooltip"><strong>Reunião de Fechamento</strong><br>Alinhamos todos os detalhes finais, condições comerciais e formalização do contrato.</div>
+        </div>
+        <div class="pap-node top" onclick="openPap(4)">
+          <div class="pap-num">5</div>
+          <div class="pap-label">Encontro de<br>Alinhamento</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path></svg></div>
+          <div class="pap-tooltip"><strong>Encontro de Alinhamento</strong><br>Entendemos o seu sonho, suas necessidades e como a obra se encaixa na sua vida.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(5)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></div>
+          <div class="pap-label">Reunião de<br>Projeto</div>
+          <div class="pap-num">6</div>
+          <div class="pap-tooltip"><strong>Reunião de Projeto</strong><br>Apresentamos o projeto arquitetônico e estrutural completo com todas as definições técnicas.</div>
+        </div>
+        <div class="pap-node top" onclick="openPap(6)">
+          <div class="pap-num">7</div>
+          <div class="pap-label">Reunião de<br>Cronograma</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></div>
+          <div class="pap-tooltip"><strong>Reunião de Cronograma</strong><br>Alinhamos prazos e marcos. Você recebe um cronograma com data de entrega garantida.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(7)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M2 20h20M5 20V8l7-5 7 5v12"></path><rect x="9" y="12" width="6" height="8"></rect></svg></div>
+          <div class="pap-label">Início<br>da Obra</div>
+          <div class="pap-num">8</div>
+          <div class="pap-tooltip"><strong>Início da Obra</strong><br>A obra começa! Você acompanha tudo pelo celular enquanto sua vida segue.</div>
+        </div>
+        <div class="pap-node top" onclick="openPap(8)">
+          <div class="pap-num">9</div>
+          <div class="pap-label">Definição de<br>Acabamentos</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg></div>
+          <div class="pap-tooltip"><strong>Definição de Acabamentos</strong><br>Escolha de pisos, revestimentos, metais e louças com apoio do nosso time.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(9)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+          <div class="pap-label">Checklist<br>de Entrega</div>
+          <div class="pap-num">10</div>
+          <div class="pap-tooltip"><strong>Checklist de Entrega</strong><br>Vistoria completa. Cada detalhe é conferido antes da entrega.</div>
+        </div>
+        <div class="pap-node top" onclick="openPap(10)">
+          <div class="pap-num">11</div>
+          <div class="pap-label">Manual do<br>Proprietário</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"></path></svg></div>
+          <div class="pap-tooltip"><strong>Manual do Proprietário</strong><br>Você recebe um manual completo com garantias e orientações de manutenção.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(11)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
+          <div class="pap-label">Entrega<br>do Imóvel</div>
+          <div class="pap-num">12</div>
+          <div class="pap-tooltip"><strong>Entrega do Imóvel</strong><br>O grande dia! Entrega das chaves com toda a documentação da sua casa.</div>
+        </div>
+      </div>
+    </div>
 
             <div class="journey-cta-wrap reveal">
                 <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="journey-cta">
