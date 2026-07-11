@@ -1319,134 +1319,8 @@
                 grid-template-columns: 1fr;
             }
         }
-
-        /* ============================================================
-           SEÇÃO: BLOG
-           ============================================================ */
-        .blog-section {
-            padding: 120px var(--side-padding);
-            background: #f0f0f2;
-            position: relative;
-            z-index: 2;
-        }
-        .blog-inner {
-            max-width: var(--content-width);
-            margin: 0 auto;
-        }
-        .blog-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        .blog-label {
-            font-size: .7rem;
-            font-weight: 400;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 20px;
-        }
-        .blog-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 3vw, 2.4rem);
-            font-weight: 500;
-            color: var(--black);
-        }
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-        }
-        .blog-card {
-            background: #fff;
-            overflow: hidden;
-            transition: all .5s var(--ease-out-expo);
-            border: 1px solid rgba(0,0,0,.04);
-        }
-        .blog-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 56px rgba(0,0,0,.08);
-        }
-        .blog-card-image {
-            aspect-ratio: 16/10;
-            overflow: hidden;
-        }
-        .blog-card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform .8s var(--ease-out-expo);
-        }
-        .blog-card:hover .blog-card-image img {
-            transform: scale(1.05);
-        }
-        .blog-card-body {
-            padding: 28px 24px;
-        }
-        .blog-card-tag {
-            font-size: .6rem;
-            font-weight: 400;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 12px;
-        }
-        .blog-card-title {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--black);
-            line-height: 1.4;
-            margin-bottom: 12px;
-            transition: color .3s;
-        }
-        .blog-card:hover .blog-card-title {
-            color: var(--accent-dark);
-        }
-        .blog-card-excerpt {
-            font-size: .85rem;
-            font-weight: 400;
-            color: var(--gray);
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-        .blog-card-link {
-            font-size: .7rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--charcoal);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: color .3s;
-        }
-        .blog-card-link:hover {
-            color: var(--black);
-        }
-        .blog-card-link svg {
-            width: 12px;
-            height: 12px;
-            transition: transform .3s;
-        }
-        .blog-card-link:hover svg {
-            transform: translateX(4px);
-        }
-        @media (max-width: 900px) {
-            .blog-grid {
-                grid-template-columns: 1fr;
-                justify-items: center;
-            }
-            .blog-section {
-                padding: 80px 20px;
-            }
-            .blog-card {
-                width: 100%;
-                max-width: 480px;
-                margin: 0 auto;
-            }
-        }
-
-        /* ============================================================
+        /* 
+        =============================================================
            SEÇÃO: CTA FINAL
            ============================================================ */
         .cta-section {
@@ -2031,7 +1905,6 @@
             <li><a href="#projetos">Projetos</a></li>
             <li><a href="#jornada">Jornada</a></li>
             <li><a href="#porque">Por que nós</a></li>
-            <li><a href="#blog">Blog</a></li>
             <li><a href="#contato">Contato</a></li>
         </ul>
          <!--<a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="nav-cta">Faça seu Orçamento</a>--> 
@@ -2051,7 +1924,6 @@
         <a href="#projetos" onclick="toggleMenu()">Projetos</a>
         <a href="#jornada" onclick="toggleMenu()">Jornada</a>
         <a href="#porque" onclick="toggleMenu()">Por que nós</a>
-        <a href="#blog" onclick="toggleMenu()">Blog</a>
         <a href="#contato" onclick="toggleMenu()">Contato</a>
     </div>
 
@@ -2744,7 +2616,6 @@
                     <li><a href="#projetos">Projetos</a></li>
                     <li><a href="#jornada">Jornada</a></li>
                     <li><a href="#porque">Por que nós</a></li>
-                    <li><a href="#blog">Blog</a></li>
                 </ul>
             </div>
             <div class="footer-col">
