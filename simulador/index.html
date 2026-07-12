@@ -1,1355 +1,384 @@
+<!--
+  hipótese usada sobre o padrão da home:
+  O index principal utiliza CSS embutido no <head>, scripts inline no final do <body> e carrega uma fonte local (Transducer) via @font-face.
+  Para o simulador, adotamos o mesmo modelo: CSS inline (mas organizado em um arquivo separado para facilitar manutenção),
+  @font-face com caminho relativo ao diretório raiz (../fonts/ no HTML) e scripts externos (simulador-dados.js e simulador.js)
+  seguindo o mesmo padrão de inclusão de assets (ordem: head -> body -> scripts).
+
+  Estrutura de arquivos entregue:
+  simulador/
+  ├── index.html
+  └── assets/
+      ├── css/
+      │   └── simulador.css      (mantido, mas adaptado visualmente)
+      └── js/
+          ├── simulador-dados.js
+          └── simulador.js
+-->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador de Orçamento por Ambientes | iBUILD São Carlos</title>
-<meta name="description" content="Simule o custo da sua casa em Light Steel Frame calculando a metragem a partir dos ambientes. iBUILD São Carlos.">
-<style>
-/* ===== Reset e base ===== */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --azul-ibuild:#0a2540;
-  --azul-medio:#14507a;
-  --azul-claro:#2b7bb9;
-  --dourado:#c9a227;
-  --dourado-claro:#e6c558;
-  --cinza-bg:#f4f6f8;
-  --cinza-card:#ffffff;
-  --cinza-borda:#e2e8f0;
-  --cinza-texto:#475569;
-  --preto:#1e293b;
-  --verde:#16a34a;
-  --vermelho:#dc2626;
-  --sombra:0 2px 8px rgba(10,37,64,.08);
-  --sombra-forte:0 8px 30px rgba(10,37,64,.12);
-  --raio:12px;
-  --transicao:.25s ease;
-}
-html{scroll-behavior:smooth}
-body{
-  font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-  color:var(--preto);
-  background:var(--cinza-bg);
-  line-height:1.6;
-}
-.container{max-width:1180px;margin:0 auto;padding:0 24px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Orçamento por Ambientes | iBUILD São Carlos</title>
+    <meta name="description" content="Simule o custo da sua casa em Light Steel Frame calculando a metragem a partir dos ambientes.">
 
-/* ===== Header ===== */
-.header{background:var(--azul-ibuild);color:#fff;position:sticky;top:0;z-index:100;box-shadow:var(--sombra)}
-.header-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
-.logo-mark{
-  width:42px;height:42px;border-radius:8px;
-  background:linear-gradient(135deg,var(--dourado),var(--dourado-claro));
-  display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:18px;color:var(--azul-ibuild);
-}
-.logo-text{font-size:20px;font-weight:700;letter-spacing:.5px}
-.logo-text span{color:var(--dourado-claro)}
-.nav-links{display:flex;gap:28px;list-style:none}
-.nav-links a{color:#cbd5e1;text-decoration:none;font-size:14px;font-weight:500;transition:var(--transicao)}
-.nav-links a:hover{color:#fff}
-@media(max-width:768px){.nav-links{display:none}}
+    <!-- Fontes Transducer (caminho relativo ao diretório raiz do site) -->
+    <style>
+        @font-face {
+            font-family: 'Transducer';
+            src: url('../fonts/Transducer-Regular.woff2') format('woff2'),
+                 url('../fonts/Transducer-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Transducer';
+            src: url('../fonts/Transducer-Medium.woff2') format('woff2'),
+                 url('../fonts/Transducer-Medium.woff') format('woff');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Transducer';
+            src: url('../fonts/Transducer-Bold.woff2') format('woff2'),
+                 url('../fonts/Transducer-Bold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
 
-/* ===== Hero ===== */
-.hero{background:linear-gradient(135deg,var(--azul-ibuild) 0%,var(--azul-medio) 100%);color:#fff;padding:72px 0 60px;position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;right:-100px;top:-100px;width:400px;height:400px;border-radius:50%;background:rgba(201,162,39,.08)}
-.hero-badge{display:inline-block;padding:6px 16px;border-radius:50px;background:rgba(255,255,255,.1);border:1px solid rgba(201,162,39,.4);color:var(--dourado-claro);font-size:13px;font-weight:600;margin-bottom:20px}
-.hero h1{font-size:40px;font-weight:800;line-height:1.2;margin-bottom:16px;max-width:760px}
-.hero h1 span{color:var(--dourado-claro)}
-.hero p{font-size:17px;color:#cbd5e1;max-width:640px;margin-bottom:26px}
-.hero-cta{display:flex;gap:16px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:var(--transicao)}
-.btn-primary{background:var(--dourado);color:var(--azul-ibuild)}
-.btn-primary:hover{background:var(--dourado-claro);transform:translateY(-2px);box-shadow:var(--sombra-forte)}
-.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3)}
-.btn-outline:hover{border-color:var(--dourado-claro);color:var(--dourado-claro)}
-@media(max-width:768px){.hero h1{font-size:28px}.hero p{font-size:15px}}
-
-/* ===== Seções ===== */
-.section{padding:56px 0}
-.section-title{font-size:28px;font-weight:800;color:var(--azul-ibuild);margin-bottom:6px}
-.section-subtitle{color:var(--cinza-texto);font-size:15px;margin-bottom:32px}
-
-/* ===== Aviso ===== */
-.aviso-estimativa{background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:12px 16px;font-size:13px;color:#9a3412;margin-bottom:24px;display:flex;gap:10px;align-items:flex-start}
-.aviso-estimativa .ico{font-size:18px}
-
-/* ===== Grid simulador ===== */
-.simulador-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:28px;align-items:start}
-@media(max-width:980px){.simulador-grid{grid-template-columns:1fr}}
-
-/* ===== Formulário global ===== */
-.form-card{background:var(--cinza-card);border-radius:var(--raio);box-shadow:var(--sombra);overflow:hidden}
-.form-step{padding:24px 26px 18px;border-bottom:1px solid var(--cinza-borda)}
-.form-step:last-child{border-bottom:none}
-.step-header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.step-num{width:30px;height:30px;border-radius:50%;background:var(--azul-ibuild);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
-.step-title{font-size:17px;font-weight:700;color:var(--azul-ibuild)}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
-.form-group{display:flex;flex-direction:column;gap:5px}
-.form-group.full{grid-column:1/-1}
-label{font-size:13px;font-weight:600;color:var(--cinza-texto)}
-label .hint{font-weight:400;color:#94a3b8;font-size:12px}
-input,select,textarea{padding:10px 13px;border:1.5px solid var(--cinza-borda);border-radius:8px;font-size:14px;font-family:inherit;color:var(--preto);background:#fff;transition:var(--transicao);width:100%}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--azul-claro);box-shadow:0 0 0 3px rgba(43,123,185,.12)}
-.form-actions{display:flex;gap:12px;flex-wrap:wrap;padding:22px 26px;background:#f8fafc}
-.btn-secondary{background:#e2e8f0;color:var(--preto)}
-.btn-secondary:hover{background:#cbd5e1}
-
-/* ===== Cards de ambiente ===== */
-.ambientes-lista{display:flex;flex-direction:column;gap:14px}
-.amb-card{border:1.5px solid var(--cinza-borda);border-radius:10px;overflow:hidden;transition:var(--transicao);background:#fff}
-.amb-card:hover{border-color:var(--azul-claro)}
-.amb-card.ativo{border-color:var(--azul-medio);box-shadow:0 2px 12px rgba(20,80,122,.1)}
-.amb-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none;background:linear-gradient(to right,#f8fafc,#fff)}
-.amb-header:hover{background:#f1f5f9}
-.amb-header-left{display:flex;align-items:center;gap:12px}
-.amb-icone{width:36px;height:36px;border-radius:8px;background:var(--azul-ibuild);color:var(--dourado-claro);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0}
-.amb-nome{font-size:15px;font-weight:700;color:var(--azul-ibuild)}
-.amb-area-badge{font-size:12px;font-weight:600;color:var(--cinza-texto);background:#e2e8f0;padding:3px 10px;border-radius:50px;white-space:nowrap}
-.amb-area-badge.tem-area{background:var(--dourado);color:var(--azul-ibuild)}
-.amb-toggle{font-size:18px;color:var(--cinza-texto);transition:transform .25s ease}
-.amb-card.expandido .amb-toggle{transform:rotate(180deg)}
-.amb-body{display:none;padding:18px;border-top:1px solid var(--cinza-borda)}
-.amb-card.expandido .amb-body{display:block}
-.amb-modulos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-@media(max-width:560px){.amb-modulos-grid{grid-template-columns:1fr 1fr}}
-.mod-group{display:flex;flex-direction:column;gap:4px}
-.mod-group label{font-size:11px;text-transform:uppercase;letter-spacing:.3px}
-.mod-group .mod-dim{font-size:10px;color:#94a3b8;font-weight:400}
-.amb-linha{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
-@media(max-width:560px){.amb-linha{grid-template-columns:1fr}}
-.amb-section-title{font-size:12px;font-weight:700;color:var(--azul-medio);text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--cinza-borda)}
-
-/* ===== Módulos personalizados ===== */
-.custom-mods{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
-.custom-mod-item{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;padding:12px;background:#f8fafc;border-radius:8px;border:1px solid var(--cinza-borda)}
-@media(max-width:560px){.custom-mod-item{grid-template-columns:1fr 1fr}}
-.custom-mod-item .mod-group{font-size:12px}
-.btn-remove-custom{background:#fee2e2;color:var(--vermelho);border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--transicao);white-space:nowrap}
-.btn-remove-custom:hover{background:var(--vermelho);color:#fff}
-.btn-add-custom{background:var(--azul-claro);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;transition:var(--transicao);display:inline-flex;align-items:center;gap:6px}
-.btn-add-custom:hover{background:var(--azul-medio)}
-.amb-rodape{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:10px;padding-top:12px;border-top:1px solid var(--cinza-borda)}
-.amb-rodape .amb-area-final{font-size:14px;font-weight:700;color:var(--azul-ibuild)}
-.amb-rodape .amb-area-final span{color:var(--dourado);font-size:18px}
-
-/* ===== Painel resultado ===== */
-.result-panel{position:sticky;top:96px}
-.result-card{background:var(--cinza-card);border-radius:var(--raio);box-shadow:var(--sombra-forte);overflow:hidden;margin-bottom:20px}
-.result-hero{background:linear-gradient(135deg,var(--azul-ibuild),var(--azul-medio));color:#fff;padding:26px;text-align:center}
-.result-hero .label{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--dourado-claro);font-weight:600}
-.result-hero .value{font-size:36px;font-weight:800;margin:6px 0}
-.result-hero .sub{font-size:13px;color:#cbd5e1}
-.result-cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--cinza-borda)}
-.result-mini{background:#fff;padding:16px;text-align:center}
-.result-mini .mini-label{font-size:11px;color:var(--cinza-texto);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.result-mini .mini-value{font-size:19px;font-weight:700;color:var(--azul-ibuild);margin-top:3px}
-.result-detail{padding:22px 26px;max-height:520px;overflow-y:auto}
-.result-detail h3{font-size:15px;font-weight:700;color:var(--azul-ibuild);margin-bottom:12px;border-bottom:2px solid var(--cinza-borda);padding-bottom:6px}
-.detail-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px dotted var(--cinza-borda)}
-.detail-row:last-child{border-bottom:none}
-.detail-row .dr-label{color:var(--cinza-texto)}
-.detail-row .dr-value{font-weight:600;color:var(--preto)}
-.detail-group{margin-bottom:18px}
-.detail-group-title{font-size:12px;font-weight:700;color:var(--azul-medio);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
-.observacoes{padding:18px 26px;background:#fffbeb;border-top:1px solid #fde68a;font-size:12px;color:#92400e;line-height:1.7}
-.observacoes strong{color:#78350f}
-.btn-copy{width:100%;justify-content:center}
-
-/* ===== Tabela ambientes ===== */
-.amb-tabela-wrap{overflow-x:auto;margin-bottom:20px}
-.amb-tabela{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:var(--raio);overflow:hidden;box-shadow:var(--sombra)}
-.amb-tabela thead{background:var(--azul-ibuild);color:#fff}
-.amb-tabela th{padding:12px 14px;text-align:left;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.3px}
-.amb-tabela td{padding:11px 14px;border-bottom:1px solid var(--cinza-borda)}
-.amb-tabela tbody tr:hover{background:#f8fafc}
-.amb-tabela .td-area{font-weight:700;color:var(--azul-ibuild)}
-.amb-tabela tfoot{background:#f1f5f9;font-weight:700}
-.amb-tabela tfoot td{font-size:14px;color:var(--azul-ibuild)}
-.amb-tabela .td-zero{color:#cbd5e1}
-
-/* ===== Composição visual ===== */
-.composicao{margin-bottom:20px}
-.comp-bar{display:flex;height:32px;border-radius:8px;overflow:hidden;border:1px solid var(--cinza-borda)}
-.comp-legenda{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
-.comp-legenda-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--cinza-texto)}
-.comp-legenda-cor{width:14px;height:14px;border-radius:4px;flex-shrink:0}
-.comp-legenda-val{font-weight:600;color:var(--preto)}
-
-/* ===== Feature ===== */
-.explicativa{background:#fff}
-.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-@media(max-width:768px){.feature-grid{grid-template-columns:1fr}}
-.feature-card{background:var(--cinza-bg);border-radius:var(--raio);padding:26px;border:1px solid var(--cinza-borda)}
-.feature-icon{width:46px;height:46px;border-radius:10px;background:var(--azul-ibuild);color:var(--dourado-claro);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;margin-bottom:14px}
-.feature-card h3{font-size:16px;font-weight:700;color:var(--azul-ibuild);margin-bottom:7px}
-.feature-card p{font-size:13px;color:var(--cinza-texto)}
-
-/* ===== Footer ===== */
-.footer{background:var(--azul-ibuild);color:#94a3b8;padding:36px 0;text-align:center;font-size:14px}
-.footer a{color:var(--dourado-claro);text-decoration:none}
-.footer .footer-brand{color:#fff;font-weight:700;margin-bottom:6px}
-
-/* ===== Toast ===== */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--azul-ibuild);color:#fff;padding:13px 26px;border-radius:8px;font-size:14px;font-weight:600;box-shadow:var(--sombra-forte);transition:transform .3s ease;z-index:200;opacity:0}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-
-/* ===== Barra de área flutuante ===== */
-.area-bar{position:sticky;top:80px;z-index:50;background:var(--cinza-card);border:1.5px solid var(--dourado);border-radius:10px;padding:12px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:var(--sombra);flex-wrap:wrap}
-.area-bar-label{font-size:13px;font-weight:600;color:var(--cinza-texto)}
-.area-bar-value{font-size:24px;font-weight:800;color:var(--azul-ibuild)}
-.area-bar-value span{color:var(--dourado)}
-.area-bar-info{font-size:12px;color:#94a3b8}
-</style>
+    <!-- Estilos principais do simulador (adaptados ao padrão da home) -->
+    <link rel="stylesheet" href="assets/css/simulador.css">
 </head>
 <body>
 
-<!-- ===== Header ===== -->
-<header class="header">
-  <div class="container header-inner">
-    <a href="https://ibuildsaocarlos.com.br" class="logo">
-      <div class="logo-mark">iB</div>
-      <div class="logo-text">iBUILD <span>São Carlos</span></div>
-    </a>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="https://ibuildsaocarlos.com.br">Início</a></li>
-        <li><a href="https://ibuildsaocarlos.com.br/#sobre">Sobre</a></li>
-        <li><a href="https://ibuildsaocarlos.com.br/#projetos">Projetos</a></li>
-        <li><a href="#simulador">Simulador</a></li>
-        <li><a href="https://ibuildsaocarlos.com.br/#contato">Contato</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+    <!-- ============================================================
+         NAVEGAÇÃO (mesmo padrão da home, mas sempre com fundo escuro)
+         ============================================================ -->
+    <header class="nav">
+        <a href="../index.html" class="nav-logo">
+            <img src="../assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy">
+        </a>
+        <ul class="nav-links">
+            <li><a href="../index.html#sobre">Sobre</a></li>
+            <li><a href="../index.html#projetos">Projetos</a></li>
+            <li><a href="../index.html#jornada">Jornada</a></li>
+            <li><a href="../index.html#porque">Por que nós</a></li>
+            <li><a href="../index.html#contato">Contato</a></li>
+        </ul>
+        <a href="https://wa.me/5516997634187" class="nav-cta" target="_blank" rel="noopener">
+            Faça seu Orçamento
+        </a>
+    </header>
 
-<!-- ===== Hero ===== -->
-<section class="hero">
-  <div class="container">
-    <span class="hero-badge">Simulador por Ambientes • Light Steel Frame</span>
-    <h1>Monte sua casa <span>ambiente por ambiente</span></h1>
-    <p>A metragem agora nasce dos ambientes que você escolhe. Informe os módulos de cada espaço e o simulador calcula automaticamente a área total, as premissas técnicas e o custo estimado da obra.</p>
-    <div class="hero-cta">
-      <a href="#simulador" class="btn btn-primary">Iniciar Simulação →</a>
-      <a href="#explicativa" class="btn btn-outline">Como funciona</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Simulador ===== -->
-<section class="section" id="simulador">
-  <div class="container">
-    <h2 class="section-title">Calculadora por Ambientes</h2>
-    <p class="section-subtitle">Preencha os módulos de cada ambiente e acompanhe a área e o custo em tempo real.</p>
-
-    <div class="aviso-estimativa">
-      <span class="ico">⚠</span>
-      <span><strong>Valor estimativo:</strong> Esta simulação oferece uma aproximação inicial baseada em parâmetros de referência. O orçamento detalhado depende de validação técnica, projeto executivo e condições específicas do terreno.</span>
-    </div>
-
-    <!-- Barra de área em tempo real -->
-    <div class="area-bar" id="areaBar">
-      <div>
-        <div class="area-bar-label">Área total calculada (soma dos ambientes)</div>
-        <div class="area-bar-value"><span id="areaBarValor">0,00</span> m²</div>
-      </div>
-      <div class="area-bar-info" id="areaBarInfo">0 ambientes preenchidos</div>
-    </div>
-
-    <div class="simulador-grid">
-      <!-- ===== Formulário ===== -->
-      <form id="formSimulador" class="form-card" autocomplete="off">
-
-        <!-- Etapa 1: Dados globais da obra -->
-        <div class="form-step">
-          <div class="step-header">
-            <div class="step-num">1</div>
-            <div class="step-title">Dados Globais da Obra</div>
-          </div>
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="areaTerreno">Área do terreno (m²)</label>
-              <input type="number" id="areaTerreno" min="50" step="0.01" value="450">
-            </div>
-            <div class="form-group">
-              <label for="distancia">Distância Guarulhos → obra (km)</label>
-              <input type="number" id="distancia" min="0" step="1" value="330">
-            </div>
-            <div class="form-group">
-              <label for="estilo">Estilo arquitetônico</label>
-              <select id="estilo">
-                <option value="Contemporânea">Contemporânea</option>
-                <option value="Européia">Européia</option>
-                <option value="Neo-Clássica">Neo-Clássica</option>
-                <option value="Brasileira" selected>Brasileira</option>
-                <option value="Mediterrânea">Mediterrânea</option>
-                <option value="Clássica">Clássica</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="pavimentos">Quantidade de pavimentos</label>
-              <select id="pavimentos">
-                <option value="1">1 Pavimento (térrea)</option>
-                <option value="2" selected>2 Pavimentos (sobrado/mezanino)</option>
-                <option value="3">3 Pavimentos (sobrado + subsolo)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="telha">Tipo de telha (global)</label>
-              <select id="telha">
-                <option value="Termoacústica" selected>Termoacústica</option>
-                <option value="Fibrocimento">Fibrocimento</option>
-                <option value="Cerâmica">Cerâmica</option>
-                <option value="Telha Metálica">Telha Metálica</option>
-                <option value="Laje Impermeabilizada">Laje Impermeabilizada</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="piscina">Piscina (m²) <span class="hint">0 = sem piscina</span></label>
-              <input type="number" id="piscina" min="0" step="0.01" value="0">
-            </div>
-            <div class="form-group">
-              <label for="muro">Muro de divisa (m²/fac)</label>
-              <input type="number" id="muro" min="0" step="0.01" value="0">
-            </div>
-            <div class="form-group">
-              <label for="gorduraPct">Gorduras/Imprevistos (%)</label>
-              <input type="number" id="gorduraPct" min="0" step="0.5" value="5">
-            </div>
-            <div class="form-group">
-              <label for="gorduraValor">Gordura/Imprevisto fixo (R$)</label>
-              <input type="number" id="gorduraValor" min="0" step="100" value="0">
-            </div>
-            <div class="form-group full">
-              <label for="impostosObs">Impostos (observação, não somados)</label>
-              <input type="text" id="impostosObs" placeholder="Ex: ISS 5%, PIS/COFINS, etc." value="">
-            </div>
-          </div>
+    <!-- ============================================================
+         HERO SIMPLES (seguindo a tipografia da home)
+         ============================================================ -->
+    <section class="sim-hero">
+        <div class="sim-hero-content">
+            <p class="hero-pretitle">iBUILD São Carlos · Simulador</p>
+            <h1 class="hero-title">MONTE SUA CASA <em>AMBIENTE POR AMBIENTE</em></h1>
+            <p class="hero-subtitle">
+                A metragem agora nasce dos ambientes que você escolhe. Informe os módulos de cada espaço e o simulador calcula automaticamente a área total, as premissas técnicas e o custo estimado da obra.
+            </p>
+            <a href="#simulador" class="hero-cta">
+                Iniciar Simulação
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
         </div>
+    </section>
 
-        <!-- Etapa 2: Ambientes -->
-        <div class="form-step">
-          <div class="step-header">
-            <div class="step-num">2</div>
-            <div class="step-title">Ambientes da Casa</div>
-          </div>
-          <p style="font-size:13px;color:var(--cinza-texto);margin-bottom:16px">A área da casa é calculada automaticamente pela soma das áreas dos ambientes. Clique em cada ambiente para expandir e configurar os módulos.</p>
-          <div class="ambientes-lista" id="ambientesLista"></div>
-        </div>
+    <!-- ============================================================
+         SEÇÃO DO SIMULADOR
+         ============================================================ -->
+    <section class="sim-section" id="simulador">
+        <div class="sim-inner">
+            <h2 class="section-title">Calculadora por Ambientes</h2>
+            <p class="section-subtitle">Preencha os módulos de cada ambiente e acompanhe a área e o custo em tempo real.</p>
 
-        <div class="form-actions">
-          <button type="button" class="btn btn-secondary" id="btnReset">↺ Resetar</button>
-          <button type="button" class="btn btn-primary" id="btnCalcular">Ver Resultado ↓</button>
-        </div>
-      </form>
-
-      <!-- ===== Painel de resultado ===== -->
-      <div class="result-panel" id="resultado">
-        <div class="result-card">
-          <div class="result-hero">
-            <div class="label">Total Estimado da Obra</div>
-            <div class="value" id="rTotal">R$ 0,00</div>
-            <div class="sub" id="rSubtotal">—</div>
-          </div>
-          <div class="result-cards">
-            <div class="result-mini"><div class="mini-label">Área Total</div><div class="mini-value" id="rArea">0 m²</div></div>
-            <div class="result-mini"><div class="mini-label">Custo/m²</div><div class="mini-value" id="rCustoM2">R$ 0</div></div>
-            <div class="result-mini"><div class="mini-label">Obra Branca</div><div class="mini-value" id="rObraBranca">R$ 0</div></div>
-            <div class="result-mini"><div class="mini-label">Acabamentos</div><div class="mini-value" id="rAcabamentos">R$ 0</div></div>
-          </div>
-
-          <div class="result-detail">
-            <h3>Detalhamento Técnico</h3>
-            <div class="detail-group">
-              <div class="detail-group-title">Áreas e Paredes</div>
-              <div class="detail-row"><span class="dr-label">Área total da casa</span><span class="dr-value" id="dAreaTotal">—</span></div>
-              <div class="detail-row"><span class="dr-label">Área de circulação</span><span class="dr-value" id="dCirculacao">—</span></div>
-              <div class="detail-row"><span class="dr-label">Área de pisos</span><span class="dr-value" id="dPisos">—</span></div>
-              <div class="detail-row"><span class="dr-label">Paredes externas (aprox.)</span><span class="dr-value" id="dParedesExt">—</span></div>
-              <div class="detail-row"><span class="dr-label">Paredes internas (aprox.)</span><span class="dr-value" id="dParedesInt">—</span></div>
-              <div class="detail-row"><span class="dr-label">Forro</span><span class="dr-value" id="dForro">—</span></div>
-              <div class="detail-row"><span class="dr-label">Pintura interna</span><span class="dr-value" id="dPinturaInt">—</span></div>
-              <div class="detail-row"><span class="dr-label">Pintura externa</span><span class="dr-value" id="dPinturaExt">—</span></div>
+            <div class="aviso-estimativa">
+                <span class="ico">⚠</span>
+                <span><strong>Valor estimativo:</strong> Esta simulação oferece uma aproximação inicial baseada em parâmetros de referência. O orçamento detalhado depende de validação técnica, projeto executivo e condições específicas do terreno.</span>
             </div>
-            <div class="detail-group">
-              <div class="detail-group-title">Componentes</div>
-              <div class="detail-row"><span class="dr-label">Esquadrias/vidros</span><span class="dr-value" id="dEsquadrias">—</span></div>
-              <div class="detail-row"><span class="dr-label">Bancadas/mármores</span><span class="dr-value" id="dBancadas">—</span></div>
-              <div class="detail-row"><span class="dr-label">Portas</span><span class="dr-value" id="dPortas">—</span></div>
-              <div class="detail-row"><span class="dr-label">Tomadas / Interruptores / Luzes</span><span class="dr-value" id="dEletrica">—</span></div>
-              <div class="detail-row"><span class="dr-label">Área de laje (verticalização)</span><span class="dr-value" id="dLaje">—</span></div>
-              <div class="detail-row"><span class="dr-label">Frete (ida + volta)</span><span class="dr-value" id="dFrete">—</span></div>
+
+            <!-- Barra de área em tempo real -->
+            <div class="area-bar" id="areaBar">
+                <div>
+                    <div class="area-bar-label">Área total calculada (soma dos ambientes)</div>
+                    <div class="area-bar-value"><span id="areaBarValor">0,00</span> m²</div>
+                </div>
+                <div class="area-bar-info" id="areaBarInfo">0 ambientes preenchidos</div>
             </div>
-            <div class="detail-group">
-              <div class="detail-group-title">Resumo Financeiro</div>
-              <div class="detail-row"><span class="dr-label">Obra branca / estrutura</span><span class="dr-value" id="dVObraBranca">—</span></div>
-              <div class="detail-row"><span class="dr-label">Acabamentos por ambiente</span><span class="dr-value" id="dVAcabamentos">—</span></div>
-              <div class="detail-row"><span class="dr-label">Itens extras</span><span class="dr-value" id="dVExtras">—</span></div>
-              <div class="detail-row"><span class="dr-label">Gorduras/Imprevistos</span><span class="dr-value" id="dVGordura">—</span></div>
-              <div class="detail-row"><span class="dr-label">Prazo estimado</span><span class="dr-value" id="dPrazo">—</span></div>
+
+            <div class="sim-grid">
+                <!-- Formulário -->
+                <form id="formSimulador" class="form-card" autocomplete="off">
+
+                    <!-- Etapa 1: Dados globais da obra -->
+                    <div class="form-step">
+                        <div class="step-header">
+                            <div class="step-num">1</div>
+                            <div class="step-title">Dados Globais da Obra</div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="areaTerreno">Área do terreno (m²)</label>
+                                <input type="number" id="areaTerreno" min="50" step="0.01" value="450">
+                            </div>
+                            <div class="form-group">
+                                <label for="distancia">Distância Guarulhos → obra (km)</label>
+                                <input type="number" id="distancia" min="0" step="1" value="330">
+                            </div>
+                            <div class="form-group">
+                                <label for="estilo">Estilo arquitetônico</label>
+                                <select id="estilo">
+                                    <option value="Contemporânea">Contemporânea</option>
+                                    <option value="Européia">Européia</option>
+                                    <option value="Neo-Clássica">Neo-Clássica</option>
+                                    <option value="Brasileira" selected>Brasileira</option>
+                                    <option value="Mediterrânea">Mediterrânea</option>
+                                    <option value="Clássica">Clássica</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="pavimentos">Quantidade de pavimentos</label>
+                                <select id="pavimentos">
+                                    <option value="1">1 Pavimento (térrea)</option>
+                                    <option value="2" selected>2 Pavimentos (sobrado/mezanino)</option>
+                                    <option value="3">3 Pavimentos (sobrado + subsolo)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="telha">Tipo de telha (global)</label>
+                                <select id="telha">
+                                    <option value="Termoacústica" selected>Termoacústica</option>
+                                    <option value="Fibrocimento">Fibrocimento</option>
+                                    <option value="Cerâmica">Cerâmica</option>
+                                    <option value="Telha Metálica">Telha Metálica</option>
+                                    <option value="Laje Impermeabilizada">Laje Impermeabilizada</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="piscina">Piscina (m²) <span class="hint">0 = sem piscina</span></label>
+                                <input type="number" id="piscina" min="0" step="0.01" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="muro">Muro de divisa (m²/fac)</label>
+                                <input type="number" id="muro" min="0" step="0.01" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="gorduraPct">Gorduras/Imprevistos (%)</label>
+                                <input type="number" id="gorduraPct" min="0" step="0.5" value="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="gorduraValor">Gordura/Imprevisto fixo (R$)</label>
+                                <input type="number" id="gorduraValor" min="0" step="100" value="0">
+                            </div>
+                            <div class="form-group full">
+                                <label for="impostosObs">Impostos (observação, não somados)</label>
+                                <input type="text" id="impostosObs" placeholder="Ex: ISS 5%, PIS/COFINS, etc." value="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Etapa 2: Ambientes -->
+                    <div class="form-step">
+                        <div class="step-header">
+                            <div class="step-num">2</div>
+                            <div class="step-title">Ambientes da Casa</div>
+                        </div>
+                        <p style="font-size:13px;color:var(--gray);margin-bottom:16px">A área da casa é calculada automaticamente pela soma das áreas dos ambientes. Clique em cada ambiente para expandir e configurar os módulos.</p>
+                        <div class="ambientes-lista" id="ambientesLista"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="btnReset">↺ Resetar</button>
+                        <button type="button" class="btn btn-primary" id="btnCalcular">Ver Resultado ↓</button>
+                    </div>
+                </form>
+
+                <!-- Painel de resultado -->
+                <div class="result-panel" id="resultado">
+                    <div class="result-card">
+                        <div class="result-hero">
+                            <div class="label">Total Estimado da Obra</div>
+                            <div class="value" id="rTotal">R$ 0,00</div>
+                            <div class="sub" id="rSubtotal">—</div>
+                        </div>
+                        <div class="result-cards">
+                            <div class="result-mini"><div class="mini-label">Área Total</div><div class="mini-value" id="rArea">0 m²</div></div>
+                            <div class="result-mini"><div class="mini-label">Custo/m²</div><div class="mini-value" id="rCustoM2">R$ 0</div></div>
+                            <div class="result-mini"><div class="mini-label">Obra Branca</div><div class="mini-value" id="rObraBranca">R$ 0</div></div>
+                            <div class="result-mini"><div class="mini-label">Acabamentos</div><div class="mini-value" id="rAcabamentos">R$ 0</div></div>
+                        </div>
+
+                        <div class="result-detail">
+                            <h3>Detalhamento Técnico</h3>
+                            <div class="detail-group">
+                                <div class="detail-group-title">Áreas e Paredes</div>
+                                <div class="detail-row"><span class="dr-label">Área total da casa</span><span class="dr-value" id="dAreaTotal">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Área de circulação</span><span class="dr-value" id="dCirculacao">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Área de pisos</span><span class="dr-value" id="dPisos">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Paredes externas (aprox.)</span><span class="dr-value" id="dParedesExt">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Paredes internas (aprox.)</span><span class="dr-value" id="dParedesInt">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Forro</span><span class="dr-value" id="dForro">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Pintura interna</span><span class="dr-value" id="dPinturaInt">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Pintura externa</span><span class="dr-value" id="dPinturaExt">—</span></div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-group-title">Componentes</div>
+                                <div class="detail-row"><span class="dr-label">Esquadrias/vidros</span><span class="dr-value" id="dEsquadrias">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Bancadas/mármores</span><span class="dr-value" id="dBancadas">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Portas</span><span class="dr-value" id="dPortas">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Tomadas / Interruptores / Luzes</span><span class="dr-value" id="dEletrica">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Área de laje (verticalização)</span><span class="dr-value" id="dLaje">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Frete (ida + volta)</span><span class="dr-value" id="dFrete">—</span></div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-group-title">Resumo Financeiro</div>
+                                <div class="detail-row"><span class="dr-label">Obra branca / estrutura</span><span class="dr-value" id="dVObraBranca">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Acabamentos por ambiente</span><span class="dr-value" id="dVAcabamentos">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Itens extras</span><span class="dr-value" id="dVExtras">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Gorduras/Imprevistos</span><span class="dr-value" id="dVGordura">—</span></div>
+                                <div class="detail-row"><span class="dr-label">Prazo estimado</span><span class="dr-value" id="dPrazo">—</span></div>
+                            </div>
+                        </div>
+                        <div class="observacoes">
+                            <strong>Premissas e Exclusões:</strong>
+                            <span id="dObservacoes">Valores de referência sujeitos a validação técnica. Não incluem impostos fora do custo direto, licenciamentos, taxas municipais, terreno, infraestrutura externa (portão, paisagismo, rede pública) salvo itens explicitamente adicionados. Orçamento detalhado requer projeto executivo.</span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-full" id="btnCopiar">📋 Copiar Resumo</button>
+                </div>
             </div>
-          </div>
-          <div class="observacoes">
-            <strong>Premissas e Exclusões:</strong>
-            <span id="dObservacoes">Valores de referência sujeitos a validação técnica. Não incluem impostos fora do custo direto, licenciamentos, taxas municipais, terreno, infraestrutura externa (portão, paisagismo, rede pública) salvo itens explicitamente adicionados. Orçamento detalhado requer projeto executivo.</span>
-          </div>
+
+            <!-- Tabela resumo de ambientes -->
+            <div style="margin-top:60px">
+                <h3 class="sim-subtitle">Resumo de Ambientes</h3>
+                <p class="section-subtitle">Área parcial de cada ambiente e participação na área total.</p>
+                <div class="amb-tabela-wrap">
+                    <table class="amb-tabela" id="tabelaAmbientes">
+                        <thead>
+                            <tr><th>Ambiente</th><th>Módulos</th><th>Pé-direito</th><th>Acabamento</th><th>Área parcial</th><th>% do total</th></tr>
+                        </thead>
+                        <tbody id="tabelaBody"></tbody>
+                        <tfoot><tr><td colspan="4">Área total da casa</td><td id="tabelaTotal" class="td-area">0,00 m²</td><td>100%</td></tr></tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Composição visual da área -->
+            <div class="composicao">
+                <h3 class="sim-subtitle">Composição da Área por Ambiente</h3>
+                <p class="section-subtitle">Distribuição visual da metragem entre os ambientes preenchidos.</p>
+                <div class="comp-bar" id="compBar"></div>
+                <div class="comp-legenda" id="compLegenda"></div>
+            </div>
         </div>
-        <button type="button" class="btn btn-primary btn-copy" id="btnCopiar">📋 Copiar Resumo</button>
-      </div>
-    </div>
+    </section>
 
-    <!-- ===== Tabela resumo de ambientes ===== -->
-    <div style="margin-top:40px">
-      <h3 class="section-title" style="font-size:22px">Resumo de Ambientes</h3>
-      <p class="section-subtitle">Área parcial de cada ambiente e participação na área total.</p>
-      <div class="amb-tabela-wrap">
-        <table class="amb-tabela" id="tabelaAmbientes">
-          <thead>
-            <tr><th>Ambiente</th><th>Módulos</th><th>Pé-direito</th><th>Acabamento</th><th>Área parcial</th><th>% do total</th></tr>
-          </thead>
-          <tbody id="tabelaBody"></tbody>
-          <tfoot><tr><td colspan="4">Área total da casa</td><td id="tabelaTotal" class="td-area">0,00 m²</td><td>100%</td></tr></tfoot>
-        </table>
-      </div>
-    </div>
-
-    <!-- ===== Composição visual da área ===== -->
-    <div style="margin-top:32px" class="composicao">
-      <h3 class="section-title" style="font-size:22px">Composição da Área por Ambiente</h3>
-      <p class="section-subtitle">Distribuição visual da metragem entre os ambientes preenchidos.</p>
-      <div class="comp-bar" id="compBar"></div>
-      <div class="comp-legenda" id="compLegenda"></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Seção explicativa ===== -->
-<section class="section explicativa" id="explicativa">
-  <div class="container">
-    <h2 class="section-title">Como o Simulador Funciona</h2>
-    <p class="section-subtitle">A área nasce dos ambientes. O custo reflete a soma de cada espaço.</p>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-icon">1</div>
-        <h3>Monte os Ambientes</h3>
-        <p>Para cada ambiente, informe a quantidade de módulos pequenos, médios e grandes, adicione módulos personalizados com largura e comprimento, defina o pé-direito e o acabamento interno.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">2</div>
-        <h3>Área Automática</h3>
-        <p>A área da casa é a soma de todas as áreas dos ambientes. O simulador deriva circulação, pisos, paredes, pintura, esquadrias, bancadas, portas e pontos elétricos automaticamente.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">3</div>
-        <h3>Custo por Acabamento</h3>
-        <p>Cada ambiente tem seu próprio acabamento (Standard, Premium ou Supreme). O custo final reflete a soma dos ambientes com influência do pé-direito e do estilo arquitetônico global.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== Footer ===== -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-brand">iBUILD São Carlos</div>
-    <p>Construção em Light Steel Frame • Premium • Institucional</p>
-    <p><a href="https://ibuildsaocarlos.com.br">ibuildsaocarlos.com.br</a> &nbsp;|&nbsp; Simulador de Orçamento por Ambientes</p>
-  </div>
-</footer>
-
-<div class="toast" id="toast">Resumo copiado!</div>
-
-<script>
-/* ============================================================
-   SIMULADOR iBUILD — simulador-dados.js
-   Configuração central: tamanhos, fatores e custos.
-   Tudo editável neste objeto para ajustes futuros.
-   ============================================================ */
-const CONFIG = {
-  // ===== Tamanhos padrão por ambiente (largura x comprimento em metros) =====
-  // Edite livremente para ajustar as dimensões dos módulos.
-  ambientes: {
-    garagem: {
-      label: 'Garagem', icone: 'G', molhado: false,
-      pe: 3.0, acabamento: 'Standard',
-      pequeno: { l: 3.0, c: 5.0 }, medio: { l: 3.5, c: 5.5 }, grande: { l: 4.0, c: 6.0 },
-      qtdPequeno: 1, qtdMedio: 0, qtdGrande: 0, custom: []
-    },
-    salaEstarJantar: {
-      label: 'Sala estar/jantar', icone: 'S', molhado: false,
-      pe: 3.0, acabamento: 'Premium',
-      pequeno: { l: 4.0, c: 5.0 }, medio: { l: 5.0, c: 6.0 }, grande: { l: 6.0, c: 7.0 },
-      qtdPequeno: 0, qtdMedio: 1, qtdGrande: 0, custom: []
-    },
-    salaTV: {
-      label: 'Sala TV/home theater', icone: 'T', molhado: false,
-      pe: 3.0, acabamento: 'Premium',
-      pequeno: { l: 3.0, c: 4.0 }, medio: { l: 4.0, c: 5.0 }, grande: { l: 5.0, c: 6.0 },
-      qtdPequeno: 0, qtdMedio: 1, qtdGrande: 0, custom: []
-    },
-    lavabo: {
-      label: 'Lavabo', icone: 'L', molhado: true,
-      pe: 2.8, acabamento: 'Premium',
-      pequeno: { l: 1.5, c: 2.0 }, medio: { l: 2.0, c: 2.5 }, grande: { l: 2.5, c: 3.0 },
-      qtdPequeno: 1, qtdMedio: 0, qtdGrande: 0, custom: []
-    },
-    cozinhaGourmet: {
-      label: 'Cozinha/área gourmet', icone: 'C', molhado: true,
-      pe: 3.0, acabamento: 'Premium',
-      pequeno: { l: 3.0, c: 4.0 }, medio: { l: 4.0, c: 5.0 }, grande: { l: 5.0, c: 6.0 },
-      qtdPequeno: 0, qtdMedio: 1, qtdGrande: 0, custom: []
-    },
-    despensa: {
-      label: 'Despensa', icone: 'D', molhado: false,
-      pe: 2.8, acabamento: 'Standard',
-      pequeno: { l: 1.0, c: 1.5 }, medio: { l: 1.5, c: 2.0 }, grande: { l: 2.0, c: 2.5 },
-      qtdPequeno: 1, qtdMedio: 0, qtdGrande: 0, custom: []
-    },
-    areaServico: {
-      label: 'Área de serviço', icone: 'A', molhado: true,
-      pe: 2.8, acabamento: 'Standard',
-      pequeno: { l: 2.0, c: 2.5 }, medio: { l: 2.5, c: 3.0 }, grande: { l: 3.0, c: 3.5 },
-      qtdPequeno: 0, qtdMedio: 1, qtdGrande: 0, custom: []
-    },
-    quartos: {
-      label: 'Quartos', icone: 'Q', molhado: false,
-      pe: 3.0, acabamento: 'Premium',
-      pequeno: { l: 3.0, c: 3.0 }, medio: { l: 3.0, c: 4.0 }, grande: { l: 4.0, c: 4.0 },
-      qtdPequeno: 0, qtdMedio: 3, qtdGrande: 0, custom: []
-    },
-    closet: {
-      label: 'Closet', icone: 'V', molhado: false,
-      pe: 2.8, acabamento: 'Premium',
-      pequeno: { l: 1.5, c: 2.0 }, medio: { l: 2.0, c: 2.5 }, grande: { l: 2.5, c: 3.0 },
-      qtdPequeno: 1, qtdMedio: 0, qtdGrande: 0, custom: []
-    },
-    banheiro: {
-      label: 'Banheiro', icone: 'B', molhado: true,
-      pe: 2.8, acabamento: 'Premium',
-      pequeno: { l: 1.5, c: 2.0 }, medio: { l: 2.0, c: 2.2 }, grande: { l: 2.5, c: 2.5 },
-      qtdPequeno: 0, qtdMedio: 2, qtdGrande: 0, custom: []
-    },
-    escritorioQuarto: {
-      label: 'Escritório/quarto', icone: 'E', molhado: false,
-      pe: 3.0, acabamento: 'Premium',
-      pequeno: { l: 3.0, c: 3.0 }, medio: { l: 3.0, c: 4.0 }, grande: { l: 4.0, c: 4.0 },
-      qtdPequeno: 0, qtdMedio: 1, qtdGrande: 0, custom: []
-    },
-    deposito: {
-      label: 'Depósito', icone: 'P', molhado: false,
-      pe: 2.8, acabamento: 'Standard',
-      pequeno: { l: 1.5, c: 2.0 }, medio: { l: 2.0, c: 2.5 }, grande: { l: 2.5, c: 3.0 },
-      qtdPequeno: 0, qtdMedio: 0, qtdGrande: 0, custom: []
-    }
-  },
-
-  // ===== Fatores de cálculo (editáveis) =====
-  fatores: {
-    circulacao: 0.15,           // 15% da área total
-    paredesExternas: 1.3,       // fator aproximado da área total
-    paredesInternasFator: 0.65, // desconto por paredes compartilhadas
-    esquadrias: 0.218,          // fator da área total
-    bancadasMolhado: 0.12,      // fator da área de ambientes molhados
-    lajePavimento: { 1: 0.05, 2: 0.45, 3: 0.45 },
-    concretoRadier: 0.15,       // volume = área * 0.15
-    calhaRufo: 0.25,            // 25% da área de cobertura
-    locacaoLSF: 1.28,           // metro linear equivalente
-    estiloEsquadrias: {
-      'Contemporânea': 1.0, 'Européia': 1.15, 'Neo-Clássica': 1.2,
-      'Brasileira': 1.0, 'Mediterrânea': 1.1, 'Clássica': 1.25
-    },
-    // Pé-direito influencia paredes internas e pintura
-    peDireitoBase: 3.0,         // referência para fator 1.0
-    peDireitoFator: 0.10        // cada metro acima da base adiciona 10% no custo de paredes/pintura
-  },
-
-  // ===== Fatores de acabamento por ambiente =====
-  acabamentoFator: {
-    'Standard': 0.75,
-    'Premium': 0.90,
-    'Supreme': 1.0
-  },
-
-  // ===== Custos unitários — Obra branca / estrutura (global, por m²) =====
-  obraBranca: {
-    projetoEstrutural: 50,
-    projetoFundacoes: 10,
-    projetoHidro: 15,
-    projetoEletrico: 15,
-    compatibilizacao: 8,
-    canteiroFixo: 8856.71,
-    containerMes: 572.81,
-    gabaritoLocacao: 6.53,
-    hidraulicaRadier: 61.20,
-    eletricaRadier: 28.38,
-    compactacaoSolo: 1.38,
-    chassiRadier: 24.28,
-    concretagemRadier: 780.68, // por m³
-    freteKm: 3.50,
-    locacaoPaineis: 9.70,      // por metro linear
-    producaoMontagem: 618.37,  // por m²
-    impermeabilizacaoBase: 18.52, // por metro linear
-    verticalizacaoParedes: 30.12,
-    verticalizacaoLaje: 59.64,
-    formasLaje: 161.81,
-    calhaAco: 70.06,
-    rufoGalvanizado: 45.02,
-    rufoPingadeira: 43.86,
-    fechamentoExterno: 199.04,
-    tratamentoFechamento: 70.81,
-    hidraulicaParedes: 110.65,
-    eletricaParedes: 113.88,
-    testeEstanqueidade: 1500,
-    testeRede: 1500,
-    massaRegularizacao: 61.55,
-    forroTratamento: 110.45,
-    tratamentoJuntas: 16.25,
-    limpezaFinal: 16.50
-  },
-
-  // ===== Cobertura por tipo de telha (por m²) =====
-  coberturaTelha: {
-    'Termoacústica': 152.49,
-    'Fibrocimento': 48.65,
-    'Cerâmica': 45.18,
-    'Telha Metálica': 94.19,
-    'Laje Impermeabilizada': 286.19
-  },
-
-  // ===== Custos de acabamento por ambiente (por m², ajustados por fator de acabamento) =====
-  acabamentos: {
-    piso: 272.87,
-    protecaoPiso: 13.33,
-    revestimentoMolhado: 235.53, // áreas molhadas
-    pinturaParede: 24.32,        // por m² de parede
-    pinturaForro: 26.10,         // por m² de forro
-    pinturaExterna: 15.40,       // por m² de parede externa
-    esquadrias: 787.58,          // por m²
-    bancadas: 1992.49,           // por m²
-    portasInternas: 1240.87,     // por unidade
-    kitLavabo: 4716.90,
-    kitBanheiro: 8740.38,
-    kitCozinha: 2534.14,
-    kitLavanderia: 1232.97,
-    plaqueamentoST: 48.16,       // por m² parede interna
-    plaqueamentoRU: 52.80        // por m² parede interna
-  },
-
-  // ===== Extras =====
-  extras: {
-    piscina: 2500,       // por m²
-    muroDivisa: 279.45   // por m²/fac
-  },
-
-  // ===== Pontos elétricos por ambiente (base) =====
-  pontosPorAmbiente: {
-    tomadas: 4,
-    interruptores: 2,
-    luzes: 2
-  },
-  pontosExtraArea: {
-    // pontos adicionais por m² acima de 15m² no ambiente
-    tomadas: 0.15,
-    interruptores: 0.05,
-    luzes: 0.08
-  },
-
-  // ===== Custo unitário de pontos elétricos (obra branca) =====
-  custoPontos: {
-    tomada: 85,
-    interruptor: 70,
-    luz: 95
-  },
-
-  prazoMesesBase: 6,
-
-  // ===== Cores para composição visual =====
-  cores: ['#0a2540','#2b7bb9','#c9a227','#16a34a','#dc2626','#7c3aed','#0891b2','#ea580c','#4f46e5','#db2777','#65a30d','#0d9488']
-};
-
-/* ============================================================
-   SIMULADOR iBUILD — simulador.js
-   Lógica de renderização, cálculo e interação.
-   ============================================================ */
-
-// ===== Estado interno (cóppia editável dos ambientes) =====
-let estadoAmbientes = {};
-
-// ===== Utilidades =====
-function fmtBRL(v) {
-  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(v || 0);
-}
-function fmtNum(v, dec = 2) {
-  return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: dec, maximumFractionDigits: dec }).format(v || 0);
-}
-function num(id) {
-  const el = document.getElementById(id);
-  return el ? parseFloat(el.value) || 0 : 0;
-}
-function str(id) {
-  const el = document.getElementById(id);
-  return el ? el.value : '';
-}
-function escapeAttr(s) {
-  return String(s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
-
-// ===== Clonar configuração inicial =====
-function clonarConfig() {
-  estadoAmbientes = {};
-  Object.keys(CONFIG.ambientes).forEach(key => {
-    const a = CONFIG.ambientes[key];
-    estadoAmbientes[key] = {
-      label: a.label, icone: a.icone, molhado: a.molhado,
-      pequeno: { ...a.pequeno }, medio: { ...a.medio }, grande: { ...a.grande },
-      pe: a.pe, acabamento: a.acabamento,
-      qtdPequeno: a.qtdPequeno, qtdMedio: a.qtdMedio, qtdGrande: a.qtdGrande,
-      custom: a.custom.map(c => ({ ...c }))
-    };
-  });
-}
-
-// ===== Calcular área de um ambiente =====
-function areaAmbiente(key) {
-  const a = estadoAmbientes[key];
-  if (!a) return 0;
-  let area = 0;
-  area += a.qtdPequeno * a.pequeno.l * a.pequeno.c;
-  area += a.qtdMedio * a.medio.l * a.medio.c;
-  area += a.qtdGrande * a.grande.l * a.grande.c;
-  a.custom.forEach(c => { area += (c.l * c.c); });
-  return area;
-}
-
-// ===== Calcular perímetro (parede interna) de um ambiente =====
-function perimetroAmbiente(key) {
-  const a = estadoAmbientes[key];
-  if (!a) return 0;
-  let perim = 0;
-  if (a.qtdPequeno > 0) perim += a.qtdPequeno * 2 * (a.pequeno.l + a.pequeno.c);
-  if (a.qtdMedio > 0) perim += a.qtdMedio * 2 * (a.medio.l + a.medio.c);
-  if (a.qtdGrande > 0) perim += a.qtdGrande * 2 * (a.grande.l + a.grande.c);
-  a.custom.forEach(c => { perim += 2 * (c.l + c.c); });
-  return perim;
-}
-
-// ===== Renderizar cards de ambientes =====
-function renderAmbientes() {
-  const lista = document.getElementById('ambientesLista');
-  lista.innerHTML = '';
-  Object.keys(estadoAmbientes).forEach(key => {
-    const a = estadoAmbientes[key];
-    const card = document.createElement('div');
-    card.className = 'amb-card';
-    card.dataset.amb = key;
-    card.innerHTML = `
-      <div class="amb-header" data-toggle="${key}">
-        <div class="amb-header-left">
-          <div class="amb-icone">${a.icone}</div>
-          <div>
-            <div class="amb-nome">${a.label}</div>
-            <div style="font-size:11px;color:#94a3b8">${a.molhado ? 'Ambiente molhado' : 'Ambiente seco'}</div>
-          </div>
+    <!-- ============================================================
+         SEÇÃO EXPLICATIVA
+         ============================================================ -->
+    <section class="explicativa" id="explicativa">
+        <div class="sim-inner">
+            <h2 class="section-title">Como o Simulador Funciona</h2>
+            <p class="section-subtitle">A área nasce dos ambientes. O custo reflete a soma de cada espaço.</p>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">1</div>
+                    <h3>Monte os Ambientes</h3>
+                    <p>Para cada ambiente, informe a quantidade de módulos pequenos, médios e grandes, adicione módulos personalizados com largura e comprimento, defina o pé-direito e o acabamento interno.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">2</div>
+                    <h3>Área Automática</h3>
+                    <p>A área da casa é a soma de todas as áreas dos ambientes. O simulador deriva circulação, pisos, paredes, pintura, esquadrias, bancadas, portas e pontos elétricos automaticamente.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">3</div>
+                    <h3>Custo por Acabamento</h3>
+                    <p>Cada ambiente tem seu próprio acabamento (Standard, Premium ou Supreme). O custo final reflete a soma dos ambientes com influência do pé-direito e do estilo arquitetônico global.</p>
+                </div>
+            </div>
         </div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <span class="amb-area-badge" id="badge_${key}">0,00 m²</span>
-          <span class="amb-toggle">▼</span>
+    </section>
+
+    <!-- ============================================================
+         FOOTER (mesmo da home, adaptado)
+         ============================================================ -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="../assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy" style="filter:brightness(10);">
+                <p>
+                    Construções inteligentes em Light Steel Frame. 
+                    Sua obra chave na mão em São Carlos — da fundação ao acabamento. 
+                    Deixa com a gente.
+                </p>
+                <div style="display:flex;gap:12px;margin-top:20px;">
+                    <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="Instagram iBUILD">
+                        <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#fff" stroke="none"/></svg>
+                    </a>
+                    <a href="https://web.facebook.com/profile.php?id=61580847606903" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="Facebook iBUILD">
+                        <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UC1l4sZJADfljEzfWWwAfVvw" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="YouTube iBUILD">
+                        <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+                    </a>
+                    <a href="https://wa.me/5516997634187" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="WhatsApp iBUILD São Carlos">
+                        <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Navegação</h3>
+                <ul>
+                    <li><a href="../index.html#sobre">Sobre</a></li>
+                    <li><a href="../index.html#projetos">Projetos</a></li>
+                    <li><a href="../index.html#jornada">Jornada</a></li>
+                    <li><a href="../index.html#porque">Por que nós</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contato</h3>
+                <ul>
+                    <li><a href="tel:+5516997634187">(16) 99763-4187</a></li>
+                    <li><a href="mailto:guilherme.cazu@ibuildconstrutora.com.br">guilherme.cazu@ibuildconstrutora.com.br</a></li>
+                    <li><a href="https://ibuildsaocarlos.com.br" target="_blank">ibuildsaocarlos.com.br</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Endereço</h3>
+                <ul>
+                    <li><a href="https://maps.google.com/?q=Rua+Passeio+dos+Ipês,+350,+Torre+Nova+York,+Sala+604,+Parque+Faber+Castell+II,+São+Carlos+-+SP" target="_blank" rel="noopener">
+                        Tríade - São Carlos<br>
+                        Rua Passeio dos Ipês, 350<br>
+                        Torre Nova York, Sala 604<br>
+                        Parque Faber Castell II<br>
+                        São Carlos - SP, 13561-385
+                    </a></li>
+                </ul>
+            </div>
         </div>
-      </div>
-      <div class="amb-body">
-        <div class="amb-section-title">Módulos padrão</div>
-        <div class="amb-modulos-grid">
-          <div class="mod-group">
-            <label>Pequenos <span class="mod-dim">(${a.pequeno.l}×${a.pequeno.c} m)</span></label>
-            <input type="number" min="0" step="1" value="${a.qtdPequeno}" data-field="qtdPequeno" data-amb="${key}">
-          </div>
-          <div class="mod-group">
-            <label>Médios <span class="mod-dim">(${a.medio.l}×${a.medio.c} m)</span></label>
-            <input type="number" min="0" step="1" value="${a.qtdMedio}" data-field="qtdMedio" data-amb="${key}">
-          </div>
-          <div class="mod-group">
-            <label>Grandes <span class="mod-dim">(${a.grande.l}×${a.grande.c} m)</span></label>
-            <input type="number" min="0" step="1" value="${a.qtdGrande}" data-field="qtdGrande" data-amb="${key}">
-          </div>
-          <div class="mod-group">
-            <label>Personalizados</label>
-            <input type="number" min="0" step="1" value="${a.custom.length}" data-field="qtdCustom" data-amb="${key}" readonly style="background:#f1f5f9">
-          </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">&copy; 2026 iBUILD São Carlos. Todos os direitos reservados. · CNPJ: 65.490.999/0001-40</p>
+            <div class="footer-blinks">
+                <a href="#">Política de Privacidade</a>
+                <a href="#">Termos de Uso</a>
+            </div>
         </div>
+    </footer>
 
-        <div class="amb-section-title">Módulos personalizados</div>
-        <div class="custom-mods" id="custom_${key}"></div>
-        <button type="button" class="btn-add-custom" data-add-custom="${key}">+ Adicionar módulo personalizado</button>
+    <!-- Toast de cópia -->
+    <div class="toast" id="toast">Resumo copiado!</div>
 
-        <div class="amb-section-title">Características do ambiente</div>
-        <div class="amb-linha">
-          <div class="mod-group">
-            <label>Pé-direito (m)</label>
-            <input type="number" min="2.4" max="6" step="0.1" value="${a.pe}" data-field="pe" data-amb="${key}">
-          </div>
-          <div class="mod-group">
-            <label>Acabamento interno</label>
-            <select data-field="acabamento" data-amb="${key}">
-              <option value="Standard" ${a.acabamento==='Standard'?'selected':''}>Standard</option>
-              <option value="Premium" ${a.acabamento==='Premium'?'selected':''}>Premium</option>
-              <option value="Supreme" ${a.acabamento==='Supreme'?'selected':''}>Supreme</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="amb-rodape">
-          <div class="amb-area-final">Área do ambiente: <span id="areaFinal_${key}">0,00 m²</span></div>
-        </div>
-      </div>
-    `;
-    lista.appendChild(card);
-    renderCustomMods(key);
-    atualizarBadgeAmbiente(key);
-  });
-}
-
-// ===== Renderizar módulos personalizados de um ambiente =====
-function renderCustomMods(key) {
-  const container = document.getElementById('custom_' + key);
-  if (!container) return;
-  const a = estadoAmbientes[key];
-  container.innerHTML = '';
-  if (a.custom.length === 0) {
-    container.innerHTML = '<p style="font-size:12px;color:#94a3b8;padding:4px 0">Nenhum módulo personalizado adicionado.</p>';
-    return;
-  }
-  a.custom.forEach((c, i) => {
-    const div = document.createElement('div');
-    div.className = 'custom-mod-item';
-    div.innerHTML = `
-      <div class="mod-group">
-        <label>Largura (m)</label>
-        <input type="number" min="0.5" step="0.1" value="${c.l}" data-custom="l" data-amb="${key}" data-idx="${i}">
-      </div>
-      <div class="mod-group">
-        <label>Comprimento (m)</label>
-        <input type="number" min="0.5" step="0.1" value="${c.c}" data-custom="c" data-amb="${key}" data-idx="${i}">
-      </div>
-      <button type="button" class="btn-remove-custom" data-remove-custom="${key}" data-idx="${i}">✕ Remover</button>
-    `;
-    container.appendChild(div);
-  });
-}
-
-// ===== Atualizar badge de área do ambiente =====
-function atualizarBadgeAmbiente(key) {
-  const area = areaAmbiente(key);
-  const badge = document.getElementById('badge_' + key);
-  const final = document.getElementById('areaFinal_' + key);
-  const card = document.querySelector(`.amb-card[data-amb="${key}"]`);
-  if (badge) {
-    badge.textContent = fmtNum(area) + ' m²';
-    badge.classList.toggle('tem-area', area > 0);
-  }
-  if (final) final.textContent = fmtNum(area) + ' m²';
-  if (card) card.classList.toggle('ativo', area > 0);
-  // Atualiza campo readonly de qtdCustom
-  const qtdC = document.querySelector(`input[data-field="qtdCustom"][data-amb="${key}"]`);
-  if (qtdC) qtdC.value = estadoAmbientes[key].custom.length;
-}
-
-// ===== Delegação de eventos no formulário =====
-function setupDelegacao() {
-  const form = document.getElementById('formSimulador');
-
-  // Toggle expandir/recolher ambiente
-  form.addEventListener('click', e => {
-    // Clique no header do ambiente
-    const header = e.target.closest('[data-toggle]');
-    if (header) {
-      const key = header.dataset.toggle;
-      const card = header.closest('.amb-card');
-      card.classList.toggle('expandido');
-      return;
-    }
-    // Adicionar módulo personalizado
-    const addBtn = e.target.closest('[data-add-custom]');
-    if (addBtn) {
-      const key = addBtn.dataset.addCustom;
-      estadoAmbientes[key].custom.push({ l: 3, c: 3 });
-      renderCustomMods(key);
-      atualizarBadgeAmbiente(key);
-      calcular();
-      return;
-    }
-    // Remover módulo personalizado
-    const rmBtn = e.target.closest('[data-remove-custom]');
-    if (rmBtn) {
-      const key = rmBtn.dataset.removeCustom;
-      const idx = parseInt(rmBtn.dataset.idx);
-      estadoAmbientes[key].custom.splice(idx, 1);
-      renderCustomMods(key);
-      atualizarBadgeAmbiente(key);
-      calcular();
-      return;
-    }
-  });
-
-  // Inputs de campos de ambiente (delegação)
-  form.addEventListener('input', e => {
-    const t = e.target;
-    // Campo padrão de ambiente
-    if (t.dataset.field && t.dataset.amb && t.dataset.field !== 'qtdCustom') {
-      const key = t.dataset.amb;
-      const field = t.dataset.field;
-      if (field === 'pe' || field === 'qtdPequeno' || field === 'qtdMedio' || field === 'qtdGrande') {
-        estadoAmbientes[key][field] = parseFloat(t.value) || 0;
-      } else if (field === 'acabamento') {
-        estadoAmbientes[key][field] = t.value;
-      }
-      atualizarBadgeAmbiente(key);
-      calcular();
-      return;
-    }
-    // Campo de módulo personalizado
-    if (t.dataset.custom && t.dataset.amb) {
-      const key = t.dataset.amb;
-      const idx = parseInt(t.dataset.idx);
-      const prop = t.dataset.custom;
-      estadoAmbientes[key].custom[idx][prop] = parseFloat(t.value) || 0;
-      atualizarBadgeAmbiente(key);
-      calcular();
-      return;
-    }
-  });
-
-  // Campos globais
-  const globais = ['areaTerreno','distancia','estilo','pavimentos','telha','piscina','muro','gorduraPct','gorduraValor','impostosObs'];
-  globais.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener('input', calcular);
-      el.addEventListener('change', calcular);
-    }
-  });
-
-  // Botões
-  document.getElementById('btnCalcular').addEventListener('click', () => {
-    calcular();
-    document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-  document.getElementById('btnReset').addEventListener('click', resetar);
-  document.getElementById('btnCopiar').addEventListener('click', copiarResumo);
-}
-
-// ===== Cálculo principal =====
-function calcular() {
-  const areaTerreno = num('areaTerreno');
-  const distancia = num('distancia');
-  const pavimentos = parseInt(str('pavimentos')) || 1;
-  const estilo = str('estilo');
-  const telha = str('telha');
-  const piscinaM2 = num('piscina');
-  const muroM2 = num('muro');
-  const gorduraPct = num('gorduraPct');
-  const gorduraValor = num('gorduraValor');
-  const impostosObs = str('impostosObs');
-
-  // ===== 1) Área total = soma das áreas dos ambientes =====
-  let areaTotal = 0;
-  let areaMolhada = 0;
-  let perimetroTotal = 0;
-  let qtdAmbientesPreenchidos = 0;
-  const ambientesResult = {};
-
-  Object.keys(estadoAmbientes).forEach(key => {
-    const a = estadoAmbientes[key];
-    const area = areaAmbiente(key);
-    const perim = perimetroAmbiente(key);
-    areaTotal += area;
-    perimetroTotal += perim;
-    if (area > 0) qtdAmbientesPreenchidos++;
-    if (a.molhado) areaMolhada += area;
-    ambientesResult[key] = { area, perim, pe: a.pe, acabamento: a.acabamento, molhado: a.molhado };
-  });
-
-  if (areaTotal <= 0) {
-    // Zera tudo
-    document.getElementById('rTotal').textContent = fmtBRL(0);
-    document.getElementById('rSubtotal').textContent = 'Preencha os ambientes para calcular';
-    document.getElementById('rArea').textContent = '0 m²';
-    document.getElementById('rCustoM2').textContent = fmtBRL(0);
-    document.getElementById('rObraBranca').textContent = fmtBRL(0);
-    document.getElementById('rAcabamentos').textContent = fmtBRL(0);
-    document.getElementById('areaBarValor').textContent = '0,00';
-    document.getElementById('areaBarInfo').textContent = '0 ambientes preenchidos';
-    atualizarTabela(areaTotal, ambientesResult);
-    atualizarComposicao(areaTotal, ambientesResult);
-    return;
-  }
-
-  const f = CONFIG.fatores;
-  const ob = CONFIG.obraBranca;
-  const ac = CONFIG.acabamentos;
-
-  // ===== 2) Premissas técnicas derivadas =====
-  const areaCirculacao = areaTotal * f.circulacao;
-  const areaPisos = areaTotal + areaCirculacao;
-  const paredesExternas = areaTotal * f.paredesExternas;
-  const pinturaExterna = paredesExternas;
-
-  // Paredes internas: perímetro dos ambientes * pé-direito médio * fator de compartilhamento
-  let paredesInternasArea = 0;
-  let forroTotal = 0;
-  let pinturaInternaTotal = 0;
-  Object.keys(ambientesResult).forEach(key => {
-    const r = ambientesResult[key];
-    if (r.area <= 0) return;
-    const paredeInt = r.perim * r.pe * f.paredesInternasFator;
-    paredesInternasArea += paredeInt;
-    forroTotal += r.area;
-    pinturaInternaTotal += paredeInt + r.area; // paredes + forro
-  });
-
-  // Esquadrias com ajuste de estilo
-  const fatorEstilo = f.estiloEsquadrias[estilo] || 1.0;
-  const esquadriasArea = areaTotal * f.esquadrias * fatorEstilo;
-
-  // Bancadas: derivadas de ambientes molhados
-  const bancadasArea = areaMolhada * f.bancadasMolhado;
-
-  // Portas: 1 por ambiente preenchido
-  const qtdPortas = qtdAmbientesPreenchidos;
-
-  // Pontos elétricos por ambiente + proporção de área
-  let qtdTomadas = 0, qtdInterruptores = 0, qtdLuzes = 0;
-  Object.keys(ambientesResult).forEach(key => {
-    const r = ambientesResult[key];
-    if (r.area <= 0) return;
-    qtdTomadas += CONFIG.pontosPorAmbiente.tomadas + Math.ceil(Math.max(0, r.area - 15) * CONFIG.pontosExtraArea.tomadas);
-    qtdInterruptores += CONFIG.pontosPorAmbiente.interruptores + Math.ceil(Math.max(0, r.area - 15) * CONFIG.pontosExtraArea.interruptores);
-    qtdLuzes += CONFIG.pontosPorAmbiente.luzes + Math.ceil(Math.max(0, r.area - 15) * CONFIG.pontosExtraArea.luzes);
-  });
-
-  // Área de laje conforme pavimentos
-  const fatorLaje = f.lajePavimento[pavimentos] || 0.05;
-  const areaLaje = areaTotal * fatorLaje;
-
-  // Frete ida e volta
-  const freteKm = distancia * 2;
-
-  // Metro linear LSF e calhas
-  const metroLinearLSF = areaTotal * f.locacaoLSF;
-  const metroLinearCalha = areaTotal * f.calhaRufo;
-
-  // Volume de concreto do radier
-  const volumeConcreto = areaTotal * f.concretoRadier;
-
-  // Container meses
-  const containerMeses = Math.max(1, Math.ceil(areaTotal / 30));
-
-  // ===== 3) Cálculo de obra branca (global) =====
-  let obraBranca = 0;
-  function addOB(val) { if (val > 0) obraBranca += val; }
-
-  addOB(areaTotal * ob.projetoEstrutural);
-  addOB(areaTotal * ob.projetoFundacoes);
-  addOB(areaTotal * ob.projetoHidro);
-  addOB(areaTotal * ob.projetoEletrico);
-  addOB(areaTotal * ob.compatibilizacao);
-  addOB(ob.canteiroFixo);
-  addOB(containerMeses * ob.containerMes);
-  addOB(areaTotal * ob.gabaritoLocacao);
-  addOB(areaTotal * ob.hidraulicaRadier);
-  addOB(areaTotal * ob.eletricaRadier);
-  addOB(areaTotal * ob.compactacaoSolo);
-  addOB(areaTotal * ob.chassiRadier);
-  addOB(volumeConcreto * ob.concretagemRadier);
-  addOB(freteKm * ob.freteKm);
-  addOB(metroLinearLSF * ob.locacaoPaineis);
-  addOB(areaTotal * ob.producaoMontagem);
-  addOB(metroLinearLSF * ob.impermeabilizacaoBase);
-  addOB(areaTotal * ob.verticalizacaoParedes);
-  addOB(areaLaje * ob.verticalizacaoLaje);
-  addOB(areaLaje * ob.formasLaje);
-  addOB(metroLinearCalha * ob.calhaAco);
-  addOB(metroLinearCalha * ob.rufoGalvanizado);
-  addOB(metroLinearCalha * ob.rufoPingadeira);
-  addOB(areaTotal * (CONFIG.coberturaTelha[telha] || 0));
-  addOB(paredesExternas * ob.fechamentoExterno);
-  addOB(paredesExternas * ob.tratamentoFechamento);
-  addOB(areaTotal * ob.hidraulicaParedes);
-  addOB(ob.testeEstanqueidade);
-  addOB(areaTotal * ob.eletricaParedes);
-  addOB(ob.testeRede);
-  addOB(areaPisos * ob.massaRegularizacao);
-  addOB(paredesInternasArea * ob.plaqueamentoST);
-  addOB(paredesInternasArea * ob.plaqueamentoRU);
-  addOB(forroTotal * ob.forroTratamento);
-  addOB((paredesInternasArea + forroTotal) * ob.tratamentoJuntas);
-  addOB(areaTotal * ob.limpezaFinal);
-  // Pontos elétricos
-  addOB(qtdTomadas * CONFIG.custoPontos.tomada);
-  addOB(qtdInterruptores * CONFIG.custoPontos.interruptor);
-  addOB(qtdLuzes * CONFIG.custoPontos.luz);
-
-  // ===== 4) Cálculo de acabamentos por ambiente =====
-  let acabamentosTotal = 0;
-  Object.keys(ambientesResult).forEach(key => {
-    const r = ambientesResult[key];
-    if (r.area <= 0) return;
-    const fatorAcab = CONFIG.acabamentoFator[r.acabamento] || 1.0;
-    // Fator de pé-direito: acima de 3m, aumenta custo de paredes/pintura
-    const fatorPe = 1 + Math.max(0, r.pe - CONFIG.fatores.peDireitoBase) * CONFIG.fatores.peDireitoFator;
-    const paredeInt = r.perim * r.pe * f.paredesInternasFator;
-
-    let custoAmb = 0;
-    // Piso
-    custoAmb += r.area * ac.piso * fatorAcab;
-    custoAmb += r.area * ac.protecaoPiso;
-    // Revestimento de áreas molhadas
-    if (r.molhado) custoAmb += r.area * ac.revestimentoMolhado * fatorAcab;
-    // Pintura interna (paredes + forro) com influência do pé-direito
-    custoAmb += paredeInt * ac.pinturaParede * fatorAcab * fatorPe;
-    custoAmb += r.area * ac.pinturaForro * fatorAcab;
-    // Porta
-    custoAmb += ac.portasInternas * fatorAcab;
-    // Bancadas em ambientes molhados
-    if (r.molhado) custoAmb += r.area * f.bancadasMolhado * ac.bancadas * fatorAcab;
-
-    acabamentosTotal += custoAmb;
-  });
-
-  // Acabamentos globais (esquadrias, pintura externa, kits)
-  acabamentosTotal += esquadriasArea * ac.esquadrias;
-  acabamentosTotal += pinturaExterna * ac.pinturaExterna;
-
-  // Kits por ambiente molhado
-  Object.keys(ambientesResult).forEach(key => {
-    const r = ambientesResult[key];
-    if (r.area <= 0) return;
-    const fatorAcab = CONFIG.acabamentoFator[r.acabamento] || 1.0;
-    if (key === 'lavabo') acabamentosTotal += ac.kitLavabo * fatorAcab;
-    if (key === 'banheiro') acabamentosTotal += ac.kitBanheiro * fatorAcab;
-    if (key === 'cozinhaGourmet') acabamentosTotal += ac.kitCozinha * fatorAcab;
-    if (key === 'areaServico') acabamentosTotal += ac.kitLavanderia * fatorAcab;
-  });
-
-  // ===== 5) Extras =====
-  let extras = 0;
-  if (piscinaM2 > 0) extras += piscinaM2 * CONFIG.extras.piscina;
-  if (muroM2 > 0) extras += muroM2 * CONFIG.extras.muroDivisa;
-
-  // ===== 6) Gordura e total =====
-  const subtotal = obraBranca + acabamentosTotal + extras;
-  const gorduraPctValor = subtotal * (gorduraPct / 100);
-  const gorduraTotal = gorduraPctValor + gorduraValor;
-  const total = subtotal + gorduraTotal;
-  const custoM2 = areaTotal > 0 ? total / areaTotal : 0;
-  const prazoMeses = CONFIG.prazoMesesBase;
-
-  // ===== 7) Atualizar UI =====
-  document.getElementById('rTotal').textContent = fmtBRL(total);
-  document.getElementById('rSubtotal').textContent = `${pavimentos} pav. • ${estilo} • ${qtdAmbientesPreenchidos} ambientes`;
-  document.getElementById('rArea').textContent = fmtNum(areaTotal) + ' m²';
-  document.getElementById('rCustoM2').textContent = fmtBRL(custoM2);
-  document.getElementById('rObraBranca').textContent = fmtBRL(obraBranca);
-  document.getElementById('rAcabamentos').textContent = fmtBRL(acabamentosTotal);
-
-  // Barra de área
-  document.getElementById('areaBarValor').textContent = fmtNum(areaTotal);
-  document.getElementById('areaBarInfo').textContent = `${qtdAmbientesPreenchidos} ambiente(s) preenchido(s) • ${fmtNum(areaCirculacao)} m² de circulação`;
-
-  // Detalhamento
-  document.getElementById('dAreaTotal').textContent = fmtNum(areaTotal) + ' m²';
-  document.getElementById('dCirculacao').textContent = fmtNum(areaCirculacao) + ' m²';
-  document.getElementById('dPisos').textContent = fmtNum(areaPisos) + ' m²';
-  document.getElementById('dParedesExt').textContent = fmtNum(paredesExternas) + ' m²';
-  document.getElementById('dParedesInt').textContent = fmtNum(paredesInternasArea) + ' m²';
-  document.getElementById('dForro').textContent = fmtNum(forroTotal) + ' m²';
-  document.getElementById('dPinturaInt').textContent = fmtNum(pinturaInternaTotal) + ' m²';
-  document.getElementById('dPinturaExt').textContent = fmtNum(pinturaExterna) + ' m²';
-  document.getElementById('dEsquadrias').textContent = fmtNum(esquadriasArea) + ' m²';
-  document.getElementById('dBancadas').textContent = fmtNum(bancadasArea) + ' m²';
-  document.getElementById('dPortas').textContent = qtdPortas + ' un.';
-  document.getElementById('dEletrica').textContent = `${qtdTomadas} / ${qtdInterruptores} / ${qtdLuzes}`;
-  document.getElementById('dLaje').textContent = fmtNum(areaLaje) + ' m²';
-  document.getElementById('dFrete').textContent = fmtNum(freteKm, 0) + ' km';
-  document.getElementById('dVObraBranca').textContent = fmtBRL(obraBranca);
-  document.getElementById('dVAcabamentos').textContent = fmtBRL(acabamentosTotal);
-  document.getElementById('dVExtras').textContent = fmtBRL(extras);
-  document.getElementById('dVGordura').textContent = fmtBRL(gorduraTotal);
-  document.getElementById('dPrazo').textContent = prazoMeses + ' meses (base)';
-
-  // Observações
-  let obs = 'Valores de referência sujeitos a validação técnica. Não incluem impostos fora do custo direto, licenciamentos, taxas municipais, terreno, infraestrutura externa (portão, paisagismo, rede pública) salvo itens explicitamente adicionados. Orçamento detalhado requer projeto executivo.';
-  if (impostosObs.trim()) obs += ` \n\nImpostos (observação, não somados): ${impostosObs.trim()}`;
-  document.getElementById('dObservacoes').textContent = obs;
-
-  // Tabela e composição
-  atualizarTabela(areaTotal, ambientesResult);
-  atualizarComposicao(areaTotal, ambientesResult);
-
-  // Guardar estado para cópia
-  window._ultimoResultado = {
-    areaTotal, areaTerreno, distancia, pavimentos, estilo, telha,
-    piscinaM2, muroM2, gorduraPct, gorduraValor, impostosObs,
-    obraBranca, acabamentosTotal, extras, gorduraTotal, total, custoM2, prazoMeses,
-    areaCirculacao, areaPisos, paredesExternas, paredesInternasArea, forroTotal,
-    pinturaInternaTotal, pinturaExterna, esquadriasArea, bancadasArea,
-    qtdPortas, qtdTomadas, qtdInterruptores, qtdLuzes, areaLaje, containerMeses, freteKm,
-    ambientesResult, qtdAmbientesPreenchidos
-  };
-}
-
-// ===== Tabela de ambientes =====
-function atualizarTabela(areaTotal, ambientesResult) {
-  const tbody = document.getElementById('tabelaBody');
-  tbody.innerHTML = '';
-  Object.keys(ambientesResult).forEach(key => {
-    const r = ambientesResult[key];
-    const a = estadoAmbientes[key];
-    const totalMods = (a.qtdPequeno || 0) + (a.qtdMedio || 0) + (a.qtdGrande || 0) + a.custom.length;
-    const pct = areaTotal > 0 ? (r.area / areaTotal * 100) : 0;
-    const tr = document.createElement('tr');
-    if (r.area <= 0) tr.style.opacity = '0.45';
-    tr.innerHTML = `
-      <td>${a.label}</td>
-      <td>${totalMods} ${totalMods === 1 ? 'módulo' : 'módulos'}</td>
-      <td>${fmtNum(r.pe, 1)} m</td>
-      <td>${r.acabamento}</td>
-      <td class="td-area ${r.area <= 0 ? 'td-zero' : ''}">${fmtNum(r.area)} m²</td>
-      <td>${fmtNum(pct, 1)}%</td>
-    `;
-    tbody.appendChild(tr);
-  });
-  document.getElementById('tabelaTotal').textContent = fmtNum(areaTotal) + ' m²';
-}
-
-// ===== Composição visual =====
-function atualizarComposicao(areaTotal, ambientesResult) {
-  const bar = document.getElementById('compBar');
-  const leg = document.getElementById('compLegenda');
-  bar.innerHTML = '';
-  leg.innerHTML = '';
-  const keys = Object.keys(ambientesResult).filter(k => ambientesResult[k].area > 0);
-  if (keys.length === 0 || areaTotal <= 0) {
-    bar.innerHTML = '<div style="width:100%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:12px">Preencha os ambientes para ver a composição</div>';
-    return;
-  }
-  keys.forEach((key, i) => {
-    const r = ambientesResult[key];
-    const pct = (r.area / areaTotal * 100);
-    const cor = CONFIG.cores[i % CONFIG.cores.length];
-    const seg = document.createElement('div');
-    seg.style.width = pct + '%';
-    seg.style.background = cor;
-    seg.title = `${r.label || estadoAmbientes[key].label}: ${fmtNum(r.area)} m² (${fmtNum(pct,1)}%)`;
-    bar.appendChild(seg);
-
-    const item = document.createElement('div');
-    item.className = 'comp-legenda-item';
-    item.innerHTML = `
-      <span class="comp-legenda-cor" style="background:${cor}"></span>
-      <span>${estadoAmbientes[key].label}</span>
-      <span class="comp-legenda-val">${fmtNum(r.area)} m²</span>
-    `;
-    leg.appendChild(item);
-  });
-}
-
-// ===== Copiar resumo =====
-function copiarResumo() {
-  const d = window._ultimoResultado;
-  if (!d) return;
-  let txt = `SIMULADOR DE ORÇAMENTO POR AMBIENTES — iBUILD São Carlos\n`;
-  txt += `=====================================================\n`;
-  txt += `Data: ${new Date().toLocaleString('pt-BR')}\n\n`;
-  txt += `DADOS GLOBAIS:\n`;
-  txt += `- Área do terreno: ${fmtNum(d.areaTerreno)} m²\n`;
-  txt += `- Distância Guarulhos→obra: ${fmtNum(d.distancia,0)} km\n`;
-  txt += `- Pavimentos: ${d.pavimentos}\n`;
-  txt += `- Estilo: ${d.estilo}\n`;
-  txt += `- Telha: ${d.telha}\n\n`;
-  txt += `ÁREA DA CASA (soma dos ambientes): ${fmtNum(d.areaTotal)} m²\n`;
-  txt += `Ambientes preenchidos: ${d.qtdAmbientesPreenchidos}\n\n`;
-  txt += `RESUMO POR AMBIENTE:\n`;
-  Object.keys(d.ambientesResult).forEach(key => {
-    const r = d.ambientesResult[key];
-    if (r.area > 0) {
-      txt += `- ${estadoAmbientes[key].label}: ${fmtNum(r.area)} m² | pé ${fmtNum(r.pe,1)}m | ${r.acabamento}\n`;
-    }
-  });
-  txt += `\nPREMISSAS TÉCNICAS:\n`;
-  txt += `- Circulação: ${fmtNum(d.areaCirculacao)} m²\n`;
-  txt += `- Pisos: ${fmtNum(d.areaPisos)} m²\n`;
-  txt += `- Paredes externas: ${fmtNum(d.paredesExternas)} m²\n`;
-  txt += `- Paredes internas: ${fmtNum(d.paredesInternasArea)} m²\n`;
-  txt += `- Forro: ${fmtNum(d.forroTotal)} m²\n`;
-  txt += `- Pintura interna: ${fmtNum(d.pinturaInternaTotal)} m²\n`;
-  txt += `- Pintura externa: ${fmtNum(d.pinturaExterna)} m²\n`;
-  txt += `- Esquadrias/vidros: ${fmtNum(d.esquadriasArea)} m²\n`;
-  txt += `- Bancadas: ${fmtNum(d.bancadasArea)} m²\n`;
-  txt += `- Portas: ${d.qtdPortas} un.\n`;
-  txt += `- Tomadas/Interruptores/Luzes: ${d.qtdTomadas}/${d.qtdInterruptores}/${d.qtdLuzes}\n`;
-  txt += `- Área laje: ${fmtNum(d.areaLaje)} m²\n`;
-  txt += `- Frete (ida+volta): ${fmtNum(d.freteKm,0)} km\n\n`;
-  txt += `RESUMO FINANCEIRO:\n`;
-  txt += `- Obra branca/estrutura: ${fmtBRL(d.obraBranca)}\n`;
-  txt += `- Acabamentos: ${fmtBRL(d.acabamentosTotal)}\n`;
-  txt += `- Itens extras: ${fmtBRL(d.extras)}\n`;
-  txt += `- Gorduras/Imprevistos: ${fmtBRL(d.gorduraTotal)}\n`;
-  txt += `- TOTAL ESTIMADO: ${fmtBRL(d.total)}\n`;
-  txt += `- Custo/m²: ${fmtBRL(d.custoM2)}\n`;
-  txt += `- Prazo estimado: ${d.prazoMeses} meses (base)\n\n`;
-  if (d.impostosObs.trim()) txt += `Impostos (obs.): ${d.impostosObs.trim()}\n\n`;
-  txt += `OBSERVAÇÃO: Valor estimativo. Orçamento detalhado depende de validação técnica e projeto executivo.\n`;
-  txt += `ibuildsaocarlos.com.br/simulador\n`;
-
-  navigator.clipboard.writeText(txt).then(() => {
-    showToast('Resumo copiado para a área de transferência!');
-  }).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = txt;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast('Resumo copiado!');
-  });
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// ===== Resetar =====
-function resetar() {
-  clonarConfig();
-  document.getElementById('areaTerreno').value = 450;
-  document.getElementById('distancia').value = 330;
-  document.getElementById('pavimentos').value = '2';
-  document.getElementById('estilo').value = 'Brasileira';
-  document.getElementById('telha').value = 'Termoacústica';
-  document.getElementById('piscina').value = 0;
-  document.getElementById('muro').value = 0;
-  document.getElementById('gorduraPct').value = 5;
-  document.getElementById('gorduraValor').value = 0;
-  document.getElementById('impostosObs').value = '';
-  renderAmbientes();
-  calcular();
-  showToast('Formulário resetado!');
-}
-
-// ===== Inicialização =====
-document.addEventListener('DOMContentLoaded', () => {
-  clonarConfig();
-  renderAmbientes();
-  setupDelegacao();
-  calcular();
-});
-</script>
+    <!-- Scripts (mesmo padrão da home: no final do body) -->
+    <script src="assets/js/simulador-dados.js"></script>
+    <script src="assets/js/simulador.js"></script>
 </body>
 </html>
