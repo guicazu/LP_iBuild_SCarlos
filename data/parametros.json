@@ -1,1 +1,290 @@
-
+{
+  "metadata": {
+    "nome": "Parâmetros Simulador de Orçamento iBuild São Carlos",
+    "versao": "1.0.0",
+    "atualizado_em": "2025-01-01",
+    "moeda": "BRL",
+    "descricao": "Arquivo de parâmetros completo para simulação de orçamentos de obras residenciais iBuild São Carlos."
+  },
+  "dados_publicos": {
+    "acabamentos": {
+      "Standard": {
+        "label": "Standard",
+        "custo_m2": 320,
+        "descricao": "Acabamentos de entrada com qualidade iBuild"
+      },
+      "Premium": {
+        "label": "Premium",
+        "custo_m2": 520,
+        "descricao": "Equilíbrio entre sofisticação e custo-benefício"
+      },
+      "Supreme": {
+        "label": "Supreme",
+        "custo_m2": 780,
+        "descricao": "Alto padrão com materiais nobres e design exclusivo"
+      }
+    },
+    "estilos_arquitetonicos": {
+      "Brasileira": 1.0,
+      "Contemporanea": 1.0,
+      "Europeia": 1.12,
+      "Neo-Classica": 1.22,
+      "Mediterranea": 1.15,
+      "Classica": 1.28
+    },
+    "tipos_telha": {
+      "Termoacustica": 1.0,
+      "Fibrocimento": 0.82,
+      "Ceramica": 1.18,
+      "Metalica": 0.9,
+      "Laje_Impermeabilizada": 1.35
+    },
+    "pe_direito_opcoes": [
+      { "valor": 2.6, "fator": 0.95 },
+      { "valor": 2.8, "fator": 1.0 },
+      { "valor": 3.0, "fator": 1.08 },
+      { "valor": 3.3, "fator": 1.18 },
+      { "valor": 4.2, "fator": 1.5 }
+    ]
+  },
+  "custos_indiretos": {
+    "servicos_tecnicos": {
+      "nome": "02.02.01 - Serviços Técnicos",
+      "itens": [
+        {
+          "eap": "02.02.01",
+          "grupo": "Serviços Técnicos",
+          "descricao": "Plataforma de projetos tipo Construmanager",
+          "unidade": "mês",
+          "custo_unitario": 100.00
+        },
+        {
+          "eap": "02.02.01",
+          "grupo": "Serviços Técnicos",
+          "descricao": "InBuilt",
+          "unidade": "vb",
+          "custo_unitario": 1500.00
+        }
+      ]
+    },
+    "controles_tecnologicos": {
+      "nome": "02.02.01.03 - Controles Tecnológicos",
+      "itens": [
+        {
+          "eap": "02.02.01.03",
+          "grupo": "Controles Tecnológicos",
+          "descricao": "Laboratório de controle tecnologico",
+          "unidade": "und",
+          "custo_unitario": 0.00
+        }
+      ]
+    },
+    "topografia": {
+      "nome": "02.02.01.04 - Topografia",
+      "itens": [
+        {
+          "eap": "02.02.01.04",
+          "grupo": "Topografia",
+          "descricao": "Levantamentos Topográficos / planialtimétrico",
+          "unidade": "mês",
+          "custo_unitario": 1000.00
+        },
+        {
+          "eap": "02.02.01.04",
+          "grupo": "Topografia",
+          "descricao": "Acompanhamento topográfico da obra",
+          "unidade": "mês",
+          "custo_unitario": 1500.00
+        }
+      ]
+    },
+    "sondagens": {
+      "nome": "02.02.01.06 - Sondagens",
+      "itens": [
+        {
+          "eap": "02.02.01.06",
+          "grupo": "Sondagens",
+          "descricao": "Sondagem de Solo",
+          "unidade": "vb",
+          "custo_unitario": 6000.00
+        }
+      ]
+    },
+    "manual_proprietario": {
+      "nome": "02.02.01.07 - Manual Proprietário",
+      "itens": [
+        {
+          "eap": "02.02.01.07",
+          "grupo": "Manual Proprietário",
+          "descricao": "Manual Proprietário - Elaboração/Emissão e Kit entrega",
+          "unidade": "vb",
+          "custo_unitario": 300.00
+        }
+      ]
+    },
+    "aprovacoes": {
+      "nome": "02.02.02.01 - Aprovações",
+      "itens": [
+        {
+          "eap": "02.02.02.01",
+          "grupo": "Aprovações",
+          "descricao": "ART Engenheiros",
+          "unidade": "vb",
+          "custo_unitario": 350.00
+        }
+      ]
+    },
+    "orcamento": {
+      "nome": "02.02.03.01 - Orçamento",
+      "itens": [
+        {
+          "eap": "02.02.03.01",
+          "grupo": "Orçamento",
+          "descricao": "Horas do quantitativo",
+          "unidade": "m²",
+          "custo_unitario": 1.50
+        },
+        {
+          "eap": "02.02.03.01",
+          "grupo": "Orçamento",
+          "descricao": "Horas do orçamentistas",
+          "unidade": "m²",
+          "custo_unitario": 1.50
+        },
+        {
+          "eap": "02.02.03.01",
+          "grupo": "Orçamento",
+          "descricao": "Impressão de projetos",
+          "unidade": "vb",
+          "custo_unitario": 0.00
+        }
+      ]
+    },
+    "marketing_obra": {
+      "nome": "02.02.03.02 - Marketing Obra",
+      "itens": [
+        {
+          "eap": "02.02.03.02",
+          "grupo": "Marketing Obra",
+          "descricao": "Kit Boas Vindas (Caixa, Champanhe, Taça, Bordado, Laço, Tecido, Saco e Travesseiro)",
+          "unidade": "unid",
+          "custo_unitario": 500.00
+        },
+        {
+          "eap": "02.02.03.02",
+          "grupo": "Marketing Obra",
+          "descricao": "Coquetel de Entrega de Obra + Publicidade",
+          "unidade": "vb",
+          "custo_unitario": 4000.00
+        }
+      ]
+    },
+    "engenharia_producao": {
+      "nome": "02.02.04.01 - Engenharia/Produção",
+      "itens": [
+        {
+          "eap": "02.02.04.01",
+          "grupo": "Engenharia/Produção",
+          "descricao": "Engenheiro de Produção",
+          "unidade": "dia",
+          "custo_unitario": 150.00
+        },
+        {
+          "eap": "02.02.04.01",
+          "grupo": "Engenharia/Produção",
+          "descricao": "PCP de Obra",
+          "unidade": "dia",
+          "custo_unitario": 150.00
+        }
+      ]
+    },
+    "equipamentos_protecao": {
+      "nome": "02.02.05.02 - Equipamentos de Proteção",
+      "itens": [
+        {
+          "eap": "02.02.05.02",
+          "grupo": "Equipamentos de Proteção",
+          "descricao": "EPI's por funcionário Extra (valor fora do custo do serviço)",
+          "unidade": "fun",
+          "custo_unitario": 500.00
+        },
+        {
+          "eap": "02.02.05.02",
+          "grupo": "Equipamentos de Proteção",
+          "descricao": "Epis (Indireto)",
+          "unidade": "vb",
+          "custo_unitario": 500.00
+        }
+      ]
+    },
+    "outros_custos_canteiro": {
+      "nome": "02.02.07.05 - Outros Custos Canteiro",
+      "itens": [
+        {
+          "eap": "02.02.07.05",
+          "grupo": "Outros Custos Canteiro",
+          "descricao": "Plotagem de desenhos Executivos",
+          "unidade": "mês",
+          "custo_unitario": 1000.00
+        }
+      ]
+    },
+    "moveis_ferramentas_insumos": {
+      "nome": "02.02.08.01 - Móveis, Ferramentas e Insumos de Obra",
+      "itens": [
+        {
+          "eap": "02.02.08.01",
+          "grupo": "Móveis, Ferramentas e Insumos de Obra",
+          "descricao": "Internet",
+          "unidade": "Und",
+          "custo_unitario": 100.00
+        },
+        {
+          "eap": "02.02.08.01",
+          "grupo": "Móveis, Ferramentas e Insumos de Obra",
+          "descricao": "Micro computador (notebook)",
+          "unidade": "Und",
+          "custo_unitario": 1500.00
+        },
+        {
+          "eap": "02.02.08.01",
+          "grupo": "Móveis, Ferramentas e Insumos de Obra",
+          "descricao": "Instalações de redes e dados do canteiro",
+          "unidade": "vb",
+          "custo_unitario": 0.00
+        }
+      ]
+    },
+    "seguros_rcxre": {
+      "nome": "02.02.09.02 - Seguros RCxRE",
+      "itens": [
+        {
+          "eap": "02.02.09.02",
+          "grupo": "Seguros RCxRE",
+          "descricao": "Seguro RC (10%) e RE (100%)",
+          "unidade": "vb",
+          "custo_unitario": 0.00
+        }
+      ]
+    }
+  },
+  "custos_base": {
+    "obra_branca_m2": 1850,
+    "forro_m2": 95,
+    "pintura_interna_m2": 48,
+    "pintura_externa_m2": 72,
+    "esquadrias_m2": 680,
+    "eletrica_m2": 85,
+    "laje_m2": 240,
+    "portas_unidade": 780
+  },
+  "logistica": {
+    "frete_por_km": 9.5,
+    "ponto_origem": "Guarulhos"
+  },
+  "indices_indiretos": {
+    "margem_lucro_base": 0.15,
+    "impostos_estimados": 0.08,
+    "reserva_contingencia_padrao": 0.05
+  }
+}
