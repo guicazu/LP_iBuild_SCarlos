@@ -1,320 +1,2595 @@
-<!--
-  hipótese usada sobre o padrão da home:
-  O index principal utiliza CSS embutido no <head>, scripts inline no final do <body> e carrega uma fonte local (Transducer) via @font-face.
-  Para o simulador, adotamos o mesmo modelo: CSS inline (mas organizado em um arquivo separado para facilitar manutenção),
-  @font-face com caminho relativo ao diretório raiz (../fonts/ no HTML) e scripts externos (simulador-dados.js e simulador.js)
-  seguindo o mesmo padrão de inclusão de assets (ordem: head -> body -> scripts).
-
-  Estrutura de arquivos entregue:
-  simulador/
-  ├── index.html
-  └── assets/
-      ├── css/
-      │   └── simulador.css      (mantido, mas adaptado visualmente)
-      └── js/
-          ├── simulador-dados.js
-          └── simulador.js
--->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <meta name="facebook-domain-verification" content="908ob77ywabnqjbqan4ers241t1m1q" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Orçamento por Ambientes | iBUILD São Carlos</title>
-    <meta name="description" content="Simule o custo da sua casa em Light Steel Frame calculando a metragem a partir dos ambientes.">
+    <title>iBUILD São Carlos — Construções Inteligentes em Steel Frame</title>
+    <meta name="description" content="iBUILD São Carlos - Construção chave na mão em Light Steel Frame. Ética, excelência técnica e proteção do seu patrimônio. Fale conosco!">
+    <meta name="keywords" content="construção em steel frame São Carlos, construtora São Carlos, obra chave na mão, light steel frame, iBUILD São Carlos">
+    <meta name="geo.region" content="BR-SP">
+    <meta name="geo.placename" content="São Carlos">
+    <meta name="geo.position" content="-22.0174;-47.8861">
+    <meta name="ICBM" content="-22.0174, -47.8861">
+    <link rel="canonical" href="https://lp.ibuildsaocarlos.com.br/">
+    <meta property="og:title" content="iBUILD São Carlos — Construções Inteligentes em Steel Frame">
+    <meta property="og:description" content="Construção chave na mão em Light Steel Frame em São Carlos. Ética, excelência técnica e proteção do seu patrimônio.">
+    <meta property="og:url" content="https://lp.ibuildsaocarlos.com.br/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="iBUILD São Carlos — Construções Inteligentes">
+    <meta name="twitter:description" content="Construção chave na mão em Light Steel Frame em São Carlos.">
 
-    <!-- Fontes Transducer (caminho relativo ao diretório raiz do site) -->
+    <!-- Schema.org para negócio local -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HomeAndConstructionBusiness",
+      "name": "iBUILD São Carlos",
+      "description": "Construtora especializada em Light Steel Frame, construção chave na mão e obra branca em São Carlos - SP.",
+      "url": "https://lo.ibuildsaocarlos.com.br/",
+      "telephone": "+5516997634187",
+      "email": "guilherme.cazu@ibuildconstrutora.com.br",
+      "taxID": "65.490.999/0001-40",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rua Passeio dos Ipês, 350, Torre Nova York, Sala 604, Parque Faber Castell II",
+        "addressLocality": "São Carlos",
+        "addressRegion": "SP",
+        "postalCode": "13561-385",
+        "addressCountry": "BR"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "São Carlos"
+      },
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "iBUILD Construtora"
+      }
+    }
+    </script>
+
     <style>
+        /* ============================================================
+           FONTES CARREGADAS LOCALMENTE (Transducer + Brittany Signature)
+           ============================================================ */
         @font-face {
             font-family: 'Transducer';
-            src: url('../fonts/Transducer-Regular.woff2') format('woff2'),
-                 url('../fonts/Transducer-Regular.woff') format('woff');
+            src: url('./fonts/Transducer-Regular.woff2') format('woff2'),
+                 url('./fonts/Transducer-Regular.woff') format('woff');
             font-weight: 400;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: 'Transducer';
-            src: url('../fonts/Transducer-Medium.woff2') format('woff2'),
-                 url('../fonts/Transducer-Medium.woff') format('woff');
+            src: url('./fonts/Transducer-Medium.woff2') format('woff2'),
+                 url('./fonts/Transducer-Medium.woff') format('woff');
             font-weight: 500;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
             font-family: 'Transducer';
-            src: url('../fonts/Transducer-Bold.woff2') format('woff2'),
-                 url('../fonts/Transducer-Bold.woff') format('woff');
+            src: url('./fonts/Transducer-Bold.woff2') format('woff2'),
+                 url('./fonts/Transducer-Bold.woff') format('woff');
             font-weight: 700;
             font-style: normal;
             font-display: swap;
         }
+        @font-face {
+            font-family: 'Transducer';
+            src: url('./fonts/Transducer-Light.woff2') format('woff2'),
+                 url('./fonts/Transducer-Light.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Brittany Signature';
+            src: url('./fonts/BrittanySignatureRegular.woff2') format('woff2'),
+                 url('./fonts/BrittanySignatureRegular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* ============================================================
+           RESET & VARIÁVEIS
+           ============================================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --black: #1d1d1f;
+            --dark: #2d2d2d;
+            --charcoal: #424245;
+            --gray: #86868b;
+            --light-gray: #d2d2d7;
+            --off-white: #f5f5f7;
+            --warm-white: #fbfbfd;
+            --cream: #f5f5f7;
+            --accent: #86868b;
+            --accent-dark: #6e6e73;
+            --gold: #C8A96E;
+            --gold-light: #d4bc8a;
+            --font-display: 'Transducer', sans-serif;
+            --font-body: 'Transducer', sans-serif;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --content-width: 1300px;
+            --side-padding: max(48px, calc((100vw - var(--content-width)) / 2));
+        }
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+        body {
+            color: var(--black);
+            background: var(--warm-white);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            font-family: var(--font-body);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* ============================================================
+           LOADER (animação de entrada)
+           ============================================================ */
+        .loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity .8s var(--ease-out-expo), visibility .8s;
+            animation: loaderAutoHide .8s ease 3s forwards;
+        }
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        @keyframes loaderAutoHide {
+            to { opacity: 0; visibility: hidden; pointer-events: none; }
+        }
+        .loader-logo {
+            width: 240px;
+            opacity: 0;
+            animation: loaderFade 1.5s var(--ease-out-expo) .3s forwards;
+        }
+        .loader-line {
+            width: 80px;
+            height: 1px;
+            background: var(--accent);
+            margin-top: 36px;
+            transform: scaleX(0);
+            animation: loaderLine 1.8s var(--ease-out-expo) .6s forwards;
+        }
+        .loader-text {
+            margin-top: 18px;
+            font-size: .65rem;
+            font-weight: 500;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gray);
+            opacity: 0;
+            animation: loaderFade 1s var(--ease-out-expo) 1s forwards;
+        }
+        @keyframes loaderFade { to { opacity: 1; } }
+        @keyframes loaderLine { to { transform: scaleX(1); } }
+
+        /* ============================================================
+           NAVEGAÇÃO (fixa no topo)
+           ============================================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 28px 48px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 24px;
+            transition: background .5s, padding .4s, backdrop-filter .5s;
+        }
+        .nav.scrolled {
+            background: rgba(26,26,26,.92);
+            backdrop-filter: blur(20px);
+            padding: 16px 48px;
+        }
+        .nav.scrolled .nav-logo {
+            display: flex;
+        }
+        .nav.scrolled .nav-cta {
+            background: #fff;
+            color: var(--black);
+            border-color: #fff;
+        }
+        .nav-logo {
+            display: none;
+            margin-right: auto;
+        }
+        .nav-logo img {
+            height: 19px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            list-style: none;
+            flex-shrink: 1;
+            flex-wrap: nowrap;
+            overflow: hidden;
+        }
+        .nav-links a {
+            font-size: .75rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+            transition: color .3s;
+            position: relative;
+            white-space: nowrap;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width .4s var(--ease-out-expo);
+        }
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-cta {
+            font-size: .75rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,.6);
+            border: 1px solid rgba(255,255,255,.3);
+            padding: 12px 28px;
+            transition: all .4s var(--ease-out-expo);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .nav-cta:hover {
+            background: var(--gold) !important;
+            color: var(--black) !important;
+            border-color: var(--gold) !important;
+        }
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 200;
+        }
+        .nav-hamburger span {
+            width: 28px;
+            height: 1.5px;
+            background: #fff;
+            transition: all .4s var(--ease-out-expo);
+        }
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--black);
+            z-index: 150;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(14px, 3.4vh, 28px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .5s var(--ease-out-expo), visibility .5s var(--ease-out-expo);
+            padding: 84px 24px 44px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            text-align: center;
+        }
+        .mobile-menu.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-menu a {
+            font-family: var(--font-display);
+            font-size: clamp(1.15rem, 5.6vw, 1.9rem);
+            color: var(--off-white);
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-align: center;
+            line-height: 1.15;
+            transition: color .3s var(--ease-out-expo);
+        }
+        .mobile-menu a:hover,
+        .mobile-menu a:active {
+            color: var(--gold);
+        }
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,.18);
+            color: var(--off-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .3s var(--ease-out-expo);
+            z-index: 5;
+            padding: 0;
+        }
+        .mobile-menu-close:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--black);
+        }
+        .mobile-menu-close svg {
+            width: 18px;
+            height: 18px;
+        }
+        @media (max-width: 1200px) {
+            .nav-links { gap: 14px; }
+            .nav-links a { font-size: .68rem; letter-spacing: 2px; }
+            .nav-cta { padding: 10px 20px; font-size: .68rem; }
+        }
+        @media (max-width: 1024px) {
+            .nav-links, .nav-cta { display: none; }
+            .nav-hamburger { display: flex; }
+            .nav-logo { display: flex; margin-right: auto; }
+        }
+        @media (max-width: 900px) {
+            .nav { padding: 20px 24px; }
+            .nav.scrolled { padding: 14px 24px; }
+        }
+
+        /* ============================================================
+           HERO (vídeo + overlay + conteúdo)
+           ============================================================ */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            overflow: hidden;
+            background: var(--black);
+        }
+        .hero-main {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .hero-video-container {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+        .hero-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background: linear-gradient(to top left, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 50%, transparent 100%);
+        }
+        .hero-overlay::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,.25);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 60px 80px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .hero-pretitle {
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: heroReveal 1s var(--ease-out-expo) 2s forwards;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.7rem, 5.2vw, 3.9rem);
+            font-weight: 700;
+            line-height: 1.0;
+            color: #fff;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroReveal 1.2s var(--ease-out-expo) 2.2s forwards;
+        }
+        .hero-title em {
+            font-family: 'Brittany Signature', cursive !important;
+            font-style: normal;
+            color: var(--gold);
+            font-weight: normal;
+            letter-spacing: 0px;
+            text-transform: none;
+            font-size: 1.3em;
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: rgba(255,255,255,.65);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.5;
+            letter-spacing: .5px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: heroReveal 1s var(--ease-out-expo) 2.5s forwards;
+        }
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            background: #fff;
+            border: none;
+            padding: 20px 48px;
+            transition: all .5s var(--ease-out-expo);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: heroReveal 1s var(--ease-out-expo) 2.8s forwards;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .hero-cta svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--charcoal);
+            transition: transform .4s var(--ease-out-expo);
+        }
+        .hero-cta:hover svg {
+            stroke: var(--black);
+            transform: translateX(4px);
+        }
+        @keyframes heroReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 900px) {
+            .hero { flex-direction: column; }
+            .hero-content { padding: 0 24px 60px; }
+            .hero-title { letter-spacing: 0px; font-size: clamp(2.1rem, 7.5vw, 3rem); }
+            .hero-cta { padding: 16px 32px; font-size: .78rem; letter-spacing: 2px; }
+        }
+        @media (max-width: 480px) {
+            .hero-content { padding: 0 16px 48px; }
+            .hero-pretitle { font-size: .72rem; letter-spacing: 4px; }
+            .hero-title { font-size: clamp(1.7rem, 7vw, 2.4rem); }
+            .hero-subtitle { font-size: 1rem; }
+        }
+
+        /* ============================================================
+           REVEAL (animações de entrada ao scroll)
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity .9s var(--ease-out-expo), transform .9s var(--ease-out-expo);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: .1s; }
+        .reveal-delay-2 { transition-delay: .2s; }
+        .reveal-delay-3 { transition-delay: .3s; }
+        .reveal-delay-4 { transition-delay: .4s; }
+        .reveal-line {
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1.2s var(--ease-out-expo);
+        }
+        .reveal-line.visible { transform: scaleX(1); }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(.95);
+            transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
+        }
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ============================================================
+           SEÇÃO: SOBRE iBUILD SÃO CARLOS
+           ============================================================ */
+        .about-sc {
+            padding: 100px var(--side-padding);
+            background: var(--cream);
+            position: relative;
+            z-index: 2;
+        }
+        .about-sc-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .about-sc-content {}
+        .about-sc-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--black);
+            margin-bottom: 32px;
+        }
+        .about-sc-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+        .about-sc-text {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.85;
+            color: var(--charcoal);
+        }
+        .about-sc-text p + p {
+            margin-top: 20px;
+        }
+        .about-sc-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 36px;
+            font-size: .75rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            border: 1px solid var(--charcoal);
+            padding: 14px 32px;
+            transition: all .4s var(--ease-out-expo);
+            white-space: nowrap;
+        }
+        .about-sc-cta svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            transition: transform .4s var(--ease-out-expo);
+        }
+        .about-sc-cta:hover svg {
+            transform: translateX(4px);
+        }
+        .about-sc-cta:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+        }
+        .about-sc-image {
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        .about-sc-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform .8s var(--ease-out-expo);
+        }
+        .about-sc-image:hover img {
+            transform: scale(1.05);
+        }
+        @media (max-width: 900px) {
+            .about-sc { padding: 60px 20px; }
+            .about-sc-inner {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            .about-sc-image { order: -1; }
+        }
+
+        /* ============================================================
+           SEÇÃO: GUARDIÕES (diferencial)
+           ============================================================ */
+        .guardioes {
+            padding: 100px var(--side-padding);
+            background: var(--black);
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+        }
+        .guardioes::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+            opacity: .6;
+        }
+        .guardioes-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 54px;
+            align-items: center;
+        }
+        .guardioes-text {
+            max-width: 720px;
+            text-align: center;
+        }
+        .guardioes-text .intro-label {
+            margin-bottom: 18px;
+            color: var(--gold);
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        .guardioes-text h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 500;
+            line-height: 1.3;
+            color: var(--off-white);
+            margin-bottom: 24px;
+        }
+        .guardioes-text h2 em {
+            font-style: italic;
+            color: var(--gold);
+            font-weight: 100;
+        }
+        .guardioes-text p {
+            font-size: 1rem;
+            line-height: 1.85;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+        .guardioes-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 36px;
+            font-size: .75rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--black);
+            background: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 14px 43px;
+            transition: all .4s var(--ease-out-expo);
+            white-space: nowrap;
+        }
+        .guardioes-cta svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            transition: transform .4s var(--ease-out-expo);
+        }
+        .guardioes-cta:hover svg {
+            transform: translateX(4px);
+        }
+        .guardioes-cta:hover {
+            background: #fff !important;
+            color: var(--black) !important;
+            border-color: #fff !important;
+        }
+        @media (max-width: 900px) {
+            .guardioes { padding: 60px 20px; }
+        }
+
+        /* ============================================================
+           SEÇÃO: NOSSOS PROJETOS (carrossel horizontal)
+           ============================================================ */
+        .showcase {
+            padding: 80px var(--side-padding) 120px;
+            max-width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .showcase-label {
+            font-size: .7rem;
+            font-weight: 400;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .showcase-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 500;
+            color: var(--black);
+        }
+        .showcase-desc {
+            font-size: 1.05rem;
+            font-weight: 400;
+            line-height: 1.8;
+            color: var(--charcoal);
+            max-width: 700px;
+            margin: 20px auto 0;
+            text-align: center;
+        }
+        .showcase-carousel-row {
+            display: flex;
+            gap: 24px;
+            width: max-content;
+            padding: 10px 0;
+        }
+        .showcase-carousel-row--left {
+            animation: showcaseLeft 50s linear infinite;
+        }
+        .showcase-carousel-row--right {
+            animation: showcaseRight 50s linear infinite;
+        }
+        .showcase-carousel-row:hover {
+            animation-play-state: paused;
+        }
+        @keyframes showcaseLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes showcaseRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+        .showcase-carousel-card {
+            width: 400px;
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+            transition: transform .5s var(--ease-out-expo), box-shadow .5s;
+            cursor: pointer;
+        }
+        .showcase-carousel-card:hover {
+            transform: scale(1.04);
+            z-index: 5;
+            box-shadow: 0 16px 48px rgba(0,0,0,.2);
+        }
+        .showcase-carousel-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .6s var(--ease-out-expo);
+        }
+        .showcase-carousel-card:hover img {
+            transform: scale(1.08);
+        }
+        .showcase-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.15) 50%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 16px 20px;
+            transition: background .4s;
+        }
+        .showcase-carousel-card:hover .showcase-item-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,.95) 0%, rgba(0,0,0,.3) 55%, transparent 100%);
+        }
+        .showcase-item-label {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 4px;
+            transform: translateY(8px);
+            transition: transform .5s var(--ease-out-expo);
+        }
+        .showcase-carousel-card:hover .showcase-item-label {
+            transform: translateY(0);
+        }
+        .showcase-item-sub {
+            font-size: .72rem !important;
+            color: rgba(255,255,255,.55) !important;
+            margin-bottom: 10px !important;
+            margin-top: 6px !important;
+            display: block !important;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+        .showcase-item-link {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all .5s var(--ease-out-expo);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .showcase-carousel-card:hover .showcase-item-link {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: .05s;
+        }
+        .showcase-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            max-width: var(--content-width);
+            margin: 60px auto 0;
+            padding: 60px 0;
+            border-top: 1px solid rgba(0,0,0,.06);
+            text-align: center;
+        }
+        .showcase-stats .stat-item {
+            padding: 0 40px;
+            border-right: 1px solid var(--light-gray);
+        }
+        .showcase-stats .stat-item:last-child {
+            border-right: none;
+        }
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            font-weight: 700;
+            color: var(--black);
+            line-height: 1;
+            margin-bottom: 12px;
+            font-variant-numeric: tabular-nums;
+            min-height: 1em;
+            display: block;
+            white-space: nowrap;
+        }
+        .stat-number span {
+            color: var(--black);
+            font-variant-numeric: tabular-nums;
+            display: inline-block;
+        }
+        .stat-label {
+            font-size: .85rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+        .showcase-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: .8rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+            background: var(--black);
+            padding: 18px 40px;
+            transition: all .5s var(--ease-out-expo);
+            white-space: nowrap;
+        }
+        .showcase-cta svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            transition: transform .4s var(--ease-out-expo);
+        }
+        .showcase-cta:hover svg {
+            transform: translateX(4px);
+        }
+        .showcase-cta:hover {
+            background: var(--gold) !important;
+            color: var(--black) !important;
+            border-color: var(--gold) !important;
+        }
+        .showcase-cta-gold {
+            background: var(--gold);
+            color: var(--black);
+        }
+        .showcase-cta-gold:hover {
+            background: var(--black) !important;
+            color: var(--gold) !important;
+            border-color: var(--black) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,.22);
+        }
+        .showcase-cta-gold:hover svg {
+            stroke: var(--gold);
+        }
+        .showcase-cta-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 768px) {
+            .showcase-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px 0;
+                margin: 48px auto 0;
+                padding: 36px 16px;
+            }
+            .showcase-stats .stat-item {
+                border-right: none;
+                padding: 0 8px;
+            }
+            .stat-number {
+                font-size: clamp(1.7rem, 7vw, 2.4rem) !important;
+            }
+            .stat-label {
+                font-size: .65rem !important;
+                letter-spacing: 1.5px !important;
+                margin-top: 6px !important;
+            }
+            .showcase-carousel-card {
+                width: 280px;
+                height: 200px;
+            }
+            .showcase-carousel-row {
+                gap: 14px;
+            }
+        }
+
+        /* ============================================================
+           SEÇÃO: JORNADA (12 passos) – versão simplificada
+           ============================================================ */
+        .journey {
+            padding: 120px var(--side-padding) 80px;
+            background: var(--black);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+        .journey::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+        }
+        .journey-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .journey-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .journey-label {
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+        .journey-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 500;
+            color: var(--off-white);
+        }
+        .journey-subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--gray);
+            max-width: 650px;
+            margin: 16px auto 0;
+            line-height: 1.7;
+        }
+        .journey-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .journey-step {
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(255,255,255,.08);
+            padding: 24px 20px;
+            text-align: center;
+            transition: all .4s var(--ease-out-expo);
+        }
+        .journey-step:hover {
+            background: rgba(255,255,255,.08);
+            border-color: var(--gold);
+            transform: translateY(-4px);
+        }
+        .journey-step-number {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+        .journey-step-title {
+            font-family: var(--font-display);
+            font-size: .85rem;
+            font-weight: 500;
+            color: var(--off-white);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .journey-step-desc {
+            font-size: .78rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        .journey-cta-wrap {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .journey-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 44px;
+            background: var(--gold);
+            color: var(--black);
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid var(--gold);
+            transition: all .4s var(--ease-out-expo);
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .journey-cta svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            transition: transform .4s var(--ease-out-expo);
+        }
+        .journey-cta:hover {
+            background: transparent;
+            color: var(--gold);
+            box-shadow: 0 8px 28px rgba(200,169,110,.35);
+        }
+        .journey-cta:hover svg {
+            transform: translateX(4px);
+        }
+        @media (max-width: 900px) {
+            .journey { padding: 80px 20px; }
+            .journey-steps {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+        }
+        @media (max-width: 480px) {
+            .journey-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================================
+           SEÇÃO: POR QUE ESCOLHER iBUILD SÃO CARLOS
+           ============================================================ */
+        .why-sc {
+            padding: 100px var(--side-padding);
+            background: var(--warm-white);
+            position: relative;
+            z-index: 2;
+        }
+        .why-sc-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+        }
+        .why-sc-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .why-sc-label {
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .why-sc-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 500;
+            color: var(--black);
+        }
+        .why-sc-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+        .why-sc-card {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,.04);
+            padding: 32px 24px;
+            text-align: center;
+            transition: all .5s var(--ease-out-expo);
+        }
+        .why-sc-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 56px rgba(0,0,0,.08);
+        }
+        .why-sc-card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .why-sc-card-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--gold);
+            fill: none;
+        }
+        .why-sc-card-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--black);
+            margin-bottom: 12px;
+        }
+        .why-sc-card-text {
+            font-size: .85rem;
+            color: var(--charcoal);
+            line-height: 1.7;
+        }
+        @media (max-width: 900px) {
+            .why-sc { padding: 60px 20px; }
+            .why-sc-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .why-sc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================================
+           SEÇÃO: iBUILD NA MÍDIA (carrossel simplificado)
+           ============================================================ */
+        #midia {
+            padding: 100px 0;
+            background: var(--cream);
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+        #midia .midia-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: 0 var(--side-padding);
+        }
+        .midia-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .midia-label {
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+        .midia-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 500;
+            color: var(--black);
+        }
+        .midia-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .midia-card {
+            background: #fff;
+            overflow: hidden;
+            transition: all .5s var(--ease-out-expo);
+            border: 1px solid rgba(0,0,0,.04);
+        }
+        .midia-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 56px rgba(0,0,0,.08);
+        }
+        .midia-card-image {
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+        .midia-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .8s var(--ease-out-expo);
+        }
+        .midia-card:hover .midia-card-image img {
+            transform: scale(1.05);
+        }
+        .midia-card-body {
+            padding: 20px 20px 24px;
+        }
+        .midia-card-tag {
+            font-size: .6rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .midia-card-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--black);
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        .midia-card-link {
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color .3s;
+        }
+        .midia-card-link:hover {
+            color: var(--black);
+        }
+        .midia-card-link svg {
+            width: 12px;
+            height: 12px;
+            transition: transform .3s;
+        }
+        .midia-card-link:hover svg {
+            transform: translateX(4px);
+        }
+        @media (max-width: 900px) {
+            .midia-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+        }
+        @media (max-width: 480px) {
+            .midia-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* 
+        =============================================================
+           SEÇÃO: CTA FINAL
+           ============================================================ */
+        .cta-section {
+            position: relative;
+            padding: 160px var(--side-padding);
+            text-align: center;
+            overflow: hidden;
+            z-index: 2;
+        }
+        .cta-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .cta-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .cta-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(26,26,26,.82);
+        }
+        .cta-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .cta-label {
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 28px;
+        }
+        .cta-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 500;
+            color: var(--off-white);
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        .cta-text {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--light-gray);
+            line-height: 1.7;
+            margin-bottom: 48px;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: .85rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--black);
+            background: #fff;
+            padding: 18px 48px;
+            transition: all .5s var(--ease-out-expo);
+        }
+        .cta-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform .4s var(--ease-out-expo);
+        }
+        .cta-btn:hover svg {
+            transform: translateX(4px);
+        }
+        .cta-btn:hover {
+            background: var(--gold) !important;
+            color: var(--black) !important;
+            border-color: var(--gold) !important;
+        }
+        .cta-phone {
+            margin-top: 32px;
+            font-size: .8rem;
+            font-weight: 400;
+            color: var(--gray);
+            letter-spacing: 1px;
+        }
+        .cta-phone a {
+            color: var(--off-white);
+            transition: color .3s;
+        }
+        .cta-phone a:hover {
+            color: var(--accent);
+        }
+        @media (max-width: 768px) {
+            .cta-section {
+                padding: 100px 24px;
+            }
+        }
+
+        /* ============================================================
+           CTA FIXO NO RODAPÉ (pulsante)
+           ============================================================ */
+        .fixed-cta {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 120;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gold);
+            color: var(--black);
+            padding: 14px 24px;
+            border-radius: 50px;
+            box-shadow: 0 8px 24px rgba(0,0,0,.3);
+            font-family: var(--font-display);
+            font-size: .85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: transform .3s, box-shadow .3s;
+            animation: pulseCta 2s ease-in-out infinite;
+        }
+        .fixed-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 32px rgba(0,0,0,.4);
+            animation: none;
+        }
+        .fixed-cta svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--black);
+        }
+        @keyframes pulseCta {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        @media (max-width: 768px) {
+            .fixed-cta {
+                bottom: 16px;
+                right: 16px;
+                padding: 12px 18px;
+                font-size: .75rem;
+            }
+            .fixed-cta svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        .footer {
+            padding: 80px var(--side-padding) 40px;
+            background: #111;
+            position: relative;
+            z-index: 2;
+        }
+        .footer-grid {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+        .footer-brand img {
+            height: 20px;
+            opacity: .6;
+            margin-bottom: 20px;
+        }
+        .footer-brand p {
+            font-size: .85rem;
+            font-weight: 400;
+            color: var(--gray);
+            line-height: 1.7;
+            max-width: 280px;
+        }
+        .footer-col h3 {
+            font-size: .7rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+        .footer-col a {
+            font-size: .85rem;
+            font-weight: 400;
+            color: var(--gray);
+            transition: color .3s;
+        }
+        .footer-col a:hover {
+            color: var(--off-white);
+        }
+        .footer-bottom {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding-top: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-copy {
+            font-size: .75rem;
+            font-weight: 400;
+            color: var(--charcoal);
+        }
+        .footer-blinks {
+            display: flex;
+            gap: 24px;
+        }
+        .footer-blinks a {
+            font-size: .75rem;
+            font-weight: 400;
+            color: var(--charcoal);
+            transition: color .3s;
+        }
+        .footer-blinks a:hover {
+            color: var(--accent);
+        }
+        @media (max-width: 768px) {
+            .footer {
+                padding: 56px 20px 28px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-areas:
+                    "brand brand"
+                    "nav contato"
+                    "social social";
+                gap: 36px 16px;
+            }
+            .footer-grid > div:nth-child(1) {
+                grid-area: brand;
+                text-align: center;
+                padding-bottom: 32px;
+                border-bottom: 1px solid rgba(255,255,255,.06);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-brand p {
+                text-align: center;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+            .footer-grid > div:nth-child(2) { grid-area: nav; text-align: center; }
+            .footer-grid > div:nth-child(3) { grid-area: contato; text-align: center; }
+            .footer-grid > div:nth-child(4) { grid-area: social; text-align: center; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.06); }
+            .footer-grid > div:nth-child(4) ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px 24px;
+            }
+            .footer-grid > div:nth-child(4) li { margin-bottom: 0; }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* ============================================================
+           UTILITÁRIOS
+           ============================================================ */
+        .intro-label {
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .intro-line {
+            width: 60px;
+            height: 2px;
+            background: var(--gold);
+            margin-bottom: 24px;
+        }
+
+
+
+/* VARIÁVEIS GLOBAIS (use apenas se ainda não existirem no seu CSS) */
+:root{
+  --black:#1d1d1f;
+  --dark:#2d2d2d;
+  --charcoal:#424245;
+  --gray:#86868b;
+  --light-gray:#d2d2d7;
+  --off-white:#f5f5f7;
+  --warm-white:#fbfbfd;
+  --cream:#f5f5f7;
+  --accent:#86868b;
+  --accent-dark:#6e6e73;
+  --gold:#C8A96E;
+  --gold-light:#d4bc8a;
+  --font-display:'Transducer',sans-serif;
+  --font-body:'Transducer',sans-serif;
+  --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
+  --content-width:1300px;
+  --side-padding:max(48px, calc((100vw - var(--content-width)) / 2))
+}
+
+/* ANIMAÇÕES DE REVEAL (SCROLL) */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s var(--ease-out-expo),transform .9s var(--ease-out-expo)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+.reveal-line{transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--ease-out-expo)}
+.reveal-line.visible{transform:scaleX(1)}
+.reveal-scale{opacity:0;transform:scale(.95);transition:opacity 1s var(--ease-out-expo),transform 1s var(--ease-out-expo)}
+.reveal-scale.visible{opacity:1;transform:scale(1)}
+
+/* CARROSSEL SHOWCASE (PROJETOS) */
+.showcase-carousel-row { display: flex; gap: 24px; width: max-content; padding: 10px 0; }
+.showcase-carousel-row--left { animation: showcaseLeft 50s linear infinite; }
+.showcase-carousel-row--right { animation: showcaseRight 50s linear infinite; }
+.showcase-carousel-row:hover { animation-play-state: paused; }
+@keyframes showcaseLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes showcaseRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+.showcase-carousel-card { width: 400px; height: 280px; overflow: hidden; position: relative; flex-shrink: 0; transition: transform .5s var(--ease-out-expo), box-shadow .5s; cursor: pointer; }
+.showcase-carousel-card:hover { transform: scale(1.04); z-index: 5; box-shadow: 0 16px 48px rgba(0,0,0,.2); }
+.showcase-carousel-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease-out-expo); }
+.showcase-carousel-card:hover img { transform: scale(1.08); }
+.showcase-carousel-card .showcase-item-overlay { position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:16px 20px;transition:background .4s; }
+.showcase-carousel-card:hover .showcase-item-overlay { background:linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.3) 55%,transparent 100%); }
+.showcase-carousel-card:hover .showcase-item-label { transform:translateY(0); }
+.showcase-carousel-card:hover .showcase-item-link { opacity:1;transform:translateY(0);transition-delay:.05s; }
+@media(max-width:768px) { .showcase-carousel-card { width: 280px; height: 200px; } .showcase-carousel-row { gap: 14px; } }
+
+/* JORNADA / PASSO A PASSO (DESKTOP) */
+@media(min-width: 901px) {
+  .journey{padding:120px var(--side-padding) 50px;background:var(--black);position:relative;overflow:hidden;z-index:2;}
+  .journey::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E")}
+  .journey-inner{max-width:var(--content-width);margin:0 auto;position:relative}
+  .journey-header{text-align:center;margin-bottom:80px}
+  .journey-label{font-size:.7rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+  .journey-title{font-family:var(--font-display);font-size:clamp(2rem,3.5vw,2.8rem);font-weight:500;color:var(--off-white)}
+  .journey-subtitle{font-size:1rem;font-weight:400;color:var(--gray);max-width:650px;margin:16px auto 0;line-height:1.7}
+  .pap-flow { position: relative; max-width: 1100px; margin: 0 auto; height: 470px; }
+  .pap-nodes { display: flex; justify-content: space-between; height: 100%; position: relative; z-index: 2; }
+  .pap-line { position: absolute; top: 200px; left: 4%; right: 4%; height: 2px; background: rgba(255,255,255,.08); border-radius: 2px; z-index: 0; }
+  .pap-line-glow { position: absolute; top: 200px; left: 4%; height: 2px; width: 0%; background: linear-gradient(90deg, rgba(200,169,110,.35) 0%, var(--gold) 60%, var(--gold-light) 100%); border-radius: 2px; box-shadow: 0 0 14px rgba(200,169,110,.45), 0 0 28px rgba(200,169,110,.18); transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1; }
+  .pap-line-glow::after { content: ''; position: absolute; right: -5px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 14px var(--gold), 0 0 28px rgba(200,169,110,.7); opacity: 0; transition: opacity .4s ease; animation: papPulseDot 1.6s ease-in-out infinite; }
+  .pap-line-glow.active::after { opacity: 1; }
+  @keyframes papPulseDot { 0%, 100% { transform: translateY(-50%) scale(1); } 50% { transform: translateY(-50%) scale(1.45); } }
+  .pap-progress-label { position: absolute; top: 218px; left: 4%; transform: translateX(-50%); font-family: var(--font-display); font-size: 0.62rem; font-weight: 600; letter-spacing: 2px; color: var(--gold); background: var(--black); padding: 3px 8px; border: 1px solid rgba(200,169,110,.4); border-radius: 2px; opacity: 0; pointer-events: none; z-index: 7; transition: opacity .35s ease, left 1s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap; }
+  .pap-progress-label.visible { opacity: 1; }
+  .pap-node { flex: 1; position: relative; cursor: default; transition: transform .3s; pointer-events: none; }
+  .pap-node .pap-circle, .pap-node .pap-num, .pap-node .pap-label { pointer-events: auto; cursor: pointer; }
+  .pap-node::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 1px; background: rgba(255,255,255,.12); z-index: 4; transition: all .4s ease; }
+  .pap-node.top::before { top: 148px; height: 38px; }
+  .pap-node.bottom::before { top: 216px; height: 38px; }
+  .pap-node.active::before { background: var(--gold); box-shadow: 0 0 6px rgba(200,169,110,.55); }
+  .pap-circle { position: absolute; left: 50%; transform: translateX(-50%); width: 48px; height: 48px; border-radius: 50%; background: var(--black); border: 1.5px solid rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; z-index: 5; transition: all .4s ease; }
+  .pap-circle svg { width: 20px; height: 20px; stroke: rgba(255,255,255,.4); fill: none; stroke-width: 1.5; transition: all .4s ease; }
+  .pap-node.top .pap-circle { top: 100px; }
+  .pap-node.bottom .pap-circle { top: 254px; }
+  .pap-num { position: absolute; top: 186px; left: 50%; transform: translateX(-50%); width: 30px; height: 30px; border-radius: 50%; background: #2d2d2d; color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.18); font-size: 0.72rem; font-weight: bold; font-family: var(--font-display); display: flex; align-items: center; justify-content: center; z-index: 6; box-shadow: none; transition: all .4s ease; }
+  .pap-node.active .pap-num { background: var(--gold); color: var(--black); border-color: var(--gold); box-shadow: 0 0 22px rgba(200,169,110,.75), 0 0 36px rgba(200,169,110,.35); transform: translateX(-50%) scale(1.1); }
+  .pap-label { position: absolute; left: 50%; transform: translateX(-50%); width: 130px; text-align: center; font-family: var(--font-display); font-size: 0.65rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.45); line-height: 1.45; transition: color .4s; }
+  .pap-node.top .pap-label { top: 60px; }
+  .pap-node.bottom .pap-label { top: 310px; }
+  .pap-tooltip { position: absolute; left: 50%; transform: translateX(-50%) translateY(10px); background: var(--black); border: 1px solid rgba(200,169,110,.2); padding: 14px 18px; width: 240px; font-size: 0.75rem; color: var(--off-white); opacity: 0; visibility: hidden; z-index: 10; pointer-events: none; text-align: center; line-height: 1.5; transition: all .3s var(--ease-out-expo); }
+  .pap-tooltip::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%); border: 6px solid transparent; }
+  .pap-node.top .pap-tooltip { bottom: calc(100% - 52px); }
+  .pap-node.top .pap-tooltip::after { top: 100%; border-top-color: var(--black); }
+  .pap-node.bottom .pap-tooltip { top: 350px; }
+  .pap-node.bottom .pap-tooltip::after { bottom: 100%; border-bottom-color: var(--black); }
+  .pap-node.active .pap-circle { border-color: var(--gold); background: #1f1e19; box-shadow: 0 0 28px rgba(200,169,110,.28); transform: translateX(-50%) scale(1.06); }
+  .pap-node.active .pap-circle svg { stroke: var(--gold); }
+  .pap-node.active .pap-label { color: var(--gold); }
+  .pap-node.open .pap-tooltip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); border-color: var(--gold); }
+  .pap-mobile-track { display: none !important; }
+  .journey-cta-wrap { display: flex; justify-content: center; margin-top: 80px; position: relative; z-index: 3; }
+  .journey-cta { display: inline-flex; align-items: center; gap: 12px; padding: 18px 44px; background: var(--gold); color: var(--black); font-family: var(--font-display); font-size: 0.78rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; border: 1px solid var(--gold); transition: all .4s var(--ease-out-expo); white-space: nowrap; cursor: pointer; }
+  .journey-cta svg { width: 14px; height: 14px; stroke: currentColor; transition: transform .4s var(--ease-out-expo); }
+  .journey-cta:hover { background: transparent; color: var(--gold); box-shadow: 0 8px 28px rgba(200,169,110,.35); }
+  .journey-cta:hover svg { transform: translateX(4px); }
+}
+
+/* JORNADA / PASSO A PASSO (MOBILE) */
+@media(max-width:900px){
+  .journey { padding: 80px 20px 100px; background:var(--black); position:relative; overflow:hidden; z-index:2; }
+  .journey-header{text-align:center;margin-bottom:60px}
+  .journey-label{font-size:.7rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+  .journey-title{font-family:var(--font-display);font-size:clamp(2rem,3.5vw,2.8rem);font-weight:500;color:var(--off-white)}
+  .journey-subtitle{font-size:1rem;font-weight:400;color:var(--gray);margin:16px auto 0;line-height:1.7}
+  .pap-flow { padding: 20px 0; position: relative; }
+  .pap-line, .pap-line-glow, .pap-progress-label { display: none !important; }
+  .pap-mobile-track { display: block; position: absolute; top: 40px; bottom: 40px; left: 37px; width: 2px; background: rgba(255,255,255,.08); border-radius: 2px; z-index: 0; }
+  .pap-mobile-track-fill { position: absolute; top: 0; left: 0; width: 100%; height: 0%; background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%); box-shadow: 0 0 12px rgba(200,169,110,.4); border-radius: 2px; transition: height .8s cubic-bezier(0.4, 0, 0.2, 1); }
+  .pap-nodes { display: flex; flex-direction: column !important; position: relative; padding-left: 26px; }
+  .pap-nodes::before { display: none !important; }
+  .pap-node { flex: unset !important; width: 100% !important; display: flex; flex-direction: row !important; align-items: flex-start !important; gap: 20px; padding: 14px 0 !important; position: relative; z-index: 2; flex-wrap: wrap; }
+  .pap-node::before { display: none !important; }
+  .pap-node .pap-num { order: -1 !important; width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,.05); color: rgba(255,255,255,.4); border: 1px solid rgba(255,255,255,.18); font-size: 0.65rem; font-weight: bold; font-family: var(--font-display); display: flex; align-items: center; justify-content: center; z-index: 6; margin-top: 14px; margin-right: -10px; box-shadow: none; transition: box-shadow .4s ease, transform .4s ease, background .4s ease, color .4s ease; }
+  .pap-node.active .pap-num { background: var(--gold); color: var(--black); border-color: var(--gold); box-shadow: 0 0 14px rgba(200,169,110,.6); transform: scale(1.1); }
+  .pap-node .pap-circle { order: 0 !important; flex-shrink: 0; width: 52px !important; height: 52px !important; background: var(--black) !important; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; z-index: 5; transition: all .4s ease; position: relative; top: auto !important; left: auto !important; transform: none !important; }
+  .pap-circle svg { width: 20px !important; height: 20px !important; stroke: rgba(255,255,255,.4); fill: none; transition: all .4s ease; }
+  .pap-node .pap-label { order: 1 !important; margin: 0 !important; text-align: left !important; max-width: none !important; font-size: .72rem !important; line-height: 1.4 !important; margin-top: 16px !important; font-family: var(--font-display); font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,.4); transition: color .4s; position: relative; top: auto !important; left: auto !important; transform: none !important; width: auto !important; }
+  .pap-tooltip { position: relative; bottom: auto !important; top: auto !important; left: 0; transform: none !important; width: 100%; margin-top: 12px; margin-left: 72px; opacity: 0; max-height: 0; overflow: hidden; transition: all .4s; padding: 0; border: none; order: 3; background: transparent; color: var(--off-white); font-size: 0.75rem; line-height: 1.5; }
+  .pap-tooltip::after { display: none; }
+  .pap-node.active .pap-tooltip { opacity: 1; max-height: 200px; padding: 12px 16px; border: 1px solid rgba(200,169,110,.2); background: var(--black); }
+  .pap-node.active .pap-circle { border-color: var(--gold) !important; background: #1f1e19 !important; box-shadow: 0 0 30px rgba(200,169,110,.3) !important; }
+  .pap-node.active .pap-circle svg { stroke: var(--gold) !important; }
+  .pap-node.active .pap-label { color: var(--gold) !important; }
+  .journey-cta-wrap { display: flex; justify-content: center; margin-top: 50px; position: relative; z-index: 3; }
+  .journey-cta { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; background: var(--gold); color: var(--black); font-family: var(--font-display); font-size: 0.72rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; border: 1px solid var(--gold); transition: all .4s var(--ease-out-expo); white-space: nowrap; cursor: pointer; }
+  .journey-cta svg { width: 13px; height: 13px; stroke: currentColor; }
+}
+
+        /* ============================================================
+   CTA FLUTUANTE LATERAL (#floatCta)
+   ------------------------------------------------------------
+   Este bloco substitui os estilos antigos do .fixed-cta.
+   Se você ainda tiver .fixed-cta no seu CSS, remova ou comente
+   essas regras para evitar conflitos visuais com o novo #floatCta.
+   ============================================================ */
+
+/* --- DESKTOP (padrão) --- */
+#floatCta {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 120;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    text-transform: uppercase;
+    background: #C8A96E;
+    color: #1d1d1f;
+    padding: 22px 13px;
+    border-radius: 14px 0 0 14px;
+    font-family: 'Transducer', sans-serif;
+    font-weight: 600;
+    font-size: .8rem;
+    letter-spacing: 1px;
+    line-height: 1.35;
+    box-shadow: -5px 6px 26px rgba(0,0,0,.25);
+    text-decoration: none;
+    cursor: pointer;
+    transition: padding .3s ease, box-shadow .3s ease;
+    max-height: 80vh;
+}
+
+#floatCta .cta-short {
+    display: none;
+}
+
+#floatCta:hover {
+    padding-right: 19px;
+    box-shadow: -9px 8px 34px rgba(0,0,0,.33);
+}
+
+/* --- MOBILE (max-width: 768px) --- */
+@media (max-width: 768px) {
+    #floatCta {
+        left: 50%;
+        right: auto;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        transform: translateX(-50%);
+        width: 88%;
+        max-width: 440px;
+        max-height: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        writing-mode: horizontal-tb;
+        text-transform: none;
+        background: rgba(29,29,31,.94);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,.10);
+        border-radius: 16px;
+        padding: 15px 16px 15px 22px;
+        font-size: clamp(.78rem, 3.6vw, .9rem);
+        font-weight: 600;
+        letter-spacing: .2px;
+        white-space: nowrap;
+        line-height: 1.3;
+        box-shadow: 0 10px 34px rgba(0,0,0,.30);
+    }
+
+    #floatCta .cta-full {
+        display: none;
+    }
+
+    #floatCta .cta-short {
+        display: inline;
+    }
+
+    #floatCta::after {
+        content: '→';
+        flex-shrink: 0;
+        width: 30px;
+        height: 30px;
+        border: 1.5px solid rgba(255,255,255,.40);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.05rem;
+        transition: transform .2s ease, background .2s ease;
+    }
+
+    #floatCta:hover {
+        padding: 15px 16px 15px 22px;
+        box-shadow: 0 10px 34px rgba(0,0,0,.30);
+    }
+
+    #floatCta:active {
+        transform: translateX(-50%) scale(.985);
+    }
+
+    #floatCta:active::after {
+        transform: translateX(3px);
+        background: rgba(255,255,255,.14);
+    }
+}
+
+/* --- DESKTOP com altura pequena (max-height: 560px e min-width: 769px) --- */
+@media (max-height: 560px) and (min-width: 769px) {
+    #floatCta {
+        font-size: .64rem;
+        padding: 12px 9px;
+    }
+}
     </style>
 
-    <!-- Estilos principais do simulador (adaptados ao padrão da home) -->
-    <link rel="stylesheet" href="assets/css/simulador.css">
+    <!-- Pré-carregamento da imagem do hero (poster) para evitar flash -->
+    <link rel="preload" as="image" href="assets/hero-poster.webp" fetchpriority="high">
+        <!-- Bitrix24 — Formulário Popup (deve carregar no <head>) -->
+        <script data-b24-form="click/344/0rvo59">
+        (function(w,d,u){
+            var s=d.createElement('script');
+            s.async=true;
+            s.src=u+'?'+(Date.now()/180000|0);
+            var h=d.getElementsByTagName('script')[0];
+            h.parentNode.insertBefore(s,h);
+        })(window,document,'https://cdn.bitrix24.com.br/b15418859/crm/form/loader_344.js');
+        </script>
 </head>
 <body>
 
     <!-- ============================================================
-         NAVEGAÇÃO (mesmo padrão da home, mas sempre com fundo escuro)
-         ============================================================ -->
-    <header class="nav">
-        <a href="../index.html" class="nav-logo">
-            <img src="../assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy">
+    LOADER
+    ============================================================ -->
+    <div class="loader" id="loader">
+        <img src="assets/logo-light.webp" alt="iBUILD São Carlos" class="loader-logo" fetchpriority="high">
+        <div class="loader-line"></div>
+        <span class="loader-text">Construções Inteligentes</span>
+    </div>
+
+    <!-- ============================================================
+    NAVEGAÇÃO
+    ============================================================ -->
+    <nav class="nav" id="nav">
+        <a href="#" class="nav-logo">
+            <img src="assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy">
         </a>
         <ul class="nav-links">
-            <li><a href="../index.html#sobre">Sobre</a></li>
-            <li><a href="../index.html#projetos">Projetos</a></li>
-            <li><a href="../index.html#jornada">Jornada</a></li>
-            <li><a href="../index.html#porque">Por que nós</a></li>
-            <li><a href="../index.html#contato">Contato</a></li>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#projetos">Projetos</a></li>
+            <li><a href="#jornada">Jornada</a></li>
+            <li><a href="#porque">Por que nós</a></li>
+            <li><a href="#contato">Contato</a></li>
         </ul>
-        <a href="https://wa.me/5516997634187" class="nav-cta" target="_blank" rel="noopener">
-            Faça seu Orçamento
-        </a>
-    </header>
+         <!--<a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="nav-cta">Faça seu Orçamento</a>--> 
+        <a href="#" id="ibuild-header-btn" class="nav-cta" role="button">Faça seu Orçamento</a>
+        <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- Menu mobile -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMenu()" aria-label="Fechar menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <a href="#hero" onclick="toggleMenu()">Home</a>
+        <a href="#sobre" onclick="toggleMenu()">Sobre</a>
+        <a href="#projetos" onclick="toggleMenu()">Projetos</a>
+        <a href="#jornada" onclick="toggleMenu()">Jornada</a>
+        <a href="#porque" onclick="toggleMenu()">Por que nós</a>
+        <a href="#contato" onclick="toggleMenu()">Contato</a>
+    </div>
 
     <!-- ============================================================
-         HERO SIMPLES (seguindo a tipografia da home)
-         ============================================================ -->
-    <section class="sim-hero">
-        <div class="sim-hero-content">
-            <p class="hero-pretitle">iBUILD São Carlos · Simulador</p>
-            <h1 class="hero-title">MONTE SUA CASA <em>AMBIENTE POR AMBIENTE</em></h1>
-            <p class="hero-subtitle">
-                A metragem agora nasce dos ambientes que você escolhe. Informe os módulos de cada espaço e o simulador calcula automaticamente a área total, as premissas técnicas e o custo estimado da obra.
+    HERO
+    ============================================================ -->
+    <section class="hero" id="hero">
+        <div class="hero-main">
+            <div class="hero-video-container">
+                <video autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.webp" width="720" height="1280" id="heroVideo">
+                    <source src="assets/hero-video.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <p class="hero-pretitle">iBUILD São Carlos · Construção Inteligente</p>
+                <h1 class="hero-title hero-title--img" style="display: flex; justify-content: flex-end;"><img width="1000" height="405" src="assets/12.webp" alt="Enquanto a sua vida segue, nós construímos" style="width:auto;height:auto;max-width:min(100%,720px);max-height:clamp(190px,32vh,320px);object-fit:contain;"></h1>
+                <p class="hero-subtitle">
+                    Construção chave na mão em Light Steel Frame em São Carlos. 
+                    Sua obra sem preocupações, com ética, excelência e respeito ao seu patrimônio.
+                </p>
+                <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="hero-cta">
+                    Fale com nosso time
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    SEÇÃO: SOBRE iBUILD SÃO CARLOS
+    ============================================================ -->
+    <section class="about-sc" id="sobre">
+        <div class="about-sc-inner">
+            <div class="about-sc-content reveal">
+                <div class="intro-label">Sobre a iBUILD São Carlos</div>
+                <h2 class="about-sc-title">
+                    CONSTRUINDO COM <em>PROPÓSITO</em> EM SÃO CARLOS
+                </h2>
+                <div class="intro-line reveal-line"></div>
+                <div class="about-sc-text">
+                    <p>
+                        A <strong>iBUILD São Carlos</strong> faz parte da iBUILD Construtora, referência nacional em 
+                        construção industrializada em <strong>Light Steel Frame</strong>. Somos uma equipe local, 
+                        comprometida com a excelência técnica e a satisfação de cada cliente em São Carlos e região.
+                    </p>
+                    <p>
+                        Oferecemos o sistema <strong>"chave na mão"</strong> — da fundação ao acabamento, 
+                        cuidamos de tudo para que você não precise se preocupar com nada. 
+                        Nossos valores são: <strong>ética, excelência técnica, e proteção do seu patrimônio</strong>.
+                    </p>
+                    <p>
+                        Seja para sua residência ou empresa, entregamos qualidade, prazo garantido 
+                        e total transparência em cada etapa.
+                    </p>
+                </div>
+                <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="about-sc-cta">
+                    Agende sua consulta
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div class="about-sc-image reveal-scale">
+                <img src="assets/imoveis/casa-vernom-alphaville-sp/capa.webp" alt="Projeto iBUILD em Light Steel Frame" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    SEÇÃO: GUARDIÕES (Diferencial)
+    ============================================================ -->
+    <section class="guardioes" id="guardioes">
+        <div class="guardioes-inner">
+            <div class="reveal guardioes-text">
+                <div class="intro-label">Nosso Diferencial</div>
+                <h2>OS GUARDIÕES DA SUA<em>TRANQUILIDADE</em></h2>
+                <p style="font-size:1rem;line-height:1.85;color:var(--gray);margin-bottom:16px;">Sabemos o que passa na cabeça de quem decide construir. Não é só o orçamento ou o prazo. É o medo de que a obra invada sua rotina, seus relacionamentos, seu sono.</p>
+                <p style="font-size:1rem;line-height:1.85;color:var(--gray);">A iBUILD existe para ser o guardião da sua tranquilidade. Da captação do recurso ao dia a dia na sua casa pronta, cuidamos de tudo para que sua vida siga normal.</p>
+                <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="guardioes-cta">
+                    Saiba Mais
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    SEÇÃO: NOSSOS PROJETOS (Carrossel)
+    ============================================================ -->
+    <section class="showcase" id="projetos">
+        <div class="showcase-header">
+            <p class="showcase-label reveal">Nossos Projetos</p>
+            <h2 class="showcase-title reveal reveal-delay-1">A CASA QUE CONSTRÓI HISTÓRIAS</h2>
+            <p class="showcase-desc reveal reveal-delay-2 visible">Cada projeto iBUILD nasce de um sonho e se transforma em realidade através de tecnologia, precisão e cuidado. Conheça alguns dos projetos que já entregamos em mais de 15 estados do Brasil.</p>
+        </div>
+
+        <div style="overflow:hidden;position:relative;">
+            <!-- Linha 1 (esquerda) -->
+            <div class="showcase-carousel-row showcase-carousel-row--left" data-cloned="true" style="animation-duration: 32.430769s;">
+
+    <div class="showcase-carousel-card">
+      <img width="1245" height="1600" loading="lazy" src="assets/imoveis/casa-vernom-alphaville-sp/capa.webp" alt="Casa Vernom">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência Vernom</span>
+        <span class="showcase-item-sub">Alphaville - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1600" height="1058" loading="lazy" src="assets/imoveis/tauste/TausteDuquedeCaxiasBauru.webp" alt="Comercial Tauste">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Comercial Tauste</span>
+        <span class="showcase-item-sub">Bauru - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1600" height="1370" loading="lazy" src="assets/imoveis/apartamento-studio-marilia-sp/capa.webp" alt="Apartamento Studio">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Apartamento Studio</span>
+        <span class="showcase-item-sub">Marília - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1600" height="1066" loading="lazy" src="assets/imoveis/kayo-restaurante/capa.webp" alt="Kayo Restaurante">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Kayo Restaurante</span>
+        <span class="showcase-item-sub">Botucatu - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1008" height="756" loading="lazy" src="assets/imoveis/village-damha-1-020-00-m-marilia-sp/village-damha-1-020-00-m-marilia-sp-1.webp" alt="Village Damha">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Village Damha</span>
+        <span class="showcase-item-sub">Marília - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+  
+
+    <div class="showcase-carousel-card">
+      <img width="1245" height="1600" loading="lazy" src="assets/imoveis/casa-vernom-alphaville-sp/capa.webp" alt="Casa Vernom">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência Vernom</span>
+        <span class="showcase-item-sub">Alphaville - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1600" height="1058" loading="lazy" src="assets/imoveis/tauste/TausteDuquedeCaxiasBauru.webp" alt="Comercial Tauste">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Comercial Tauste</span>
+        <span class="showcase-item-sub">Bauru - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1600" height="1370" loading="lazy" src="assets/imoveis/apartamento-studio-marilia-sp/capa.webp" alt="Apartamento Studio">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Apartamento Studio</span>
+        <span class="showcase-item-sub">Marília - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1600" height="1066" loading="lazy" src="assets/imoveis/kayo-restaurante/capa.webp" alt="Kayo Restaurante">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Kayo Restaurante</span>
+        <span class="showcase-item-sub">Botucatu - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1008" height="756" loading="lazy" src="assets/imoveis/village-damha-1-020-00-m-marilia-sp/village-damha-1-020-00-m-marilia-sp-1.webp" alt="Village Damha">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Village Damha</span>
+        <span class="showcase-item-sub">Marília - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+  </div>
+
+            <!-- Linha 2 (direita) -->
+            <div class="showcase-carousel-row showcase-carousel-row--right" data-cloned="true" style="animation-duration: 38.953846s;">
+
+    <!-- ADICIONADO: ARUJÁ (EM EXECUÇÃO) -->
+    <div class="showcase-carousel-card" style="position: relative;">
+      <div style="position: absolute; top: 0; left: 0; background-color: #C8A96E; color: #ffffff; padding: 6px 12px; font-size: 11px; font-weight: bold; font-family: sans-serif; border-radius: 0; z-index: 10; text-transform: uppercase; letter-spacing: 1px;">Em Execução</div>
+      <img width="1280" height="853" loading="lazy" src="assets/imoveis/aruja-366/capa.webp" alt="Residência Arujá">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência 366.52m²</span>
+        <span class="showcase-item-sub">Arujá - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1086" height="1448" loading="lazy" src="assets/imoveis/retrofit-santander-select-marilia-sp/capasantanderselet.webp" alt="Retrofit Santander">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Retrofit Santander</span>
+        <span class="showcase-item-sub">Marília - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <!-- ADICIONADO: MARÍLIA 165m -->
+    <div class="showcase-carousel-card">
+      <img width="1448" height="1086" loading="lazy" src="assets/imoveis/marilia-165m/capa.webp" alt="Residência 165m²">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência 165m²</span>
+        <span class="showcase-item-sub">Marília - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1445" height="1600" loading="lazy" src="assets/imoveis/reside-ncia-160-0-m-botucatu-sp/capa.webp" alt="Residência 160 m²">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência 160 m²</span>
+        <span class="showcase-item-sub">Botucatu - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1316" height="640" loading="lazy" src="assets/imoveis/madale-expansa-o/madale-expansa-o-1.webp" alt="Madalê Expansão">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Madalê Expansão</span>
+        <span class="showcase-item-sub">Projeto Comercial</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="804" height="408" loading="lazy" src="assets/imoveis/jardim-das-a-guas-200-m-tupa-sp/jardim-das-a-guas-200-m-tupa-sp-1.webp" alt="Jardim das Águas">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Jardim das Águas</span>
+        <span class="showcase-item-sub">Tupã - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+  
+
+    <!-- ADICIONADO: ARUJÁ (EM EXECUÇÃO) -->
+    <div class="showcase-carousel-card" style="position: relative;">
+      <div style="position: absolute; top: 0; left: 0; background-color: #C8A96E; color: #ffffff; padding: 6px 12px; font-size: 11px; font-weight: bold; font-family: sans-serif; border-radius: 0; z-index: 10; text-transform: uppercase; letter-spacing: 1px;">Em Execução</div>
+      <img width="1280" height="853" loading="lazy" src="assets/imoveis/aruja-366/capa.webp" alt="Residência Arujá">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência 366.52m²</span>
+        <span class="showcase-item-sub">Arujá - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1086" height="1448" loading="lazy" src="assets/imoveis/retrofit-santander-select-marilia-sp/capasantanderselet.webp" alt="Retrofit Santander">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Retrofit Santander</span>
+        <span class="showcase-item-sub">Marília - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <!-- ADICIONADO: MARÍLIA 165m -->
+    <div class="showcase-carousel-card">
+      <img width="1448" height="1086" loading="lazy" src="assets/imoveis/marilia-165m/capa.webp" alt="Residência 165m²">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência 165m²</span>
+        <span class="showcase-item-sub">Marília - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1445" height="1600" loading="lazy" src="assets/imoveis/reside-ncia-160-0-m-botucatu-sp/capa.webp" alt="Residência 160 m²">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência 160 m²</span>
+        <span class="showcase-item-sub">Botucatu - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1316" height="640" loading="lazy" src="assets/imoveis/madale-expansa-o/madale-expansa-o-1.webp" alt="Madalê Expansão">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Madalê Expansão</span>
+        <span class="showcase-item-sub">Projeto Comercial</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="804" height="408" loading="lazy" src="assets/imoveis/jardim-das-a-guas-200-m-tupa-sp/jardim-das-a-guas-200-m-tupa-sp-1.webp" alt="Jardim das Águas">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Jardim das Águas</span>
+        <span class="showcase-item-sub">Tupã - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+  </div>
+            <!-- LINHA 3 -->
+<div class="showcase-carousel-row showcase-carousel-row--left" data-cloned="true" style="animation-duration: 38.953846s;">
+
+    <div class="showcase-carousel-card" style="position: relative;">
+      <div style="position: absolute; top: 0; left: 0; background-color: #C8A96E; color: #ffffff; padding: 6px 12px; font-size: 11px; font-weight: bold; font-family: sans-serif; border-radius: 0; z-index: 10; text-transform: uppercase; letter-spacing: 1px;">Em Execução</div>
+      <img width="1372" height="1147" loading="lazy" src="assets/imoveis/franqueadora-370m/capa.webp" alt="Franqueadora">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Franqueadora</span>
+        <span class="showcase-item-sub">Santana de Parnaíba - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <!-- ADICIONADO: JOÃO BOLDRINI (EM EXECUÇÃO) -->
+    <div class="showcase-carousel-card" style="position: relative;">
+      <div style="position: absolute; top: 0; left: 0; background-color: #C8A96E; color: #ffffff; padding: 6px 12px; font-size: 11px; font-weight: bold; font-family: sans-serif; border-radius: 0; z-index: 10; text-transform: uppercase; letter-spacing: 1px;">Em Execução</div>
+      <img width="1584" height="993" loading="lazy" src="assets/imoveis/joao-boldrini/capa.webp" alt="João Boldrini">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Chácara Monte Alegre</span>
+        <span class="showcase-item-sub">São Paulo - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <!-- ADICIONADO: SORMANI -->
+    <div class="showcase-carousel-card">
+      <img width="1018" height="596" loading="lazy" src="assets/imoveis/sormani-234/capa.webp" alt="Sormani">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência Sorman 234,53 m²</span>
+        <span class="showcase-item-sub">Sinop - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1008" height="756" loading="lazy" src="assets/imoveis/reside-ncia-146-03-m-assis-sp/reside-ncia-146-03-m-assis-sp-1.webp" alt="Residência 146,03 m²">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência 146,03 m²</span>
+        <span class="showcase-item-sub">Assis - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="900" height="506" loading="lazy" src="assets/imoveis/comercial-280-00-m-sinop-mt/comercial-280-00-m-sinop-mt-1.webp" alt="Comercial 280 m²">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Comercial 280 m²</span>
+        <span class="showcase-item-sub">Sinop - MT</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1216" height="880" loading="lazy" src="assets/imoveis/reside-ncia-260-39-m-botucatu-sp/capa.webp" alt="Residência 260,39 m²">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência Botucatu</span>
+        <span class="showcase-item-sub">Botucatu - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+  
+
+    <div class="showcase-carousel-card" style="position: relative;">
+      <div style="position: absolute; top: 0; left: 0; background-color: #C8A96E; color: #ffffff; padding: 6px 12px; font-size: 11px; font-weight: bold; font-family: sans-serif; border-radius: 0; z-index: 10; text-transform: uppercase; letter-spacing: 1px;">Em Execução</div>
+      <img width="1372" height="1147" loading="lazy" src="assets/imoveis/franqueadora-370m/capa.webp" alt="Franqueadora">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Franqueadora</span>
+        <span class="showcase-item-sub">Santana de Parnaíba - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <!-- ADICIONADO: JOÃO BOLDRINI (EM EXECUÇÃO) -->
+    <div class="showcase-carousel-card" style="position: relative;">
+      <div style="position: absolute; top: 0; left: 0; background-color: #C8A96E; color: #ffffff; padding: 6px 12px; font-size: 11px; font-weight: bold; font-family: sans-serif; border-radius: 0; z-index: 10; text-transform: uppercase; letter-spacing: 1px;">Em Execução</div>
+      <img width="1584" height="993" loading="lazy" src="assets/imoveis/joao-boldrini/capa.webp" alt="João Boldrini">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Chácara Monte Alegre</span>
+        <span class="showcase-item-sub">São Paulo - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <!-- ADICIONADO: SORMANI -->
+    <div class="showcase-carousel-card">
+      <img width="1018" height="596" loading="lazy" src="assets/imoveis/sormani-234/capa.webp" alt="Sormani">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência Sorman 234,53 m²</span>
+        <span class="showcase-item-sub">Sinop - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1008" height="756" loading="lazy" src="assets/imoveis/reside-ncia-146-03-m-assis-sp/reside-ncia-146-03-m-assis-sp-1.webp" alt="Residência 146,03 m²">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência 146,03 m²</span>
+        <span class="showcase-item-sub">Assis - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="900" height="506" loading="lazy" src="assets/imoveis/comercial-280-00-m-sinop-mt/comercial-280-00-m-sinop-mt-1.webp" alt="Comercial 280 m²">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Comercial 280 m²</span>
+        <span class="showcase-item-sub">Sinop - MT</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+    <div class="showcase-carousel-card">
+      <img width="1216" height="880" loading="lazy" src="assets/imoveis/reside-ncia-260-39-m-botucatu-sp/capa.webp" alt="Residência 260,39 m²">
+      <div class="showcase-item-overlay">
+        <span class="showcase-item-label">Residência Botucatu</span>
+        <span class="showcase-item-sub">Botucatu - SP</span>
+        <span class="showcase-item-link"> </span>
+      </div>
+    </div>
+
+  </div>
+        </div>
+
+        <!-- Estatísticas (personalizadas para São Carlos) -->
+        <div class="showcase-stats">
+            <div class="stat-item reveal">
+                <div class="stat-number"><span>+</span><span data-count="42000">0</span></div>
+                <div class="stat-label">m² de obras realizadas</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-1">
+                <div class="stat-number"><span>+</span><span data-count="11">0</span></div>
+                <div class="stat-label">Anos de experiência</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-2">
+                <div class="stat-number"><span>+</span><span data-count="200">0</span></div>
+                <div class="stat-label">Projetos entregues</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-3">
+                <div class="stat-number"><span>+</span><span data-count="98">0</span></div>
+                <div class="stat-label">% de satisfação</div>
+            </div>
+        </div>
+
+        <div style="text-align:center;padding-top:48px" class="reveal">
+            <div class="showcase-cta-row">
+                <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="showcase-cta">
+                    Quero um projeto igual
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    SEÇÃO: JORNADA (12 passos)
+    ============================================================ -->
+    <section class="journey" id="jornada">
+  <div class="journey-inner">
+    <div class="journey-header">
+      <p class="journey-label reveal visible">Passo a passo</p>
+      <h2 class="journey-title reveal reveal-delay-1 visible">A JORNADA DE CONSTRUÇÃO DA SUA CASA</h2>
+      <p class="journey-subtitle reveal reveal-delay-2 visible">Acompanhe cada etapa do processo. Interaja com os ícones para ver os detalhes.</p>
+    </div>
+    <div class="pap-flow" id="papFlow">
+      <div class="pap-line"></div>
+      <div class="pap-line-glow" id="papLineGlow"></div>
+      <div class="pap-progress-label" id="papProgressLabel">0%</div>
+      <div class="pap-mobile-track">
+        <div class="pap-mobile-track-fill" id="papMobileTrackFill"></div>
+      </div>
+      <div class="pap-nodes">
+        <div class="pap-node top" onclick="openPap(0)">
+          <div class="pap-num">1</div>
+          <div class="pap-label">Apresentação<br>da iBUILD</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path></svg></div>
+          <div class="pap-tooltip"><strong>Apresentação da iBUILD</strong><br>Reunião de apresentação onde você conhece a iBUILD, nosso método construtivo, tecnologia e como trabalhamos para entregar a sua casa com tranquilidade.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(1)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+          <div class="pap-label">Recebimento<br>do Projeto</div>
+          <div class="pap-num">2</div>
+          <div class="pap-tooltip"><strong>Recebimento do Projeto</strong><br>Analisamos suas necessidades, terreno e condições para iniciar o orçamento.</div>
+        </div>
+        <div class="pap-node top" onclick="openPap(2)">
+          <div class="pap-num">3</div>
+          <div class="pap-label">Realização de<br>Orçamento</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path></svg></div>
+          <div class="pap-tooltip"><strong>Realização de Orçamento</strong><br>Elaboramos um orçamento completo e detalhado, com valores fechados e sem surpresas.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(3)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+          <div class="pap-label">Reunião de<br>Fechamento</div>
+          <div class="pap-num">4</div>
+          <div class="pap-tooltip"><strong>Reunião de Fechamento</strong><br>Alinhamos todos os detalhes finais, condições comerciais e formalização do contrato.</div>
+        </div>
+        <div class="pap-node top" onclick="openPap(4)">
+          <div class="pap-num">5</div>
+          <div class="pap-label">Encontro de<br>Alinhamento</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path></svg></div>
+          <div class="pap-tooltip"><strong>Encontro de Alinhamento</strong><br>Entendemos o seu sonho, suas necessidades e como a obra se encaixa na sua vida.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(5)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg></div>
+          <div class="pap-label">Reunião de<br>Projeto</div>
+          <div class="pap-num">6</div>
+          <div class="pap-tooltip"><strong>Reunião de Projeto</strong><br>Apresentamos o projeto arquitetônico e estrutural completo com todas as definições técnicas.</div>
+        </div>
+        <div class="pap-node top" onclick="openPap(6)">
+          <div class="pap-num">7</div>
+          <div class="pap-label">Reunião de<br>Cronograma</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></div>
+          <div class="pap-tooltip"><strong>Reunião de Cronograma</strong><br>Alinhamos prazos e marcos. Você recebe um cronograma com data de entrega garantida.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(7)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M2 20h20M5 20V8l7-5 7 5v12"></path><rect x="9" y="12" width="6" height="8"></rect></svg></div>
+          <div class="pap-label">Início<br>da Obra</div>
+          <div class="pap-num">8</div>
+          <div class="pap-tooltip"><strong>Início da Obra</strong><br>A obra começa! Você acompanha tudo pelo celular enquanto sua vida segue.</div>
+        </div>
+        <div class="pap-node top" onclick="openPap(8)">
+          <div class="pap-num">9</div>
+          <div class="pap-label">Definição de<br>Acabamentos</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg></div>
+          <div class="pap-tooltip"><strong>Definição de Acabamentos</strong><br>Escolha de pisos, revestimentos, metais e louças com apoio do nosso time.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(9)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+          <div class="pap-label">Checklist<br>de Entrega</div>
+          <div class="pap-num">10</div>
+          <div class="pap-tooltip"><strong>Checklist de Entrega</strong><br>Vistoria completa. Cada detalhe é conferido antes da entrega.</div>
+        </div>
+        <div class="pap-node top" onclick="openPap(10)">
+          <div class="pap-num">11</div>
+          <div class="pap-label">Manual do<br>Proprietário</div>
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"></path></svg></div>
+          <div class="pap-tooltip"><strong>Manual do Proprietário</strong><br>Você recebe um manual completo com garantias e orientações de manutenção.</div>
+        </div>
+        <div class="pap-node bottom" onclick="openPap(11)">
+          <div class="pap-circle"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
+          <div class="pap-label">Entrega<br>do Imóvel</div>
+          <div class="pap-num">12</div>
+          <div class="pap-tooltip"><strong>Entrega do Imóvel</strong><br>O grande dia! Entrega das chaves com toda a documentação da sua casa.</div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+    <!-- ============================================================
+    SEÇÃO: POR QUE ESCOLHER iBUILD SÃO CARLOS
+    ============================================================ -->
+    <section class="why-sc" id="porque">
+        <div class="why-sc-inner">
+            <div class="why-sc-header">
+                <p class="why-sc-label reveal">Por que escolher a iBUILD São Carlos</p>
+                <h2 class="why-sc-title reveal reveal-delay-1">CONSTRUIR CO. A GENTE É DIFERENTE</h2>
+            </div>
+            <div class="why-sc-grid">
+                <!-- Card 1 -->
+                <div class="why-sc-card reveal">
+                    <div class="why-sc-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3 class="why-sc-card-title">Light Steel Frame</h3>
+                    <p class="why-sc-card-text">Construção industrializada, mais rápida, limpa e com precisão milimétrica.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="why-sc-card reveal reveal-delay-1">
+                    <div class="why-sc-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <h3 class="why-sc-card-title">Prazo Garantido</h3>
+                    <p class="why-sc-card-text">Cronograma definido antes do início, com data de entrega garantida em contrato.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="why-sc-card reveal reveal-delay-2">
+                    <div class="why-sc-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
+                    <h3 class="why-sc-card-title">Acompanhamento Real</h3>
+                    <p class="why-sc-card-text">Você acompanha cada etapa pelo celular, com relatórios diários e fotos.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="why-sc-card reveal">
+                    <div class="why-sc-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h3 class="why-sc-card-title">Equipe Dedicada</h3>
+                    <p class="why-sc-card-text">Engenheiros, arquitetos e gestores focados exclusivamente no seu projeto.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="why-sc-card reveal reveal-delay-1">
+                    <div class="why-sc-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                    </div>
+                    <h3 class="why-sc-card-title">Orçamento Fechado</h3>
+                    <p class="why-sc-card-text">Valor combinado é o valor final. Sem custos extras ou surpresas.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="why-sc-card reveal reveal-delay-2">
+                    <div class="why-sc-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <h3 class="why-sc-card-title">+42.000 m² Entregues</h3>
+                    <p class="why-sc-card-text">Mais de 11 anos de experiência e milhares de metros quadrados construídos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================================
+    SEÇÃO: CTA FINAL
+    ============================================================ -->
+    <section class="cta-section" id="contato">
+        <div class="cta-bg">
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80" alt="Residência moderna construída em Steel Frame pela iBUILD" loading="lazy">
+        </div>
+        <div class="cta-inner">
+            <p class="cta-label reveal">Vamos conversar</p>
+            <h2 class="cta-title reveal reveal-delay-1">PRONTO PARA CONSTRUIR SEM PREOCUPAÇÕES?</h2>
+            <p class="cta-text reveal reveal-delay-2">
+                Fale com a iBUILD São Carlos e descubra como é construir com tranquilidade. 
+                Sua vida não precisa parar, a gente cuida de tudo.
             </p>
-            <a href="#simulador" class="hero-cta">
-                Iniciar Simulação
+            <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="cta-btn reveal reveal-delay-3">
+                FALE COM NOSSO TIME
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
+            <p class="cta-phone reveal reveal-delay-4">
+                ou ligue para <a href="tel:+5516997634187">(16) 99763-4187</a>
+            </p>
         </div>
     </section>
 
     <!-- ============================================================
-         SEÇÃO DO SIMULADOR
-         ============================================================ -->
-    <section class="sim-section" id="simulador">
-        <div class="sim-inner">
-            <h2 class="section-title">Calculadora por Ambientes</h2>
-            <p class="section-subtitle">Preencha os módulos de cada ambiente e acompanhe a área e o custo em tempo real.</p>
-
-            <div class="aviso-estimativa">
-                <span class="ico">⚠</span>
-                <span><strong>Valor estimativo:</strong> Esta simulação oferece uma aproximação inicial baseada em parâmetros de referência. O orçamento detalhado depende de validação técnica, projeto executivo e condições específicas do terreno.</span>
-            </div>
-
-            <!-- Barra de área em tempo real -->
-            <div class="area-bar" id="areaBar">
-                <div>
-                    <div class="area-bar-label">Área total calculada (soma dos ambientes)</div>
-                    <div class="area-bar-value"><span id="areaBarValor">0,00</span> m²</div>
-                </div>
-                <div class="area-bar-info" id="areaBarInfo">0 ambientes preenchidos</div>
-            </div>
-
-            <div class="sim-grid">
-                <!-- Formulário -->
-                <form id="formSimulador" class="form-card" autocomplete="off">
-
-                    <!-- Etapa 1: Dados globais da obra -->
-                    <div class="form-step">
-                        <div class="step-header">
-                            <div class="step-num">1</div>
-                            <div class="step-title">Dados Globais da Obra</div>
-                        </div>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="areaTerreno">Área do terreno (m²)</label>
-                                <input type="number" id="areaTerreno" min="50" step="0.01" value="450">
-                            </div>
-                            <div class="form-group">
-                                <label for="distancia">Distância Guarulhos → obra (km)</label>
-                                <input type="number" id="distancia" min="0" step="1" value="330">
-                            </div>
-                            <div class="form-group">
-                                <label for="estilo">Estilo arquitetônico</label>
-                                <select id="estilo">
-                                    <option value="Contemporânea">Contemporânea</option>
-                                    <option value="Européia">Européia</option>
-                                    <option value="Neo-Clássica">Neo-Clássica</option>
-                                    <option value="Brasileira" selected>Brasileira</option>
-                                    <option value="Mediterrânea">Mediterrânea</option>
-                                    <option value="Clássica">Clássica</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="pavimentos">Quantidade de pavimentos</label>
-                                <select id="pavimentos">
-                                    <option value="1">1 Pavimento (térrea)</option>
-                                    <option value="2" selected>2 Pavimentos (sobrado/mezanino)</option>
-                                    <option value="3">3 Pavimentos (sobrado + subsolo)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="telha">Tipo de telha (global)</label>
-                                <select id="telha">
-                                    <option value="Termoacústica" selected>Termoacústica</option>
-                                    <option value="Fibrocimento">Fibrocimento</option>
-                                    <option value="Cerâmica">Cerâmica</option>
-                                    <option value="Telha Metálica">Telha Metálica</option>
-                                    <option value="Laje Impermeabilizada">Laje Impermeabilizada</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="piscina">Piscina (m²) <span class="hint">0 = sem piscina</span></label>
-                                <input type="number" id="piscina" min="0" step="0.01" value="0">
-                            </div>
-                            <div class="form-group">
-                                <label for="muro">Muro de divisa (m²/fac)</label>
-                                <input type="number" id="muro" min="0" step="0.01" value="0">
-                            </div>
-                            <div class="form-group">
-                                <label for="gorduraPct">Gorduras/Imprevistos (%)</label>
-                                <input type="number" id="gorduraPct" min="0" step="0.5" value="5">
-                            </div>
-                            <div class="form-group">
-                                <label for="gorduraValor">Gordura/Imprevisto fixo (R$)</label>
-                                <input type="number" id="gorduraValor" min="0" step="100" value="0">
-                            </div>
-                            <div class="form-group full">
-                                <label for="impostosObs">Impostos (observação, não somados)</label>
-                                <input type="text" id="impostosObs" placeholder="Ex: ISS 5%, PIS/COFINS, etc." value="">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Etapa 2: Ambientes -->
-                    <div class="form-step">
-                        <div class="step-header">
-                            <div class="step-num">2</div>
-                            <div class="step-title">Ambientes da Casa</div>
-                        </div>
-                        <p style="font-size:13px;color:var(--gray);margin-bottom:16px">A área da casa é calculada automaticamente pela soma das áreas dos ambientes. Clique em cada ambiente para expandir e configurar os módulos.</p>
-                        <div class="ambientes-lista" id="ambientesLista"></div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="btnReset">↺ Resetar</button>
-                        <button type="button" class="btn btn-primary" id="btnCalcular">Ver Resultado ↓</button>
-                    </div>
-                </form>
-
-                <!-- Painel de resultado -->
-                <div class="result-panel" id="resultado">
-                    <div class="result-card">
-                        <div class="result-hero">
-                            <div class="label">Total Estimado da Obra</div>
-                            <div class="value" id="rTotal">R$ 0,00</div>
-                            <div class="sub" id="rSubtotal">—</div>
-                        </div>
-                        <div class="result-cards">
-                            <div class="result-mini"><div class="mini-label">Área Total</div><div class="mini-value" id="rArea">0 m²</div></div>
-                            <div class="result-mini"><div class="mini-label">Custo/m²</div><div class="mini-value" id="rCustoM2">R$ 0</div></div>
-                            <div class="result-mini"><div class="mini-label">Obra Branca</div><div class="mini-value" id="rObraBranca">R$ 0</div></div>
-                            <div class="result-mini"><div class="mini-label">Acabamentos</div><div class="mini-value" id="rAcabamentos">R$ 0</div></div>
-                        </div>
-
-                        <div class="result-detail">
-                            <h3>Detalhamento Técnico</h3>
-                            <div class="detail-group">
-                                <div class="detail-group-title">Áreas e Paredes</div>
-                                <div class="detail-row"><span class="dr-label">Área total da casa</span><span class="dr-value" id="dAreaTotal">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Área de circulação</span><span class="dr-value" id="dCirculacao">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Área de pisos</span><span class="dr-value" id="dPisos">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Paredes externas (aprox.)</span><span class="dr-value" id="dParedesExt">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Paredes internas (aprox.)</span><span class="dr-value" id="dParedesInt">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Forro</span><span class="dr-value" id="dForro">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Pintura interna</span><span class="dr-value" id="dPinturaInt">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Pintura externa</span><span class="dr-value" id="dPinturaExt">—</span></div>
-                            </div>
-                            <div class="detail-group">
-                                <div class="detail-group-title">Componentes</div>
-                                <div class="detail-row"><span class="dr-label">Esquadrias/vidros</span><span class="dr-value" id="dEsquadrias">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Bancadas/mármores</span><span class="dr-value" id="dBancadas">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Portas</span><span class="dr-value" id="dPortas">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Tomadas / Interruptores / Luzes</span><span class="dr-value" id="dEletrica">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Área de laje (verticalização)</span><span class="dr-value" id="dLaje">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Frete (ida + volta)</span><span class="dr-value" id="dFrete">—</span></div>
-                            </div>
-                            <div class="detail-group">
-                                <div class="detail-group-title">Resumo Financeiro</div>
-                                <div class="detail-row"><span class="dr-label">Obra branca / estrutura</span><span class="dr-value" id="dVObraBranca">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Acabamentos por ambiente</span><span class="dr-value" id="dVAcabamentos">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Itens extras</span><span class="dr-value" id="dVExtras">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Gorduras/Imprevistos</span><span class="dr-value" id="dVGordura">—</span></div>
-                                <div class="detail-row"><span class="dr-label">Prazo estimado</span><span class="dr-value" id="dPrazo">—</span></div>
-                            </div>
-                        </div>
-                        <div class="observacoes">
-                            <strong>Premissas e Exclusões:</strong>
-                            <span id="dObservacoes">Valores de referência sujeitos a validação técnica. Não incluem impostos fora do custo direto, licenciamentos, taxas municipais, terreno, infraestrutura externa (portão, paisagismo, rede pública) salvo itens explicitamente adicionados. Orçamento detalhado requer projeto executivo.</span>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-primary btn-full" id="btnCopiar">📋 Copiar Resumo</button>
-                </div>
-            </div>
-
-            <!-- Tabela resumo de ambientes -->
-            <div style="margin-top:60px">
-                <h3 class="sim-subtitle">Resumo de Ambientes</h3>
-                <p class="section-subtitle">Área parcial de cada ambiente e participação na área total.</p>
-                <div class="amb-tabela-wrap">
-                    <table class="amb-tabela" id="tabelaAmbientes">
-                        <thead>
-                            <tr><th>Ambiente</th><th>Módulos</th><th>Pé-direito</th><th>Acabamento</th><th>Área parcial</th><th>% do total</th></tr>
-                        </thead>
-                        <tbody id="tabelaBody"></tbody>
-                        <tfoot><tr><td colspan="4">Área total da casa</td><td id="tabelaTotal" class="td-area">0,00 m²</td><td>100%</td></tr></tfoot>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Composição visual da área -->
-            <div class="composicao">
-                <h3 class="sim-subtitle">Composição da Área por Ambiente</h3>
-                <p class="section-subtitle">Distribuição visual da metragem entre os ambientes preenchidos.</p>
-                <div class="comp-bar" id="compBar"></div>
-                <div class="comp-legenda" id="compLegenda"></div>
-            </div>
-        </div>
-    </section>
+    CTA FIXO NO RODAPÉ (pulsante, WhatsApp)
+    ============================================================ -->
+    <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="fixed-cta" aria-label="Fale conosco pelo WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+        Fale Conosco
+    </a>
 
     <!-- ============================================================
-         SEÇÃO EXPLICATIVA
-         ============================================================ -->
-    <section class="explicativa" id="explicativa">
-        <div class="sim-inner">
-            <h2 class="section-title">Como o Simulador Funciona</h2>
-            <p class="section-subtitle">A área nasce dos ambientes. O custo reflete a soma de cada espaço.</p>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">1</div>
-                    <h3>Monte os Ambientes</h3>
-                    <p>Para cada ambiente, informe a quantidade de módulos pequenos, médios e grandes, adicione módulos personalizados com largura e comprimento, defina o pé-direito e o acabamento interno.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">2</div>
-                    <h3>Área Automática</h3>
-                    <p>A área da casa é a soma de todas as áreas dos ambientes. O simulador deriva circulação, pisos, paredes, pintura, esquadrias, bancadas, portas e pontos elétricos automaticamente.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">3</div>
-                    <h3>Custo por Acabamento</h3>
-                    <p>Cada ambiente tem seu próprio acabamento (Standard, Premium ou Supreme). O custo final reflete a soma dos ambientes com influência do pé-direito e do estilo arquitetônico global.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================
-         FOOTER (mesmo da home, adaptado)
-         ============================================================ -->
+    FOOTER
+    ============================================================ -->
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-brand">
-                <img src="../assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy" style="filter:brightness(10);">
+                <img src="assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy" style="filter:brightness(10);">
                 <p>
                     Construções inteligentes em Light Steel Frame. 
                     Sua obra chave na mão em São Carlos — da fundação ao acabamento. 
@@ -338,10 +2613,10 @@
             <div class="footer-col">
                 <h3>Navegação</h3>
                 <ul>
-                    <li><a href="../index.html#sobre">Sobre</a></li>
-                    <li><a href="../index.html#projetos">Projetos</a></li>
-                    <li><a href="../index.html#jornada">Jornada</a></li>
-                    <li><a href="../index.html#porque">Por que nós</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#projetos">Projetos</a></li>
+                    <li><a href="#jornada">Jornada</a></li>
+                    <li><a href="#porque">Por que nós</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -349,14 +2624,13 @@
                 <ul>
                     <li><a href="tel:+5516997634187">(16) 99763-4187</a></li>
                     <li><a href="mailto:guilherme.cazu@ibuildconstrutora.com.br">guilherme.cazu@ibuildconstrutora.com.br</a></li>
-                    <li><a href="https://ibuildsaocarlos.com.br" target="_blank">ibuildsaocarlos.com.br</a></li>
+                    <li><a href="https://lo.ibuildsaocarlos.com.br/" target="_blank">ibuildscarlosconstrutora.com.br</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>Endereço</h3>
                 <ul>
                     <li><a href="https://maps.google.com/?q=Rua+Passeio+dos+Ipês,+350,+Torre+Nova+York,+Sala+604,+Parque+Faber+Castell+II,+São+Carlos+-+SP" target="_blank" rel="noopener">
-                        Tríade - São Carlos<br>
                         Rua Passeio dos Ipês, 350<br>
                         Torre Nova York, Sala 604<br>
                         Parque Faber Castell II<br>
@@ -366,7 +2640,9 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p class="footer-copy">&copy; 2026 iBUILD São Carlos. Todos os direitos reservados. · CNPJ: 65.490.999/0001-40</p>
+            <p class="footer-copy">
+                &copy; 2026 iBUILD São Carlos. Todos os direitos reservados. · CNPJ: 65.490.999/0001-40
+            </p>
             <div class="footer-blinks">
                 <a href="#">Política de Privacidade</a>
                 <a href="#">Termos de Uso</a>
@@ -374,11 +2650,415 @@
         </div>
     </footer>
 
-    <!-- Toast de cópia -->
-    <div class="toast" id="toast">Resumo copiado!</div>
+    <!-- ============================================================
+    JAVASCRIPT (leve, apenas para funcionalidades essenciais)
+    ============================================================ -->
+    <script>
+        // --- Loader ---
+        var ld = false;
+        function hideLoader() {
+            if (!ld) {
+                ld = true;
+                var el = document.getElementById('loader');
+                if (el) el.classList.add('hidden');
+            }
+        }
+        setTimeout(hideLoader, 2000);
 
-    <!-- Scripts (mesmo padrão da home: no final do body) -->
-    <script src="assets/js/simulador-dados.js"></script>
-    <script src="assets/js/simulador.js"></script>
+        // --- Nav scroll ---
+        window.addEventListener('scroll', function() {
+            var n = document.getElementById('nav');
+            if (n) n.classList.toggle('scrolled', window.scrollY > 80);
+        }, { passive: true });
+
+        // --- Menu mobile ---
+        function toggleMenu() {
+            var m = document.getElementById('mobileMenu');
+            m.classList.toggle('open');
+            var s = document.getElementById('hamburger').querySelectorAll('span');
+            if (m.classList.contains('open')) {
+                s[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+                s[1].style.opacity = '0';
+                s[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+            } else {
+                s[0].style.transform = '';
+                s[1].style.opacity = '';
+                s[2].style.transform = '';
+            }
+        }
+
+        // --- Scroll Reveal (Intersection Observer) ---
+        var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(en) {
+                if (en.isIntersecting) {
+                    en.target.classList.add('visible');
+                    obs.unobserve(en.target);
+                }
+            });
+        }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal, .reveal-line, .reveal-scale').forEach(function(el) {
+            obs.observe(el);
+        });
+
+        // --- Contadores animados (estatísticas) ---
+        var cObs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(en) {
+                if (en.isIntersecting) {
+                    var el = en.target;
+                    var target = parseInt(el.getAttribute('data-count'));
+                    el.textContent = '0';
+                    var duration = 2500;
+                    var start = performance.now();
+                    function easeOut(x) {
+                        return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+                    }
+                    function update(now) {
+                        var p = Math.min((now - start) / duration, 1);
+                        el.textContent = Math.floor(easeOut(p) * target).toLocaleString('pt-BR');
+                        if (p < 1) requestAnimationFrame(update);
+                    }
+                    requestAnimationFrame(update);
+                    cObs.unobserve(el);
+                }
+            });
+        }, { threshold: .5 });
+
+        document.querySelectorAll('[data-count]').forEach(function(el) {
+            cObs.observe(el);
+        });
+
+        // --- Smooth scroll para links internos ---
+        document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // --- Carrosséis infinitos (clonar conteúdo) ---
+        (function() {
+            function cloneRows() {
+                document.querySelectorAll('.showcase-carousel-row').forEach(function(row) {
+                    if (row.dataset.cloned === 'true') return;
+                    row.innerHTML = row.innerHTML + row.innerHTML;
+                    row.dataset.cloned = 'true';
+                });
+            }
+            function setSpeed() {
+                var isMobile = window.innerWidth <= 768;
+                var speed = isMobile ? 32 : 65;
+                document.querySelectorAll('.showcase-carousel-row').forEach(function(row) {
+                    var halfWidth = row.scrollWidth / 2;
+                    if (halfWidth > 0) {
+                        row.style.animationDuration = (halfWidth / speed) + 's';
+                    }
+                });
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    cloneRows();
+                    requestAnimationFrame(setSpeed);
+                });
+            } else {
+                cloneRows();
+                requestAnimationFrame(setSpeed);
+            }
+            window.addEventListener('load', function() {
+                requestAnimationFrame(setSpeed);
+            });
+            var resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(setSpeed, 200);
+            });
+        })();
+
+        // --- Forçar play do vídeo hero em mobile ---
+        document.addEventListener('DOMContentLoaded', function() {
+            var heroVid = document.getElementById('heroVideo');
+            if (heroVid) {
+                heroVid.play().catch(function() {
+                    // Ignorar erro de autoplay em alguns dispositivos
+                });
+            }
+        });
+    </script>
+
+    <script src="journey-pap.js"></script>
+
+    <!-- iBUILD São Carlos - Botão lateral "Quero Construir sem Dor de Cabeça" com modal e formulário Bitrix24 -->
+<style>
+/* Estilos do botão lateral flutuante */
+#ibuild-side-btn {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 9998;
+    background-color: #c9a227;
+    color: #000000;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    writing-mode: vertical-rl;
+    padding: 18px 12px;
+    border: none;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    transition: background-color 0.25s ease, padding 0.25s ease;
+}
+
+/* Efeito hover do botão lateral */
+#ibuild-side-btn:hover {
+    background-color: #b08e1f;
+    padding: 22px 14px;
+}
+
+/* Overlay do modal */
+#ibuild-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.65);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+/* Estado visível do overlay */
+#ibuild-modal-overlay.ibuild-modal-visible {
+    display: flex;
+    opacity: 1;
+}
+
+/* Container do modal */
+#ibuild-modal-container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 540px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    transform: translateY(40px);
+    opacity: 0;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Animação de entrada do modal (slide-up + fade-in) */
+#ibuild-modal-overlay.ibuild-modal-visible #ibuild-modal-container {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Cabeçalho do modal */
+#ibuild-modal-header {
+    position: sticky;
+    top: 0;
+    background-color: #c9a227;
+    color: #ffffff;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+/* Título do cabeçalho */
+#ibuild-modal-header .ibuild-modal-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Botão de fechar (X) */
+#ibuild-modal-close {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: none;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+/* Hover do botão fechar */
+#ibuild-modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Corpo do modal onde o formulário Bitrix24 é carregado */
+#ibuild-modal-body {
+    padding: 24px 20px;
+    overflow-y: auto;
+    flex: 1 1 auto;
+}
+
+/* Mensagem de carregamento do formulário */
+#ibuild-modal-body .ibuild-loading-msg {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #777777;
+    font-size: 15px;
+    padding: 30px 0;
+}
+
+/* Responsividade - mobile */
+@media (max-width: 480px) {
+    /* Botão com texto menor no mobile */
+    #ibuild-side-btn {
+        font-size: 12px;
+        letter-spacing: 1px;
+        padding: 14px 10px;
+    }
+
+    /* Modal em largura total no mobile */
+    #ibuild-modal-container {
+        max-width: 100%;
+        max-height: 88vh;
+        border-radius: 0;
+    }
+
+    /* Overlay sem padding no mobile */
+    #ibuild-modal-overlay {
+        padding: 0;
+    }
+}
+</style>
+
+<!-- Botão lateral flutuante -->
+<button id="ibuild-side-btn" type="button" aria-label="Quero Construir sem Dor de Cabeça">FAÇA SEU ORÇAMENTO</button>
+
+<!-- Overlay do modal -->
+<div id="ibuild-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="ibuild-modal-title">
+    <!-- Container do modal -->
+    <div id="ibuild-modal-container">
+        <!-- Cabeçalho do modal -->
+        <div id="ibuild-modal-header">
+            <h2 id="ibuild-modal-title" class="ibuild-modal-title">Quero Construir sem Dor de Cabeça</h2>
+            <button id="ibuild-modal-close" type="button" aria-label="Fechar">&times;</button>
+        </div>
+        <!-- Corpo do modal onde o formulário Bitrix24 será carregado -->
+        <div id="ibuild-modal-body">
+            <!-- <div class="ibuild-loading-msg">Carregando formulário...</div>-->
+        </div>
+    </div>
+</div>
+
+<!-- Script de funcionalidade do botão e modal (IIFE para evitar poluir o escopo global) -->
+<script>
+(function () {
+    'use strict';
+
+    // Referências aos elementos do DOM
+    var sideBtn = document.getElementById('ibuild-side-btn');
+    var overlay = document.getElementById('ibuild-modal-overlay');
+    var closeBtn = document.getElementById('ibuild-modal-close');
+    var modalBody = document.getElementById('ibuild-modal-body');
+
+    // Flag para controlar o lazy load do formulário Bitrix24 (carrega apenas uma vez)
+    var formLoaded = false;
+
+    // Função para injetar o script do formulário Bitrix24 no corpo do modal
+    function loadBitrixForm() {
+        // Evita carregar o formulário mais de uma vez
+        if (formLoaded) {
+            return;
+        }
+        formLoaded = true;
+
+        // Cria o elemento script com os mesmos atributos do embed original
+        var script = document.createElement('script');
+        script.setAttribute('data-b24-form', 'inline/344/0rvo59');
+        script.setAttribute('data-skip-moving', 'true');
+
+        // Conteúdo do script (IIFE do loader Bitrix24 - exatamente igual ao embed original)
+        script.text = '(function(w,d,u){' +
+            'var s=d.createElement(\'script\');s.async=true;s.src=u+\'?\'+(Date.now()/180000|0);' +
+            'var h=d.getElementsByTagName(\'script\')[0];h.parentNode.insertBefore(s,h);' +
+            '})(window,document,\'https://cdn.bitrix24.com.br/b15418859/crm/form/loader_344.js\');';
+
+        // Insere o script no corpo do modal para iniciar o carregamento do formulário
+        modalBody.appendChild(script);
+    }
+
+    // Função para abrir o modal
+    function openModal() {
+        // Previne a rolagem do body enquanto o modal estiver aberto
+        document.body.style.overflow = 'hidden';
+        // Exibe o overlay com animação
+        overlay.classList.add('ibuild-modal-visible');
+        // Carrega o formulário Bitrix24 (lazy load - apenas na primeira vez)
+        loadBitrixForm();
+    }
+
+    // Função para fechar o modal
+    function closeModal() {
+        // Remove a classe de visibilidade (dispara animação de saída)
+        overlay.classList.remove('ibuild-modal-visible');
+        // Restaura a rolagem do body
+        document.body.style.overflow = '';
+    }
+
+    // Abre o modal ao clicar no botão lateral
+    sideBtn.addEventListener('click', openModal);
+
+    // Faz o botão do header abrir o mesmo modal do botão flutuante lateral
+var headerBtn = document.getElementById('ibuild-header-btn');
+if (headerBtn) {
+    headerBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal();
+    });
+}
+
+    // Fecha o modal ao clicar no botão de fechar (X)
+    closeBtn.addEventListener('click', closeModal);
+
+    // Fecha o modal ao clicar fora (no overlay, mas não no conteúdo)
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) {
+            closeModal();
+        }
+    });
+
+    // Fecha o modal ao pressionar a tecla ESC
+    document.addEventListener('keydown', function (e) {
+        if ((e.key === 'Escape' || e.keyCode === 27) && overlay.classList.contains('ibuild-modal-visible')) {
+            closeModal();
+        }
+    });
+})();
+</script>
 </body>
 </html>
