@@ -373,5 +373,18 @@
 
     <script src="assets/js/simulador-dados.js"></script>
     <script src="assets/js/simulador.js"></script>
+    <script src="assets/js/simulacao.js"></script>
+    <script>
+            window.onload = function() {
+                // Carrega os parâmetros do JSON no GitHub
+                loadParametros()
+                    .then(() => {
+                        console.log('✅ Parâmetros carregados. Simulador pronto!');
+                    })
+                    .catch(err => {
+                        console.error('❌ Erro ao carregar parâmetros:', err);
+                    });
+            };
+    </script>
 </body>
 </html>
