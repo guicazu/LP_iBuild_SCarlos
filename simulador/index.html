@@ -1,20 +1,3 @@
-<!--
-  hipótese usada sobre o padrão da home:
-  O index principal utiliza CSS embutido no <head>, scripts inline no final do <body> e carrega uma fonte local (Transducer) via @font-face.
-  Para o simulador, adotamos o mesmo modelo: CSS inline (mas organizado em um arquivo separado para facilitar manutenção),
-  @font-face com caminho relativo ao diretório raiz (../fonts/ no HTML) e scripts externos (simulador-dados.js e simulador.js)
-  seguindo o mesmo padrão de inclusão de assets (ordem: head -> body -> scripts).
-
-  Estrutura de arquivos entregue:
-  simulador/
-  ├── index.html
-  └── assets/
-      ├── css/
-      │   └── simulador.css      (mantido, mas adaptado visualmente)
-      └── js/
-          ├── simulador-dados.js
-          └── simulador.js
--->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -23,7 +6,6 @@
     <title>Simulador de Orçamento por Ambientes | iBUILD São Carlos</title>
     <meta name="description" content="Simule o custo da sua casa em Light Steel Frame calculando a metragem a partir dos ambientes.">
 
-    <!-- Fontes Transducer (caminho relativo ao diretório raiz do site) -->
     <style>
         @font-face {
             font-family: 'Transducer';
@@ -51,14 +33,10 @@
         }
     </style>
 
-    <!-- Estilos principais do simulador (adaptados ao padrão da home) -->
     <link rel="stylesheet" href="assets/css/simulador.css">
 </head>
 <body>
 
-    <!-- ============================================================
-         NAVEGAÇÃO (mesmo padrão da home, mas sempre com fundo escuro)
-         ============================================================ -->
     <header class="nav">
         <a href="../index.html" class="nav-logo">
             <img src="../assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy">
@@ -75,9 +53,6 @@
         </a>
     </header>
 
-    <!-- ============================================================
-         HERO SIMPLES (seguindo a tipografia da home)
-         ============================================================ -->
     <section class="sim-hero">
         <div class="sim-hero-content">
             <p class="hero-pretitle">iBUILD São Carlos · Simulador</p>
@@ -92,9 +67,6 @@
         </div>
     </section>
 
-    <!-- ============================================================
-         SEÇÃO DO SIMULADOR
-         ============================================================ -->
     <section class="sim-section" id="simulador">
         <div class="sim-inner">
             <h2 class="section-title">Calculadora por Ambientes</h2>
@@ -105,7 +77,6 @@
                 <span><strong>Valor estimativo:</strong> Esta simulação oferece uma aproximação inicial baseada em parâmetros de referência. O orçamento detalhado depende de validação técnica, projeto executivo e condições específicas do terreno.</span>
             </div>
 
-            <!-- Barra de área em tempo real -->
             <div class="area-bar" id="areaBar">
                 <div>
                     <div class="area-bar-label">Área total calculada (soma dos ambientes)</div>
@@ -115,10 +86,8 @@
             </div>
 
             <div class="sim-grid">
-                <!-- Formulário -->
                 <form id="formSimulador" class="form-card" autocomplete="off">
 
-                    <!-- Etapa 1: Dados globais da obra -->
                     <div class="form-step">
                         <div class="step-header">
                             <div class="step-num">1</div>
@@ -185,13 +154,12 @@
                         </div>
                     </div>
 
-                    <!-- Etapa 2: Ambientes -->
                     <div class="form-step">
                         <div class="step-header">
                             <div class="step-num">2</div>
                             <div class="step-title">Ambientes da Casa</div>
                         </div>
-                        <p style="font-size:13px;color:var(--gray);margin-bottom:16px">A área da casa é calculada automaticamente pela soma das áreas dos ambientes. Clique em cada ambiente para expandir e configurar os módulos.</p>
+                        <p class="step-help">A área da casa é calculada automaticamente pela soma das áreas dos ambientes. Clique em cada ambiente para expandir e configurar os módulos.</p>
                         <div class="ambientes-lista" id="ambientesLista"></div>
                     </div>
 
@@ -201,7 +169,6 @@
                     </div>
                 </form>
 
-                <!-- Painel de resultado -->
                 <div class="result-panel" id="resultado">
                     <div class="result-card">
                         <div class="result-hero">
@@ -256,8 +223,7 @@
                 </div>
             </div>
 
-            <!-- Tabela resumo de ambientes -->
-            <div style="margin-top:60px">
+            <div class="bloco-tabela">
                 <h3 class="sim-subtitle">Resumo de Ambientes</h3>
                 <p class="section-subtitle">Área parcial de cada ambiente e participação na área total.</p>
                 <div class="amb-tabela-wrap">
@@ -271,7 +237,6 @@
                 </div>
             </div>
 
-            <!-- Composição visual da área -->
             <div class="composicao">
                 <h3 class="sim-subtitle">Composição da Área por Ambiente</h3>
                 <p class="section-subtitle">Distribuição visual da metragem entre os ambientes preenchidos.</p>
@@ -281,9 +246,6 @@
         </div>
     </section>
 
-    <!-- ============================================================
-         SEÇÃO EXPLICATIVA
-         ============================================================ -->
     <section class="explicativa" id="explicativa">
         <div class="sim-inner">
             <h2 class="section-title">Como o Simulador Funciona</h2>
@@ -308,29 +270,26 @@
         </div>
     </section>
 
-    <!-- ============================================================
-         FOOTER (mesmo da home, adaptado)
-         ============================================================ -->
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-brand">
-                <img src="../assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy" style="filter:brightness(10);">
+                <img src="../assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy" class="footer-logo">
                 <p>
-                    Construções inteligentes em Light Steel Frame. 
-                    Sua obra chave na mão em São Carlos — da fundação ao acabamento. 
+                    Construções inteligentes em Light Steel Frame.
+                    Sua obra chave na mão em São Carlos — da fundação ao acabamento.
                     Deixa com a gente.
                 </p>
-                <div style="display:flex;gap:12px;margin-top:20px;">
-                    <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="Instagram iBUILD">
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" aria-label="Instagram iBUILD">
                         <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#fff" stroke="none"/></svg>
                     </a>
-                    <a href="https://web.facebook.com/profile.php?id=61580847606903" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="Facebook iBUILD">
+                    <a href="https://web.facebook.com/profile.php?id=61580847606903" target="_blank" aria-label="Facebook iBUILD">
                         <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
                     </a>
-                    <a href="https://www.youtube.com/channel/UC1l4sZJADfljEzfWWwAfVvw" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="YouTube iBUILD">
+                    <a href="https://www.youtube.com/channel/UC1l4sZJADfljEzfWWwAfVvw" target="_blank" aria-label="YouTube iBUILD">
                         <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
                     </a>
-                    <a href="https://wa.me/5516997634187" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="WhatsApp iBUILD São Carlos">
+                    <a href="https://wa.me/5516997634187" target="_blank" aria-label="WhatsApp iBUILD São Carlos">
                         <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
                     </a>
                 </div>
@@ -374,10 +333,8 @@
         </div>
     </footer>
 
-    <!-- Toast de cópia -->
     <div class="toast" id="toast">Resumo copiado!</div>
 
-    <!-- Scripts (mesmo padrão da home: no final do body) -->
     <script src="assets/js/simulador-dados.js"></script>
     <script src="assets/js/simulador.js"></script>
 </body>
