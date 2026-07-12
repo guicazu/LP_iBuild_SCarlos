@@ -37,6 +37,42 @@
 </head>
 <body>
 
+    <!-- MODAL DE PRIMEIRO ACESSO -->
+    <div class="first-access-overlay" id="firstAccessOverlay" style="display:none;">
+        <div class="first-access-modal">
+            <div class="first-access-header">
+                <img src="../assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" class="first-access-logo">
+                <h2>Bem-vindo ao Simulador iBUILD</h2>
+                <p>Preencha seus dados para liberar a simulação. Utilizaremos essas informações para entrar em contato sobre o resultado.</p>
+            </div>
+            <form id="firstAccessForm">
+                <div class="first-access-field">
+                    <label for="faNome">Nome *</label>
+                    <input type="text" id="faNome" placeholder="Seu nome completo" required>
+                </div>
+                <div class="first-access-field">
+                    <label for="faTelefone">Telefone *</label>
+                    <input type="tel" id="faTelefone" placeholder="(16) 99999-9999" required>
+                </div>
+                <div class="first-access-field">
+                    <label for="faEmail">E-mail *</label>
+                    <input type="email" id="faEmail" placeholder="seu@email.com" required>
+                </div>
+                <div class="first-access-field first-access-checkbox">
+                    <label>
+                        <input type="checkbox" id="faConsent" required>
+                        <span>Autorizo o contato para informações sobre a simulação e novidades da iBUILD.</span>
+                    </label>
+                </div>
+                <div class="first-access-actions">
+                    <button type="submit" class="btn btn-primary" id="faSubmit">Continuar</button>
+                </div>
+                <div class="first-access-error" id="faError" style="display:none;">Preencha todos os campos corretamente e aceite o contato.</div>
+            </form>
+        </div>
+    </div>
+    <!-- FIM MODAL -->
+
     <header class="nav">
         <a href="../index.html" class="nav-logo">
             <img src="../assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy">
