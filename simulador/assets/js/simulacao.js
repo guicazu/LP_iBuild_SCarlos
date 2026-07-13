@@ -5,7 +5,7 @@
  * do GitHub e envia o resultado para um webhook n8n.
  */
 
-const PARAMETROS_URL = 'https://raw.githubusercontent.com/guicazu/guicazu.github.io/main/data/parametros.json';
+const PARAMETROS_URL = 'https://raw.githubusercontent.com/guicazu/LP_iBuild_SCarlos/main/data/parametros.json';
 const CLIENTES_URL   = 'https://raw.githubusercontent.com/guicazu/guicazu.github.io/main/data/clientes.json';
 const SIMULACOES_URL = 'https://raw.githubusercontent.com/guicazu/guicazu.github.io/main/data/simulacoes.json';
 
