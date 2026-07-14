@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iBUILD — Modelagem da Casa (LSF)</title>
+    <title>iBUILD — Simulador SOE | Modelagem da Casa</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -23,13 +23,19 @@
         .header p { font-size: 13px; opacity: .8; margin-top: 2px; }
         .container { max-width: 820px; margin: 0 auto; padding: 20px 16px 60px; }
 
-        .steps { display: flex; justify-content: center; gap: 4px; margin-bottom: 24px; flex-wrap: wrap; }
-        .steps .s { display: flex; align-items: center; gap: 4px; }
+        .steps {
+            display: flex; justify-content: center; gap: 4px;
+            margin-bottom: 24px; flex-wrap: wrap;
+        }
+        .steps .s {
+            display: flex; align-items: center; gap: 4px;
+        }
         .steps .s .dot {
             width: 32px; height: 32px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-size: 13px; font-weight: 600;
-            border: 2px solid #d1d5db; color: #9ca3af; background: #fff; transition: .3s;
+            border: 2px solid #d1d5db; color: #9ca3af; background: #fff;
+            transition: .3s;
         }
         .steps .s .dot.act { border-color: #0f3460; background: #0f3460; color: #fff; }
         .steps .s .dot.done { border-color: #10b981; background: #10b981; color: #fff; }
@@ -46,11 +52,14 @@
             margin-bottom: 18px; display: none;
         }
         .card.on { display: block; animation: f .35s ease; }
-        @keyframes f { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes f { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .card h2 { font-size: 19px; font-weight: 700; margin-bottom: 2px; }
         .card .sub { font-size: 13px; color: #6b7280; margin-bottom: 20px; }
 
-        .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-bottom: 18px; }
+        .opts {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px; margin-bottom: 18px;
+        }
         .opt {
             border: 2px solid #e5e7eb; border-radius: 12px; padding: 14px 12px;
             text-align: center; cursor: pointer; transition: .2s;
@@ -81,27 +90,46 @@
         }
         .btn-pri { background: #0f3460; color: #fff; }
         .btn-pri:hover { background: #1a1a2e; transform: translateY(-1px); }
+        .btn-pri:disabled { background: #93a3b8; cursor: default; transform: none; }
         .btn-sec { background: #f3f4f6; color: #374151; }
         .btn-sec:hover { background: #e5e7eb; }
         .btn-suc { background: #10b981; color: #fff; }
         .btn-suc:hover { background: #059669; transform: translateY(-1px); }
         .btn-out { background: transparent; color: #0f3460; border: 1.5px solid #0f3460; }
         .btn-out:hover { background: #f0f4ff; }
+        .btn-dan { background: transparent; color: #e94560; border: 1.5px solid #e94560; }
+        .btn-dan:hover { background: #fef2f2; }
 
-        .amb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin: 12px 0; }
-        .amb-card { border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 12px 14px; cursor: pointer; transition: .2s; }
+        .amb-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px; margin: 12px 0;
+        }
+        .amb-card {
+            border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 12px 14px;
+            cursor: pointer; transition: .2s;
+        }
         .amb-card:hover { border-color: #93a3b8; }
         .amb-card.pick { border-color: #0f3460; background: #f0f4ff; }
         .amb-card .aname { font-weight: 600; font-size: 14px; }
         .amb-card .asize { font-size: 12px; color: #6b7280; margin-top: 2px; }
         .amb-card .acheck { float: right; font-size: 18px; }
 
-        .modal-over { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-over {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45);
+            z-index: 1000; align-items: center; justify-content: center;
+        }
         .modal-over.on { display: flex; }
-        .modal { background: #fff; border-radius: 16px; padding: 28px; max-width: 480px; width: 90%; max-height: 90vh; overflow-y: auto; }
+        .modal {
+            background: #fff; border-radius: 16px; padding: 28px; max-width: 480px;
+            width: 90%; max-height: 90vh; overflow-y: auto;
+        }
         .modal h3 { font-size: 18px; margin-bottom: 14px; }
 
-        .result-card { background: linear-gradient(135deg, #0f3460, #1a1a2e); color: #fff; border-radius: 14px; padding: 24px; margin-bottom: 16px; }
+        .result-card {
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            color: #fff; border-radius: 14px; padding: 24px; margin-bottom: 16px;
+        }
+        .result-card .big { font-size: 28px; font-weight: 800; color: #fbbf24; }
         .result-card .label { font-size: 12px; opacity: .75; text-transform: uppercase; letter-spacing: .5px; }
         .r-table { width: 100%; border-collapse: separate; border-spacing: 0 5px; margin-top: 10px; }
         .r-table th { text-align: left; padding: 8px 12px; font-size: 11px; text-transform: uppercase; opacity: .7; }
@@ -109,21 +137,22 @@
         .r-table td:last-child { text-align: right; font-weight: 600; }
         .r-table .gold { color: #fbbf24; font-size: 18px; font-weight: 700; }
 
-        .info-box { background: #f0f4ff; border-left: 4px solid #0f3460; padding: 12px 14px; border-radius: 0 8px 8px 0; font-size: 13px; color: #374151; margin-top: 14px; }
+        .info-box {
+            background: #f0f4ff; border-left: 4px solid #0f3460;
+            padding: 12px 14px; border-radius: 0 8px 8px 0;
+            font-size: 13px; color: #374151; margin-top: 14px;
+        }
         .info-box strong { color: #0f3460; }
 
-        .bar-total { background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 8px; }
+        .bar-total {
+            background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px;
+            padding: 16px 18px; display: flex; justify-content: space-between;
+            align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 8px;
+        }
         .bar-total .valor { font-size: 24px; font-weight: 800; color: #059669; }
 
-        .cliente-badge {
-            background: #f0f4ff; border-radius: 10px; padding: 12px 16px;
-            font-size: 13px; color: #374151; margin-bottom: 16px;
-            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-        }
-        .cliente-badge strong { color: #0f3460; }
-
         @media print {
-            .header, .steps, .btn-group, .cliente-badge, .no-print { display: none !important; }
+            .header, .steps, .btn-group, .no-print { display: none !important; }
             .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
             .result-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
@@ -133,7 +162,7 @@
 
 
     <h1>🏗️ iBUILD São Carlos</h1>
-    Modelagem da Casa — Orçamento Express Light Steel Frame
+    Simulador de Orçamento Express — Modelagem da Casa
 
 
 
@@ -143,14 +172,12 @@
 
 
     
+    
 
 
 
     
     
-        👤 Carregando dados do cliente...
-
-
         <h2>🏛️ Estilo Arquitetônico</h2>
         Qual estilo mais combina com você e sua família?
 
@@ -159,7 +186,6 @@
 
 
         
-            <button class="btn btn-sec" onclick="voltarInicio()">← Voltar ao Início</button>
             <button class="btn btn-pri" onclick="avancar(1)">Avançar →</button>
         
 
@@ -215,7 +241,9 @@
         
 
 
-        💡 O padrão **Supreme** inclui estrutura em aço galvanizado, lã de PET/Rocha, membrana hidrófuga, placas cimentícias, tratamento de juntas e acabamento.
+        
+            💡 O padrão **Supreme** inclui estrutura em aço galvanizado, lã de PET/Rocha, membrana hidrófuga, placas cimentícias, tratamento de juntas e acabamento.
+        
 
 
         
@@ -307,22 +335,36 @@
     
         <h3>📐 Ambiente</h3>
         
-            <label>Largura (m)</label><input type="number" id="modalLarg" step="0.01" min="0" oninput="calcModalArea()">
+            
+                <label>Largura (m)</label>
+                <input type="number" id="modalLarg" step="0.01" min="0" oninput="calcModalArea()">
+            
 
 
-            <label>Comprimento (m)</label><input type="number" id="modalComp" step="0.01" min="0" oninput="calcModalArea()">
+            
+                <label>Comprimento (m)</label>
+                <input type="number" id="modalComp" step="0.01" min="0" oninput="calcModalArea()">
+            
 
 
-            <label>Altura (m)</label><input type="number" id="modalAlt" step="0.01" min="0" value="3.0">
+            
+                <label>Altura (m)</label>
+                <input type="number" id="modalAlt" step="0.01" min="0" value="3.0">
+            
 
 
         
 
 
-        Área: **0,00** m²  |  Perímetro: **0,00** m
+        
+            Área: **0,00** m²  |  Perímetro: **0,00** m
+        
 
 
-        <label>Quantidade deste ambiente</label><input type="number" id="modalQtd" min="0" step="1" value="1">
+        
+            <label>Quantidade deste ambiente</label>
+            <input type="number" id="modalQtd" min="0" step="1" value="1">
+        
 
 
         
@@ -339,399 +381,531 @@
 
 
 <script>
-    const ESTILOS = [
-        { id:'minimalista', nome:'Minimalista', ico:'◻️', desc:'Linhas retas, simplicidade' },
-        { id:'americano', nome:'Americano', ico:'🏡', desc:'Estilo colonial moderno' },
-        { id:'contemporanea', nome:'Contemporânea', ico:'🏢', desc:'Design atual e sofisticado' },
-        { id:'europeia', nome:'Européia', ico:'🏰', desc:'Inspiração europeia clássica' },
-        { id:'neoclassica', nome:'Neo-Clássica', ico:'🏛️', desc:'Clássico revisitado' },
-        { id:'brasileira', nome:'Brasileira', ico:'🌴', desc:'Arquitetura tropical' },
-        { id:'classica', nome:'Clássica', ico:'✨', desc:'Tradicional e elegante' },
-        { id:'mediterranea', nome:'Mediterrânea', ico:'🌊', desc:'Aconchegante e rústica' },
-    ];
-    const PAVIMENTOS = [
-        { id:'1', nome:'1 Pavimento (Térrea)', ico:'🏠', desc:'Casa térrea, tudo no mesmo nível' },
-        { id:'2', nome:'2 Pavimentos (Sobrado)', ico:'🏘️', desc:'Sobrado ou mezanino' },
-        { id:'3', nome:'3 Pavimentos', ico:'🏙️', desc:'Sobrado + subsolo/porão' },
-    ];
-    const TELHAS = [
-        { id:'termoacustica', nome:'Termoacústica', ico:'🛡️', desc:'Máximo conforto térmico e acústico' },
-        { id:'fibrocimento', nome:'Fibrocimento', ico:'📋', desc:'Custo-benefício tradicional' },
-        { id:'ceramica', nome:'Cerâmica', ico:'🏺', desc:'Telha cerâmica clássica' },
-        { id:'metalica', nome:'Telha Metálica', ico:'⚙️', desc:'Leve e durável' },
-        { id:'laje', nome:'Laje Impermeabilizada', ico:'🏗️', desc:'Cobertura plana com laje' },
-    ];
-    const PAREDES = [
-        { id:'standard', nome:'Standard', ico:'📐', desc:'Acabamento básico' },
-        { id:'premium', nome:'Premium', ico:'⭐', desc:'Acabamento intermediário' },
-        { id:'supreme', nome:'Supreme', ico:'👑', desc:'Máxima qualidade' },
-    ];
-    const AMBIENTES_DEFAULT = [
-        { id:'garagem', nome:'Garagem', larg:6.0, comp:4.0, alt:3.0, qtd:1, ico:'🚗' },
-        { id:'sala_estar', nome:'Sala Estar/Jantar', larg:6.6, comp:5.1, alt:3.0, qtd:1, ico:'🛋️' },
-        { id:'sala_tv', nome:'Sala TV', larg:3.6, comp:3.36, alt:3.0, qtd:1, ico:'📺' },
-        { id:'lavabo', nome:'Lavabo', larg:2.0, comp:1.2, alt:3.0, qtd:1, ico:'🚻' },
-        { id:'cozinha_gourmet', nome:'Cozinha/Gourmet', larg:4.6, comp:6.0, alt:3.0, qtd:1, ico:'🍳' },
-        { id:'despensa', nome:'Despensa', larg:3.5, comp:1.2, alt:3.0, qtd:1, ico:'📦' },
-        { id:'area_servico', nome:'Área de Serviço', larg:2.3, comp:1.5, alt:3.0, qtd:1, ico:'🧺' },
-        { id:'quartos', nome:'Quartos', larg:3.4, comp:3.0, alt:3.0, qtd:3, ico:'🛏️' },
-        { id:'closet', nome:'Closet', larg:1.9, comp:1.6, alt:3.0, qtd:1, ico:'👔' },
-        { id:'banheiro', nome:'Banheiros', larg:2.9, comp:1.2, alt:3.0, qtd:4, ico:'🚿' },
-        { id:'escritorio', nome:'Escritório', larg:3.0, comp:2.6, alt:3.0, qtd:0, ico:'💼' },
-        { id:'deposito', nome:'Depósito', larg:2.5, comp:1.5, alt:3.0, qtd:1, ico:'🗄️' },
-    ];
-    const ITENS_EXTRAS = [
-        { id:'piscina', nome:'Piscina', ico:'🏊', un:'m²', preco:2500, temDimensao:true },
-        { id:'muro', nome:'Fechamento Terreno', ico:'🧱', un:'m²', preco:279.45, temDimensao:true },
-        { id:'terraplenagem', nome:'Terraplenagem', ico:'🚜', un:'vb', preco:50000, temDimensao:false },
-        { id:'fund_prof', nome:'Fundações Profundas', ico:'⛰️', un:'vb', preco:0, temDimensao:false },
-    ];
-    const PRECOS_M2 = { Standard:4000, Premium:5000, Supreme:6000 };
-    const STEPS = ['Estilo', 'Pavimentos', 'Telha', 'Paredes', 'Ambientes', 'Extras', 'Proposta'];
-    const STEP_ICONS = ['🏛️', '📐', '🏠', '🧱', '📏', '➕', '📊'];
+// ========== DADOS DA PLANILHA ==========
 
-    const state = { estilo:null, pavimento:null, telha:null, parede:null, ambientes:JSON.parse(JSON.stringify(AMBIENTES_DEFAULT)), extras:{}, step:1, cliente:null };
-    let modalAmbId = null;
+const ESTILOS = [
+    { id: 'minimalista',  nome: 'Minimalista',      ico: '◻️', desc: 'Linhas retas, simplicidade' },
+    { id: 'americano',    nome: 'Americano',        ico: '🏡', desc: 'Estilo colonial moderno' },
+    { id: 'contemporanea',nome: 'Contemporânea',    ico: '🏢', desc: 'Design atual e sofisticado' },
+    { id: 'europeia',     nome: 'Européia',         ico: '🏰', desc: 'Inspiração europeia clássica' },
+    { id: 'neoclassica',  nome: 'Neo-Clássica',     ico: '🏛️', desc: 'Clássico revisitado' },
+    { id: 'brasileira',   nome: 'Brasileira',       ico: '🌴', desc: 'Arquitetura tropical' },
+    { id: 'classica',     nome: 'Clássica',         ico: '✨', desc: 'Tradicional e elegante' },
+    { id: 'mediterranea', nome: 'Mediterrânea',     ico: '🌊', desc: 'Aconchegante e rústica' },
+];
 
-    // === Carregar cliente do localStorage ===
-    function carregarCliente() {
-        try {
-            const raw = localStorage.getItem('ibuild_cliente_atual');
-            if (raw) {
-                state.cliente = JSON.parse(raw);
-                const badge = document.getElementById('clienteBadge');
-                if (state.cliente.nome) {
-                    badge.innerHTML = `👤 **${state.cliente.nome}** · ${state.cliente.cidade||''}, ${state.cliente.estado||''} ${state.cliente.totalDisponivel ? '· Potencial: '+fmt(state.cliente.totalDisponivel) : ''}`;
-                }
-            }
-        } catch(e) {}
-    }
+const PAVIMENTOS = [
+    { id: '1', nome: '1 Pavimento (Térrea)', ico: '🏠', desc: 'Casa térrea, tudo no mesmo nível' },
+    { id: '2', nome: '2 Pavimentos (Sobrado)', ico: '🏘️', desc: 'Sobrado ou mezanino' },
+    { id: '3', nome: '3 Pavimentos', ico: '🏙️', desc: 'Sobrado + subsolo/porão' },
+];
 
-    // === Stepper ===
-    function initStepper() {
-        const el = document.getElementById('stepper');
-        el.innerHTML = '';
-        STEPS.forEach((nome, i) => {
-            const n = i+1;
-            const div = document.createElement('div'); div.className = 's';
-            div.innerHTML = `${STEP_ICONS[i]}
+const TELHAS = [
+    { id: 'termoacustica',  nome: 'Termoacústica',         ico: '🛡️', desc: 'Máximo conforto térmico e acústico' },
+    { id: 'fibrocimento',   nome: 'Fibrocimento',          ico: '📋', desc: 'Custo-benefício tradicional' },
+    { id: 'ceramica',       nome: 'Cerâmica',              ico: '🏺', desc: 'Telha cerâmica clássica' },
+    { id: 'metalica',       nome: 'Telha Metálica',        ico: '⚙️', desc: 'Leve e durável' },
+    { id: 'laje',           nome: 'Laje Impermeabilizada', ico: '🏗️', desc: 'Cobertura plana com laje' },
+];
 
-${nome}`;
-            el.appendChild(div);
-            if (i < STEPS.length-1) { const cn = document.createElement('div'); cn.className = 'cn'; cn.id='cn'+n; el.appendChild(cn); }
-        });
-    }
+const PAREDES = [
+    { id: 'standard', nome: 'Standard', ico: '📐', desc: 'Acabamento básico', custoAdicional: 0 },
+    { id: 'premium',  nome: 'Premium',  ico: '⭐', desc: 'Acabamento intermediário', custoAdicional: 0 },
+    { id: 'supreme',  nome: 'Supreme',  ico: '👑', desc: 'Máxima qualidade — estrutura, lã, placa cimentícia, tratamento e acabamento', custoAdicional: 0 },
+];
 
-    function renderOptions(containerId, items, selectedId, onClick) {
-        const el = document.getElementById(containerId);
-        el.innerHTML = '';
-        items.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'opt' + (item.id === selectedId ? ' pick' : '');
-            div.innerHTML = `${item.ico}
+// Ambientes com medidas DEFAULT da planilha (resumo)
+const AMBIENTES_DEFAULT = [
+    { id: 'garagem',         nome: 'Garagem',             larg: 6.0, comp: 4.0, alt: 3.0, qtd: 1, ico: '🚗' },
+    { id: 'sala_estar',      nome: 'Sala Estar / Jantar', larg: 6.6, comp: 5.1, alt: 3.0, qtd: 1, ico: '🛋️' },
+    { id: 'sala_tv',         nome: 'Sala TV / Home Theater', larg: 3.6, comp: 3.36, alt: 3.0, qtd: 1, ico: '📺' },
+    { id: 'lavabo',          nome: 'Lavabo',              larg: 2.0, comp: 1.2, alt: 3.0, qtd: 1, ico: '🚻' },
+    { id: 'cozinha_gourmet', nome: 'Cozinha / Gourmet',   larg: 4.6, comp: 6.0, alt: 3.0, qtd: 1, ico: '🍳' },
+    { id: 'despensa',        nome: 'Despensa',            larg: 3.5, comp: 1.2, alt: 3.0, qtd: 1, ico: '📦' },
+    { id: 'area_servico',    nome: 'Área de Serviço',     larg: 2.3, comp: 1.5, alt: 3.0, qtd: 1, ico: '🧺' },
+    { id: 'quartos',         nome: 'Quartos',             larg: 3.4, comp: 3.0, alt: 3.0, qtd: 3, ico: '🛏️' },
+    { id: 'closet',          nome: 'Closet',              larg: 1.9, comp: 1.6, alt: 3.0, qtd: 1, ico: '👔' },
+    { id: 'banheiro',        nome: 'Banheiros',           larg: 2.9, comp: 1.2, alt: 3.0, qtd: 4, ico: '🚿' },
+    { id: 'escritorio',      nome: 'Escritório / Quarto', larg: 3.0, comp: 2.6, alt: 3.0, qtd: 0, ico: '💼' },
+    { id: 'deposito',        nome: 'Depósito',            larg: 2.5, comp: 1.5, alt: 3.0, qtd: 1, ico: '🗄️' },
+];
 
-${item.nome}
+const ITENS_EXTRAS = [
+    { id: 'piscina',      nome: 'Piscina',              ico: '🏊', un: 'm²', preco: 2500,      temDimensao: true },
+    { id: 'muro',         nome: 'Fechamento Terreno',   ico: '🧱', un: 'm²', preco: 279.45,   temDimensao: true },
+    { id: 'terraplenagem',nome: 'Terraplenagem',        ico: '🚜', un: 'vb', preco: 50000,    temDimensao: false },
+    { id: 'fund_prof',    nome: 'Fundações Profundas',  ico: '⛰️', un: 'vb', preco: 0,        temDimensao: false },
+];
 
-${item.desc||''}
+// Preços por padrão de acabamento (da planilha)
+const PRECOS_M2 = { Standard: 4000, Premium: 5000, Supreme: 6000 };
 
-`;
-            div.onclick = () => onClick(item.id);
-            el.appendChild(div);
-        });
-    }
+// ========== ESTADO ==========
+const state = {
+    estilo: null,
+    pavimento: null,
+    telha: null,
+    parede: null,
+    ambientes: JSON.parse(JSON.stringify(AMBIENTES_DEFAULT)),
+    extras: {},
+    step: 1,
+};
 
-    function renderAmbientes() {
-        const grid = document.getElementById('ambGrid');
-        grid.innerHTML = '';
-        let total = 0;
-        state.ambientes.forEach(amb => {
-            const area = amb.larg * amb.comp;
-            const aTotal = area * amb.qtd;
-            total += aTotal;
-            const div = document.createElement('div');
-            div.className = 'amb-card';
-            div.innerHTML = `✏️
+// ========== INIT ==========
+const STEPS = ['Estilo', 'Pavimentos', 'Telha', 'Paredes', 'Ambientes', 'Extras', 'Proposta'];
+const STEP_ICONS = ['🏛️', '📐', '🏠', '🧱', '📏', '➕', '📊'];
 
-${amb.ico} ${amb.nome}
-
-${area.toFixed(2)} m² ${amb.qtd>1?'× '+amb.qtd:''}
-
-${aTotal.toFixed(2)} m² total
-
-`;
-            div.onclick = () => abrirModal(amb.id);
-            grid.appendChild(div);
-        });
-        document.getElementById('areaTotalDisplay').textContent = total.toFixed(2);
-        document.getElementById('areaTotalValor').textContent = total.toFixed(2)+' m²';
-    }
-
-    function renderExtras() {
-        const el = document.getElementById('extrasContainer');
-        el.innerHTML = '';
-        let total = 0;
-        ITENS_EXTRAS.forEach(item => {
-            const key = item.id, ext = state.extras[key]||{}, checked = ext.ativo||false;
-            const dim = ext.dimensao||0, val = ext.valor||0;
-            let custo = 0, detalhe = '';
-            if (checked) {
-                if (item.temDimensao && dim > 0) { custo = dim * item.preco; detalhe = `${dim.toFixed(2)} ${item.un} × ${fmt(item.preco)}`; }
-                else if (!item.temDimensao) { custo = val; detalhe = fmt(val); }
-            }
-            total += custo;
-            const div = document.createElement('div');
-            div.style.cssText = 'border:1.5px solid #e5e7eb;border-radius:10px;padding:14px;margin-bottom:8px;';
-            div.innerHTML = `
-                
-                    
-                        <input type="checkbox" id="ex${key}" ${checked?'checked':''} onchange="toggleExtra('${key}')" style="width:18px;height:18px;accent-color:#0f3460;">
-                        <label for="ex${key}" style="font-weight:600;font-size:14px;cursor:pointer;">${item.ico} ${item.nome}</label>
-                    
+function initStepper() {
+    const el = document.getElementById('stepper');
+    el.innerHTML = '';
+    STEPS.forEach((nome, i) => {
+        const n = i + 1;
+        const div = document.createElement('div');
+        div.className = 's';
+        div.innerHTML = `${STEP_ICONS[i]}
 
 
-                    ${item.temDimensao?'R$ '+fmt(item.preco)+'/'+item.un:'R$ '+fmt(item.preco)}
-
-
-                
-
-
-                
-                    ${item.temDimensao ? `
-                        
-                            Dimensão (${item.un}):
-                            <input type="number" id="exDim${key}" value="${dim||''}" min="0" step="0.1" style="width:100px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;font-size:14px;" onchange="calcExtra('${key}')">
-                            = ${fmt(custo)}
-                        
-
-
-                    ` : `
-                        
-                            Valor (R$):
-                            <input type="number" id="exVal${key}" value="${val||''}" min="0" step="100" style="width:120px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;font-size:14px;" onchange="calcExtra('${key}')">
-                            = ${fmt(custo)}
-                        
-
-
-                    `}
-                
-
-`;
-            el.appendChild(div);
-        });
-        document.getElementById('totalExtras').textContent = fmt(total);
-    }
-
-    function toggleExtra(key) {
-        const chk = document.getElementById('ex'+key);
-        if (!state.extras[key]) state.extras[key] = {};
-        state.extras[key].ativo = chk.checked;
-        renderExtras();
-    }
-
-    function calcExtra(key) {
-        const item = ITENS_EXTRAS.find(i=>i.id===key);
-        if (!state.extras[key]) state.extras[key] = { ativo:true };
-        if (item.temDimensao) state.extras[key].dimensao = parseFloat(document.getElementById('exDim'+key).value)||0;
-        else state.extras[key].valor = parseFloat(document.getElementById('exVal'+key).value)||0;
-        renderExtras();
-    }
-
-    // === Navegação ===
-    function atualizarSteps(step) {
-        state.step = step;
-        for (let i = 1; i <= STEPS.length; i++) {
-            const dot = document.getElementById('dot'+i), lbl = document.getElementById('lbl'+i), cn = document.getElementById('cn'+i);
-            if (!dot) continue;
-            dot.className = 'dot'; if(lbl) lbl.className = 'lbl'; if(cn) cn.className = 'cn';
-            if (i < step) { dot.classList.add('done'); if(lbl) lbl.classList.add('done'); if(cn) cn.classList.add('done'); }
-            else if (i === step) { dot.classList.add('act'); if(lbl) lbl.classList.add('act'); }
+            ${nome}`;
+        el.appendChild(div);
+        if (i < STEPS.length - 1) {
+            const cn = document.createElement('div');
+            cn.className = 'cn';
+            cn.id = 'cn'+n;
+            el.appendChild(cn);
         }
-        for (let i = 1; i <= STEPS.length; i++) {
-            const card = document.getElementById('s'+i);
-            if (card) card.className = 'card' + (i === step ? ' on' : '');
-        }
-        document.getElementById('stepper').scrollIntoView({ behavior:'smooth', block:'start' });
-    }
+    });
+}
 
-    function avancar(from) {
-        if (from===1 && !state.estilo) { alert('Selecione um estilo arquitetônico.'); return; }
-        if (from===2 && !state.pavimento) { alert('Selecione a quantidade de pavimentos.'); return; }
-        if (from===3 && !state.telha) { alert('Selecione o tipo de telha.'); return; }
-        if (from===4 && !state.parede) { alert('Selecione o padrão de paredes.'); return; }
-        if (from===5) { const t=calcAreaTotal(); if(t<=0) { alert('Adicione pelo menos um ambiente.'); return; } }
-        atualizarSteps(from+1);
-    }
+function renderOptions(containerId, items, selectedId, onClick) {
+    const el = document.getElementById(containerId);
+    el.innerHTML = '';
+    items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'opt' + (item.id === selectedId ? ' pick' : '');
+        div.innerHTML = `${item.ico}
 
-    function voltar(para) { atualizarSteps(para); }
 
-    function voltarInicio() {
-        if (confirm('Voltar ao início? Os dados desta modelagem serão perdidos.')) window.location.href = '/simulador1';
-    }
+            ${item.nome}
 
-    // === Modal ===
-    function abrirModal(id) {
-        modalAmbId = id;
-        const amb = state.ambientes.find(a=>a.id===id);
-        if (!amb) return;
-        document.getElementById('modalAmbNome').textContent = amb.ico+' '+amb.nome;
-        document.getElementById('modalLarg').value = amb.larg;
-        document.getElementById('modalComp').value = amb.comp;
-        document.getElementById('modalAlt').value = amb.alt;
-        document.getElementById('modalQtd').value = amb.qtd;
-        calcModalArea();
-        document.getElementById('modalAmb').classList.add('on');
-    }
 
-    function calcModalArea() {
-        const l=parseFloat(document.getElementById('modalLarg').value)||0, c=parseFloat(document.getElementById('modalComp').value)||0;
-        document.getElementById('modalArea').textContent = (l*c).toFixed(2);
-        document.getElementById('modalPerim').textContent = (2*(l+c)).toFixed(2);
-    }
+            ${item.desc || ''}
 
-    function salvarModal() {
-        const amb = state.ambientes.find(a=>a.id===modalAmbId);
-        if (!amb) return;
-        amb.larg = parseFloat(document.getElementById('modalLarg').value)||0;
-        amb.comp = parseFloat(document.getElementById('modalComp').value)||0;
-        amb.alt = parseFloat(document.getElementById('modalAlt').value)||3;
-        amb.qtd = parseInt(document.getElementById('modalQtd').value)||1;
-        fecharModal();
-        renderAmbientes();
-    }
+`;
+        div.onclick = () => onClick(item.id);
+        el.appendChild(div);
+    });
+}
 
-    function fecharModal() { document.getElementById('modalAmb').classList.remove('on'); modalAmbId=null; }
+function renderAmbientes() {
+    const grid = document.getElementById('ambGrid');
+    grid.innerHTML = '';
+    let total = 0;
+    state.ambientes.forEach(amb => {
+        const area = amb.larg * amb.comp;
+        const areaTotal = area * amb.qtd;
+        total += areaTotal;
+        const div = document.createElement('div');
+        div.className = 'amb-card';
+        div.innerHTML = `✏️
 
-    function calcAreaTotal() { return state.ambientes.reduce((acc,a)=>acc+(a.larg*a.comp*a.qtd),0); }
 
-    // === Proposta ===
-    function gerarProposta() {
-        const areaTotal = calcAreaTotal();
-        if (areaTotal <= 0) { alert('Configure os ambientes.'); return; }
-        const mapa = { standard:'Standard', premium:'Premium', supreme:'Supreme' };
-        const padrao = mapa[state.parede]||'Standard';
-        const precoM2 = PRECOS_M2[padrao];
-        const custoOB = areaTotal * 3138.99;
-        const custoAcab = areaTotal * 1463.70;
-        let totalExtras = 0, extrasD = [];
-        ITENS_EXTRAS.forEach(item => {
-            const ext = state.extras[item.id];
-            if (ext?.ativo) {
-                let v = 0;
-                if (item.temDimensao && ext.dimensao > 0) { v = ext.dimensao * item.preco; extrasD.push(`${item.ico} ${item.nome}: ${ext.dimensao.toFixed(2)} ${item.un} × ${fmt(item.preco)} = ${fmt(v)}`); }
-                else if (!item.temDimensao && ext.valor > 0) { v = ext.valor; extrasD.push(`${item.ico} ${item.nome}: ${fmt(v)}`); }
-                totalExtras += v;
+            ${amb.ico} ${amb.nome}
+
+
+            ${area.toFixed(2)} m² ${amb.qtd > 1 ? '× '+amb.qtd : ''}
+
+
+            ${areaTotal.toFixed(2)} m² total
+
+`;
+        div.onclick = () => abrirModal(amb.id);
+        grid.appendChild(div);
+    });
+    document.getElementById('areaTotalDisplay').textContent = total.toFixed(2);
+    document.getElementById('areaTotalValor').textContent = total.toFixed(2) + ' m²';
+}
+
+function renderExtras() {
+    const el = document.getElementById('extrasContainer');
+    el.innerHTML = '';
+    let total = 0;
+    ITENS_EXTRAS.forEach(item => {
+        const key = item.id;
+        const checked = state.extras[key]?.ativo || false;
+        const val = state.extras[key]?.valor || 0;
+        const dim = state.extras[key]?.dimensao || 0;
+        let custo = 0;
+        let detalhe = '';
+
+        if (checked) {
+            if (item.temDimensao && dim > 0) {
+                custo = dim * item.preco;
+                detalhe = `${dim.toFixed(2)} ${item.un} × ${fmt(item.preco)}`;
+            } else if (!item.temDimensao) {
+                custo = val;
+                detalhe = fmt(val);
             }
-        });
-        const custoTotal = custoOB + custoAcab + totalExtras;
-        const nomeCliente = state.cliente?.nome?.split(' ')[0] || 'Cliente';
-        const estiloNome = ESTILOS.find(e=>e.id===state.estilo)?.nome||'—';
-        const pavNome = PAVIMENTOS.find(p=>p.id===state.pavimento)?.nome||'—';
-        const telhaNome = TELHAS.find(t=>t.id===state.telha)?.nome||'—';
-        const paredeNome = PAREDES.find(p=>p.id===state.parede)?.nome||'—';
-        const areaParedes = areaTotal * 3.27;
+        }
+        total += custo;
 
-        let html = `Olá, **${nomeCliente}** 👋
+        const div = document.createElement('div');
+        div.style.cssText = 'border:1.5px solid #e5e7eb;border-radius:10px;padding:14px;margin-bottom:8px;';
+        div.innerHTML = `
+            
+                
+                    <input type="checkbox" id="ex${key}" ${checked?'checked':''} onchange="toggleExtra('${key}')" style="width:18px;height:18px;accent-color:#0f3460;">
+                    <label for="ex${key}" style="font-weight:600;font-size:14px;cursor:pointer;">${item.ico} ${item.nome}</label>
+                
 
 
+                ${item.temDimensao ? 'R$ '+fmt(item.preco)+'/'+item.un : 'R$ '+fmt(item.preco)}
+
+
+            
+
+
+            
+                ${item.temDimensao ? `
+                    
+                        Dimensão (${item.un}):
+                        <input type="number" id="exDim${key}" value="${dim||''}" min="0" step="0.1" style="width:100px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;font-size:14px;" onchange="calcExtra('${key}')">
+                        = ${fmt(custo)}
+                    
+
+
+                ` : `
+                    
+                        Valor (R$):
+                        <input type="number" id="exVal${key}" value="${val||''}" min="0" step="100" style="width:120px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;font-size:14px;" onchange="calcExtra('${key}')">
+                        = ${fmt(custo)}
+                    
+
+
+                `}
+            
+
+
+        `;
+        el.appendChild(div);
+    });
+    document.getElementById('totalExtras').textContent = fmt(total);
+}
+
+function toggleExtra(key) {
+    const chk = document.getElementById('ex'+key);
+    state.extras[key] = state.extras[key] || {};
+    state.extras[key].ativo = chk.checked;
+    renderExtras();
+}
+
+function calcExtra(key) {
+    const item = ITENS_EXTRAS.find(i => i.id === key);
+    if (!state.extras[key]) state.extras[key] = { ativo: true };
+    if (item.temDimensao) {
+        state.extras[key].dimensao = parseFloat(document.getElementById('exDim'+key).value) || 0;
+    } else {
+        state.extras[key].valor = parseFloat(document.getElementById('exVal'+key).value) || 0;
+    }
+    renderExtras();
+}
+
+// ========== NAVEGAÇÃO ==========
+function atualizarSteps(step) {
+    state.step = step;
+    for (let i = 1; i <= STEPS.length; i++) {
+        const dot = document.getElementById('dot'+i);
+        const lbl = document.getElementById('lbl'+i);
+        const cn = document.getElementById('cn'+i);
+        if (!dot) continue;
+        dot.className = 'dot';
+        if (lbl) lbl.className = 'lbl';
+        if (cn) cn.className = 'cn';
+        if (i < step) { dot.classList.add('done'); if (lbl) lbl.classList.add('done'); if (cn) cn.classList.add('done'); }
+        else if (i === step) { dot.classList.add('act'); if (lbl) lbl.classList.add('act'); }
+    }
+    for (let i = 1; i <= STEPS.length; i++) {
+        const card = document.getElementById('s'+i);
+        if (card) card.className = 'card' + (i === step ? ' on' : '');
+    }
+    document.getElementById('stepper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function avancar(from) {
+    if (from === 1 && !state.estilo) { alert('Selecione um estilo arquitetônico.'); return; }
+    if (from === 2 && !state.pavimento) { alert('Selecione a quantidade de pavimentos.'); return; }
+    if (from === 3 && !state.telha) { alert('Selecione o tipo de telha.'); return; }
+    if (from === 4 && !state.parede) { alert('Selecione o padrão de paredes.'); return; }
+    if (from === 5) {
+        const total = calcAreaTotalConstruida();
+        if (total <= 0) { alert('Adicione pelo menos um ambiente com medidas.'); return; }
+    }
+    atualizarSteps(from + 1);
+}
+
+function voltar(para) { atualizarSteps(para); }
+
+// ========== MODAL AMBIENTE ==========
+let modalAmbId = null;
+
+function abrirModal(id) {
+    modalAmbId = id;
+    const amb = state.ambientes.find(a => a.id === id);
+    if (!amb) return;
+    document.getElementById('modalAmbNome').textContent = amb.ico + ' ' + amb.nome;
+    document.getElementById('modalLarg').value = amb.larg;
+    document.getElementById('modalComp').value = amb.comp;
+    document.getElementById('modalAlt').value = amb.alt;
+    document.getElementById('modalQtd').value = amb.qtd;
+    calcModalArea();
+    document.getElementById('modalAmb').classList.add('on');
+}
+
+function calcModalArea() {
+    const l = parseFloat(document.getElementById('modalLarg').value) || 0;
+    const c = parseFloat(document.getElementById('modalComp').value) || 0;
+    const h = parseFloat(document.getElementById('modalAlt').value) || 0;
+    document.getElementById('modalArea').textContent = (l * c).toFixed(2);
+    document.getElementById('modalPerim').textContent = (2 * (l + c)).toFixed(2);
+}
+
+function salvarModal() {
+    const amb = state.ambientes.find(a => a.id === modalAmbId);
+    if (!amb) return;
+    amb.larg = parseFloat(document.getElementById('modalLarg').value) || 0;
+    amb.comp = parseFloat(document.getElementById('modalComp').value) || 0;
+    amb.alt = parseFloat(document.getElementById('modalAlt').value) || 3;
+    amb.qtd = parseInt(document.getElementById('modalQtd').value) || 1;
+    fecharModal();
+    renderAmbientes();
+}
+
+function fecharModal() {
+    document.getElementById('modalAmb').classList.remove('on');
+    modalAmbId = null;
+}
+
+function calcAreaTotalConstruida() {
+    return state.ambientes.reduce((acc, a) => acc + (a.larg * a.comp * a.qtd), 0);
+}
+
+// ========== PROPOSTA COMERCIAL ==========
+function gerarProposta() {
+    const areaTotal = calcAreaTotalConstruida();
+    if (areaTotal <= 0) { alert('Configure os ambientes antes de gerar a proposta.'); return; }
+
+    // Determinar padrão baseado na parede externa
+    const mapaPadrao = { standard: 'Standard', premium: 'Premium', supreme: 'Supreme' };
+    const padrao = mapaPadrao[state.parede] || 'Standard';
+    const precoM2 = PRECOS_M2[padrao] || 4000;
+
+    // Cálculos
+    const custoObraBranca = areaTotal * 3138.99;  // R$/m² da planilha
+    const custoAcabamentos = areaTotal * 1463.70;
+    const custoBase = custoObraBranca + custoAcabamentos;
+
+    // Itens extras
+    let totalExtras = 0;
+    const extrasDetalhes = [];
+    ITENS_EXTRAS.forEach(item => {
+        const ext = state.extras[item.id];
+        if (ext?.ativo) {
+            let v = 0;
+            if (item.temDimensao && ext.dimensao > 0) {
+                v = ext.dimensao * item.preco;
+                extrasDetalhes.push(`${item.ico} ${item.nome}: ${ext.dimensao.toFixed(2)} ${item.un} × ${fmt(item.preco)} = ${fmt(v)}`);
+            } else if (!item.temDimensao && ext.valor > 0) {
+                v = ext.valor;
+                extrasDetalhes.push(`${item.ico} ${item.nome}: ${fmt(v)}`);
+            }
+            totalExtras += v;
+        }
+    });
+
+    const custoTotal = custoBase + totalExtras;
+
+    // Info do cliente (do localStorage)
+    let nomeCliente = 'Cliente';
+    try {
+        const chaves = Object.keys(localStorage).filter(k => k.startsWith('ibuild_simulacao_'));
+        if (chaves.length) {
+            const ult = JSON.parse(localStorage.getItem(chaves[chaves.length-1]));
+            if (ult.nome) nomeCliente = ult.nome.split(' ')[0];
+        }
+    } catch(e) {}
+
+    const estiloNome = ESTILOS.find(e => e.id === state.estilo)?.nome || '—';
+    const pavNome = PAVIMENTOS.find(p => p.id === state.pavimento)?.nome || '—';
+    const telhaNome = TELHAS.find(t => t.id === state.telha)?.nome || '—';
+    const paredeNome = PAREDES.find(p => p.id === state.parede)?.nome || '—';
+
+    // Área de paredes (aproximadamente 3.27x área construída)
+    const areaParedes = areaTotal * 3.27;
+
+    let html = `
+        Olá, **${nomeCliente}** 👋
+
+
+        
             🏛️ ${estiloNome} · ${pavNome} · ${telhaNome} · ${paredeNome}
+        
 
 
-            <hr style="border:none;border-top:1px solid rgba(255,255,255,.15);margin:10px 0;">
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.15);margin:10px 0;">
+
+        
             
                 Área Construída
 
-${areaTotal.toFixed(2)} m²
 
-
-
-
-                Padrão
-
-${padrao}
-
-${fmt(precoM2)}/m²
-
-
+                ${areaTotal.toFixed(2)} m²
 
 
             
 
 
-            | Item | Valor |
+            
+                Padrão
+
+
+                ${padrao}
+
+
+                ${fmt(precoM2)}/m²
+
+
+            
+
+
+        
+
+
+
+        | Item | Valor |
 | --- | --- |
-| 🏗️ Obra Branca (${areaTotal.toFixed(2)} m² × ${fmt(3138.99)}/m²) | ${fmt(custoOB)} |
-| 🎨 Acabamentos ${padrao} (${areaTotal.toFixed(2)} m² × ${fmt(1463.70)}/m²) | ${fmt(custoAcab)} |
+| 🏗️ Obra Branca (${areaTotal.toFixed(2)} m² × ${fmt(3138.99)}/m²) | ${fmt(custoObraBranca)} |
+| 🎨 Acabamentos ${padrao} (${areaTotal.toFixed(2)} m² × ${fmt(1463.70)}/m²) | ${fmt(custoAcabamentos)} |
 | ➕ Itens Extras | ${fmt(totalExtras)} |
 | 💰 Valor Total Estimado | ${fmt(custoTotal)} |
+
+        
             
                 Obra Branca/m²
 
-${fmt(3138.99)}
+
+                ${fmt(3138.99)}
 
 
+            
 
 
+            
                 Acabamentos/m²
 
-${fmt(1463.70)}
+
+                ${fmt(1463.70)}
 
 
+            
 
 
+            
                 Total/m²
 
-${fmt(custoTotal/areaTotal)}
 
-
-
-
-            
+                ${fmt(custoTotal / areaTotal)}
 
 
             
-                🏗️ Paredes: ~${areaParedes.toFixed(2)} m²/fac · 🚗 ${state.ambientes.find(a=>a.id==='garagem')?.qtd||0} vaga(s) · 🛏️ ${state.ambientes.find(a=>a.id==='quartos')?.qtd||0} quarto(s) · 🚿 ${state.ambientes.find(a=>a.id==='banheiro')?.qtd||0} banheiro(s)
-                
-** Valores estimados com base nas premissas iBUILD. Orçamento final mediante projeto executivo.*
+
+
+        
+
+
+
+        
+            🏗️ Área de paredes externas: ~${areaParedes.toFixed(2)} m²/fac · 
+            🚗 ${state.ambientes.find(a=>a.id==='garagem')?.qtd||0} vaga(s) · 
+            🛏️ ${state.ambientes.find(a=>a.id==='quartos')?.qtd||0} quarto(s) · 
+            🚿 ${state.ambientes.find(a=>a.id==='banheiro')?.qtd||0} banheiro(s)
             
+** Valores estimados com base nas premissas da franquia iBUILD. Orçamento final mediante projeto executivo.*
+        
 
-`;
-        document.getElementById('propostaCard').innerHTML = html;
-        document.getElementById('orcSubtitle').textContent = `${padrao} · ${areaTotal.toFixed(2)} m² · Total ${fmt(custoTotal)}`;
-        atualizarSteps(7);
-        salvarCompleto(areaTotal, padrao, custoTotal, custoOB, custoAcab, totalExtras);
-    }
 
-    function fmt(v) { return 'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }
+    `;
 
-    function salvarCompleto(area, padrao, total, ob, ac, ext) {
-        const dados = {
-            tipo:'modelagem_completa', timestamp:new Date().toISOString(),
-            cliente: state.cliente ? { nome:state.cliente.nome, telefone:state.cliente.telefone, email:state.cliente.email } : null,
-            escolhas: { estilo:state.estilo, pavimento:state.pavimento, telha:state.telha, parede:state.parede },
-            ambientes: state.ambientes.map(a=>({id:a.id,nome:a.nome,larg:a.larg,comp:a.comp,alt:a.alt,qtd:a.qtd})),
-            areaConstruida:area, padraoAcabamento:padrao,
-            valores:{ obraBranca:ob, acabamentos:ac, itensExtras:ext, total:total }
-        };
-        localStorage.setItem('ibuild_proposta_'+Date.now(), JSON.stringify(dados));
-    }
+    document.getElementById('propostaCard').innerHTML = html;
+    document.getElementById('orcSubtitle').textContent = `${padrao} · ${areaTotal.toFixed(2)} m² · Total ${fmt(custoTotal)}`;
+    atualizarSteps(7);
 
-    function salvarEVoltar() { if (confirm('Dados salvos! Deseja iniciar uma nova simulação?')) { localStorage.removeItem('ibuild_cliente_atual'); location.href='/simulador1'; } }
+    // Salvar
+    salvarDadosCompletos(areaTotal, padrao, custoTotal, custoObraBranca, custoAcabamentos, totalExtras);
+}
 
-    function solicitarOrcamento() { alert('📞 Ótimo! Um membro da nossa equipe iBUILD São Carlos entrará em contato para detalharmos juntos o orçamento executivo do seu projeto.'); }
+function fmt(v) {
+    return 'R$ ' + v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+}
 
-    // === Init ===
-    function init() {
-        carregarCliente();
-        initStepper();
-        renderOptions('estiloOpts', ESTILOS, state.estilo, (id) => { state.estilo=id; renderOptions('estiloOpts',ESTILOS,state.estilo); });
-        renderOptions('pavOpts', PAVIMENTOS, state.pavimento, (id) => { state.pavimento=id; renderOptions('pavOpts',PAVIMENTOS,state.pavimento); });
-        renderOptions('telhaOpts', TELHAS, state.telha, (id) => { state.telha=id; renderOptions('telhaOpts',TELHAS,state.telha); });
-        renderOptions('paredeOpts', PAREDES, state.parede, (id) => { state.parede=id; renderOptions('paredeOpts',PAREDES,state.parede); });
-        renderAmbientes();
-        renderExtras();
-    }
-    init();
-    document.addEventListener('keydown', e => { if (e.key==='Escape') fecharModal(); });
+function salvarDadosCompletos(area, padrao, total, ob, ac, ext) {
+    const dados = {
+        tipo: 'modelagem_completa',
+        timestamp: new Date().toISOString(),
+        escolhas: {
+            estilo: state.estilo,
+            pavimento: state.pavimento,
+            telha: state.telha,
+            parede: state.parede,
+        },
+        ambientes: state.ambientes.map(a => ({ id: a.id, nome: a.nome, larg: a.larg, comp: a.comp, alt: a.alt, qtd: a.qtd })),
+        areaConstruida: area,
+        padraoAcabamento: padrao,
+        valores: {
+            obraBranca: ob,
+            acabamentos: ac,
+            itensExtras: ext,
+            total: total,
+        }
+    };
+    localStorage.setItem('ibuild_proposta_' + Date.now(), JSON.stringify(dados));
+    console.log('📦 Proposta completa salva:', dados);
+}
+
+function salvarEVoltar() {
+    if (confirm('Dados salvos! Deseja iniciar uma nova simulação?')) location.reload();
+}
+
+function solicitarOrcamento() {
+    alert('📞 Ótimo! Um membro da nossa equipe iBUILD São Carlos entrará em contato para detalharmos juntos o orçamento executivo do seu projeto.');
+}
+
+// ========== INIT ==========
+function init() {
+    initStepper();
+    renderOptions('estiloOpts', ESTILOS, state.estilo, (id) => {
+        state.estilo = id;
+        renderOptions('estiloOpts', ESTILOS, state.estilo);
+    });
+    renderOptions('pavOpts', PAVIMENTOS, state.pavimento, (id) => {
+        state.pavimento = id;
+        renderOptions('pavOpts', PAVIMENTOS, state.pavimento);
+    });
+    renderOptions('telhaOpts', TELHAS, state.telha, (id) => {
+        state.telha = id;
+        renderOptions('telhaOpts', TELHAS, state.telha);
+    });
+    renderOptions('paredeOpts', PAREDES, state.parede, (id) => {
+        state.parede = id;
+        renderOptions('paredeOpts', PAREDES, state.parede);
+    });
+    renderAmbientes();
+    renderExtras();
+}
+init();
+
+// Fechar modal com ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') fecharModal();
+});
 </script>
 </body>
 </html>
