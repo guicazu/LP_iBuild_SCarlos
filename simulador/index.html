@@ -1,1243 +1,1072 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Orçamento | iBUILD São Carlos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOE 2.0 — Simulador de Orçamento Express | iBUILD</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
 
-    <style>
-        /* 
-           FONTES (EXATAMENTE IGUAIS À LP)
-            */
-        @font-face {
-            font-family: 'Transducer';
-            src: url('./fonts/Transducer-Regular.woff2') format('woff2'),
-                 url('./fonts/Transducer-Regular.woff') format('woff');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'Transducer';
-            src: url('./fonts/Transducer-Medium.woff2') format('woff2'),
-                 url('./fonts/Transducer-Medium.woff') format('woff');
-            font-weight: 500;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'Transducer';
-            src: url('./fonts/Transducer-Bold.woff2') format('woff2'),
-                 url('./fonts/Transducer-Bold.woff') format('woff');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'Transducer';
-            src: url('./fonts/Transducer-Light.woff2') format('woff2'),
-                 url('./fonts/Transducer-Light.woff') format('woff');
-            font-weight: 300;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'Brittany Signature';
-            src: url('./fonts/BrittanySignatureRegular.woff2') format('woff2'),
-                 url('./fonts/BrittanySignatureRegular.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #fff;
+      padding: 32px 40px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
+    header h1 span { color: #e94560; }
+    header p { font-size: 0.9rem; opacity: 0.8; margin-top: 4px; }
 
-        /* 
-           RESET & VARIÁVEIS (MESMAS DA LP)
-            */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        :root {
-            --black: #1d1d1f;
-            --dark: #2d2d2d;
-            --charcoal: #424245;
-            --gray: #86868b;
-            --light-gray: #d2d2d7;
-            --off-white: #f5f5f7;
-            --warm-white: #fbfbfd;
-            --cream: #f5f5f7;
-            --accent: #86868b;
-            --accent-dark: #6e6e73;
-            --gold: #C8A96E;
-            --gold-light: #d4bc8a;
+    /* ===== CARDS ===== */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px 28px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      margin-bottom: 20px;
+    }
+    .card h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f2f5;
+      color: #1a1a2e;
+    }
+    .card h2 i { margin-right: 8px; color: #e94560; }
 
-            --font-display: 'Transducer', sans-serif;
-            --font-body: 'Transducer', sans-serif;
-            --font-script: 'Brittany Signature', cursive;
+    /* ===== GRID LAYOUT ===== */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
 
-            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-            --content-width: 800px;
-            --side-padding: max(24px, calc((100vw - var(--content-width)) / 2));
-        }
+    /* ===== FORM ===== */
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 4px;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+      background: #fff;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #0f3460;
+      box-shadow: 0 0 0 3px rgba(15,52,96,0.12);
+    }
+    .form-group .hint {
+      font-size: 0.75rem;
+      color: #999;
+      margin-top: 2px;
+    }
 
-        html {
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-            font-size: 16px;
-        }
+    /* ===== TOGGLE CHECKBOX ===== */
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .toggle-group input[type="checkbox"] {
+      width: 44px;
+      height: 22px;
+      appearance: none;
+      background: #ccc;
+      border-radius: 12px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.25s;
+      flex-shrink: 0;
+    }
+    .toggle-group input[type="checkbox"]::before {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.25s;
+    }
+    .toggle-group input[type="checkbox"]:checked {
+      background: #0f3460;
+    }
+    .toggle-group input[type="checkbox"]:checked::before {
+      transform: translateX(22px);
+    }
+    .toggle-group label { margin-bottom: 0; cursor: pointer; }
 
-        body {
-            font-family: var(--font-body);
-            font-weight: 400;
-            background: var(--warm-white);
-            color: var(--charcoal);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+    /* ===== EXTRAS SUB-CARD ===== */
+    .extras-box {
+      background: #f8f9fb;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 8px;
+      border: 1px solid #e5e7eb;
+    }
+    .extras-box .grid-2 { gap: 12px; }
 
-        a { text-decoration: none; color: inherit; }
-        button { border: none; background: none; cursor: pointer; font-family: inherit; }
+    /* ===== BUTTON ===== */
+    .btn-primary {
+      background: #e94560;
+      color: #fff;
+      border: none;
+      padding: 14px 36px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      width: 100%;
+    }
+    .btn-primary:hover { background: #d63850; }
+    .btn-primary:active { transform: scale(0.98); }
 
-        /* 
-           CONTAINER PRINCIPAL
-            */
-        .simulador-container {
-            width: 100%;
-            max-width: var(--content-width);
-            background: #fff;
-            position: relative;
-            overflow: hidden;
-        }
+    /* ===== RESULTS ===== */
+    .result-section { display: none; }
+    .result-section.visible { display: block; }
 
-        /* 
-           HEADER (ESTILO LP: fundo preto + barra dourada)
-            */
-        .simulador-header {
-            background: var(--black);
-            padding: 56px var(--side-padding) 40px;
-            text-align: center;
-            position: relative;
-        }
-        .simulador-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gold);
-        }
-        .simulador-header .pretitle {
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 16px;
-        }
-        .simulador-header h1 {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 4.2vw, 2.8rem);
-            font-weight: 500;
-            color: #fff;
-            line-height: 1.15;
-            margin-bottom: 12px;
-            letter-spacing: 0px;
-        }
-        .simulador-header h1 em {
-            font-family: var(--font-script);
-            font-style: normal;
-            color: var(--gold);
-            font-weight: normal;
-            letter-spacing: 0px;
-            text-transform: none;
-            font-size: 1.3em;
-        }
-        .simulador-header p {
-            font-size: 1rem;
-            font-weight: 400;
-            color: rgba(255,255,255,.55);
-            max-width: 520px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
-        .badge-passos {
-            display: inline-block;
-            margin-top: 20px;
-            font-size: 0.6rem;
-            font-weight: 400;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,.5);
-            border: 1px solid rgba(255,255,255,.18);
-            padding: 6px 18px;
-            transition: all .4s var(--ease-out-expo);
-        }
-        .badge-passos:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .metric {
+      background: #f8f9fb;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid #e5e7eb;
+    }
+    .metric .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+    .metric .label {
+      font-size: 0.78rem;
+      color: #777;
+      margin-top: 4px;
+    }
+    .metric.highlight {
+      background: linear-gradient(135deg, #1a1a2e, #0f3460);
+      border-color: #0f3460;
+    }
+    .metric.highlight .value { color: #fff; }
+    .metric.highlight .label { color: rgba(255,255,255,0.7); }
 
-        /* 
-           CORPO
-            */
-        .simulador-body {
-            padding: 48px var(--side-padding) 60px;
-        }
+    /* ===== BREAKDOWN TABLE ===== */
+    .breakdown-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .breakdown-table thead th {
+      background: #f0f2f5;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .breakdown-table tbody td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .breakdown-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .breakdown-table .total-row td {
+      font-weight: 700;
+      background: #f8f9fb;
+      border-top: 2px solid #1a1a2e;
+    }
+    .breakdown-table .sub-detail td {
+      padding-left: 28px;
+      font-size: 0.82rem;
+      color: #666;
+    }
 
-        /* 
-           PROGRESSO (bolinhas)
-            */
-        .progresso {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 48px;
-        }
-        .progresso .ponto {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--light-gray);
-            transition: all .4s var(--ease-out-expo);
-        }
-        .progresso .ponto.ativo {
-            background: var(--gold);
-            transform: scale(1.4);
-            box-shadow: 0 0 16px rgba(200,169,110,.35);
-        }
-        .progresso .ponto.concluido {
-            background: var(--gold);
-            opacity: .4;
-        }
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 24px 0 8px;
+      font-size: 0.8rem;
+      color: #999;
+    }
+    footer strong { color: #555; }
 
-        /* 
-           ETAPAS
-            */
-        .etapa {
-            display: none;
-            animation: fadeIn .6s var(--ease-out-expo);
-        }
-        .etapa.ativa { display: block; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(24px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .etapa-titulo {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 500;
-            color: var(--black);
-            margin-bottom: 4px;
-            line-height: 1.15;
-        }
-        .etapa-subtitulo {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: var(--gray);
-            margin-bottom: 36px;
-            line-height: 1.5;
-        }
-
-        /* 
-           FORMULÁRIO
-            */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .form-grid .full-width { grid-column: 1 / -1; }
-
-        .campo {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .campo label {
-            font-size: 0.65rem;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--charcoal);
-        }
-        .campo label .obrigatorio { color: #c0392b; }
-
-        .campo input,
-        .campo select {
-            padding: 14px 16px;
-            border: 1px solid var(--light-gray);
-            font-size: 0.95rem;
-            font-family: var(--font-body);
-            font-weight: 400;
-            transition: all .4s var(--ease-out-expo);
-            outline: none;
-            background: #fff;
-            color: var(--black);
-        }
-        .campo input:focus,
-        .campo select:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(200,169,110,.12);
-        }
-        .campo input::placeholder {
-            color: var(--light-gray);
-            font-weight: 300;
-        }
-        .campo input.error {
-            border-color: #c0392b;
-        }
-        .campo .error-msg {
-            font-size: 0.7rem;
-            font-weight: 400;
-            color: #c0392b;
-            display: none;
-            letter-spacing: .5px;
-        }
-        .campo .error-msg.visible { display: block; }
-
-        /* 
-           RADIO GROUP (estilo LP)
-            */
-        .radio-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 2px;
-        }
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border: 1px solid var(--light-gray);
-            cursor: pointer;
-            transition: all .4s var(--ease-out-expo);
-            font-family: var(--font-display);
-            font-weight: 400;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--charcoal);
-            background: #fff;
-        }
-        .radio-group label:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-        .radio-group input[type="radio"] {
-            accent-color: var(--gold);
-            width: 14px;
-            height: 14px;
-        }
-        .radio-group label.selecionado {
-            border-color: var(--gold);
-            background: rgba(200,169,110,.04);
-            color: var(--gold);
-        }
-
-        /* 
-           CAMPOS CONDICIONAIS
-            */
-        .campo-condicional {
-            display: none;
-            margin-top: 16px;
-            animation: fadeIn .3s var(--ease-out-expo);
-        }
-        .campo-condicional.ativo { display: block; }
-
-        /* 
-           UPLOAD DE ARQUIVO
-            */
-        .file-upload-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 16px 20px;
-            border: 1px dashed var(--light-gray);
-            background: var(--cream);
-            cursor: pointer;
-            transition: all .4s var(--ease-out-expo);
-        }
-        .file-upload-wrapper:hover {
-            border-color: var(--gold);
-            background: rgba(200,169,110,.04);
-        }
-        .file-upload-wrapper input[type="file"] { display: none; }
-        .file-upload-label {
-            font-size: 0.8rem;
-            color: var(--gray);
-            font-weight: 400;
-        }
-        .file-upload-label strong { color: var(--charcoal); }
-        .file-upload-label small {
-            display: block;
-            margin-top: 2px;
-            font-size: 0.7rem;
-            color: var(--light-gray);
-        }
-        .file-selected {
-            display: none;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: var(--cream);
-            font-size: 0.78rem;
-            margin-top: 8px;
-            color: var(--charcoal);
-        }
-        .file-selected.ativo { display: inline-flex; }
-        .file-selected .remover {
-            cursor: pointer;
-            color: #c0392b;
-            font-weight: 500;
-            margin-left: 4px;
-        }
-
-        /* 
-           M² EXIBIÇÃO
-            */
-        .m2-exibicao {
-            background: var(--cream);
-            padding: 12px 16px;
-            font-size: 0.85rem;
-            font-weight: 400;
-            color: var(--black);
-            display: none;
-            margin-top: 12px;
-        }
-        .m2-exibicao.ativo { display: block; }
-
-        /* 
-           NOTA INFORMATIVA
-            */
-        .nota-info {
-            background: var(--cream);
-            padding: 16px 20px;
-            font-size: 0.75rem;
-            font-weight: 400;
-            line-height: 1.7;
-            color: var(--gray);
-        }
-
-        /* 
-           BOTÕES (EXATAMENTE IGUAIS AOS DA LP)
-            */
-        .btn {
-            padding: 16px 36px;
-            border: 1px solid transparent;
-            font-family: var(--font-display);
-            font-size: 0.72rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all .4s var(--ease-out-expo);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            white-space: nowrap;
-        }
-        .btn svg {
-            width: 14px;
-            height: 14px;
-            stroke: currentColor;
-            fill: none;
-            transition: transform .4s var(--ease-out-expo);
-        }
-
-        /* Primary = gold (mesmo estilo do journey-cta / hero-cta da LP) */
-        .btn-primary {
-            background: var(--gold);
-            color: var(--black);
-            border-color: var(--gold);
-        }
-        .btn-primary:hover {
-            background: transparent;
-            color: var(--gold);
-            box-shadow: 0 8px 28px rgba(200,169,110,.35);
-        }
-        .btn-primary:hover svg {
-            transform: translateX(4px);
-        }
-        .btn-primary:active {
-            transform: scale(.985);
-        }
-
-        /* Secondary = outline (estilo about-sc-cta da LP) */
-        .btn-secondary {
-            background: transparent;
-            color: var(--charcoal);
-            border-color: var(--light-gray);
-        }
-        .btn-secondary:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: rgba(200,169,110,.04);
-        }
-        .btn-secondary:hover svg {
-            transform: translateX(-4px);
-        }
-
-        .btn-full { width: 100%; }
-
-        /* 
-           NAVEGAÇÃO ENTRE ETAPAS
-            */
-        .nav-botoes {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 40px;
-            gap: 16px;
-        }
-
-        /* 
-           RESULTADO (ETAPA 4)
-            */
-        .badge-fase {
-            display: inline-block;
-            font-size: 0.6rem;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--gold);
-            border: 1px solid rgba(200,169,110,.3);
-            padding: 4px 14px;
-            margin-bottom: 20px;
-        }
-
-        .lead-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: var(--cream);
-            margin-bottom: 24px;
-            font-size: 0.8rem;
-            font-weight: 400;
-            color: var(--gray);
-        }
-        .lead-info .lead-nome {
-            font-weight: 500;
-            color: var(--black);
-        }
-
-        .resultado-card {
-            background: var(--cream);
-            padding: 36px 24px;
-            margin-bottom: 32px;
-            text-align: center;
-        }
-        .resultado-card .label {
-            font-size: 0.65rem;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--gray);
-        }
-        .resultado-card .valor-principal {
-            font-family: var(--font-display);
-            font-size: 2.8rem;
-            font-weight: 500;
-            color: var(--black);
-            margin: 8px 0 4px;
-            letter-spacing: -1px;
-            line-height: 1.15;
-        }
-        .resultado-card .composicao {
-            font-size: 0.72rem;
-            font-weight: 400;
-            color: var(--gray);
-        }
-
-        .section-subtitle {
-            font-family: var(--font-display);
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--black);
-            margin-bottom: 16px;
-        }
-
-        /* 
-           TABELA DE PADRÕES
-            */
-        .tabela-padroes {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 16px;
-        }
-        .tabela-padroes th,
-        .tabela-padroes td {
-            padding: 14px 16px;
-            text-align: center;
-            border-bottom: 1px solid var(--light-gray);
-        }
-        .tabela-padroes th {
-            background: var(--black);
-            color: #fff;
-            font-size: 0.6rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-family: var(--font-display);
-        }
-        .tabela-padroes td {
-            font-size: 0.85rem;
-            font-weight: 400;
-            color: var(--charcoal);
-        }
-        .tabela-padroes .destaque-m2 {
-            font-family: var(--font-display);
-            font-weight: 500;
-            font-size: 1.2rem;
-            color: var(--black);
-        }
-        .tabela-padroes tr:last-child td { border-bottom: none; }
-
-        .badge-padrao {
-            display: inline-block;
-            font-size: 0.55rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 3px 12px;
-        }
-        .badge-standard {
-            background: var(--cream);
-            color: var(--charcoal);
-            border: 1px solid var(--light-gray);
-        }
-        .badge-premium {
-            background: rgba(200,169,110,.06);
-            color: var(--gold);
-            border: 1px solid rgba(200,169,110,.25);
-        }
-        .badge-supreme {
-            background: var(--black);
-            color: var(--gold-light);
-            border: 1px solid var(--dark);
-        }
-
-        .result-extra {
-            padding: 16px;
-            background: var(--cream);
-            font-size: 0.78rem;
-            font-weight: 400;
-            color: var(--gray);
-            line-height: 1.8;
-        }
-        .result-extra strong { color: var(--charcoal); font-weight: 500; }
-
-        .disclaimer {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 0.65rem;
-            font-weight: 400;
-            color: var(--light-gray);
-            line-height: 1.7;
-        }
-        .disclaimer strong { color: var(--gray); }
-
-        /* 
-           RESPONSIVIDADE
-            */
-        @media (max-width: 768px) {
-            body { padding: 12px; }
-            .simulador-header { padding: 40px 20px 32px; }
-            .simulador-body { padding: 36px 20px 44px; }
-            .form-grid { grid-template-columns: 1fr; }
-            .radio-group { flex-direction: column; }
-            .radio-group label { justify-content: center; }
-            .nav-botoes { flex-direction: column; }
-            .nav-botoes .btn { width: 100%; justify-content: center; }
-            .resultado-card .valor-principal { font-size: 2rem; }
-            .tabela-padroes { font-size: 0.78rem; }
-            .tabela-padroes th,
-            .tabela-padroes td { padding: 10px 8px; }
-            .tabela-padroes .destaque-m2 { font-size: 1rem; }
-        }
-        @media (max-width: 480px) {
-            .simulador-header h1 { font-size: 1.6rem; }
-            .simulador-header .pretitle { font-size: 0.6rem; letter-spacing: 3px; }
-            .etapa-titulo { font-size: 1.4rem; }
-            .resultado-card .valor-principal { font-size: 1.6rem; }
-            .btn { padding: 14px 24px; font-size: 0.68rem; letter-spacing: 2px; }
-        }
-    </style>
+    /* ===== PRINT ===== */
+    @media print {
+      body { background: #fff; padding: 0; }
+      .card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+      .btn-primary { display: none; }
+      header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
 </head>
 <body>
 
+
+  
+  <header>
+    
+      <h1>🏗️ SOE 2.0</h1>
+      Simulador de Orçamento Express — iBUILD Light Steel Frame
+
+
     
 
+
+    
+      Base SIENGE · Pré-contrato sem projeto
+    
+
+
+  </header>
+
+  
+  
+    <h2>📋 Parâmetros do Orçamento</h2>
+    <form id="formOrcamento">
+      
         
-        
-            🏠 iBUILD São Carlos
-
-
-            <h1>Simulador de *Orçamento* Express</h1>
-            Descubra quantos m² você pode construir com light steel frame
-
-
-            Passo 1 de 4
-
-
-        
-
-
-
-        
-        
-
-            
-            
-                
-                
-                
-                
-            
-
-
-
-            
-            
-                <h2 class="etapa-titulo">Seus Dados</h2>
-                Para começarmos, me diga quem é você.
-
-
-
-                
-                    
-                        <label>Seu Nome *</label>
-                        <input type="text" id="lead-nome" placeholder="Digite seu nome completo" required>
-                        Por favor, informe seu nome.
-                    
-
-
-                    
-                        <label>E-mail *</label>
-                        <input type="email" id="lead-email" placeholder="seu@email.com" required>
-                        Informe um e-mail válido.
-                    
-
-
-                    
-                        <label>WhatsApp *</label>
-                        <input type="tel" id="lead-telefone" placeholder="(16) 99999-8888" required>
-                        Informe um telefone.
-                    
-
-
-                
-
-
-
-                
-                    
-                    <button class="btn btn-primary" onclick="avancar(1)">
-                        Começar
-                        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                
-
-
-            
-
-
-
-            
-            
-                <h2 class="etapa-titulo">Terreno & Projeto</h2>
-                Conte-nos sobre o local da obra.
-
-
-
-                
-
-                    
-                        <label>Você já tem o terreno? *</label>
-                        
-                            <label>
-                                <input type="radio" name="tem-terreno" value="sim" onchange="toggleTerreno(true)">
-                                Sim, já tenho
-                            </label>
-                            <label>
-                                <input type="radio" name="tem-terreno" value="nao" onchange="toggleTerreno(false)">
-                                Não, vou procurar
-                            </label>
-                        
-
-
-                    
-
-
-
-                    
-                        
-                            
-                                <label>Largura (m) *</label>
-                                <input type="number" id="terreno-largura" placeholder="Ex: 10" min="1" step="0.01" oninput="calcularM2()">
-                            
-
-
-                            
-                                <label>Comprimento (m) *</label>
-                                <input type="number" id="terreno-comprimento" placeholder="Ex: 25" min="1" step="0.01" oninput="calcularM2()">
-                            
-
-
-                        
-
-
-                        
-                            📐 Área do terreno: **0** m²
-                        
-
-
-                    
-
-
-
-                    
-                        <label>Já possui projeto arquitetônico? *</label>
-                        
-                            <label>
-                                <input type="radio" name="tem-projeto" value="sim" onchange="toggleProjeto(true)">
-                                Sim
-                            </label>
-                            <label>
-                                <input type="radio" name="tem-projeto" value="nao" onchange="toggleProjeto(false)">
-                                Não
-                            </label>
-                        
-
-
-                        
-                            <label>Anexe seu projeto (opcional)</label>
-                            
-                                📄
-                                
-                                    **Clique para anexar** ou arraste o arquivo
-                                    <small>PDF, PNG, JPG — máx. 10 MB</small>
-                                
-                                <input type="file" id="arquivo-projeto" accept=".pdf,.png,.jpg,.jpeg" onchange="onFileSelected(this)">
-                            
-
-
-                            
-                                📎 
-                                ✕
-                            
-
-
-                        
-
-
-                    
-
-
-
-                    
-                        <label>Cidade da obra *</label>
-                        <input type="text" id="obra-cidade" placeholder="Ex: São Carlos - SP">
-                    
-
-
-
-                    
-                        <label>A obra será em: *</label>
-                        
-                            <label>
-                                <input type="radio" name="local-obra" value="condominio">
-                                🏘️ Condomínio
-                            </label>
-                            <label>
-                                <input type="radio" name="local-obra" value="via-publica">
-                                🏙️ Via Pública
-                            </label>
-                        
-
-
-                    
-
-
-
-                
-
-
-
-                
-                    <button class="btn btn-secondary" onclick="voltar(2)">
-                        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Voltar
-                    </button>
-                    <button class="btn btn-primary" onclick="avancar(2)">
-                        Avançar
-                        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                
-
-
-            
-
-
-
-            
-            
-                <h2 class="etapa-titulo">Dados Financeiros</h2>
-                Como você pretende viabilizar sua obra.
-
-
-
-                
-
-                    
-                        <label>Você tem recurso próprio? *</label>
-                        
-                            <label>
-                                <input type="radio" name="recurso-proprio" value="sim" onchange="toggleRecursoProprio(true)">
-                                Sim
-                            </label>
-                            <label>
-                                <input type="radio" name="recurso-proprio" value="nao" onchange="toggleRecursoProprio(false)">
-                                Não
-                            </label>
-                        
-
-
-                        
-                            <label>Valor do recurso próprio *</label>
-                            <input type="number" id="valor-proprio" placeholder="Ex: 150000" min="0" step="1000">
-                        
-
-
-                    
-
-
-
-                    
-                        <label>Vai financiar? *</label>
-                        
-                            <label>
-                                <input type="radio" name="vai-financiar" value="sim" onchange="toggleFinanciamento(true)">
-                                Sim
-                            </label>
-                            <label>
-                                <input type="radio" name="vai-financiar" value="nao" onchange="toggleFinanciamento(false)">
-                                Não
-                            </label>
-                        
-
-
-                        
-                            <label>Renda familiar mensal *</label>
-                            <input type="number" id="renda-familiar" placeholder="Ex: 8000" min="0" step="100">
-                        
-
-
-                    
-
-
-
-                    
-                        💡 **Simulação de financiamento:** consideramos taxa de
-                        **8,6% a.a. + TR** (TR atualmente em 0%), prazo de
-                        **360 meses** e comprometimento máximo de
-                        **30% da renda** — valores aproximados.
-                    
-
-
-
-                
-
-
-
-                
-                    <button class="btn btn-secondary" onclick="voltar(3)">
-                        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Voltar
-                    </button>
-                    <button class="btn btn-primary" onclick="calcularResultado()">
-                        Ver Resultado
-                        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                
-
-
-            
-
-
-
-            
-            
-                📐 Fase 1 — Poder de Compra
-
-
-                <h2 class="etapa-titulo">Quanto você pode construir</h2>
-                
-                    Com base nos seus dados, veja quantos m² cabem no seu orçamento.
-                
-
-
-
-                
-                    👤 
-                    — 
-                
-
-
-
-                
-                    Valor Total Disponível
-
-
-                    R$ 0
-
-
-                    
-
-
-                
-
-
-
-                Metros quadrados estimados por padrão
-
-
-
-                | Padrão | Custo / m² | m² estimados |
-| --- | --- | --- |
-| Standard | R$ 0 | 0 m² |
-| Premium | R$ 0 | 0 m² |
-| Supreme | R$ 0 | 0 m² |
-
-                
-                    
-
-                    
-                
-
-
-
-                
-                    <button class="btn btn-secondary" onclick="voltar(4)">
-                        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Revisar
-                    </button>
-                    <button class="btn btn-primary" onclick="enviarParaLead()">
-                        Quero Montar Minha Casa
-                        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                
-
-
-
-                
-                    * Valores estimados com base em médias de mercado para light steel frame.
-
-                    O orçamento final depende do projeto arquitetônico detalhado.
-
-                    Na **próxima fase** vamos detalhar acabamentos e personalizações.
-                
-
-
-            
-
+          <label>Área construída (m²)</label>
+          <input type="number" id="areaM2" value="232.03" step="0.01" min="1" />
+          Deixe 232,03 para usar o projeto base
 
 
         
+
+
+        
+          <label>Padrão de acabamento</label>
+          <select id="padraoAcabamento">
+            <option value="MCMV">MCMV</option>
+            <option value="Standard">Standard</option>
+            <option value="Premium" selected>Premium</option>
+            <option value="Supreme">Supreme</option>
+          </select>
+        
+
+
+        
+          <label>Pavimentos</label>
+          <select id="pavimentos">
+            <option value="1" selected>1 pavimento</option>
+            <option value="2">2 pavimentos</option>
+            <option value="3">3+ pavimentos</option>
+          </select>
+        
+
+
+        
+          <label>Tipo de telha</label>
+          <select id="tipoTelha">
+            <option value="termoacustica" selected>Termoacústica</option>
+            <option value="fibrocimento">Fibrocimento</option>
+            <option value="ceramica">Cerâmica</option>
+            <option value="metalica">Metálica</option>
+            <option value="lajeImpermeabilizada">Laje impermeabilizada</option>
+          </select>
+        
+
+
+        
+          <label>Padrão de fechamento externo</label>
+          <select id="padraoParede">
+            <option value="standard">Standard</option>
+            <option value="premium">Premium</option>
+            <option value="supreme" selected>Supreme</option>
+          </select>
+        
+
+
+        
+          <label>Distância fábrica → obra (km)</label>
+          <input type="number" id="distanciaKm" value="450" min="0" step="10" />
+        
+
+
+      
+
+
+
+      
+      
+        
+          <input type="checkbox" id="incluirMargem" />
+          <label for="incluirMargem">Aplicar margem de lucro</label>
+        
+
+
+        
+          <label>Margem de lucro (%)</label>
+          <input type="number" id="margemLucro" value="50" min="0" max="200" />
+        
+
+
+      
+
+
+      
+        <input type="checkbox" id="incluirCustosIndiretos" checked />
+        <label for="incluirCustosIndiretos">Incluir custos indiretos (engenharia, ADM, viagens…)</label>
+      
+
+
+
+      
+      <h3 style="font-size:0.95rem;margin:18px 0 10px;font-weight:600;">➕ Itens Extras</h3>
+      
+        
+          
+            <input type="checkbox" id="extrasTerraplenagem" />
+            <label for="extrasTerraplenagem">Terraplenagem</label>
+          
+
+
+          
+            <input type="checkbox" id="extrasPiscina" />
+            <label for="extrasPiscina">Piscina</label>
+          
+
+
+          
+            <input type="checkbox" id="extrasMuro" />
+            <label for="extrasMuro">Fechamento do terreno (muro)</label>
+          
+
+
+        
+
+
+        
+          
+            
+              <label>Área da piscina (m²)</label>
+              <input type="number" id="areaPiscinaM2" value="16" min="0" step="1" />
+            
+
+
+            
+              <label>Metragem linear do muro (m)</label>
+              <input type="number" id="metragemMuroM" value="40" min="0" step="1" />
+            
+
+
+            
+              <label>Custo da terraplenagem (R$)</label>
+              <input type="number" id="custoTerraplenagem" value="50000" min="0" step="1000" />
+            
+
+
+          
+
+
+        
+
+
+      
+
+
+
+      <button type="submit" class="btn-primary" style="margin-top:20px;">
+        🔄 Calcular Orçamento
+      </button>
+    </form>
+  
+
+
+
+  
+  
+    
+    
+      <h2>📊 Resumo do Orçamento</h2>
+      
 
 
     
 
 
 
-    <script>
-        const CONFIG = {
-            custoM2: { standard: 3200, premium: 4500, supreme: 6200 },
-            financiamento: { taxaAnual: 0.086, prazoMeses: 360, percentualRenda: 0.30 }
-        };
+    
+    
+      <h2>💰 Preços Médios (R$/m²)</h2>
+      
 
-        const dados = {
-            lead:       { nome: '', email: '', telefone: '' },
-            terreno:    { temTerreno: null, largura: 0, comprimento: 0, area: 0, cidade: '', local: '' },
-            projeto:    { temProjeto: null, arquivo: null, arquivoNome: '' },
-            financeiro: { recursoProprio: false, valorProprio: 0, vaiFinanciar: false, rendaFamiliar: 0 }
-        };
 
-        function avancar(e) { if (!validarEtapa(e)) return; salvarDados(e); const p=e+1;
-            document.getElementById(`etapa-${e}`).classList.remove('ativa');
-            document.getElementById(`etapa-${p}`).classList.add('ativa');
-            atualizarProgresso(p); document.getElementById('passo-atual').textContent=p;
-            document.querySelector('.simulador-container').scrollIntoView({behavior:'smooth',block:'start'}); }
-        function voltar(e) { const a=e-1;
-            document.getElementById(`etapa-${e}`).classList.remove('ativa');
-            document.getElementById(`etapa-${a}`).classList.add('ativa');
-            atualizarProgresso(a); document.getElementById('passo-atual').textContent=a;
-            document.querySelector('.simulador-container').scrollIntoView({behavior:'smooth',block:'start'}); }
+    
 
-        function validarEtapa(e) {
-            if (e===1) return validarLead();
-            if (e===2) return validarTerreno();
-            if (e===3) return validarFinanceiro();
-            return true;
-        }
 
-        function validarLead() {
-            let v=true;
-            const n=document.getElementById('lead-nome'), em=document.getElementById('lead-email'), t=document.getElementById('lead-telefone');
-            if (!n.value.trim()) { mostrarErro(n,true); v=false; } else mostrarErro(n,false);
-            if (!em.value.trim()||!em.value.includes('@')) { mostrarErro(em,true); v=false; } else mostrarErro(em,false);
-            if (!t.value.trim()) { mostrarErro(t,true); v=false; } else mostrarErro(t,false);
-            if (!v) alert('Preencha todos os campos obrigatórios.');
-            return v;
-        }
 
-        function validarTerreno() {
-            const tt=document.querySelector('input[name="tem-terreno"]:checked');
-            if (!tt) { alert('Informe se você já tem o terreno.'); return false; }
-            dados.terreno.temTerreno=tt.value==='sim';
-            if (dados.terreno.temTerreno) {
-                const l=document.getElementById('terreno-largura'), c=document.getElementById('terreno-comprimento');
-                if (!l.value||parseFloat(l.value)<=0) { mostrarErro(l,true); return false; } else mostrarErro(l,false);
-                if (!c.value||parseFloat(c.value)<=0) { mostrarErro(c,true); return false; } else mostrarErro(c,false);
-            }
-            const tp=document.querySelector('input[name="tem-projeto"]:checked');
-            if (!tp) { alert('Informe se já possui projeto arquitetônico.'); return false; }
-            dados.projeto.temProjeto=tp.value==='sim';
-            const cid=document.getElementById('obra-cidade');
-            if (!cid.value.trim()) { mostrarErro(cid,true); return false; } else mostrarErro(cid,false);
-            if (!document.querySelector('input[name="local-obra"]:checked')) { alert('Informe condomínio ou via pública.'); return false; }
-            return true;
-        }
+    
+    
+      <h2>📈 Simulação por Padrão de Acabamento</h2>
+      
 
-        function validarFinanceiro() {
-            const r=document.querySelector('input[name="recurso-proprio"]:checked');
-            if (!r) { alert('Informe se tem recurso próprio.'); return false; }
-            dados.financeiro.recursoProprio=r.value==='sim';
-            if (dados.financeiro.recursoProprio) {
-                const v=document.getElementById('valor-proprio');
-                if (!v.value||parseFloat(v.value)<=0) { alert('Informe o valor do recurso próprio.'); return false; }
-                dados.financeiro.valorProprio=parseFloat(v.value);
-            }
-            const f=document.querySelector('input[name="vai-financiar"]:checked');
-            if (!f) { alert('Informe se vai financiar.'); return false; }
-            dados.financeiro.vaiFinanciar=f.value==='sim';
-            if (dados.financeiro.vaiFinanciar) {
-                const rf=document.getElementById('renda-familiar');
-                if (!rf.value||parseFloat(rf.value)<=0) { alert('Informe sua renda familiar.'); return false; }
-                dados.financeiro.rendaFamiliar=parseFloat(rf.value);
-            }
-            return true;
-        }
 
-        function mostrarErro(i,s) {
-            if (s) { i.classList.add('error'); const e=i.parentElement.querySelector('.error-msg'); if(e) e.classList.add('visible'); }
-            else { i.classList.remove('error'); const e=i.parentElement.querySelector('.error-msg'); if(e) e.classList.remove('visible'); }
-        }
+    
 
-        function salvarDados(e) {
-            if (e===1) {
-                dados.lead.nome=document.getElementById('lead-nome').value.trim();
-                dados.lead.email=document.getElementById('lead-email').value.trim();
-                dados.lead.telefone=document.getElementById('lead-telefone').value.trim();
-            } else if (e===2) {
-                dados.terreno.temTerreno=document.querySelector('input[name="tem-terreno"]:checked').value==='sim';
-                if (dados.terreno.temTerreno) {
-                    dados.terreno.largura=parseFloat(document.getElementById('terreno-largura').value)||0;
-                    dados.terreno.comprimento=parseFloat(document.getElementById('terreno-comprimento').value)||0;
-                    dados.terreno.area=dados.terreno.largura*dados.terreno.comprimento;
-                }
-                dados.projeto.temProjeto=document.querySelector('input[name="tem-projeto"]:checked').value==='sim';
-                dados.terreno.cidade=document.getElementById('obra-cidade').value.trim();
-                dados.terreno.local=document.querySelector('input[name="local-obra"]:checked').value;
-            }
-        }
 
-        function toggleTerreno(t) { const c=document.getElementById('campos-terreno');
-            if (t) c.classList.add('ativo'); else { c.classList.remove('ativo');
-                document.getElementById('m2-exibicao').classList.remove('ativo');
-                document.getElementById('terreno-largura').value=''; document.getElementById('terreno-comprimento').value=''; } }
-        function toggleProjeto(t) { const c=document.getElementById('campo-upload-projeto');
-            if (t) c.classList.add('ativo'); else { c.classList.remove('ativo'); removerArquivo(); } }
-        function onFileSelected(i) { const f=i.files[0]; if(!f) return;
-            if(f.size>10*1024*1024) { alert('Arquivo muito grande. Máx. 10 MB.'); i.value=''; return; }
-            dados.projeto.arquivo=f; dados.projeto.arquivoNome=f.name;
-            document.getElementById('file-name').textContent=f.name;
-            document.getElementById('file-selected').classList.add('ativo'); }
-        function removerArquivo() { document.getElementById('arquivo-projeto').value='';
-            dados.projeto.arquivo=null; dados.projeto.arquivoNome='';
-            document.getElementById('file-selected').classList.remove('ativo'); }
-        function calcularM2() {
-            const l=parseFloat(document.getElementById('terreno-largura').value)||0;
-            const c=parseFloat(document.getElementById('terreno-comprimento').value)||0;
-            const a=l*c;
-            if (a>0) { document.getElementById('m2-valor').textContent=a.toFixed(2);
-                document.getElementById('m2-exibicao').classList.add('ativo'); }
-            else document.getElementById('m2-exibicao').classList.remove('ativo'); }
-        function toggleRecursoProprio(s) { const c=document.getElementById('campo-valor-proprio');
-            if (s) c.classList.add('ativo'); else { c.classList.remove('ativo');
-                document.getElementById('valor-proprio').value=''; } }
-        function toggleFinanciamento(s) { const c=document.getElementById('campo-renda-familiar');
-            if (s) c.classList.add('ativo'); else { c.classList.remove('ativo');
-                document.getElementById('renda-familiar').value=''; } }
-        function atualizarProgresso(p) { document.querySelectorAll('.ponto').forEach((pt,i)=>{
-            const s=i+1; pt.classList.remove('ativo','concluido');
-            if(s===p) pt.classList.add('ativo'); else if(s0&&financ>0) comp=`${fmt(recurso)} (recurso próprio) + ${fmt(financ)} (financiamento)`;
-            else if(recurso>0) comp=`${fmt(recurso)} (recurso próprio)`;
-            else if(financ>0) comp=`${fmt(financ)} (financiamento estimado)`;
-            document.getElementById('result-composicao').textContent=comp;
 
-            document.getElementById('custo-standard').textContent=fmt(CONFIG.custoM2.standard);
-            document.getElementById('custo-premium').textContent=fmt(CONFIG.custoM2.premium);
-            document.getElementById('custo-supreme').textContent=fmt(CONFIG.custoM2.supreme);
-            document.getElementById('m2-standard').textContent=m2s;
-            document.getElementById('m2-premium').textContent=m2p;
-            document.getElementById('m2-supreme').textContent=m2u;
+    
+    
+      <h2>🔍 Detalhamento dos Componentes</h2>
+      | Componente | Valor (R$) | R$/m² | % Custo Direto |
+| --- | --- | --- | --- |
+    
 
-            let infoT='';
-            if(dados.terreno.temTerreno) infoT=`📍 Terreno de ${dados.terreno.area.toFixed(2)} m² em ${dados.terreno.cidade} (${dados.terreno.local==='condominio'?'Condomínio':'Via Pública'}).`;
-            else infoT=`📍 Obra em ${dados.terreno.cidade} (${dados.terreno.local==='condominio'?'Condomínio':'Via Pública'}). Terreno a definir.`;
-            document.getElementById('result-info-terreno').textContent=infoT;
 
-            const infoP=dados.projeto.temProjeto
-                ? `📐 Possui projeto arquitetônico.${dados.projeto.arquivoNome?' (Anexo: '+dados.projeto.arquivoNome+')':''}`
-                : '📐 Ainda não possui projeto — podemos ajudar!';
-            document.getElementById('result-info-projeto').textContent=infoP;
 
-            document.getElementById('etapa-3').classList.remove('ativa');
-            document.getElementById('etapa-4').classList.add('ativa');
-            atualizarProgresso(4);
-            document.getElementById('passo-atual').textContent=4;
-            document.querySelector('.simulador-container').scrollIntoView({behavior:'smooth',block:'start'});
-        }
+    
+    
+      <h2>🏠 Detalhamento dos Acabamentos</h2>
+      | Item | Valor (R$) |
+| --- | --- |
+    
 
-        function fmt(v) { return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 
-        function calcularResultadoAtual() {
-            const r=dados.financeiro.recursoProprio?dados.financeiro.valorProprio:0;
-            const f=dados.financeiro.vaiFinanciar?calcularFinanciamento(dados.financeiro.rendaFamiliar):0;
-            const t=r+f;
-            return {valorTotal:t,m2Standard:Math.floor(t/CONFIG.custoM2.standard),m2Premium:Math.floor(t/CONFIG.custoM2.premium),m2Supreme:Math.floor(t/CONFIG.custoM2.supreme)};
-        }
 
-        function enviarParaLead() {
-            const payload={lead:dados.lead,terreno:dados.terreno,projeto:{temProjeto:dados.projeto.temProjeto,arquivoNome:dados.projeto.arquivoNome},financeiro:dados.financeiro,resultado:calcularResultadoAtual()};
-            console.log('📦 Lead:',JSON.stringify(payload,null,2));
-            alert('✅ Obrigado, '+dados.lead.nome+'! Recebemos seus dados.\n\nNa próxima fase vamos detalhar os acabamentos e personalizações para chegar no orçamento final da sua casa.');
-        }
-    </script>
+    
+    
+      <h2>🏢 Custos Indiretos</h2>
+      | Item | Valor (R$) |
+| --- | --- |
+    
 
+
+  
+
+
+
+  <footer>
+    SOE 2.0 — iBUILD **São Carlos** · Guilherme Cazú · Engenheiro Civil
+
+    Base SIENGE · Dados de Julho/2026 · Para uso em pré-contrato sem projeto arquitetônico
+  </footer>
+
+
+
+
+<script>
+// 
+//  LÓGICA SOE 2.0 — Extraída da planilha original
+// 
+
+const PADRAO_ACABAMENTO = {
+  MCMV: 'MCMV',
+  STANDARD: 'Standard',
+  PREMIUM: 'Premium',
+  SUPREME: 'Supreme'
+};
+
+const CUSTOS_INDIRETOS = {
+  projetos: 7278.12,
+  aprovacoes: 600,
+  licencasTaxas: 8000.28,
+  maoDeObraIndireta: 450000,
+  equipeAdministrativa: 228672,
+  despesasAluguel: 225000,
+  epi: 3672,
+  viagens: 28080,
+  estadia: 13500,
+};
+const TOTAL_CUSTOS_INDIRETOS = Object.values(CUSTOS_INDIRETOS).reduce((a, b) => a + b, 0);
+
+const CUSTO_OBRA_BRANCA_M2 = {
+  servicosIniciais: {
+    projetos: { estruturalLSF: 50, fundacoesRadier: 10, hidrossanitario: 15, eletrico: 15, compatibilizacao: 8 },
+    canteiro: { tapume: { valor: 208.6675, unidade: 'm', qtd: 70 }, container: { valor: 572.8058, unidade: 'mês', qtd: 5.5 }, portao: { valor: 8856.7117, unidade: 'un', qtd: 1 } },
+    gabaritos: 6.5284,
+  },
+  fundacoes: {
+    instalacoesRadier: { hidraulica: 61.2, eletrica: 28.38 },
+    radier: { compactacao: 1.38, formasIndustrializado: 24.28, concretagem: 780.68 },
+  },
+  estruturaLsf: {
+    montagem: { frete: 3.5, locacaoPainel: 9.7, painelIB35K: 618.37, painelIB40K: 693.37, painelIB45K: 768.37, impermeabilizacao: 18.52 },
+    verticalizacaoTerreo: { instalacaoPaineis: 30.12, estruturaLaje: 59.64, formasLaje: 161.81 },
+    verticalizacaoPavimentos: { instalacaoPaineis: 23.36, cobertura: 10.06 },
+  },
+  coberturaFase1: {
+    calhas: { acoGalvanizado: 70.06 },
+    telhamentos: { termoacustica: 152.49, fibrocimento: 48.65, ceramica: 45.18, metalica: 94.19, lajeImpermeabilizada: 286.19, especial: 2.15 },
+  },
+  fechamentoExterno: {
+    andaimes: 8,
+    plaqueamento: { standard: 101.33, premium: 167.34, supreme: 199.04 },
+    tratamentoJuntas: 70.81,
+  },
+  coberturaFase2: {
+    rufos: { acoGalvanizado40: 45.02, pingadeira30: 43.86 },
+  },
+  instalacoes: {
+    hidraulica: { instalacaoPex: 110.65, teste: 1500 },
+    eletrica: { chicotesQD: 113.88, teste: 1500 },
+  },
+  acertosPisos: {
+    contrapiso: { massaRegularizacao: 61.55 },
+    lajeTecnica: 83.11,
+  },
+  fechamentoInterno: {
+    conforto: { laPetTermoacustico: 17.17, placaOsb: 101.91 },
+    fechamentos: { plaqueamentoST: 48.16, plaqueamentoRU: 52.80 },
+    forros: { placaCimenticia: 223.79 },
+    finalizacao: { tratamentoJuntas: 16.25 },
+  },
+  itensEspeciais: {
+    limpeza: 16.50,
+  }
+};
+
+const CUSTOS_ACABAMENTOS = {
+  MCMV: {
+    soleirasPeitoris: 0,
+    portasExternas: 0,
+    pisoPrincipal: 103.63,
+    revestimentoParede: 71.46,
+    portaInterna: 936.04,
+    bancada: 644.06,
+    pinturaExterna: 29.44,
+    pinturaInterna: 17.31,
+    kitBanheiro: 1107.69,
+    kitCozinha: 644.06,
+    kitLavanderia: 701.79,
+  },
+  Standard: {
+    soleirasPeitoris: 103.73,
+    portasExternas: 473.81,
+    pisoPrincipal: 145.61,
+    laminado: 111.96,
+    concretoPolido: 66.19,
+    rodape: 44.84,
+    protecaoPiso: 13.33,
+    impermeabilizacao: 21.60,
+    revestimentoParede: 114.16,
+    portaInterna: 936.04,
+    bancada: 771.49,
+    pinturaExterna: 29.55,
+    pinturaInterna: 25.18,
+    kitLavabo: 1471.31,
+    kitBanheiro01: 2101.57,
+    kitCozinha: 951.29,
+    kitLavanderia: 800.10,
+  },
+  Premium: {
+    soleirasPeitoris: 155.73,
+    portasExternas: 787.58,
+    pisoPrincipal: 183.03,
+    laminado: 124.24,
+    concretoPolido: 66.19,
+    rodape: 44.84,
+    protecaoPiso: 13.33,
+    impermeabilizacao: 21.60,
+    revestimentoParede: 157.98,
+    portaInterna: 908.70,
+    bancada: 1057.49,
+    pinturaExterna: 38.10,
+    pinturaInterna: 23.74,
+    kitLavabo: 3218.38,
+    kitBanheiro01: 5295.49,
+    kitCozinha: 2228.99,
+    kitLavanderia: 1197.22,
+  },
+  Supreme: {
+    soleirasPeitoris: 324.14,
+    portasExternas: 997.60,
+    pisoPrincipal: 272.87,
+    laminado: 124.24,
+    concretoPolido: 66.19,
+    rodape: 44.84,
+    protecaoPiso: 13.33,
+    impermeabilizacao: 21.60,
+    revestimentoParede: 235.53,
+    portaInterna: 1240.87,
+    bancada: 1992.49,
+    pinturaExterna: 38.10,
+    pinturaInterna: 24.32,
+    kitLavabo: 4716.90,
+    kitBanheiro01: 8740.38,
+    kitCozinha: 1950.28,
+    kitLavanderia: 1232.97,
+  }
+};
+
+const PROJETO_BASE = {
+  areaM2: 232.03,
+  paredesExternasM2fac: 262.30,
+  paredesInternasSTM2fac: 405.96,
+  paredesInternasRUM2fac: 253.80,
+  forroM2: 201.77,
+  pisoM2: 235.25,
+  pinturaIntM2fac: 861.53,
+  esquadriasVidroM2fac: 43.98,
+  bancadasM2fac: 10.86,
+  qtdPortas: 16,
+  kitsLavabo: 1,
+  kitsCozinha: 2,
+  kitsLavanderia: 1,
+  kitsBanho: 4,
+};
+
+// ===== FUNÇÕES DE CÁLCULO =====
+
+function calcularObraBranca(opts = {}) {
+  const a = opts.areaM2 ?? PROJETO_BASE.areaM2;
+  const pe = opts.paredesExtM2fac ?? PROJETO_BASE.paredesExternasM2fac;
+  const pav = opts.pavimentos ?? 1;
+  const telhaTipo = opts.tipoTelha ?? 'termoacustica';
+  const parede = opts.padraoParede ?? 'supreme';
+  const dist = opts.distanciaKm ?? 450;
+  const ob = CUSTO_OBRA_BRANCA_M2;
+
+  // Serviços Iniciais
+  const projetos = Object.values(ob.servicosIniciais.projetos).reduce((s, v) => s + v, 0) * a;
+  const tapume = ob.servicosIniciais.canteiro.tapume.valor * ob.servicosIniciais.canteiro.tapume.qtd;
+  const container = ob.servicosIniciais.canteiro.container.valor * ob.servicosIniciais.canteiro.container.qtd;
+  const portao = ob.servicosIniciais.canteiro.portao.valor;
+  const gabaritos = ob.servicosIniciais.gabaritos * a;
+  const servicosIniciais = projetos + tapume + container + portao + gabaritos;
+
+  // Fundações
+  const instRadier = (ob.fundacoes.instalacoesRadier.hidraulica + ob.fundacoes.instalacoesRadier.eletrica) * a;
+  const compactacao = ob.fundacoes.radier.compactacao * a;
+  const formasInd = ob.fundacoes.radier.formasIndustrializado * a;
+  const conc = ob.fundacoes.radier.concretagem * 30.2649;
+  const fundacoes = instRadier + compactacao + formasInd + conc;
+
+  // Estrutura LSF
+  const precoPainel = pav <= 1 ? ob.estruturaLsf.montagem.painelIB35K
+    : pav === 2 ? ob.estruturaLsf.montagem.painelIB40K
+    : ob.estruturaLsf.montagem.painelIB45K;
+  const frete = ob.estruturaLsf.montagem.frete * dist;
+  const locPaineis = ob.estruturaLsf.montagem.locacaoPainel * 258.26;
+  const montPaineis = precoPainel * a;
+  const impermBase = ob.estruturaLsf.montagem.impermeabilizacao * 258.26;
+  const montagem = frete + locPaineis + montPaineis + impermBase;
+
+  const vertTerreo = (ob.estruturaLsf.verticalizacaoTerreo.instalacaoPaineis
+    + ob.estruturaLsf.verticalizacaoTerreo.estruturaLaje
+    + ob.estruturaLsf.verticalizacaoTerreo.formasLaje) * a;
+  const vertPav = pav > 1 ? (ob.estruturaLsf.verticalizacaoPavimentos.instalacaoPaineis
+    + ob.estruturaLsf.verticalizacaoPavimentos.cobertura) * a : 0;
+  const estruturaLsf = montagem + vertTerreo + vertPav;
+
+  // Cobertura
+  const telhaPrecos = ob.coberturaFase1.telhamentos;
+  const telha = telhaPrecos[telhaTipo] ?? telhaPrecos.termoacustica;
+  const calha = ob.coberturaFase1.calhas.acoGalvanizado * 50.44;
+  const telhamento = telha * a;
+  const rufos = (ob.coberturaFase2.rufos.acoGalvanizado40 + ob.coberturaFase2.rufos.pingadeira30) * 50.44;
+  const cobertura = calha + telhamento + rufos;
+
+  // Fechamento Externo
+  const plaq = ob.fechamentoExterno.plaqueamento[parede] ?? ob.fechamentoExterno.plaqueamento.supreme;
+  const andaimesExt = ob.fechamentoExterno.andaimes * pe;
+  const plaqueamento = plaq * pe;
+  const tratJuntas = ob.fechamentoExterno.tratamentoJuntas * pe;
+  const fechamentoExt = andaimesExt + plaqueamento + tratJuntas;
+
+  // Instalações
+  const hidra = ob.instalacoes.hidraulica.instalacaoPex * a + 1500;
+  const eletr = ob.instalacoes.eletrica.chicotesQD * a + 1500;
+  const instalacoes = hidra + eletr;
+
+  // Acertos Pisos
+  const contrapiso = ob.acertosPisos.contrapiso.massaRegularizacao * PROJETO_BASE.pisoM2;
+  const lajeTec = ob.acertosPisos.lajeTecnica * 5.04;
+  const acertosPisos = contrapiso + lajeTec;
+
+  // Fechamento Interno
+  const isolamento = (ob.fechamentoInterno.conforto.laPetTermoacustico + ob.fechamentoInterno.conforto.placaOsb) * 202.98;
+  const plaqIntST = ob.fechamentoInterno.fechamentos.plaqueamentoST * PROJETO_BASE.paredesInternasSTM2fac;
+  const plaqIntRU = ob.fechamentoInterno.fechamentos.plaqueamentoRU * PROJETO_BASE.paredesInternasRUM2fac;
+  const forros = ob.fechamentoInterno.forros.placaCimenticia * PROJETO_BASE.forroM2;
+  const tratParedes = ob.fechamentoInterno.finalizacao.tratamentoJuntas
+    * (PROJETO_BASE.paredesInternasSTM2fac + PROJETO_BASE.paredesInternasRUM2fac + PROJETO_BASE.forroM2);
+  const fechamentoInt = isolamento + plaqIntST + plaqIntRU + forros + tratParedes;
+
+  // Itens Especiais
+  const limpeza = ob.itensEspeciais.limpeza * a;
+  const itensEspeciais = limpeza;
+
+  return servicosIniciais + fundacoes + estruturaLsf + cobertura + fechamentoExt
+       + instalacoes + acertosPisos + fechamentoInt + itensEspeciais;
+}
+
+function calcularAcabamentos(padrao, qtds) {
+  const t = CUSTOS_ACABAMENTOS[padrao] ?? CUSTOS_ACABAMENTOS.Premium;
+  const q = qtds ?? PROJETO_BASE;
+
+  const soleiras = t.soleirasPeitoris * 50.44;
+  const esquadrias = t.portasExternas * q.esquadriasVidroM2fac;
+
+  const piso = (t.pisoPrincipal ?? 0) * (q.pisoM2 * 0.5)
+    + (t.laminado ?? 0) * (q.pisoM2 * 0.3)
+    + (t.concretoPolido ?? 0) * (q.pisoM2 * 0.2)
+    + (t.rodape ?? 0) * 200
+    + (t.protecaoPiso ?? 0) * q.pisoM2;
+
+  const imperm = (t.impermeabilizacao ?? 0) * (q.pisoM2 * 0.15);
+  const revest = (t.revestimentoParede ?? 0) * 30;
+  const portas = (t.portaInterna ?? 0) * q.qtdPortas;
+  const bancada = (t.bancada ?? 0) * q.bancadasM2fac;
+  const pintExt = (t.pinturaExterna ?? 0) * q.paredesExternasM2fac;
+  const pintInt = (t.pinturaInterna ?? 0) * q.pinturaIntM2fac;
+
+  const louvas = (t.kitBanheiro01 ?? 0) * q.kitsBanho
+    + (t.kitCozinha ?? 0) * q.kitsCozinha
+    + (t.kitLavanderia ?? 0) * q.kitsLavanderia
+    + (t.kitLavabo ?? 0) * q.kitsLavabo;
+
+  const itens = { soleiras, esquadrias, piso, impermeabilizacao: imperm, revestimentoParede: revest, portas, bancada, pinturaExterna: pintExt, pinturaInterna: pintInt, louvasMetais: louvas };
+  const total = Object.values(itens).reduce((s, v) => s + v, 0);
+  return { total, itens };
+}
+
+function calcularExtras(input = {}) {
+  const padrao = {
+    terraplenagem: false, custoTerraplenagem: 50000,
+    piscina: false, areaPiscinaM2: 0, custoPiscinaM2: 2500,
+    fechamentoTerreno: false, metragemMuroM: 0, alturaMuroM: 2.2, custoMuroM2fac: 279.45,
+  };
+  const p = { ...padrao, ...input };
+  const itens = {};
+  let total = 0;
+
+  if (p.terraplenagem) { itens.terraplenagem = p.custoTerraplenagem; total += p.custoTerraplenagem; }
+  if (p.piscina && p.areaPiscinaM2 > 0) { const v = p.custoPiscinaM2 * p.areaPiscinaM2; itens.piscina = v; total += v; }
+  if (p.fechamentoTerreno && p.metragemMuroM > 0) { const v = p.custoMuroM2fac * p.metragemMuroM * p.alturaMuroM; itens.fechamentoTerreno = v; total += v; }
+
+  return { total, itens };
+}
+
+function calcularCustosIndiretos(areaM2) {
+  return {
+    total: TOTAL_CUSTOS_INDIRETOS,
+    rateioM2: TOTAL_CUSTOS_INDIRETOS / (areaM2 || PROJETO_BASE.areaM2),
+    detalhes: { ...CUSTOS_INDIRETOS },
+  };
+}
+
+function calcularSOE(input = {}) {
+  const areaM2 = input.areaM2 ?? PROJETO_BASE.areaM2;
+  const pavimentos = input.pavimentos ?? 1;
+  const padrao = input.padraoAcabamento ?? PADRAO_ACABAMENTO.PREMIUM;
+  const tipoTelha = input.tipoTelha ?? 'termoacustica';
+  const padraoParede = input.padraoParede ?? 'supreme';
+  const distanciaKm = input.distanciaKm ?? 450;
+  const incluirMargem = input.incluirMargem ?? false;
+  const margemLucro = input.margemLucro ?? 0.5;
+  const incluirIndiretos = input.incluirCustosIndiretos ?? true;
+  const extrasInput = input.extras ?? {};
+
+  const obraBranca = calcularObraBranca({ areaM2, pavimentos, tipoTelha, padraoParede, distanciaKm });
+  const acabamento = calcularAcabamentos(padrao);
+  const extras = calcularExtras(extrasInput);
+  const custoDireto = obraBranca + acabamento.total + extras.total;
+  const indiretos = incluirIndiretos ? calcularCustosIndiretos(areaM2) : { total: 0, rateioM2: 0 };
+  const custoTotal = custoDireto + indiretos.total;
+  const fatorMargem = incluirMargem ? (1 + margemLucro) : 1;
+  const valorVenda = custoTotal * fatorMargem;
+
+  return {
+    resumo: {
+      areaM2,
+      padraoAcabamento: padrao,
+      custoMedioM2: custoTotal / areaM2,
+      valorMedioM2: valorVenda / areaM2,
+      custoTotal,
+      valorVenda: incluirMargem ? valorVenda : null,
+      margemLucro: incluirMargem ? margemLucro : 0,
+    },
+    componentes: {
+      obraBranca: { valor: obraBranca, valorM2: obraBranca / areaM2, pct: (obraBranca / custoDireto) * 100 },
+      acabamentos: { valor: acabamento.total, valorM2: acabamento.total / areaM2, pct: (acabamento.total / custoDireto) * 100, detalhes: acabamento.itens },
+      itensExtras: { valor: extras.total, valorM2: extras.total / areaM2, pct: (extras.total / custoDireto) * 100, itens: extras.itens },
+    },
+    custosIndiretos: incluirIndiretos ? {
+      valor: indiretos.total,
+      valorM2: indiretos.rateioM2,
+      detalhes: indiretos.detalhes,
+    } : null,
+    precosMedios: {
+      obraBrancaM2: Number((obraBranca / areaM2).toFixed(2)),
+      acabamentoM2: Number((acabamento.total / areaM2).toFixed(2)),
+      extrasM2: Number((extras.total / areaM2).toFixed(2)),
+      custoDiretoM2: Number((custoDireto / areaM2).toFixed(2)),
+    },
+    simulacaoPreProjeto: {
+      Standard: 4000 * areaM2,
+      Premium: 5000 * areaM2,
+      Supreme: 6000 * areaM2,
+    },
+  };
+}
+
+// 
+//  INTERFACE — FORMULÁRIO E RENDERIZAÇÃO
+// 
+
+function fmt(v) {
+  return v?.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? '0,00';
+}
+
+function renderizarResultados(r) {
+  const section = document.getElementById('resultados');
+  section.classList.add('visible');
+
+  // Resumo
+  const resumoHTML = `
+    
+      R$ ${fmt(r.resumo.custoTotal)}
+
+
+      Custo Total
+
+
+    
+
+
+    
+      R$ ${fmt(r.resumo.custoMedioM2)}
+
+
+      Custo Médio / m²
+
+
+    
+
+
+    ${r.resumo.valorVenda ? `
+    
+      R$ ${fmt(r.resumo.valorVenda)}
+
+
+      Valor de Venda (${(r.resumo.margemLucro * 100).toFixed(0)}% margem)
+
+
+    
+
+
+    ` : ''}
+    
+      ${r.resumo.areaM2.toFixed(2)} m²
+
+
+      Área Construída
+
+
+    
+
+
+    
+      ${r.resumo.padraoAcabamento}
+
+
+      Padrão de Acabamento
+
+
+    
+
+
+    
+      ~6 meses
+
+
+      Prazo Médio de Obra
+
+
+    
+
+
+  `;
+  document.getElementById('resumoMetrics').innerHTML = resumoHTML;
+
+  // Preços médios
+  const precosHTML = `
+    R$ ${fmt(r.precosMedios.obraBrancaM2)}
+
+Obra Branca / m²
+
+
+
+
+    R$ ${fmt(r.precosMedios.acabamentoM2)}
+
+Acabamento / m²
+
+
+
+
+    R$ ${fmt(r.precosMedios.extrasM2)}
+
+Extras / m²
+
+
+
+
+    R$ ${fmt(r.precosMedios.custoDiretoM2)}
+
+Custo Direto / m²
+
+
+
+
+  `;
+  document.getElementById('precosMediosGrid').innerHTML = precosHTML;
+
+  // Simulação por padrão
+  const simHTML = Object.entries(r.simulacaoPreProjeto).map(([k, v]) => `
+    
+      R$ ${fmt(v)}
+
+
+      ${k} (preço médio)
+
+
+    
+
+
+  `).join('');
+  document.getElementById('simulacaoPadroes').innerHTML = simHTML;
+
+  // Breakdown componentes
+  const comps = r.componentes;
+  let bBody = '';
+  const linhas = [
+    { nome: '🏗️ Obra Branca', valor: comps.obraBranca.valor, vm2: comps.obraBranca.valorM2, pct: comps.obraBranca.pct },
+    { nome: '🎨 Acabamentos', valor: comps.acabamentos.valor, vm2: comps.acabamentos.valorM2, pct: comps.acabamentos.pct },
+    { nome: '➕ Itens Extras', valor: comps.itensExtras.valor, vm2: comps.itensExtras.valorM2, pct: comps.itensExtras.pct },
+  ];
+  const custoDireto = linhas.reduce((s, l) => s + l.valor, 0);
+  linhas.forEach(l => {
+    bBody += `<tr><td>${l.nome}</td><td class="num">R$ ${fmt(l.valor)}</td><td class="num">R$ ${fmt(l.vm2)}</td><td class="num">${l.pct.toFixed(1)}%</td></tr>`;
+  });
+  if (r.custosIndiretos) {
+    bBody += `<tr class="total-row"><td>Subtotal (custo direto)</td><td class="num">R$ ${fmt(custoDireto)}</td><td class="num">R$ ${fmt(custoDireto / r.resumo.areaM2)}</td><td class="num">100%</td></tr>`;
+    bBody += `<tr><td>🏢 Custos Indiretos</td><td class="num">R$ ${fmt(r.custosIndiretos.valor)}</td><td class="num">R$ ${fmt(r.custosIndiretos.valorM2)}</td><td class="num">—</td></tr>`;
+    const totalGeral = custoDireto + r.custosIndiretos.valor;
+    bBody += `<tr class="total-row"><td>**Custo Total**</td><td class="num">**R$ ${fmt(totalGeral)}**</td><td class="num">**R$ ${fmt(totalGeral / r.resumo.areaM2)}**</td><td class="num">—</td></tr>`;
+  }
+  document.getElementById('breakdownBody').innerHTML = bBody;
+
+  // Detalhes dos acabamentos
+  const acDet = comps.acabamentos.detalhes;
+  let acBody = '';
+  Object.entries(acDet).forEach(([k, v]) => {
+    const nomes = { soleiras: 'Soleiras e Peitoris', esquadrias: 'Portas Externas / Esquadrias', piso: 'Pisos', impermeabilizacao: 'Impermeabilização', revestimentoParede: 'Revestimento de Paredes', portas: 'Portas Internas', bancada: 'Bancadas', pinturaExterna: 'Pintura Externa', pinturaInterna: 'Pintura Interna', louvasMetais: 'Louças e Metais' };
+    acBody += `<tr><td>${nomes[k] ?? k}</td><td class="num">R$ ${fmt(v)}</td></tr>`;
+  });
+  document.getElementById('acabamentosBody').innerHTML = acBody;
+
+  // Custos Indiretos
+  if (r.custosIndiretos) {
+    let indBody = '';
+    const nomesInd = { projetos: 'Projetos', aprovacoes: 'Aprovações', licencasTaxas: 'Licenças e Taxas', maoDeObraIndireta: 'Mão de Obra Indireta', equipeAdministrativa: 'Equipe Administrativa', despesasAluguel: 'Despesas / Aluguel', epi: 'EPI', viagens: 'Viagens', estadia: 'Estadia' };
+    Object.entries(r.custosIndiretos.detalhes).forEach(([k, v]) => {
+      indBody += `<tr><td>${nomesInd[k] ?? k}</td><td class="num">R$ ${fmt(v)}</td></tr>`;
+    });
+    indBody += `<tr class="total-row"><td>**Total Custos Indiretos**</td><td class="num">**R$ ${fmt(r.custosIndiretos.valor)}**</td></tr>`;
+    document.getElementById('indiretosBody').innerHTML = indBody;
+    document.getElementById('tabelaIndiretos').closest('.card').style.display = 'block';
+  } else {
+    document.getElementById('tabelaIndiretos').closest('.card').style.display = 'none';
+  }
+
+  // Scroll suave até os resultados
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ===== EVENTOS DO FORMULÁRIO =====
+
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('formOrcamento');
+
+  // Mostra/esconde campo de margem
+  document.getElementById('incluirMargem').addEventListener('change', function() {
+    document.getElementById('grupoMargem').style.display = this.checked ? 'block' : 'none';
+  });
+
+  // Mostra/esconde detalhes dos extras
+  const extrasCheckboxes = ['extrasTerraplenagem', 'extrasPiscina', 'extrasMuro'];
+  extrasCheckboxes.forEach(id => {
+    document.getElementById(id).addEventListener('change', function() {
+      const algumMarcado = extrasCheckboxes.some(cid => document.getElementById(cid).checked);
+      document.getElementById('extrasDetalhes').style.display = algumMarcado ? 'block' : 'none';
+      document.getElementById('grupoTerraplenagem').style.display = document.getElementById('extrasTerraplenagem').checked ? 'block' : 'none';
+      document.getElementById('grupoAreaPiscina').style.display = document.getElementById('extrasPiscina').checked ? 'block' : 'none';
+      document.getElementById('grupoMetragemMuro').style.display = document.getElementById('extrasMuro').checked ? 'block' : 'none';
+    });
+  });
+
+  // Submit
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const extras = {
+      terraplenagem: document.getElementById('extrasTerraplenagem').checked,
+      custoTerraplenagem: parseFloat(document.getElementById('custoTerraplenagem').value) || 0,
+      piscina: document.getElementById('extrasPiscina').checked,
+      areaPiscinaM2: parseFloat(document.getElementById('areaPiscinaM2').value) || 0,
+      fechamentoTerreno: document.getElementById('extrasMuro').checked,
+      metragemMuroM: parseFloat(document.getElementById('metragemMuroM').value) || 0,
+    };
+
+    const input = {
+      areaM2: parseFloat(document.getElementById('areaM2').value) || PROJETO_BASE.areaM2,
+      pavimentos: parseInt(document.getElementById('pavimentos').value) || 1,
+      padraoAcabamento: document.getElementById('padraoAcabamento').value,
+      tipoTelha: document.getElementById('tipoTelha').value,
+      padraoParede: document.getElementById('padraoParede').value,
+      distanciaKm: parseFloat(document.getElementById('distanciaKm').value) || 450,
+      incluirMargem: document.getElementById('incluirMargem').checked,
+      margemLucro: (parseFloat(document.getElementById('margemLucro').value) || 50) / 100,
+      incluirCustosIndiretos: document.getElementById('incluirCustosIndiretos').checked,
+      extras,
+    };
+
+    const resultado = calcularSOE(input);
+    renderizarResultados(resultado);
+  });
+
+  // Executa cálculo inicial com valores padrão
+  form.requestSubmit();
+});
+</script>
 </body>
 </html>
