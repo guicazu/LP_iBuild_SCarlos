@@ -1,7 +1,3 @@
-<!-- 
-     SIMULADOR DE ORÇAMENTO EXPRESS (SOE) - iBUILD SÃO CARLOS
-     Versão: 1.0 | Online | HTML + CSS + JS Puro
-      -->
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -9,22 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador de Orçamento - iBUILD São Carlos</title>
-
-    <!-- 
-         CSS DO SIMULADOR
-         - Inline para performance (1 único request)
-         - Design compatível com a landing lp.ibuildsaocarlos.com.br
-         - Mobile-first
-          -->
     <style>
         /* --- RESET BÁSICO --- */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         /* --- VARIÁVEIS (cores iBUILD) --- */
         :root {
-            --primary: #1a3c5e;       /* Azul escuro institucional */
+            --primary: #1a3c5e;
             --primary-light: #2a5c8a;
-            --accent: #e8a838;        /* Dourado / laranja para CTAs */
+            --accent: #e8a838;
             --accent-hover: #d4952f;
             --bg: #f4f7fa;
             --card-bg: #ffffff;
@@ -49,7 +38,6 @@
             padding: 20px;
         }
 
-        /* --- CONTÊINER PRINCIPAL DO SIMULADOR --- */
         .simulador-container {
             width: 100%;
             max-width: 800px;
@@ -60,7 +48,6 @@
             position: relative;
         }
 
-        /* --- CABEÇALHO --- */
         .simulador-header {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: #fff;
@@ -89,27 +76,21 @@
             font-weight: 600;
         }
 
-        /* --- CORPO DO SIMULADOR --- */
         .simulador-body {
             padding: 32px;
         }
 
-        /* --- ETAPAS (passo a passo) --- */
         .etapa {
             display: none;
             animation: fadeIn 0.4s ease;
         }
-
-        .etapa.ativa {
-            display: block;
-        }
+        .etapa.ativa { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(12px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- TÍTULOS DAS ETAPAS --- */
         .etapa-titulo {
             font-size: 1.25rem;
             font-weight: 700;
@@ -123,16 +104,13 @@
             margin-bottom: 24px;
         }
 
-        /* --- GRUPO DE CAMPOS --- */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
 
-        .form-grid .full-width {
-            grid-column: 1 / -1;
-        }
+        .form-grid .full-width { grid-column: 1 / -1; }
 
         .campo {
             display: flex;
@@ -146,9 +124,7 @@
             color: var(--text);
         }
 
-        .campo label .obrigatorio {
-            color: #dc2626;
-        }
+        .campo label .obrigatorio { color: #dc2626; }
 
         .campo input,
         .campo select {
@@ -168,21 +144,15 @@
             box-shadow: 0 0 0 3px rgba(26,60,94,0.1);
         }
 
-        .campo input.error {
-            border-color: #dc2626;
-        }
+        .campo input.error { border-color: #dc2626; }
 
         .campo .error-msg {
             font-size: 0.78rem;
             color: #dc2626;
             display: none;
         }
+        .campo .error-msg.visible { display: block; }
 
-        .campo .error-msg.visible {
-            display: block;
-        }
-
-        /* --- CAMPOS DE SIM / NÃO (radio group estilizado) --- */
         .radio-group {
             display: flex;
             gap: 12px;
@@ -202,31 +172,76 @@
             font-size: 0.9rem;
         }
 
-        .radio-group label:hover {
-            border-color: var(--primary-light);
-        }
+        .radio-group label:hover { border-color: var(--primary-light); }
 
-        .radio-group input[type="radio"] {
-            accent-color: var(--primary);
-        }
+        .radio-group input[type="radio"] { accent-color: var(--primary); }
 
         .radio-group label.selecionado {
             border-color: var(--primary);
             background: rgba(26,60,94,0.06);
         }
 
-        /* --- CAMPO CONDICIONAL (aparece/desaparece) --- */
         .campo-condicional {
             display: none;
             margin-top: 12px;
             animation: fadeIn 0.3s ease;
         }
+        .campo-condicional.ativo { display: block; }
 
-        .campo-condicional.ativo {
-            display: block;
+        /* --- Área de upload de arquivo --- */
+        .file-upload-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            background: #fafbfc;
+            cursor: pointer;
+            transition: border var(--transition);
         }
 
-        /* --- M² CALCULADO (exibição automática) --- */
+        .file-upload-wrapper:hover {
+            border-color: var(--primary-light);
+            background: #f0f4f8;
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .file-upload-label strong {
+            color: var(--primary);
+        }
+
+        .file-selected {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: #dbeafe;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .file-selected.ativo {
+            display: inline-flex;
+        }
+
+        .file-selected .remover {
+            cursor: pointer;
+            color: #dc2626;
+            font-weight: 700;
+            margin-left: 4px;
+        }
+
+        /* --- m² calculado --- */
         .m2-exibicao {
             background: #f0f4f8;
             padding: 12px 16px;
@@ -236,12 +251,9 @@
             color: var(--primary);
             display: none;
         }
+        .m2-exibicao.ativo { display: block; }
 
-        .m2-exibicao.ativo {
-            display: block;
-        }
-
-        /* --- BOTÕES --- */
+        /* --- Botões --- */
         .btn {
             padding: 14px 32px;
             border: none;
@@ -272,16 +284,10 @@
             background: #e5e7eb;
             color: var(--text);
         }
+        .btn-secondary:hover { background: #d1d5db; }
 
-        .btn-secondary:hover {
-            background: #d1d5db;
-        }
+        .btn-full { width: 100%; }
 
-        .btn-full {
-            width: 100%;
-        }
-
-        /* --- ÁREA DOS BOTÕES DE NAVEGAÇÃO --- */
         .nav-botoes {
             display: flex;
             justify-content: space-between;
@@ -290,7 +296,7 @@
             gap: 12px;
         }
 
-        /* --- INDICADOR DE PROGRESSO --- */
+        /* --- Progresso --- */
         .progresso {
             display: flex;
             justify-content: center;
@@ -310,12 +316,9 @@
             background: var(--accent);
             transform: scale(1.2);
         }
+        .progresso .ponto.concluido { background: var(--success); }
 
-        .progresso .ponto.concluido {
-            background: var(--success);
-        }
-
-        /* --- TELA DE RESULTADO --- */
+        /* --- Resultado --- */
         .resultado-card {
             background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
             border-radius: var(--radius);
@@ -359,9 +362,7 @@
         .tabela-padroes th:first-child { border-radius: 8px 0 0 0; }
         .tabela-padroes th:last-child  { border-radius: 0 8px 0 0; }
 
-        .tabela-padroes td {
-            font-size: 0.95rem;
-        }
+        .tabela-padroes td { font-size: 0.95rem; }
 
         .tabela-padroes .destaque-m2 {
             font-weight: 700;
@@ -369,9 +370,7 @@
             color: var(--primary);
         }
 
-        .tabela-padroes tr:last-child td {
-            border-bottom: none;
-        }
+        .tabela-padroes tr:last-child td { border-bottom: none; }
 
         .badge-padrao {
             display: inline-block;
@@ -386,7 +385,6 @@
         .badge-premium  { background: #fef3c7; color: #92400e; }
         .badge-supreme  { background: #fce7f3; color: #9d174d; }
 
-        /* --- ÁREA DO LEAD (antes do simulador) --- */
         .lead-info {
             display: flex;
             align-items: center;
@@ -402,145 +400,123 @@
             font-weight: 700;
             color: var(--primary);
         }
+        .lead-info .lead-email { color: var(--text-light); }
 
-        .lead-info .lead-email {
-            color: var(--text-light);
-        }
-
-        /* --- RESPONSIVIDADE --- */
-        @media (max-width: 600px) {
-            .simulador-body {
-                padding: 20px 16px;
-            }
-            .simulador-header {
-                padding: 24px 16px 20px;
-            }
-            .simulador-header h1 {
-                font-size: 1.3rem;
-            }
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .radio-group {
-                flex-direction: column;
-            }
-            .radio-group label {
-                justify-content: center;
-            }
-            .nav-botoes {
-                flex-direction: column;
-            }
-            .nav-botoes .btn {
-                width: 100%;
-            }
-            .resultado-card .valor-principal {
-                font-size: 1.6rem;
-            }
-            .tabela-padroes {
-                font-size: 0.85rem;
-            }
-            .tabela-padroes th,
-            .tabela-padroes td {
-                padding: 8px 10px;
-            }
-        }
-
-        /* --- SPINNER DE CARREGAMENTO --- */
-        .spinner {
-            display: none;
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-        }
-
-        .spinner.ativo {
+        .badge-fase {
             display: inline-block;
+            background: #16a34a;
+            color: #fff;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* --- OCULTA SPINNER PADRÃO --- */
-        .btn .spinner.ativo + .btn-text {
-            display: none;
+        /* --- Responsividade --- */
+        @media (max-width: 600px) {
+            .simulador-body { padding: 20px 16px; }
+            .simulador-header { padding: 24px 16px 20px; }
+            .simulador-header h1 { font-size: 1.3rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .radio-group { flex-direction: column; }
+            .radio-group label { justify-content: center; }
+            .nav-botoes { flex-direction: column; }
+            .nav-botoes .btn { width: 100%; }
+            .resultado-card .valor-principal { font-size: 1.6rem; }
+            .tabela-padroes { font-size: 0.85rem; }
+            .tabela-padroes th,
+            .tabela-padroes td { padding: 8px 10px; }
         }
     </style>
 </head>
-
 <body>
 
-    <!-- 
-         CONTAINER DO SIMULADOR
-          -->
-    <div class="simulador-container">
+    
 
-        <!-- CABEÇALHO -->
-        <div class="simulador-header">
+        
+        
             <h1>🏠 Simulador de Orçamento Express</h1>
-            <p>Descubra quanto custa construir sua casa dos sonhos</p>
-            <div class="badge-passos">Passo <span id="passo-atual">1</span> de 4</div>
-        </div>
+            Descubra quantos m² você pode construir
 
-        <!-- CORPO -->
-        <div class="simulador-body">
 
-            <!-- INDICADOR DE PROGRESSO -->
-            <div class="progresso" id="progresso">
-                <span class="ponto ativo" data-step="1"></span>
-                <span class="ponto" data-step="2"></span>
-                <span class="ponto" data-step="3"></span>
-                <span class="ponto" data-step="4"></span>
-            </div>
+            Passo 1 de 4
 
-            <!-- 
-                 ETAPA 1 — DADOS DO LEAD (nome, email, telefone)
-                  -->
-            <div class="etapa ativa" id="etapa-1">
+
+        
+
+
+
+        
+        
+
+            
+                
+                
+                
+                
+            
+
+
+
+            
+            
                 <h2 class="etapa-titulo">📋 Seus Dados</h2>
-                <p class="etapa-subtitulo">Para começarmos, me diga quem é você.</p>
+                Para começarmos, me diga quem é você.
 
-                <div class="form-grid">
-                    <div class="campo full-width">
-                        <label>Seu Nome <span class="obrigatorio">*</span></label>
+
+
+                
+                    
+                        <label>Seu Nome *</label>
                         <input type="text" id="lead-nome" placeholder="Digite seu nome completo" required>
-                        <span class="error-msg">Por favor, informe seu nome.</span>
-                    </div>
-                    <div class="campo">
-                        <label>E-mail <span class="obrigatorio">*</span></label>
-                        <input type="email" id="lead-email" placeholder="seu@email.com" required>
-                        <span class="error-msg">Informe um e-mail válido.</span>
-                    </div>
-                    <div class="campo">
-                        <label>Telefone / WhatsApp <span class="obrigatorio">*</span></label>
-                        <input type="tel" id="lead-telefone" placeholder="(16) 99999-8888" required>
-                        <span class="error-msg">Informe um telefone.</span>
-                    </div>
-                </div>
+                        Por favor, informe seu nome.
+                    
 
-                <div class="nav-botoes">
-                    <span></span> <!-- Espaçador -->
+
+                    
+                        <label>E-mail *</label>
+                        <input type="email" id="lead-email" placeholder="seu@email.com" required>
+                        Informe um e-mail válido.
+                    
+
+
+                    
+                        <label>Telefone / WhatsApp *</label>
+                        <input type="tel" id="lead-telefone" placeholder="(16) 99999-8888" required>
+                        Informe um telefone.
+                    
+
+
+                
+
+
+
+                
+                    
                     <button class="btn btn-primary" onclick="avancar(1)">
                         Começar Simulador →
                     </button>
-                </div>
-            </div>
+                
 
-            <!-- 
-                 ETAPA 2 — DADOS DO TERRENO
-                  -->
-            <div class="etapa" id="etapa-2">
-                <h2 class="etapa-titulo">📍 Dados do Terreno</h2>
-                <p class="etapa-subtitulo">Conte-nos sobre o local da obra.</p>
 
-                <div class="form-grid">
-                    <!-- Já tem terreno? -->
-                    <div class="campo full-width">
-                        <label>Você já tem o terreno? <span class="obrigatorio">*</span></label>
-                        <div class="radio-group" id="tem-terreno-group">
+            
+
+
+
+            
+            
+                <h2 class="etapa-titulo">📍 Terreno & Projeto</h2>
+                Conte-nos sobre o local da obra e o projeto.
+
+
+
+                
+
+                    
+                    
+                        <label>Você já tem o terreno? *</label>
+                        
                             <label>
                                 <input type="radio" name="tem-terreno" value="sim" onchange="toggleTerreno(true)">
                                 Sim, já tenho
@@ -549,37 +525,95 @@
                                 <input type="radio" name="tem-terreno" value="nao" onchange="toggleTerreno(false)">
                                 Não, vou procurar
                             </label>
-                        </div>
-                    </div>
+                        
 
-                    <!-- Campos condicionais: aparece se tem terreno -->
-                    <div class="campo-condicional full-width" id="campos-terreno">
-                        <div class="form-grid">
-                            <div class="campo">
-                                <label>Largura do terreno (m) <span class="obrigatorio">*</span></label>
+
+                    
+
+
+
+                    
+                    
+                        
+                            
+                                <label>Largura (m) *</label>
                                 <input type="number" id="terreno-largura" placeholder="Ex: 10" min="1" step="0.01" oninput="calcularM2()">
-                            </div>
-                            <div class="campo">
-                                <label>Comprimento do terreno (m) <span class="obrigatorio">*</span></label>
+                            
+
+
+                            
+                                <label>Comprimento (m) *</label>
                                 <input type="number" id="terreno-comprimento" placeholder="Ex: 25" min="1" step="0.01" oninput="calcularM2()">
-                            </div>
-                        </div>
-                        <!-- Exibição do m² calculado -->
-                        <div class="m2-exibicao" id="m2-exibicao">
-                            📐 Área do terreno: <strong id="m2-valor">0</strong> m²
-                        </div>
-                    </div>
+                            
 
-                    <!-- Cidade -->
-                    <div class="campo full-width">
-                        <label>Cidade da obra <span class="obrigatorio">*</span></label>
+
+                        
+
+
+                        
+                            📐 Área do terreno: **0** m²
+                        
+
+
+                    
+
+
+
+                    
+                    
+                        <label>Já possui projeto arquitetônico? *</label>
+                        
+                            <label>
+                                <input type="radio" name="tem-projeto" value="sim" onchange="toggleProjeto(true)">
+                                Sim
+                            </label>
+                            <label>
+                                <input type="radio" name="tem-projeto" value="nao" onchange="toggleProjeto(false)">
+                                Não
+                            </label>
+                        
+
+
+
+                        
+                        
+                            <label>Anexe seu projeto (opcional por enquanto)</label>
+                            
+                                📄
+                                
+                                    **Clique para anexar** ou arraste o arquivo
+
+                                    <small style="color:#9ca3af;">PDF, PNG, JPG — máx. 10 MB</small>
+                                
+                                <input type="file" id="arquivo-projeto" accept=".pdf,.png,.jpg,.jpeg" onchange="onFileSelected(this)">
+                            
+
+
+                            
+                                📎 
+                                ✕
+                            
+
+
+                        
+
+
+                    
+
+
+
+                    
+                    
+                        <label>Cidade da obra *</label>
                         <input type="text" id="obra-cidade" placeholder="Ex: São Carlos - SP">
-                    </div>
+                    
 
-                    <!-- Localização -->
-                    <div class="campo full-width">
-                        <label>A obra será em: <span class="obrigatorio">*</span></label>
-                        <div class="radio-group" id="local-group">
+
+
+                    
+                    
+                        <label>A obra será em: *</label>
+                        
                             <label>
                                 <input type="radio" name="local-obra" value="condominio">
                                 🏘️ Condomínio
@@ -588,28 +622,40 @@
                                 <input type="radio" name="local-obra" value="via-publica">
                                 🏙️ Via Pública
                             </label>
-                        </div>
-                    </div>
-                </div>
+                        
 
-                <div class="nav-botoes">
+
+                    
+
+
+
+                
+
+
+
+                
                     <button class="btn btn-secondary" onclick="voltar(2)">← Voltar</button>
                     <button class="btn btn-primary" onclick="avancar(2)">Avançar →</button>
-                </div>
-            </div>
+                
 
-            <!-- 
-                 ETAPA 3 — DADOS FINANCEIROS
-                  -->
-            <div class="etapa" id="etapa-3">
+
+            
+
+
+
+            
+            
                 <h2 class="etapa-titulo">💰 Dados Financeiros</h2>
-                <p class="etapa-subtitulo">Como você pretende viabilizar sua obra?</p>
+                Como você pretende viabilizar sua obra?
 
-                <div class="form-grid">
-                    <!-- Recurso Próprio -->
-                    <div class="campo full-width">
-                        <label>Você tem recurso próprio? <span class="obrigatorio">*</span></label>
-                        <div class="radio-group" id="recurso-proprio-group">
+
+
+                
+
+                    
+                    
+                        <label>Você tem recurso próprio? *</label>
+                        
                             <label>
                                 <input type="radio" name="recurso-proprio" value="sim" onchange="toggleRecursoProprio(true)">
                                 Sim
@@ -618,18 +664,23 @@
                                 <input type="radio" name="recurso-proprio" value="nao" onchange="toggleRecursoProprio(false)">
                                 Não
                             </label>
-                        </div>
-                        <!-- Campo condicional: valor do recurso próprio -->
-                        <div class="campo-condicional" id="campo-valor-proprio">
-                            <label>Qual o valor do recurso próprio? <span class="obrigatorio">*</span></label>
-                            <input type="number" id="valor-proprio" placeholder="Ex: 150000" min="0" step="1000">
-                        </div>
-                    </div>
+                        
 
-                    <!-- Financiamento -->
-                    <div class="campo full-width">
-                        <label>Vai financiar? <span class="obrigatorio">*</span></label>
-                        <div class="radio-group" id="financiamento-group">
+
+                        
+                            <label>Qual o valor do recurso próprio? *</label>
+                            <input type="number" id="valor-proprio" placeholder="Ex: 150000" min="0" step="1000">
+                        
+
+
+                    
+
+
+
+                    
+                    
+                        <label>Vai financiar? *</label>
+                        
                             <label>
                                 <input type="radio" name="vai-financiar" value="sim" onchange="toggleFinanciamento(true)">
                                 Sim
@@ -638,165 +689,175 @@
                                 <input type="radio" name="vai-financiar" value="nao" onchange="toggleFinanciamento(false)">
                                 Não
                             </label>
-                        </div>
-                        <!-- Campo condicional: renda familiar -->
-                        <div class="campo-condicional" id="campo-renda-familiar">
-                            <label>Qual a renda familiar mensal? <span class="obrigatorio">*</span></label>
-                            <input type="number" id="renda-familiar" placeholder="Ex: 8000" min="0" step="100">
-                        </div>
-                    </div>
-                </div>
+                        
 
-                <div class="nav-botoes">
+
+                        
+                            <label>Qual a renda familiar mensal? *</label>
+                            <input type="number" id="renda-familiar" placeholder="Ex: 8000" min="0" step="100">
+                        
+
+
+                    
+
+
+
+                    
+                    
+                        💡 **Simulação de financiamento:** consideramos taxa de **8,6% a.a. + TR** (TR atualmente em 0%),
+                        prazo de **360 meses** e comprometimento máximo de **30% da renda**
+                        — valores aproximados com base nas condições de mercado.
+                    
+
+
+
+                
+
+
+
+                
                     <button class="btn btn-secondary" onclick="voltar(3)">← Voltar</button>
                     <button class="btn btn-primary" onclick="calcularResultado()">
                         🔍 Ver Resultado
                     </button>
-                </div>
-            </div>
+                
 
-            <!-- 
-                 ETAPA 4 — RESULTADO
-                  -->
-            <div class="etapa" id="etapa-4">
-                <h2 class="etapa-titulo">📊 Resultado da Simulação</h2>
-                <p class="etapa-subtitulo">Com base nas informações, veja o que é possível.</p>
 
-                <!-- Dados do lead -->
-                <div class="lead-info" id="lead-info">
-                    👤 <span class="lead-nome" id="result-nome"></span>
-                    — <span class="lead-email" id="result-email"></span>
-                </div>
+            
 
-                <!-- Card com valor total disponível -->
-                <div class="resultado-card">
-                    <div class="label">💰 Valor Total Disponível para Obra</div>
-                    <div class="valor-principal" id="result-valor-total">R$ 0</div>
-                    <div class="label" id="result-composicao" style="font-size:0.8rem;"></div>
-                </div>
 
-                <!-- Tabela de metros quadrados por padrão -->
-                <p style="font-weight:700; margin-bottom:8px; color:var(--primary);">
-                    Estimativa de metros quadrados que você pode construir:
-                </p>
 
-                <table class="tabela-padroes">
-                    <thead>
-                        <tr>
-                            <th>Padrão</th>
-                            <th>Custo médio / m²</th>
-                            <th>m² estimados</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="badge-padrao badge-standard">Standard</span></td>
-                            <td id="custo-standard">R$ 0</td>
-                            <td><span class="destaque-m2" id="m2-standard">0</span> m²</td>
-                        </tr>
-                        <tr>
-                            <td><span class="badge-padrao badge-premium">Premium</span></td>
-                            <td id="custo-premium">R$ 0</td>
-                            <td><span class="destaque-m2" id="m2-premium">0</span> m²</td>
-                        </tr>
-                        <tr>
-                            <td><span class="badge-padrao badge-supreme">Supreme</span></td>
-                            <td id="custo-supreme">R$ 0</td>
-                            <td><span class="destaque-m2" id="m2-supreme">0</span> m²</td>
-                        </tr>
-                    </tbody>
-                </table>
+            
+            
+                📐 FASE 1 — Poder de Compra
+                <h2 class="etapa-titulo">📊 Quanto você pode construir</h2>
+                
+                    Com base nos seus dados, veja quantos m² cabem no seu orçamento.
+                
 
-                <!-- Informação extra sobre o terreno -->
-                <div style="margin-top:16px; padding:12px; background:#f9fafb; border-radius:8px; font-size:0.85rem; color:var(--text-light);">
-                    <span id="result-info-terreno"></span>
-                </div>
 
-                <!-- CTA Final -->
-                <div class="nav-botoes" style="margin-top:20px;">
+
+                
+                    👤 
+                    — 
+                
+
+
+
+                
+                    💰 Valor Total Disponível para Obra
+
+
+                    R$ 0
+
+
+                    
+
+
+                
+
+
+
+                
+                    🏗️ Estimativa de metros quadrados que você pode construir:
+                
+
+
+
+                | Padrão | Custo médio / m² | m² estimados |
+| --- | --- | --- |
+| Standard | R$ 0 | 0 m² |
+| Premium | R$ 0 | 0 m² |
+| Supreme | R$ 0 | 0 m² |
+
+                
+                    
+                    
+
+                
+
+
+
+                
+                
                     <button class="btn btn-secondary" onclick="voltar(4)">← Revisar Dados</button>
                     <button class="btn btn-primary" onclick="enviarParaLead()">
-                        📩 Quero um Orçamento Detalhado
+                        🏗️ Quero montar minha casa
                     </button>
-                </div>
+                
 
-                <p style="text-align:center; margin-top:16px; font-size:0.78rem; color:var(--text-light);">
-                    * Valores estimados com base em médias de mercado. <br>
+
+
+                
+                    * Valores estimados com base em médias de mercado. 
+
                     O orçamento final depende do projeto arquitetônico detalhado.
-                </p>
-            </div>
+                    
+Na **próxima fase** vamos detalhar os acabamentos e personalizações.
+                
 
-        </div><!-- /simulador-body -->
-    </div><!-- /simulador-container -->
 
-    <!-- 
-         JAVASCRIPT DO SIMULADOR
-          -->
+            
+
+
+
+        
+
+
+    
+
+
+
     <script>
-        // 
-        // CONFIGURAÇÃO — VALORES EDITÁVEIS PELA iBUILD
-        // 
+        // ============================================================
+        // CONFIGURAÇÃO — valores editáveis pela iBUILD
+        // ============================================================
         const CONFIG = {
-            // Custo médio por m² construído (EM REAIS) — AJUSTE AQUI!
+            // Custo médio por m² construído (Light Steel Frame — chave na mão)
             custoM2: {
-                standard: 2500,   // Standard
-                premium:  3800,   // Premium
-                supreme:  5500    // Supreme
+                standard: 3200,
+                premium:  4500,
+                supreme:  6200
             },
 
-            // Simulação de financiamento: multiplicador da renda familiar
-            // Ex: renda de R$ 8.000 → financiamento estimado de R$ 8.000 × 120 = R$ 960.000
-            multiplicadorFinanciamento: 120,
-
-            // Porcentagem máxima da renda comprometida (padrão 30%)
-            percentualRendaMaximo: 0.30
+            // Parâmetros de financiamento
+            financiamento: {
+                taxaAnual:       0.086,   // 8,6% a.a.
+                prazoMeses:      360,     // 30 anos
+                percentualRenda: 0.30     // 30% da renda
+            }
         };
 
-        // 
-        // DADOS DO SIMULADOR (armazenamento temporário)
-        // 
+        // ============================================================
+        // DADOS DO SIMULADOR
+        // ============================================================
         const dados = {
             lead:       { nome: '', email: '', telefone: '' },
             terreno:    { temTerreno: null, largura: 0, comprimento: 0, area: 0, cidade: '', local: '' },
+            projeto:    { temProjeto: null, arquivo: null, arquivoNome: '' },
             financeiro: { recursoProprio: false, valorProprio: 0, vaiFinanciar: false, rendaFamiliar: 0 }
         };
 
-        // 
-        // FUNÇÕES DE NAVEGAÇÃO ENTRE ETAPAS
-        // 
+        // ============================================================
+        // NAVEGAÇÃO ENTRE ETAPAS
+        // ============================================================
 
-        /**
-         * AVANÇAR para a próxima etapa
-         * @param {number} etapaAtual - Número da etapa atual (1, 2 ou 3)
-         */
         function avancar(etapaAtual) {
-            // Valida os campos da etapa atual antes de avançar
             if (!validarEtapa(etapaAtual)) return;
-
-            // Salva os dados da etapa atual
             salvarDados(etapaAtual);
 
             const proxima = etapaAtual + 1;
-
-            // Oculta etapa atual, mostra próxima
             document.getElementById(`etapa-${etapaAtual}`).classList.remove('ativa');
             document.getElementById(`etapa-${proxima}`).classList.add('ativa');
 
-            // Atualiza indicador de progresso
             atualizarProgresso(proxima);
             document.getElementById('passo-atual').textContent = proxima;
 
-            // Rola para o topo do simulador
             document.querySelector('.simulador-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        /**
-         * VOLTAR para a etapa anterior
-         * @param {number} etapaAtual - Número da etapa atual
-         */
         function voltar(etapaAtual) {
             const anterior = etapaAtual - 1;
-
             document.getElementById(`etapa-${etapaAtual}`).classList.remove('ativa');
             document.getElementById(`etapa-${anterior}`).classList.add('ativa');
 
@@ -806,9 +867,9 @@
             document.querySelector('.simulador-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // 
-        // VALIDAÇÃO DE CAMPOS POR ETAPA
-        // 
+        // ============================================================
+        // VALIDAÇÃO DE CAMPOS
+        // ============================================================
 
         function validarEtapa(etapa) {
             switch (etapa) {
@@ -821,140 +882,78 @@
 
         function validarLead() {
             let valido = true;
-
-            const nome = document.getElementById('lead-nome');
+            const nome  = document.getElementById('lead-nome');
             const email = document.getElementById('lead-email');
-            const tel = document.getElementById('lead-telefone');
+            const tel   = document.getElementById('lead-telefone');
 
-            // Nome
-            if (!nome.value.trim()) {
-                mostrarErro(nome, true);
-                valido = false;
-            } else {
-                mostrarErro(nome, false);
-            }
+            if (!nome.value.trim())  { mostrarErro(nome, true);  valido = false; }
+            else                      { mostrarErro(nome, false); }
 
-            // E-mail
-            if (!email.value.trim() || !email.value.includes('@')) {
-                mostrarErro(email, true);
-                valido = false;
-            } else {
-                mostrarErro(email, false);
-            }
+            if (!email.value.trim() || !email.value.includes('@')) { mostrarErro(email, true);  valido = false; }
+            else                                                    { mostrarErro(email, false); }
 
-            // Telefone
-            if (!tel.value.trim()) {
-                mostrarErro(tel, true);
-                valido = false;
-            } else {
-                mostrarErro(tel, false);
-            }
+            if (!tel.value.trim())   { mostrarErro(tel, true);   valido = false; }
+            else                      { mostrarErro(tel, false); }
 
-            if (!valido) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
-            }
-
+            if (!valido) alert('Por favor, preencha todos os campos obrigatórios.');
             return valido;
         }
 
         function validarTerreno() {
             let valido = true;
 
-            // Verifica se selecionou "tem terreno"
             const temTerreno = document.querySelector('input[name="tem-terreno"]:checked');
-            if (!temTerreno) {
-                alert('Por favor, informe se você já tem o terreno.');
-                return false;
-            }
-
+            if (!temTerreno) { alert('Informe se você já tem o terreno.'); return false; }
             dados.terreno.temTerreno = temTerreno.value === 'sim';
 
-            // Se tem terreno, valida largura e comprimento
             if (dados.terreno.temTerreno) {
                 const larg = document.getElementById('terreno-largura');
                 const comp = document.getElementById('terreno-comprimento');
-                if (!larg.value || parseFloat(larg.value) &lt;= 0) {
-                    mostrarErro(larg, true);
-                    valido = false;
-                } else {
-                    mostrarErro(larg, false);
-                }
-                if (!comp.value || parseFloat(comp.value) &lt;= 0) {
-                    mostrarErro(comp, true);
-                    valido = false;
-                } else {
-                    mostrarErro(comp, false);
-                }
+                if (!larg.value || parseFloat(larg.value) <= 0) { mostrarErro(larg, true); valido = false; }
+                else { mostrarErro(larg, false); }
+                if (!comp.value || parseFloat(comp.value) <= 0) { mostrarErro(comp, true); valido = false; }
+                else { mostrarErro(comp, false); }
             }
 
-            // Cidade
+            // Projeto arquitetônico
+            const temProjeto = document.querySelector('input[name="tem-projeto"]:checked');
+            if (!temProjeto) { alert('Informe se você já possui projeto arquitetônico.'); return false; }
+            dados.projeto.temProjeto = temProjeto.value === 'sim';
+
             const cidade = document.getElementById('obra-cidade');
-            if (!cidade.value.trim()) {
-                mostrarErro(cidade, true);
-                valido = false;
-            } else {
-                mostrarErro(cidade, false);
-            }
+            if (!cidade.value.trim()) { mostrarErro(cidade, true); valido = false; }
+            else { mostrarErro(cidade, false); }
 
-            // Local da obra
             const local = document.querySelector('input[name="local-obra"]:checked');
-            if (!local) {
-                alert('Por favor, informe se a obra será em condomínio ou via pública.');
-                return false;
-            }
+            if (!local) { alert('Informe se a obra será em condomínio ou via pública.'); return false; }
 
-            if (!valido) {
-                alert('Preencha todos os campos do terreno corretamente.');
-            }
-
+            if (!valido) alert('Preencha todos os campos do terreno corretamente.');
             return valido;
         }
 
         function validarFinanceiro() {
-            let valido = true;
-
-            // Recurso próprio
             const recurso = document.querySelector('input[name="recurso-proprio"]:checked');
-            if (!recurso) {
-                alert('Informe se você tem recurso próprio.');
-                return false;
-            }
-
+            if (!recurso) { alert('Informe se você tem recurso próprio.'); return false; }
             dados.financeiro.recursoProprio = recurso.value === 'sim';
 
             if (dados.financeiro.recursoProprio) {
                 const valor = document.getElementById('valor-proprio');
-                if (!valor.value || parseFloat(valor.value) &lt;= 0) {
-                    alert('Informe o valor do recurso próprio.');
-                    return false;
-                }
+                if (!valor.value || parseFloat(valor.value) <= 0) { alert('Informe o valor do recurso próprio.'); return false; }
                 dados.financeiro.valorProprio = parseFloat(valor.value);
             }
 
-            // Financiamento
             const fin = document.querySelector('input[name="vai-financiar"]:checked');
-            if (!fin) {
-                alert('Informe se vai financiar.');
-                return false;
-            }
-
+            if (!fin) { alert('Informe se vai financiar.'); return false; }
             dados.financeiro.vaiFinanciar = fin.value === 'sim';
 
             if (dados.financeiro.vaiFinanciar) {
                 const renda = document.getElementById('renda-familiar');
-                if (!renda.value || parseFloat(renda.value) &lt;= 0) {
-                    alert('Informe sua renda familiar mensal.');
-                    return false;
-                }
+                if (!renda.value || parseFloat(renda.value) <= 0) { alert('Informe sua renda familiar mensal.'); return false; }
                 dados.financeiro.rendaFamiliar = parseFloat(renda.value);
             }
 
-            return valido;
+            return true;
         }
-
-        // 
-        // EXIBIR/OCULTAR ERRO EM CAMPO
-        // 
 
         function mostrarErro(input, mostrar) {
             if (mostrar) {
@@ -968,9 +967,9 @@
             }
         }
 
-        // 
+        // ============================================================
         // SALVAR DADOS DE CADA ETAPA
-        // 
+        // ============================================================
 
         function salvarDados(etapa) {
             switch (etapa) {
@@ -979,26 +978,25 @@
                     dados.lead.email    = document.getElementById('lead-email').value.trim();
                     dados.lead.telefone = document.getElementById('lead-telefone').value.trim();
                     break;
+
                 case 2:
                     dados.terreno.temTerreno = document.querySelector('input[name="tem-terreno"]:checked').value === 'sim';
                     if (dados.terreno.temTerreno) {
                         dados.terreno.largura     = parseFloat(document.getElementById('terreno-largura').value) || 0;
                         dados.terreno.comprimento = parseFloat(document.getElementById('terreno-comprimento').value) || 0;
-                        dados.terreno.area         = dados.terreno.largura * dados.terreno.comprimento;
+                        dados.terreno.area        = dados.terreno.largura * dados.terreno.comprimento;
                     }
-                    dados.terreno.cidade = document.getElementById('obra-cidade').value.trim();
-                    dados.terreno.local  = document.querySelector('input[name="local-obra"]:checked').value;
+                    dados.projeto.temProjeto   = document.querySelector('input[name="tem-projeto"]:checked').value === 'sim';
+                    dados.terreno.cidade       = document.getElementById('obra-cidade').value.trim();
+                    dados.terreno.local        = document.querySelector('input[name="local-obra"]:checked').value;
                     break;
             }
         }
 
-        // 
-        // FUNÇÕES DE INTERAÇÃO (toggle campos condicionais)
-        // 
+        // ============================================================
+        // CAMPOS CONDICIONAIS
+        // ============================================================
 
-        /**
-         * Mostra/oculta campos de dimensão do terreno
-         */
         function toggleTerreno(tem) {
             const campos = document.getElementById('campos-terreno');
             if (tem) {
@@ -1006,22 +1004,45 @@
             } else {
                 campos.classList.remove('ativo');
                 document.getElementById('m2-exibicao').classList.remove('ativo');
-                // Limpa valores
                 document.getElementById('terreno-largura').value = '';
                 document.getElementById('terreno-comprimento').value = '';
             }
-            dados.terreno.temTerreno = tem;
         }
 
-        /**
-         * Calcula e exibe a área do terreno em m²
-         */
+        function toggleProjeto(tem) {
+            const campo = document.getElementById('campo-upload-projeto');
+            if (tem) campo.classList.add('ativo');
+            else {
+                campo.classList.remove('ativo');
+                removerArquivo();
+            }
+        }
+
+        function onFileSelected(input) {
+            const file = input.files[0];
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) {
+                alert('Arquivo muito grande. O máximo é 10 MB.');
+                input.value = '';
+                return;
+            }
+            dados.projeto.arquivo     = file;
+            dados.projeto.arquivoNome = file.name;
+            document.getElementById('file-name').textContent = file.name;
+            document.getElementById('file-selected').classList.add('ativo');
+        }
+
+        function removerArquivo() {
+            document.getElementById('arquivo-projeto').value = '';
+            dados.projeto.arquivo     = null;
+            dados.projeto.arquivoNome = '';
+            document.getElementById('file-selected').classList.remove('ativo');
+        }
+
         function calcularM2() {
             const larg = parseFloat(document.getElementById('terreno-largura').value) || 0;
             const comp = parseFloat(document.getElementById('terreno-comprimento').value) || 0;
-
             const area = larg * comp;
-
             if (area > 0) {
                 document.getElementById('m2-valor').textContent = area.toFixed(2);
                 document.getElementById('m2-exibicao').classList.add('ativo');
@@ -1030,35 +1051,27 @@
             }
         }
 
-        /**
-         * Mostra/oculta campo de valor do recurso próprio
-         */
         function toggleRecursoProprio(sim) {
             const campo = document.getElementById('campo-valor-proprio');
-            if (sim) {
-                campo.classList.add('ativo');
-            } else {
+            if (sim) { campo.classList.add('ativo'); }
+            else {
                 campo.classList.remove('ativo');
                 document.getElementById('valor-proprio').value = '';
             }
         }
 
-        /**
-         * Mostra/oculta campo de renda familiar
-         */
         function toggleFinanciamento(sim) {
             const campo = document.getElementById('campo-renda-familiar');
-            if (sim) {
-                campo.classList.add('ativo');
-            } else {
+            if (sim) { campo.classList.add('ativo'); }
+            else {
                 campo.classList.remove('ativo');
                 document.getElementById('renda-familiar').value = '';
             }
         }
 
-        // 
-        // ATUALIZAR INDICADOR DE PROGRESSO
-        // 
+        // ============================================================
+        // PROGRESSO
+        // ============================================================
 
         function atualizarProgresso(passo) {
             const pontos = document.querySelectorAll('.ponto');
@@ -1067,69 +1080,69 @@
                 ponto.classList.remove('ativo', 'concluido');
                 if (step === passo) {
                     ponto.classList.add('ativo');
-                } else if (step &lt; passo) {
+                } else if (step < passo) {
                     ponto.classList.add('concluido');
                 }
             });
         }
 
-        // 
-        // CÁLCULO PRINCIPAL — CORAÇÃO DO SIMULADOR
-        // 
+        // ============================================================
+        // CÁLCULO PRINCIPAL — FASE 1: PODER DE COMPRA
+        // ============================================================
+
+        function calcularFinanciamento(rendaMensal) {
+            // Fórmula Price (SAC equivalente para valor presente)
+            // PV = PMT × [1 - (1 + i)^(-n)] / i
+            // Onde: PMT = renda × 30%, i = taxa mensal, n = 360 meses
+            const { taxaAnual, prazoMeses, percentualRenda } = CONFIG.financiamento;
+            const i  = taxaAnual / 12;                 // taxa mensal
+            const n  = prazoMeses;
+            const pmt = rendaMensal * percentualRenda;  // parcela máxima mensal
+
+            // TR (Taxa Referencial) está em 0% desde 2023 — não afeta o cálculo no momento
+            const fator = (1 - Math.pow(1 + i, -n)) / i;
+            return pmt * fator;
+        }
 
         function calcularResultado() {
-            // Valida e salva dados financeiros
             if (!validarFinanceiro()) return;
 
-            // --- 1. CALCULA RECURSO PRÓPRIO ---
-            let recursoProprio = 0;
-            if (dados.financeiro.recursoProprio) {
-                recursoProprio = dados.financeiro.valorProprio;
-            }
+            // 1. Recurso próprio
+            let recursoProprio = dados.financeiro.recursoProprio ? dados.financeiro.valorProprio : 0;
 
-            // --- 2. SIMULA FINANCIAMENTO ---
+            // 2. Financiamento REALISTA com Price + 8,6% a.a.
             let financiamento = 0;
             if (dados.financeiro.vaiFinanciar && dados.financeiro.rendaFamiliar > 0) {
-                // Regra: banco financia até 30% da renda × prazo (360 meses)
-                // Valor simplificado: renda × multiplicador
-                const renda = dados.financeiro.rendaFamiliar;
-                financiamento = renda * CONFIG.multiplicadorFinanciamento;
+                financiamento = calcularFinanciamento(dados.financeiro.rendaFamiliar);
             }
 
-            // --- 3. VALOR TOTAL DISPONÍVEL ---
+            // 3. Valor total disponível
             const valorTotal = recursoProprio + financiamento;
 
-            // --- 4. CALCULA m² PARA CADA PADRÃO ---
+            // 4. m² por padrão
             const m2Standard = Math.floor(valorTotal / CONFIG.custoM2.standard);
             const m2Premium  = Math.floor(valorTotal / CONFIG.custoM2.premium);
             const m2Supreme  = Math.floor(valorTotal / CONFIG.custoM2.supreme);
 
-            // --- 5. PREENCHE OS RESULTADOS NA TELA ---
-
-            // Dados do lead
+            // 5. Preenche a tela
             document.getElementById('result-nome').textContent  = dados.lead.nome;
             document.getElementById('result-email').textContent = dados.lead.email;
-
-            // Valor total
             document.getElementById('result-valor-total').textContent = formatarMoeda(valorTotal);
 
-            // Composição do valor
             let composicao = '';
             if (recursoProprio > 0 && financiamento > 0) {
                 composicao = `${formatarMoeda(recursoProprio)} (recurso próprio) + ${formatarMoeda(financiamento)} (financiamento)`;
             } else if (recursoProprio > 0) {
                 composicao = `${formatarMoeda(recursoProprio)} (recurso próprio)`;
             } else if (financiamento > 0) {
-                composicao = `${formatarMoeda(financiamento)} (financiamento)`;
+                composicao = `${formatarMoeda(financiamento)} (financiamento estimado)`;
             }
             document.getElementById('result-composicao').textContent = composicao;
 
-            // Custos por m²
             document.getElementById('custo-standard').textContent = formatarMoeda(CONFIG.custoM2.standard);
             document.getElementById('custo-premium').textContent  = formatarMoeda(CONFIG.custoM2.premium);
             document.getElementById('custo-supreme').textContent  = formatarMoeda(CONFIG.custoM2.supreme);
 
-            // m² por padrão
             document.getElementById('m2-standard').textContent = m2Standard;
             document.getElementById('m2-premium').textContent  = m2Premium;
             document.getElementById('m2-supreme').textContent  = m2Supreme;
@@ -1143,7 +1156,13 @@
             }
             document.getElementById('result-info-terreno').textContent = infoTerreno;
 
-            // --- 6. AVANÇA PARA ETAPA DE RESULTADO ---
+            // Info do projeto
+            const infoProjeto = dados.projeto.temProjeto
+                ? `📐 Possui projeto arquitetônico.${dados.projeto.arquivoNome ? ` (Anexo: ${dados.projeto.arquivoNome})` : ''}`
+                : '📐 Ainda não possui projeto arquitetônico — podemos ajudar com isso!';
+            document.getElementById('result-info-projeto').textContent = infoProjeto;
+
+            // Avança
             document.getElementById('etapa-3').classList.remove('ativa');
             document.getElementById('etapa-4').classList.add('ativa');
             atualizarProgresso(4);
@@ -1152,59 +1171,44 @@
             document.querySelector('.simulador-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // 
+        // ============================================================
         // FUNÇÕES AUXILIARES
-        // 
+        // ============================================================
 
-        /**
-         * Formata valor numérico como moeda brasileira (R$)
-         */
         function formatarMoeda(valor) {
             return 'R$ ' + valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
-        /**
-         * Envia os dados do lead (exemplo: integração com CRM/email)
-         * NO FUTURO: substitua esta função por uma chamada à sua API
-         */
         function enviarParaLead() {
-            // Monta dados completos para envio
+            const resultado = calcularResultadoAtual();
+
             const payload = {
-                lead: dados.lead,
-                terreno: dados.terreno,
+                lead:      dados.lead,
+                terreno:   dados.terreno,
+                projeto:   { temProjeto: dados.projeto.temProjeto, arquivoNome: dados.projeto.arquivoNome },
                 financeiro: dados.financeiro,
-                resultado: {
-                    valorTotal: (dados.financeiro.recursoProprio ? dados.financeiro.valorProprio : 0) +
-                                (dados.financeiro.vaiFinanciar ? dados.financeiro.rendaFamiliar * CONFIG.multiplicadorFinanciamento : 0),
-                    m2Standard: Math.floor(((dados.financeiro.recursoProprio ? dados.financeiro.valorProprio : 0) +
-                                (dados.financeiro.vaiFinanciar ? dados.financeiro.rendaFamiliar * CONFIG.multiplicadorFinanciamento : 0)) / CONFIG.custoM2.standard),
-                    m2Premium: Math.floor(((dados.financeiro.recursoProprio ? dados.financeiro.valorProprio : 0) +
-                                (dados.financeiro.vaiFinanciar ? dados.financeiro.rendaFamiliar * CONFIG.multiplicadorFinanciamento : 0)) / CONFIG.custoM2.premium),
-                    m2Supreme: Math.floor(((dados.financeiro.recursoProprio ? dados.financeiro.valorProprio : 0) +
-                                (dados.financeiro.vaiFinanciar ? dados.financeiro.rendaFamiliar * CONFIG.multiplicadorFinanciamento : 0)) / CONFIG.custoM2.supreme)
-                }
+                resultado: resultado
             };
 
             console.log('📦 Dados para envio:', JSON.stringify(payload, null, 2));
 
-            // --- SUBSTITUA AQUI PELA SUA INTEGRAÇÃO ---
-            // Exemplo com fetch para uma API:
-            /*
-            fetch('https://sua-api.com/lead', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.json())
-            .then(data => {
-                alert('✅ Recebemos seus dados! Em breve entraremos em contato.');
-            })
-            .catch(err => {
-                alert('Erro ao enviar. Tente novamente.');
-            });
-            */
+            // --- FUTURO: chamada à API do CRM aqui ---
 
-            alert('✅ Obrigado, ' + dados.lead.nome + '! Seus dados foram recebidos. Em breve entraremos em contato para apresentar o orçamento detalhado.');
+            alert('✅ Obrigado, ' + dados.lead.nome + '! Recebemos seus dados.\n\n' +
+                  'Na próxima fase vamos detalhar os acabamentos e personalizações ' +
+                  'para chegar no orçamento final da sua casa.');
+        }
+
+        function calcularResultadoAtual() {
+            const recurso = dados.financeiro.recursoProprio ? dados.financeiro.valorProprio : 0;
+            const financ  = dados.financeiro.vaiFinanciar ? calcularFinanciamento(dados.financeiro.rendaFamiliar) : 0;
+            const total   = recurso + financ;
+            return {
+                valorTotal: total,
+                m2Standard: Math.floor(total / CONFIG.custoM2.standard),
+                m2Premium:  Math.floor(total / CONFIG.custoM2.premium),
+                m2Supreme:  Math.floor(total / CONFIG.custoM2.supreme)
+            };
         }
     </script>
 
