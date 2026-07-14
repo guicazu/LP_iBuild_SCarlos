@@ -4,11 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Simulador de Capacidade — iBuild São Carlos</title>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
@@ -17,6 +12,7 @@
   }
   .container { max-width:800px; margin:0 auto; padding:16px; }
 
+  /* ===== HEADER ===== */
   .header {
     background: linear-gradient(135deg, #1a3a5c 0%, #2a5a8c 100%);
     color:#fff; padding:28px 0 24px; text-align:center;
@@ -30,23 +26,7 @@
     font-weight:600; letter-spacing:.5px; margin-bottom:6px;
   }
 
-  /* ===== TOAST CENTRALIZADO ===== */
-  .toast-container {
-    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-    z-index:9999; display:flex; flex-direction:column; gap:8px;
-    pointer-events:none;
-  }
-  .toast {
-    padding:14px 24px; border-radius:12px; color:#fff;
-    font-size:.9rem; font-weight:600; box-shadow:0 8px 24px rgba(0,0,0,.2);
-    animation:toastIn .3s ease; max-width:400px; text-align:center;
-    pointer-events:auto;
-  }
-  .toast-success { background:#10b981; }
-  .toast-error { background:#ef4444; }
-  .toast-info { background:#3b82f6; }
-  @keyframes toastIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-
+  /* ===== PROGRESS ===== */
   .progress-wrap {
     display:flex; justify-content:space-between; margin-bottom:28px;
     position:relative; padding:0 10px;
@@ -76,6 +56,7 @@
   .step-dot.active .label { color:#2a5a8c; font-weight:600; }
   .step-dot.done .label { color:#10b981; }
 
+  /* ===== STEP CARDS ===== */
   .step-card { display:none; }
   .step-card.active { display:block; animation:fadeIn .35s ease; }
   @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
@@ -87,6 +68,7 @@
   .card h2 { font-size:1.2rem; font-weight:700; margin-bottom:4px; }
   .card .sub { color:#64748b; font-size:.88rem; margin-bottom:20px; }
 
+  /* ===== FORM ===== */
   .form-group { margin-bottom:18px; }
   .form-group label {
     display:block; font-weight:600; font-size:.85rem;
@@ -104,13 +86,8 @@
   }
   select.form-control { appearance:auto; }
   .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  .input-group { position:relative; }
-  .input-group .prefix {
-    position:absolute; left:14px; top:50%; transform:translateY(-50%);
-    font-weight:600; color:#64748b; font-size:.9rem; z-index:1;
-  }
-  .input-group .form-control { padding-left:44px; }
 
+  /* ===== RADIO ===== */
   .radio-group { display:flex; gap:10px; margin-top:4px; }
   .radio-btn {
     flex:1; padding:11px 14px; border:1.5px solid #e2e8f0;
@@ -119,20 +96,27 @@
     background:#f8fafc; color:#475569; user-select:none;
   }
   .radio-btn:hover { border-color:#94a3b8; }
-  .radio-btn.sim { border-color:#10b981; background:#ecfdf5; color:#065f46; }
-  .radio-btn.nao { border-color:#ef4444; background:#fef2f2; color:#991b1b; }
+  .radio-btn.selected-sim { border-color:#10b981; background:#ecfdf5; color:#065f46; }
+  .radio-btn.selected-nao { border-color:#ef4444; background:#fef2f2; color:#991b1b; }
   .radio-btn input { display:none; }
 
+  /* ===== CONDITIONAL ===== */
   .conditional { display:none; margin-top:14px; padding:16px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0; }
   .conditional.open { display:block; animation:fadeIn .25s ease; }
   .conditional h4 { font-size:.82rem; color:#475569; margin-bottom:10px; font-weight:600; }
+  .input-group { position:relative; }
+  .input-group .prefix {
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    font-weight:600; color:#64748b; font-size:.9rem;
+  }
+  .input-group .form-control { padding-left:44px; }
 
+  /* ===== BUTTONS ===== */
   .btn-row { display:flex; gap:10px; margin-top:24px; flex-wrap:wrap; }
   .btn {
     padding:13px 28px; border-radius:10px; font-weight:600; font-size:.92rem;
     border:none; cursor:pointer; transition:.2s;
     display:inline-flex; align-items:center; gap:8px; font-family:inherit;
-    text-decoration:none;
   }
   .btn-primary { background:#1a3a5c; color:#fff; }
   .btn-primary:hover { background:#2a5a8c; transform:translateY(-1px); }
@@ -147,6 +131,7 @@
   .btn-block { width:100%; justify-content:center; }
   .btn:disabled { opacity:.5; cursor:not-allowed; transform:none !important; }
 
+  /* ===== RESULTS ===== */
   .total-value {
     text-align:center; padding:20px;
     background:linear-gradient(135deg,#1a3a5c,#2a5a8c);
@@ -175,9 +160,11 @@
   .card-supreme  { background:linear-gradient(135deg,#fef3c7,#fde68a); color:#92400e; }
 
   .actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:20px; }
+
   .obs { font-size:.78rem; color:#94a3b8; margin-top:8px; }
   .text-muted { color:#94a3b8; }
   .mt-1 { margin-top:4px; }
+  .error-msg { color:#ef4444; font-size:.8rem; margin-top:4px; display:none; }
 
   @media (max-width:600px) {
     .form-row { grid-template-columns:1fr; }
@@ -186,7 +173,6 @@
     .step-dot .label { display:none; }
     .progress-wrap::before { left:15px; right:15px; }
     .bar-fill { left:15px !important; }
-    .result-cards { grid-template-columns:1fr; }
     .resumo-grid { grid-template-columns:1fr; }
   }
 
@@ -194,7 +180,7 @@
     body { background:#fff; }
     .header { background:#1a3a5c !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
     .card-standard, .card-premium, .card-supreme, .total-value { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .btn, .btn-row, .actions .btn, .toast-container { display:none !important; }
+    .btn, .btn-row, .actions .btn { display:none !important; }
     .step-card.active { display:block !important; }
     .card { box-shadow:none; padding:14px 0; }
     .no-print { display:none !important; }
@@ -221,10 +207,7 @@
 
 
 
-
-
-
-
+  
   
     
 
@@ -280,6 +263,7 @@
       Preencha seus dados para começarmos a simulação.
 
 
+
       
         <label>Nome completo *</label>
         <input class="form-control" id="nome" placeholder="Seu nome" />
@@ -289,7 +273,7 @@
       
         
           <label>Telefone / WhatsApp *</label>
-          <input class="form-control" id="telefone" placeholder="(16) 99999-9999" oninput="mascaraTel(this)" maxlength="15" />
+          <input class="form-control" id="telefone" placeholder="(16) 99999-9999" />
         
 
 
@@ -302,8 +286,12 @@
       
 
 
+      Preencha todos os campos obrigatórios.
+
+
+
       
-        <button class="btn btn-primary btn-block" id="btnPasso1" onclick="irPara(2)">Avançar →</button>
+        <button class="btn btn-primary btn-block" onclick="irPara(2)">Avançar →</button>
       
 
 
@@ -322,6 +310,7 @@
 
 
 
+      
       
         <label>1. Você já tem terreno?</label>
         
@@ -370,6 +359,7 @@
 
 
       
+      
         <label>2. Você já tem projeto arquitetônico?</label>
         
           
@@ -391,13 +381,14 @@
       
         <h4>📄 Anexar projeto (opcional)</h4>
         <input class="form-control" id="projetoFile" type="file" accept=".pdf,.dwg,.jpg,.png" />
-        Opcional — pode enviar depois.
+        Opcional — você pode enviar depois.
 
 
       
 
 
 
+      
       
         <label>3. Qual o estado e cidade da obra? *</label>
       
@@ -421,6 +412,9 @@
 
 
       
+
+
+      Responda todas as perguntas e selecione estado/cidade.
 
 
 
@@ -470,7 +464,7 @@
           <label>Quanto você tem disponível para a obra?</label>
           
             R$
-            <input class="form-control" id="recursoProprio" type="number" step="100" min="0" placeholder="Ex: 80000" inputmode="numeric" />
+            <input class="form-control" id="recursoProprio" type="number" step="100" min="0" placeholder="Ex: 80000" />
           
 
 
@@ -506,13 +500,12 @@
           <label>Renda familiar média mensal (bruta)</label>
           
             R$
-            <input class="form-control" id="rendaFamiliar" type="number" step="100" min="0" placeholder="Ex: 8000" inputmode="numeric" />
+            <input class="form-control" id="rendaFamiliar" type="number" step="100" min="0" placeholder="Ex: 8000" />
           
 
 
           
-            ⚡ Usamos ~30% da renda para parcela, taxa ~10,5% a.a., prazo de 360 meses.
-            **Valor meramente orientativo.**
+            ⚡ Usamos ~30% da renda para parcela, taxa ~10,5% a.a., prazo de 360 meses. Valor meramente orientativo.
           
 
 
@@ -522,12 +515,13 @@
       
 
 
+      Responda todas as perguntas financeiras.
+
+
 
       
         <button class="btn btn-secondary" onclick="irPara(2)">← Voltar</button>
-        <button class="btn btn-success btn-block" id="btnCalcular" onclick="calcular()">
-          📊 Estimar Capacidade de Construção
-        </button>
+        <button class="btn btn-success btn-block" onclick="calcular()">📊 Estimar Capacidade de Construção</button>
       
 
 
@@ -575,15 +569,12 @@
       
 
 
-      
-
-
-      * Valores referenciais com base no custo médio do LSF por m² ajustado por região. Consulte-nos para um orçamento personalizado.
+      * Valores referenciais com base no custo médio do LSF por m². Consulte-nos para um orçamento personalizado.
 
 
 
       
-        <button class="btn btn-primary" onclick="gerarPDF()">🖨️ Baixar PDF</button>
+        <button class="btn btn-primary" onclick="imprimir()">🖨️ Imprimir / Salvar PDF</button>
         <button class="btn btn-outline" onclick="recomecar()">🔄 Nova Simulação</button>
         <button class="btn btn-wa" onclick="whatsapp()">📐 Orçamento Personalizado</button>
       
@@ -601,21 +592,6 @@
 
 
 <script>
-// ===== CONFIGURAÇÕES =====
-const CUSTOS = { standard:2500, premium:3500, supreme:5000 };
-const NOMES  = { standard:'Standard', premium:'Premium', supreme:'Supreme' };
-const DESC   = {
-  standard:'Acabamento funcional e econômico — ideal para quem busca custo-benefício',
-  premium:'Acabamento intermediário com mais conforto e qualidade superior',
-  supreme:'Acabamento alto padrão — materiais premium e acabamento de luxo'
-};
-const MULT_REGIONAL = {
-  SP:1.00, RJ:1.08, MG:0.95, ES:0.97, PR:0.96, SC:0.97, RS:0.98,
-  MS:0.94, MT:0.96, GO:0.95, DF:1.02, BA:1.06, PE:1.05, CE:1.05,
-  RN:1.04, PB:1.04, PI:1.03, AL:1.04, SE:1.03, MA:1.07, PA:1.08,
-  AM:1.12, AC:1.10, RO:1.06, RR:1.12, AP:1.11, TO:1.03
-};
-
 // ===== BANCO DE CIDADES =====
 const CIDADES = {
   AC:{n:'Acre',c:['Rio Branco','Cruzeiro do Sul','Sena Madureira','Tarauacá','Feijó','Brasiléia']},
@@ -642,114 +618,105 @@ const CIDADES = {
   RO:{n:'Rondônia',c:['Porto Velho','Ji-Paraná','Ariquemes','Vilhena','Cacoal','Rolim de Moura']},
   RR:{n:'Roraima',c:['Boa Vista','Rorainópolis','Caracaraí','Mucajaí','Alto Alegre','Pacaraima']},
   SC:{n:'Santa Catarina',c:['Florianópolis','Joinville','Blumenau','São José','Chapecó','Itajaí','Criciúma','Lages']},
-  SP:{n:'São Paulo',c:['São Paulo','Guarulhos','Campinas','São Bernardo do Campo','Ribeirão Preto','São Carlos','Araraquara','Sorocaba','Santos','Bauru','São José do Rio Preto','Franca','Jundiaí','Piracicaba','Limeira']},
+  SP:{n:'São Paulo',c:['São Paulo','Guarulhos','Campinas','São Bernardo do Campo','Ribeirão Preto','São Carlos','Araraquara','Sorocaba','Santos','Bauru','São José do Rio Preto','Franca','Jundiaí']},
   SE:{n:'Sergipe',c:['Aracaju','Nossa Senhora do Socorro','Lagarto','Itabaiana','Estância','Tobias Barreto']},
   TO:{n:'Tocantins',c:['Palmas','Araguaína','Gurupi','Porto Nacional','Paraíso do Tocantins','Guaraí']}
 };
 
-// ===== ESTADO GLOBAL =====
+// ===== STATE =====
 const S = {
-  passo:1, nome:'', telefone:'', email:'',
+  passo: 1,
+  nome:'', telefone:'', email:'',
   hasLand:null, largura:0, comprimento:0, areaTerreno:0,
   hasProject:null, projetoFile:null,
   estado:'', cidade:'',
   hasOwnResources:null, recursoProprio:0,
   willFinance:null, rendaFamiliar:0,
-  financiamento:0, totalCapital:0, multiplicador:1.0
+  financiamento:0, totalCapital:0
 };
 
-// ===== FUNÇÕES =====
-function mostrarToast(mensagem, tipo) {
-  const c = document.getElementById('toastContainer');
-  const t = document.createElement('div');
-  t.className = 'toast toast-' + tipo;
-  t.textContent = mensagem;
-  c.appendChild(t);
-  setTimeout(function() {
-    t.style.opacity = '0';
-    t.style.transition = 'opacity .3s';
-    setTimeout(function() { t.remove(); }, 300);
-  }, 3500);
-}
+const CUSTOS = { standard:2500, premium:3500, supreme:5000 };
+const NOMES  = { standard:'Standard', premium:'Premium', supreme:'Supreme' };
+const DESC   = { standard:'Acabamento funcional e econômico', premium:'Acabamento intermediário com mais conforto', supreme:'Acabamento alto padrão — materiais premium' };
 
-function mascaraTel(el) {
-  var v = el.value.replace(/\D/g, '');
-  if (v.length > 11) v = v.slice(0, 11);
-  if (v.length > 7) {
-    el.value = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
-  } else if (v.length > 2) {
-    el.value = '(' + v.slice(0,2) + ') ' + v.slice(2);
-  } else if (v.length > 0) {
-    el.value = '(' + v;
-  }
-}
-
+// ===== INICIALIZAR ESTADOS =====
 function initEstados() {
-  var sel = document.getElementById('estado');
-  for (var s in CIDADES) {
-    var o = document.createElement('option');
+  const sel = document.getElementById('estado');
+  for (const s in CIDADES) {
+    const o = document.createElement('option');
     o.value = s; o.textContent = s + ' — ' + CIDADES[s].n;
     sel.appendChild(o);
   }
 }
+initEstados();
 
 function carregarCidades() {
-  var sigla = document.getElementById('estado').value;
-  var sel = document.getElementById('cidade');
+  const sigla = document.getElementById('estado').value;
+  const sel = document.getElementById('cidade');
   sel.innerHTML = '<option value="">Selecione</option>';
   if (!sigla || !CIDADES[sigla]) return;
-  for (var i = 0; i < CIDADES[sigla].c.length; i++) {
-    var o = document.createElement('option');
-    o.value = CIDADES[sigla].c[i];
-    o.textContent = CIDADES[sigla].c[i];
+  CIDADES[sigla].c.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
     sel.appendChild(o);
-  }
+  });
 }
 
+// ===== ESCOLHA (RADIO) =====
 function escolher(campo, valor, btn) {
   S[campo] = valor;
-  var grupo = btn.closest('.radio-group');
-  var botoes = grupo.querySelectorAll('.radio-btn');
-  for (var i = 0; i < botoes.length; i++) {
-    botoes[i].classList.remove('sim', 'nao');
-  }
-  btn.classList.add(valor ? 'sim' : 'nao');
-  var condId = 'c' + campo.charAt(0).toUpperCase() + campo.slice(1);
-  var el = document.getElementById(condId);
+
+  // Destacar botão
+  const grupo = btn.closest('.radio-group');
+  grupo.querySelectorAll('.radio-btn').forEach(b => {
+    b.classList.remove('selected-sim','selected-nao');
+  });
+  btn.classList.add(valor ? 'selected-sim' : 'selected-nao');
+
+  // Mostrar/esconder condicional
+  const condId = 'c' + campo.charAt(0).toUpperCase() + campo.slice(1);
+  const el = document.getElementById(condId);
   if (el) {
-    if (valor) { el.classList.add('open'); } else { el.classList.remove('open'); }
+    el.classList.toggle('open', valor);
   }
+
+  // Se "Não tem terreno", zera área
   if (campo === 'hasLand' && !valor) {
     S.areaTerreno = 0;
+    document.getElementById('largura').value = '';
+    document.getElementById('comprimento').value = '';
     document.getElementById('areaTerreno').value = '';
   }
 }
 
+// ===== CALCULAR ÁREA =====
 function calcArea() {
-  var l = parseFloat(document.getElementById('largura').value) || 0;
-  var c = parseFloat(document.getElementById('comprimento').value) || 0;
+  const l = parseFloat(document.getElementById('largura').value) || 0;
+  const c = parseFloat(document.getElementById('comprimento').value) || 0;
   S.largura = l; S.comprimento = c;
   S.areaTerreno = l * c;
   document.getElementById('areaTerreno').value = S.areaTerreno > 0
-    ? S.areaTerreno.toFixed(2) + ' m2'
+    ? S.areaTerreno.toFixed(2) + ' m²'
     : 'Preencha largura e comprimento';
+}
+
+// ===== NAVEGAÇÃO =====
+function irPara(n) {
+  // Esconder erros
+  document.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
+
+  if (n > S.passo && !validar(S.passo)) return;
+  S.passo = n;
+  renderizar();
 }
 
 function validar(p) {
   if (p === 1) {
-    var n = document.getElementById('nome').value.trim();
-    var t = document.getElementById('telefone').value.trim();
-    var e = document.getElementById('email').value.trim();
+    const n = document.getElementById('nome').value.trim();
+    const t = document.getElementById('telefone').value.trim();
+    const e = document.getElementById('email').value.trim();
     if (!n || !t || !e) {
-      mostrarToast('Preencha nome, telefone e e-mail para continuar.', 'error');
-      return false;
-    }
-    if (t.replace(/\D/g, '').length < 10) {
-      mostrarToast('Telefone invalido. Informe com DDD.', 'error');
-      return false;
-    }
-    if (e.indexOf('@') === -1 || e.indexOf('.') === -1) {
-      mostrarToast('E-mail invalido. Verifique o formato.', 'error');
+      document.getElementById('erroPasso1').style.display = 'block';
       return false;
     }
     S.nome = n; S.telefone = t; S.email = e;
@@ -757,292 +724,271 @@ function validar(p) {
     return true;
   }
   if (p === 2) {
-    if (S.hasLand === null) { mostrarToast('Responda: voce ja tem terreno?', 'error'); return false; }
-    if (S.hasProject === null) { mostrarToast('Responda: voce tem projeto arquitetonico?', 'error'); return false; }
-    var estado = document.getElementById('estado').value;
-    var cidade = document.getElementById('cidade').value;
-    if (!estado || !cidade) { mostrarToast('Selecione estado e cidade da obra.', 'error'); return false; }
+    if (S.hasLand === null || S.hasProject === null) {
+      document.getElementById('erroPasso2').style.display = 'block';
+      return false;
+    }
+    const estado = document.getElementById('estado').value;
+    const cidade = document.getElementById('cidade').value;
+    if (!estado || !cidade) {
+      document.getElementById('erroPasso2').style.display = 'block';
+      return false;
+    }
     S.estado = estado; S.cidade = cidade;
-    var file = document.getElementById('projetoFile');
-    S.projetoFile = (file.files && file.files[0]) ? file.files[0].name : null;
+    const file = document.getElementById('projetoFile');
+    S.projetoFile = file.files && file.files[0] ? file.files[0].name : null;
+    salvarLeadCompleto();
     return true;
   }
   if (p === 3) {
-    if (S.hasOwnResources === null) { mostrarToast('Responda: tem recurso proprio?', 'error'); return false; }
-    if (S.willFinance === null) { mostrarToast('Responda: vai financiar?', 'error'); return false; }
+    if (S.hasOwnResources === null || S.willFinance === null) {
+      document.getElementById('erroPasso3').style.display = 'block';
+      return false;
+    }
     S.recursoProprio = S.hasOwnResources ? (parseFloat(document.getElementById('recursoProprio').value) || 0) : 0;
     S.rendaFamiliar = S.willFinance ? (parseFloat(document.getElementById('rendaFamiliar').value) || 0) : 0;
+
+    // Se não tem recurso próprio E não vai financiar, não faz sentido
+    if (!S.hasOwnResources && !S.willFinance) {
+      alert('É necessário informar recurso próprio ou financiamento para estimar a capacidade.');
+      return false;
+    }
     return true;
   }
   return true;
 }
 
 function renderizar() {
-  var cards = document.querySelectorAll('.step-card');
-  for (var i = 0; i < cards.length; i++) { cards[i].classList.remove('active'); }
-  var alvo = document.getElementById('passo' + S.passo);
+  // Mostrar passo certo
+  document.querySelectorAll('.step-card').forEach(el => el.classList.remove('active'));
+  const alvo = document.getElementById('passo' + S.passo);
   if (alvo) alvo.classList.add('active');
 
-  var dots = document.querySelectorAll('.step-dot');
-  for (var j = 0; j < dots.length; j++) {
-    var num = parseInt(dots[j].dataset.s);
-    dots[j].classList.remove('active', 'done');
-    if (num === S.passo) { dots[j].classList.add('active'); }
-    else if (num < S.passo) { dots[j].classList.add('done'); }
-  }
+  // Atualizar progresso
+  document.querySelectorAll('.step-dot').forEach(el => {
+    const num = parseInt(el.dataset.s);
+    el.classList.remove('active','done');
+    if (num === S.passo) el.classList.add('active');
+    else if (num < S.passo) el.classList.add('done');
+  });
 
-  var total = dots.length;
-  var pct = ((S.passo - 1) / (total - 1)) * 100;
+  // Barra
+  const total = document.querySelectorAll('.step-dot').length;
+  const pct = ((S.passo - 1) / (total - 1)) * 100;
   document.getElementById('barFill').style.width = pct + '%';
+
   window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-function irPara(n) {
-  if (n > S.passo && !validar(S.passo)) return;
-  S.passo = n;
-  renderizar();
-}
-
-// ===== CÁLCULO PRINCIPAL =====
+// ===== CÁLCULO =====
 function calcular() {
   if (!validar(3)) return;
 
-  var rp = S.recursoProprio || 0;
-  var renda = S.rendaFamiliar || 0;
-  var fin = 0;
+  const rp = S.recursoProprio || 0;
+  const renda = S.rendaFamiliar || 0;
+  let fin = 0;
 
   if (S.willFinance && renda > 0) {
-    var pmt = renda * 0.30;
-    var i = 0.105 / 12;
-    var n = 360;
-    var fator = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n));
-    fin = Math.floor(pmt * fator / 1000) * 1000;
+    const pmt = renda * 0.30;
+    const i = 0.105 / 12;
+    const n = 360;
+    const f = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n));
+    fin = Math.floor(pmt * f / 1000) * 1000;
   }
 
-  var total = rp + fin;
+  const total = rp + fin;
   S.financiamento = fin;
   S.totalCapital = total;
-  S.multiplicador = MULT_REGIONAL[S.estado] || 1.05;
 
-  var loc = S.cidade ? S.cidade + ' / ' + S.estado : '—';
-  document.getElementById('resumoCliente').innerHTML =
-    'Nome
+  // Preencher resumo
+  const loc = S.cidade ? S.cidade + ' / ' + S.estado : '—';
+  document.getElementById('resumoCliente').innerHTML = `
+    Nome
 
-' + S.nome + '
-
-
-
-' +
-    'Telefone
-
-' + S.telefone + '
+${S.nome}
 
 
 
-' +
-    'E-mail
 
-' + S.email + '
+    Telefone
 
-
-
-' +
-    'Local da obra
-
-' + loc + '
+${S.telefone}
 
 
 
-' +
-    'Terreno
 
-' + (S.hasLand ? (S.areaTerreno > 0 ? S.areaTerreno.toFixed(1) + ' m2' : 'Sim') : 'Nao possui') + '
+    E-mail
 
-
-
-' +
-    'Projeto
-
-' + (S.hasProject ? 'Sim' : 'Nao') + '
+${S.email}
 
 
 
-';
+
+    Local da obra
+
+${loc}
+
+
+
+
+    Terreno
+
+${S.hasLand ? (S.areaTerreno > 0 ? S.areaTerreno.toFixed(1)+' m²' : 'Sim') : 'Não possui'}
+
+
+
+
+    Projeto
+
+${S.hasProject ? 'Sim' : 'Não'}
+
+
+
+
+  `;
 
   document.getElementById('totalCapital').textContent = 'R$ ' + total.toLocaleString('pt-BR');
-  var det = '';
-  if (rp > 0) det += 'Recurso proprio: R$ ' + rp.toLocaleString('pt-BR');
+  let det = '';
+  if (rp > 0) det += 'Recurso próprio: R$ ' + rp.toLocaleString('pt-BR');
   if (fin > 0) {
-    if (det) det += '  |  ';
+    if (det) det += ' · ';
     det += 'Financiamento estimado: R$ ' + fin.toLocaleString('pt-BR');
   }
   if (!det) det = 'Nenhum recurso informado.';
   document.getElementById('capitalBreakdown').textContent = det;
 
-  var regObs = document.getElementById('regObs');
-  if (S.multiplicador !== 1.0) {
-    regObs.style.display = 'block';
-    regObs.textContent = 'Custos ajustados para ' + S.estado + ' (x' + S.multiplicador.toFixed(2) + ').';
-  } else {
-    regObs.style.display = 'none';
-  }
-
-  var cards = document.getElementById('resultCards');
+  // Cards
+  const cards = document.getElementById('resultCards');
   cards.innerHTML = '';
-  var keys = ['standard', 'premium', 'supreme'];
-  for (var k = 0; k < keys.length; k++) {
-    var key = keys[k];
-    var custoAjustado = CUSTOS[key] * S.multiplicador;
-    var m2 = total > 0 ? total / custoAjustado : 0;
-    var div = document.createElement('div');
-    div.className = 'result-card card-' + key;
-    div.innerHTML =
-      '' + key + '
+  for (const [k, custo] of Object.entries(CUSTOS)) {
+    const m2 = total > 0 ? total / custo : 0;
+    const div = document.createElement('div');
+    div.className = 'result-card card-' + k;
+    div.innerHTML = `
+      ${k}
 
-' +
-      '' + NOMES[key] + '
 
-' +
-      '' + DESC[key] + '
+      ${NOMES[k]}
 
-' +
-      '' + (m2 > 0 ? m2.toFixed(1) : '0') + ' m2
 
-' +
-      'R$ ' + custoAjustado.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2}) + '/m2
+      ${DESC[k]}
 
-';
+
+      ${m2 > 0 ? m2.toFixed(1) : '0'} m²
+
+
+      R$ ${custo.toLocaleString('pt-BR')}/m²
+
+
+    `;
     cards.appendChild(div);
   }
 
   S.passo = 4;
   renderizar();
   salvarSimulacao();
-  mostrarToast('Simulacao concluida com sucesso!', 'success');
 }
 
 // ===== PERSISTÊNCIA =====
 function salvarLead(d) {
-  try { localStorage.setItem('ibuild_lead', JSON.stringify(d)); } catch(e) {}
+  try {
+    localStorage.setItem('ibuild_lead', JSON.stringify(d));
+    console.log('[iBuild] Lead salvo no navegador:', d);
+
+    // ─── INTEGRAÇÃO SHAREPOINT LIST ───────────────────────────────
+    // Descomente e configure com os dados da sua lista do SharePoint:
+    //
+    // const siteUrl = 'https://seu-site.sharepoint.com/sites/x';
+    // const listName = 'Leads';
+    // const accessToken = 'SEU_TOKEN_AQUI'; // via Azure AD / App Registration
+    //
+    // fetch(siteUrl + '/_api/web/lists/getbytitle(\'' + listName + '\')/items', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json;odata=verbose',
+    //     'Accept': 'application/json;odata=verbose',
+    //     'Authorization': 'Bearer ' + accessToken
+    //   },
+    //   body: JSON.stringify({
+    //     __metadata: { type: 'SP.Data.' + listName + 'ListItem' },
+    //     Title: d.nome,
+    //     Telefone: d.telefone,
+    //     Email: d.email,
+    //     DataCadastro: new Date().toISOString()
+    //   })
+    // })
+    // .then(r => r.json())
+    // .then(data => console.log('[SharePoint] Lead salvo:', data))
+    // .catch(err => console.error('[SharePoint] Erro:', err));
+    // ─── FIM INTEGRAÇÃO 
+  } catch(e) { console.warn(e); }
+}
+
+function salvarLeadCompleto() {
+  try {
+    const data = {
+      nome:S.nome, telefone:S.telefone, email:S.email,
+      hasLand:S.hasLand, areaTerreno:S.areaTerreno,
+      hasProject:S.hasProject, projetoFile:S.projetoFile,
+      estado:S.estado, cidade:S.cidade,
+      data: new Date().toISOString()
+    };
+    localStorage.setItem('ibuild_lead_completo', JSON.stringify(data));
+  } catch(e) { console.warn(e); }
 }
 
 function salvarSimulacao() {
   try {
     localStorage.setItem('ibuild_simulacao', JSON.stringify({
       nome:S.nome, telefone:S.telefone, email:S.email,
-      areaTerreno:S.areaTerreno, estado:S.estado, cidade:S.cidade,
+      areaTerreno:S.areaTerreno, cidade:S.cidade,
       recursoProprio:S.recursoProprio, rendaFamiliar:S.rendaFamiliar,
       financiamento:S.financiamento, totalCapital:S.totalCapital,
-      multiplicador:S.multiplicador,
       data: new Date().toISOString()
     }));
-  } catch(e) {}
-}
-
-// ===== PDF =====
-function gerarPDF() {
-  var btn = document.querySelector('#resultActions .btn-primary');
-  btn.disabled = true;
-  btn.innerHTML = 'Gerando PDF...';
-
-  // Fallback rapido se as bibliotecas nao carregaram
-  if (typeof html2canvas === 'undefined' || typeof jspdf === 'undefined') {
-    mostrarToast('Bibliotecas de PDF nao carregaram. Usando impressao do navegador.', 'info');
-    btn.disabled = false;
-    btn.innerHTML = 'Baixar PDF';
-    window.print();
-    return;
-  }
-
-  var original = document.getElementById('passo4');
-  var clone = original.cloneNode(true);
-  clone.id = 'passo4-pdf';
-  clone.style.display = 'block';
-  clone.style.position = 'absolute';
-  clone.style.left = '-9999px';
-  clone.style.top = '0';
-  clone.style.width = '800px';
-  clone.style.background = '#fff';
-  clone.style.padding = '20px';
-
-  var actions = clone.querySelector('#resultActions');
-  if (actions) actions.style.display = 'none';
-
-  document.body.appendChild(clone);
-
-  html2canvas(clone, {
-    scale: 2,
-    backgroundColor: '#ffffff',
-    logging: false,
-    useCORS: true
-  }).then(function(canvas) {
-    document.body.removeChild(clone);
-    var imgData = canvas.toDataURL('image/png');
-    var pdf = new jspdf.jsPDF('p', 'mm', 'a4');
-    var imgW = 210;
-    var imgH = (canvas.height * imgW) / canvas.width;
-    pdf.addImage(imgData, 'PNG', 0, 0, imgW, imgH);
-    var nomeArquivo = 'Simulacao_iBuild_' + S.nome.replace(/\s/g, '_') + '.pdf';
-    pdf.save(nomeArquivo);
-    mostrarToast('PDF salvo com sucesso!', 'success');
-    btn.disabled = false;
-    btn.innerHTML = 'Baixar PDF';
-  }).catch(function(err) {
-    document.body.removeChild(clone);
-    console.error(err);
-    mostrarToast('Erro ao gerar PDF. Usando impressao.', 'error');
-    btn.disabled = false;
-    btn.innerHTML = 'Baixar PDF';
-    window.print();
-  });
+  } catch(e) { console.warn(e); }
 }
 
 // ===== AÇÕES =====
+function imprimir() { window.print(); }
+
 function recomecar() {
-  if (!confirm('Tem certeza? Os dados atuais serao perdidos.')) return;
-
-  S.passo = 1; S.nome = ''; S.telefone = ''; S.email = '';
-  S.hasLand = null; S.largura = 0; S.comprimento = 0; S.areaTerreno = 0;
-  S.hasProject = null; S.projetoFile = null;
-  S.estado = ''; S.cidade = '';
-  S.hasOwnResources = null; S.recursoProprio = 0;
-  S.willFinance = null; S.rendaFamiliar = 0;
-  S.financiamento = 0; S.totalCapital = 0; S.multiplicador = 1.0;
-
-  var inputs = document.querySelectorAll('.form-control');
-  for (var i = 0; i < inputs.length; i++) {
-    if (inputs[i].type === 'text' || inputs[i].type === 'email' || inputs[i].type === 'number') inputs[i].value = '';
-    if (inputs[i].tagName === 'SELECT') inputs[i].selectedIndex = 0;
-  }
-  var radios = document.querySelectorAll('.radio-btn');
-  for (var j = 0; j < radios.length; j++) { radios[j].classList.remove('sim', 'nao'); }
-  var conds = document.querySelectorAll('.conditional');
-  for (var k = 0; k < conds.length; k++) { conds[k].classList.remove('open'); }
+  if (!confirm('Tem certeza? Os dados atuais serão perdidos.')) return;
+  Object.assign(S, {
+    passo:1, nome:'', telefone:'', email:'',
+    hasLand:null, largura:0, comprimento:0, areaTerreno:0,
+    hasProject:null, projetoFile:null,
+    estado:'', cidade:'',
+    hasOwnResources:null, recursoProprio:0,
+    willFinance:null, rendaFamiliar:0,
+    financiamento:0, totalCapital:0
+  });
+  document.querySelectorAll('.form-control').forEach(el => {
+    if (el.type === 'text' || el.type === 'email' || el.type === 'number') el.value = '';
+    if (el.tagName === 'SELECT') el.selectedIndex = 0;
+  });
+  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('selected-sim','selected-nao'));
+  document.querySelectorAll('.conditional').forEach(c => c.classList.remove('open'));
   document.getElementById('areaTerreno').value = '';
-  document.getElementById('regObs').style.display = 'none';
+  document.getElementById('erroPasso1').style.display = 'none';
+  document.getElementById('erroPasso2').style.display = 'none';
+  document.getElementById('erroPasso3').style.display = 'none';
   carregarCidades();
   renderizar();
-  mostrarToast('Simulacao reiniciada.', 'info');
 }
 
 function whatsapp() {
-  var msg = encodeURIComponent(
-    'Ola! Fiz a simulacao de capacidade no site da iBuild Sao Carlos.\n\n' +
+  // Substitua 5516999999999 pelo número real da iBuild
+  const numero = '5516999999999';
+  const msg = encodeURIComponent(
+    'Olá! Fiz a simulação de capacidade no site da iBuild São Carlos.\n\n' +
     'Nome: ' + S.nome + '\n' +
     'Tel: ' + S.telefone + '\n' +
-    'Capital total: R$ ' + (S.totalCapital || 0).toLocaleString('pt-BR') + '\n' +
-    (S.areaTerreno > 0 ? 'Terreno: ' + S.areaTerreno.toFixed(1) + ' m2\n' : '') +
-    (S.cidade ? 'Local: ' + S.cidade + '/' + S.estado + '\n' : '') +
-    '\nGostaria de solicitar um orcamento personalizado.'
+    'Capital total: R$ ' + (S.totalCapital || 0).toLocaleString('pt-BR') + '\n\n' +
+    'Gostaria de solicitar um orçamento personalizado.'
   );
-  window.open('https://wa.me/5516999999999?text=' + msg, '_blank');
+  window.open('https://wa.me/' + numero + '?text=' + msg, '_blank');
 }
-
-// ===== INICIALIZAÇÃO =====
-document.addEventListener('DOMContentLoaded', function() {
-  initEstados();
-  renderizar();
-});
 </script>
 
 </body>
