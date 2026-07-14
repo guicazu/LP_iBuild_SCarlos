@@ -3,363 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iBuild Simulador de Capacidade Construtiva</title>
+    <title>iBUILD — Simulador SOE | Modelagem da Casa</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: #f0f2f5;
             color: #1a1a2e;
-            min-height: 100vh;
         }
         .header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
             color: #fff;
-            padding: 28px 24px;
+            padding: 22px 24px;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #e94560, #ff6b6b, #e94560);
-        }
-        .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.5px; }
+        .header h1 { font-size: 22px; font-weight: 700; }
         .header h1 span { color: #e94560; }
-        .header p { font-size: 14px; opacity: 0.85; }
-        .container { max-width: 780px; margin: 0 auto; padding: 24px 16px 60px; }
-        .step-indicator {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
+        .header p { font-size: 13px; opacity: .8; margin-top: 2px; }
+        .container { max-width: 820px; margin: 0 auto; padding: 20px 16px 60px; }
+
+        .steps {
+            display: flex; justify-content: center; gap: 4px;
+            margin-bottom: 24px; flex-wrap: wrap;
         }
-        .step-dot {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .steps .s {
+            display: flex; align-items: center; gap: 4px;
         }
-        .step-dot .circle {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 600;
-            border: 2px solid #d1d5db;
-            color: #9ca3af;
-            background: #fff;
-            transition: all 0.3s;
+        .steps .s .dot {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 600;
+            border: 2px solid #d1d5db; color: #9ca3af; background: #fff;
+            transition: .3s;
         }
-        .step-dot .circle.active {
-            border-color: #0f3460;
-            background: #0f3460;
-            color: #fff;
-        }
-        .step-dot .circle.done {
-            border-color: #10b981;
-            background: #10b981;
-            color: #fff;
-        }
-        .step-dot .label {
-            font-size: 11px;
-            color: #9ca3af;
-            font-weight: 500;
-            display: none;
-        }
-        .step-dot .label.active { color: #0f3460; display: block; }
-        .step-dot .label.done { color: #10b981; display: block; }
-        .step-connector {
-            width: 28px;
-            height: 2px;
-            background: #d1d5db;
-            align-self: center;
-        }
-        .step-connector.done { background: #10b981; }
+        .steps .s .dot.act { border-color: #0f3460; background: #0f3460; color: #fff; }
+        .steps .s .dot.done { border-color: #10b981; background: #10b981; color: #fff; }
+        .steps .s .lbl { font-size: 10px; color: #9ca3af; display: none; }
+        .steps .s .lbl.act, .steps .s .lbl.done { display: block; }
+        .steps .s .lbl.done { color: #10b981; }
+        .steps .s .lbl.act { color: #0f3460; }
+        .cn { width: 20px; height: 2px; background: #d1d5db; align-self: center; }
+        .cn.done { background: #10b981; }
+
         .card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 32px 28px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            margin-bottom: 20px;
-            display: none;
+            background: #fff; border-radius: 14px; padding: 28px 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,.06);
+            margin-bottom: 18px; display: none;
         }
-        .card.active { display: block; animation: fadeIn 0.35s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .card h2 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: #1a1a2e;
+        .card.on { display: block; animation: f .35s ease; }
+        @keyframes f { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .card h2 { font-size: 19px; font-weight: 700; margin-bottom: 2px; }
+        .card .sub { font-size: 13px; color: #6b7280; margin-bottom: 20px; }
+
+        .opts {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px; margin-bottom: 18px;
         }
-        .card .subtitle {
-            font-size: 14px;
-            color: #6b7280;
-            margin-bottom: 24px;
+        .opt {
+            border: 2px solid #e5e7eb; border-radius: 12px; padding: 14px 12px;
+            text-align: center; cursor: pointer; transition: .2s;
+            background: #fff; font-weight: 500; font-size: 14px;
         }
-        .form-group { margin-bottom: 18px; }
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 5px;
-        }
-        .form-group label .required { color: #e94560; }
+        .opt:hover { border-color: #93a3b8; }
+        .opt.pick { border-color: #0f3460; background: #f0f4ff; color: #0f3460; }
+        .opt .ico { font-size: 28px; margin-bottom: 4px; }
+        .opt .subopt { font-size: 11px; color: #6b7280; font-weight: 400; margin-top: 2px; }
+
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px; }
         .form-group input, .form-group select {
-            width: 100%;
-            padding: 11px 14px;
-            border: 1.5px solid #d1d5db;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: border-color 0.2s;
-            background: #fff;
-            font-family: inherit;
+            width: 100%; padding: 10px 12px; border: 1.5px solid #d1d5db;
+            border-radius: 8px; font-size: 14px; font-family: inherit; background: #fff;
         }
         .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #0f3460;
-            box-shadow: 0 0 0 3px rgba(15,52,96,0.1);
+            outline: none; border-color: #0f3460; box-shadow: 0 0 0 3px rgba(15,52,96,.1);
         }
-        .form-group input.error {
-            border-color: #e94560;
-            box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-        .form-row-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 14px;
-        }
-        @media (max-width: 540px) {
-            .form-row, .form-row-3 { grid-template-columns: 1fr; }
-        }
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 24px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 12px 28px;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: inherit;
-        }
-        .btn-primary {
-            background: #0f3460;
-            color: #fff;
-        }
-        .btn-primary:hover { background: #1a1a2e; transform: translateY(-1px); }
-        .btn-primary:disabled {
-            background: #93a3b8;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .btn-secondary {
-            background: #f3f4f6;
-            color: #374151;
-        }
-        .btn-secondary:hover { background: #e5e7eb; }
-        .btn-success {
-            background: #10b981;
-            color: #fff;
-        }
-        .btn-success:hover { background: #059669; transform: translateY(-1px); }
-        .btn-outline {
-            background: transparent;
-            color: #0f3460;
-            border: 1.5px solid #0f3460;
-        }
-        .btn-outline:hover { background: #f0f4ff; }
-        .btn-danger-outline {
-            background: transparent;
-            color: #e94560;
-            border: 1.5px solid #e94560;
-        }
-        .btn-danger-outline:hover { background: #fef2f2; }
-        .toggle-field {
-            display: none;
-            margin-top: 12px;
-            padding: 16px;
-            background: #f9fafb;
-            border-radius: 10px;
-            border: 1px solid #e5e7eb;
-        }
-        .toggle-field.open { display: block; animation: fadeIn 0.25s ease; }
-        .toggle-group {
-            display: flex;
-            gap: 10px;
-            margin: 6px 0 4px;
-        }
-        .toggle-btn {
-            padding: 8px 24px;
-            border: 2px solid #d1d5db;
-            border-radius: 8px;
-            background: #fff;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-            color: #6b7280;
-        }
-        .toggle-btn.selected-yes {
-            border-color: #10b981;
-            background: #ecfdf5;
-            color: #059669;
-        }
-        .toggle-btn.selected-no {
-            border-color: #e94560;
-            background: #fef2f2;
-            color: #dc2626;
-        }
-        .file-upload-area {
-            border: 2px dashed #d1d5db;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #6b7280;
-        }
-        .file-upload-area:hover { border-color: #0f3460; background: #f0f4ff; }
-        .file-upload-area.has-file {
-            border-color: #10b981;
-            background: #ecfdf5;
-            color: #059669;
-        }
-        .file-upload-area input { display: none; }
-        .file-upload-area .icon { font-size: 28px; margin-bottom: 6px; }
-        .file-upload-area .filename { font-size: 13px; font-weight: 500; margin-top: 4px; }
-        .radio-group { display: flex; gap: 12px; flex-wrap: wrap; }
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 400;
-            cursor: pointer;
-            padding: 6px 0;
-        }
-        .radio-group input[type="radio"] { width: auto; accent-color: #0f3460; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        @media (max-width:520px) { .form-row, .form-row-3 { grid-template-columns: 1fr; } }
 
-        /* Resultado */
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; justify-content: space-between; }
+        .btn {
+            padding: 11px 24px; border: none; border-radius: 9px; font-size: 14px;
+            font-weight: 600; cursor: pointer; transition: .2s; font-family: inherit;
+        }
+        .btn-pri { background: #0f3460; color: #fff; }
+        .btn-pri:hover { background: #1a1a2e; transform: translateY(-1px); }
+        .btn-pri:disabled { background: #93a3b8; cursor: default; transform: none; }
+        .btn-sec { background: #f3f4f6; color: #374151; }
+        .btn-sec:hover { background: #e5e7eb; }
+        .btn-suc { background: #10b981; color: #fff; }
+        .btn-suc:hover { background: #059669; transform: translateY(-1px); }
+        .btn-out { background: transparent; color: #0f3460; border: 1.5px solid #0f3460; }
+        .btn-out:hover { background: #f0f4ff; }
+        .btn-dan { background: transparent; color: #e94560; border: 1.5px solid #e94560; }
+        .btn-dan:hover { background: #fef2f2; }
+
+        .amb-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px; margin: 12px 0;
+        }
+        .amb-card {
+            border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 12px 14px;
+            cursor: pointer; transition: .2s;
+        }
+        .amb-card:hover { border-color: #93a3b8; }
+        .amb-card.pick { border-color: #0f3460; background: #f0f4ff; }
+        .amb-card .aname { font-weight: 600; font-size: 14px; }
+        .amb-card .asize { font-size: 12px; color: #6b7280; margin-top: 2px; }
+        .amb-card .acheck { float: right; font-size: 18px; }
+
+        .modal-over {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45);
+            z-index: 1000; align-items: center; justify-content: center;
+        }
+        .modal-over.on { display: flex; }
+        .modal {
+            background: #fff; border-radius: 16px; padding: 28px; max-width: 480px;
+            width: 90%; max-height: 90vh; overflow-y: auto;
+        }
+        .modal h3 { font-size: 18px; margin-bottom: 14px; }
+
         .result-card {
             background: linear-gradient(135deg, #0f3460, #1a1a2e);
-            color: #fff;
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 20px;
+            color: #fff; border-radius: 14px; padding: 24px; margin-bottom: 16px;
         }
-        .result-card .greeting { font-size: 14px; opacity: 0.85; }
-        .result-card .name { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
-        .result-highlight {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-        .result-highlight .box {
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-        }
-        .result-highlight .box .value {
-            font-size: 26px;
-            font-weight: 800;
-            color: #ff6b6b;
-        }
-        .result-highlight .box .label {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-top: 2px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .result-highlight .box .value.green { color: #34d399; }
-        .result-highlight .box .value.gold { color: #fbbf24; }
-        .result-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 6px;
-            margin-top: 12px;
-        }
-        .result-table th {
-            text-align: left;
-            padding: 10px 14px;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            opacity: 0.7;
-            font-weight: 600;
-        }
-        .result-table td {
-            padding: 14px;
-            background: rgba(255,255,255,0.06);
-            border-radius: 10px;
-            font-weight: 500;
-        }
-        .result-table tr td:first-child { border-radius: 10px 0 0 10px; }
-        .result-table tr td:last-child { border-radius: 0 10px 10px 0; text-align: right; }
-        .result-table .highlight-value { font-size: 20px; font-weight: 700; color: #fbbf24; }
-        .result-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 24px;
-        }
+        .result-card .big { font-size: 28px; font-weight: 800; color: #fbbf24; }
+        .result-card .label { font-size: 12px; opacity: .75; text-transform: uppercase; letter-spacing: .5px; }
+        .r-table { width: 100%; border-collapse: separate; border-spacing: 0 5px; margin-top: 10px; }
+        .r-table th { text-align: left; padding: 8px 12px; font-size: 11px; text-transform: uppercase; opacity: .7; }
+        .r-table td { padding: 12px; background: rgba(255,255,255,.06); border-radius: 8px; }
+        .r-table td:last-child { text-align: right; font-weight: 600; }
+        .r-table .gold { color: #fbbf24; font-size: 18px; font-weight: 700; }
+
         .info-box {
-            background: #f0f4ff;
-            border-left: 4px solid #0f3460;
-            padding: 14px 16px;
-            border-radius: 0 10px 10px 0;
-            font-size: 13px;
-            color: #374151;
-            margin-top: 16px;
-            line-height: 1.5;
+            background: #f0f4ff; border-left: 4px solid #0f3460;
+            padding: 12px 14px; border-radius: 0 8px 8px 0;
+            font-size: 13px; color: #374151; margin-top: 14px;
         }
         .info-box strong { color: #0f3460; }
-        .error-feedback {
-            color: #e94560;
-            font-size: 13px;
-            margin-top: 4px;
-            display: none;
+
+        .bar-total {
+            background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px;
+            padding: 16px 18px; display: flex; justify-content: space-between;
+            align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 8px;
         }
-        .format-currency { font-family: 'Segoe UI', system-ui, sans-serif; }
-        .loading {
-            display: inline-block;
-            width: 16px; height: 16px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .estado-select, .cidade-select { width: 100%; }
+        .bar-total .valor { font-size: 24px; font-weight: 800; color: #059669; }
+
         @media print {
-            .header, .step-indicator, .result-actions { display: none !important; }
-            .card { box-shadow: none; border: 1px solid #ddd; }
-            body { background: #fff; }
-            .result-card { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .header, .steps, .btn-group, .no-print { display: none !important; }
+            .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+            .result-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
@@ -367,528 +162,597 @@
 
 <div class="header">
     <h1>🏗️ iBUILD <span>São Carlos</span></h1>
-    <p>Simulador de Capacidade Construtiva — Light Steel Frame</p>
+    <p>Simulador de Orçamento Express — Modelagem da Casa</p>
 </div>
 
 <div class="container">
 
-    <!-- Step Indicator -->
-    <div class="step-indicator" id="stepIndicator">
-        <div class="step-dot"><div class="circle active" id="dot1">1</div><span class="label active" id="label1">Dados</span></div>
-        <div class="step-connector" id="conn1"></div>
-        <div class="step-dot"><div class="circle" id="dot2">2</div><span class="label" id="label2">Obra</span></div>
-        <div class="step-connector" id="conn2"></div>
-        <div class="step-dot"><div class="circle" id="dot3">3</div><span class="label" id="label3">Finanças</span></div>
-        <div class="step-connector" id="conn3"></div>
-        <div class="step-dot"><div class="circle" id="dot4">4</div><span class="label" id="label4">Resultado</span></div>
-    </div>
+    <!-- STEPPER -->
+    <div class="steps" id="stepper"></div>
 
-    <!-- STEP 1: DADOS DO CLIENTE -->
-    <div class="card active" id="step1">
-        <h2>📋 Seus Dados</h2>
-        <p class="subtitle">Preencha suas informações para começarmos a simulação.</p>
-
-        <div class="form-group">
-            <label>Nome completo <span class="required">*</span></label>
-            <input type="text" id="nome" placeholder="Como você prefere ser chamado" autocomplete="name">
-            <div class="error-feedback" id="errNome">Por favor, informe seu nome.</div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label>Telefone / WhatsApp <span class="required">*</span></label>
-                <input type="tel" id="telefone" placeholder="(16) 9XXXX-XXXX" autocomplete="tel">
-                <div class="error-feedback" id="errTel">Informe um telefone válido.</div>
-            </div>
-            <div class="form-group">
-                <label>E-mail <span class="required">*</span></label>
-                <input type="email" id="email" placeholder="seu@email.com" autocomplete="email">
-                <div class="error-feedback" id="errEmail">Informe um e-mail válido.</div>
-            </div>
-        </div>
-
-        <div class="btn-group" style="justify-content: flex-end;">
-            <button class="btn btn-primary" onclick="validarPasso1()">Avançar →</button>
+    <!-- STEP 1: Estilo Arquitetônico -->
+    <div class="card on" id="s1">
+        <h2>🏛️ Estilo Arquitetônico</h2>
+        <p class="sub">Qual estilo mais combina com você e sua família?</p>
+        <div class="opts" id="estiloOpts"></div>
+        <div class="btn-group">
+            <button class="btn btn-pri" onclick="avancar(1)">Avançar →</button>
         </div>
     </div>
 
-    <!-- STEP 2: DADOS DA OBRA -->
-    <div class="card" id="step2">
-        <h2>🏠 Dados da Obra</h2>
-        <p class="subtitle">Conte-nos um pouco sobre o terreno e o projeto dos seus sonhos.</p>
-
-        <!-- 1. Terreno -->
-        <div class="form-group">
-            <label>1. Você já possui terreno? <span class="required">*</span></label>
-            <div class="toggle-group">
-                <button class="toggle-btn" id="terrenoSim" onclick="setTerreno(true)">Sim, tenho</button>
-                <button class="toggle-btn" id="terrenoNao" onclick="setTerreno(false)">Ainda não</button>
-            </div>
-            <div class="toggle-field" id="terrenoFields">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Largura (m)</label>
-                        <input type="number" id="terrenoLarg" placeholder="0,00" min="0" step="0.01" oninput="calcularAreaTerreno()">
-                    </div>
-                    <div class="form-group">
-                        <label>Comprimento (m)</label>
-                        <input type="number" id="terrenoComp" placeholder="0,00" min="0" step="0.01" oninput="calcularAreaTerreno()">
-                    </div>
-                </div>
-                <div style="font-size:14px;color:#374151;margin-top:4px;">
-                    📐 Área do terreno: <strong id="areaTerrenoDisplay">—</strong>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. Projeto -->
-        <div class="form-group">
-            <label>2. Você já possui projeto arquitetônico? <span class="required">*</span></label>
-            <div class="toggle-group">
-                <button class="toggle-btn" id="projetoSim" onclick="setProjeto(true)">Sim, tenho</button>
-                <button class="toggle-btn" id="projetoNao" onclick="setProjeto(false)">Ainda não</button>
-            </div>
-            <div class="toggle-field" id="projetoField">
-                <div class="file-upload-area" id="fileUploadArea" onclick="document.getElementById('projetoFile').click()">
-                    <div class="icon">📄</div>
-                    <div>Anexar arquivo do projeto (opcional)</div>
-                    <div style="font-size:12px;margin-top:4px;">PDF, DWG, PNG, JPG — máximo 10 MB</div>
-                    <div class="filename" id="fileNameDisplay"></div>
-                    <input type="file" id="projetoFile" accept=".pdf,.dwg,.png,.jpg,.jpeg" onchange="exibirNomeArquivo()">
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. Cidade -->
-        <div class="form-group">
-            <label>3. Qual a cidade da obra? <span class="required">*</span></label>
-            <div class="form-row">
-                <div class="form-group">
-                    <label style="font-size:12px;font-weight:500;">Estado</label>
-                    <select id="estadoSelect" onchange="carregarCidades()">
-                        <option value="">Selecione o estado</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label style="font-size:12px;font-weight:500;">Cidade</label>
-                    <select id="cidadeSelect"><option value="">Selecione primeiro o estado</option></select>
-                </div>
-            </div>
-        </div>
-
-        <div class="btn-group" style="justify-content:space-between;">
-            <button class="btn btn-secondary" onclick="voltarPasso(1)">← Voltar</button>
-            <button class="btn btn-primary" onclick="validarPasso2()">Avançar →</button>
+    <!-- STEP 2: Pavimentos -->
+    <div class="card" id="s2">
+        <h2>📐 Quantidade de Pavimentos</h2>
+        <p class="sub">Quantos andares terá a sua casa?</p>
+        <div class="opts" id="pavOpts"></div>
+        <div class="btn-group">
+            <button class="btn btn-sec" onclick="voltar(1)">← Voltar</button>
+            <button class="btn btn-pri" onclick="avancar(2)">Avançar →</button>
         </div>
     </div>
 
-    <!-- STEP 3: DADOS FINANCEIROS -->
-    <div class="card" id="step3">
-        <h2>💰 Dados Financeiros</h2>
-        <p class="subtitle">Essas informações nos ajudam a estimar seu potencial de compra.</p>
-
-        <div class="form-group">
-            <label>1. Você tem recurso próprio para investir?</label>
-            <div class="toggle-group">
-                <button class="toggle-btn" id="recursoSim" onclick="setRecursoProprio(true)">Sim</button>
-                <button class="toggle-btn" id="recursoNao" onclick="setRecursoProprio(false)">Não</button>
-            </div>
-            <div class="toggle-field" id="recursoField">
-                <div class="form-group">
-                    <label>Valor do recurso próprio disponível (R$)</label>
-                    <input type="number" id="recursoValor" placeholder="0,00" min="0" step="100">
-                </div>
-            </div>
+    <!-- STEP 3: Tipo de Telha -->
+    <div class="card" id="s3">
+        <h2>🏠 Tipo de Telha</h2>
+        <p class="sub">Escolha o tipo de cobertura para sua residência.</p>
+        <div class="opts" id="telhaOpts"></div>
+        <div class="btn-group">
+            <button class="btn btn-sec" onclick="voltar(2)">← Voltar</button>
+            <button class="btn btn-pri" onclick="avancar(3)">Avançar →</button>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label>2. Você pretende financiar parte ou total da obra?</label>
-            <div class="toggle-group">
-                <button class="toggle-btn" id="financiaSim" onclick="setFinanciamento(true)">Sim</button>
-                <button class="toggle-btn" id="financiaNao" onclick="setFinanciamento(false)">Não</button>
-            </div>
-            <div class="toggle-field" id="financiaField">
-                <div class="form-group">
-                    <label>Qual a renda média mensal da sua família? (R$)</label>
-                    <input type="number" id="rendaFamiliar" placeholder="0,00" min="0" step="100">
-                    <div style="font-size:12px;color:#6b7280;margin-top:4px;">
-                        💡 Usamos esse valor para estimar o potencial de financiamento.
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <!-- STEP 4: Paredes Externas -->
+    <div class="card" id="s4">
+        <h2>🧱 Paredes Externas</h2>
+        <p class="sub">Escolha o padrão de acabamento das paredes externas.</p>
+        <div class="opts" id="paredeOpts"></div>
         <div class="info-box">
-            <strong>📌 Importante:</strong> Esta é uma simulação orientativa baseada em parâmetros médios de mercado (taxa ~9,5% a.a., prazo de 35 anos). O valor real do financiamento dependerá da análise de crédito da instituição financeira.
+            💡 O padrão <strong>Supreme</strong> inclui estrutura em aço galvanizado, lã de PET/Rocha, membrana hidrófuga, placas cimentícias, tratamento de juntas e acabamento.
         </div>
-
-        <div class="btn-group" style="justify-content:space-between;">
-            <button class="btn btn-secondary" onclick="voltarPasso(2)">← Voltar</button>
-            <button class="btn btn-success" onclick="calcularResumo()">🔍 Estimar Capacidade Construtiva</button>
+        <div class="btn-group">
+            <button class="btn btn-sec" onclick="voltar(3)">← Voltar</button>
+            <button class="btn btn-pri" onclick="avancar(4)">Avançar →</button>
         </div>
     </div>
 
-    <!-- STEP 4: RESULTADO / RESUMO -->
-    <div class="card" id="step4">
-        <h2>📊 Sua Capacidade Construtiva</h2>
-        <p class="subtitle" id="resultSubtitle">Resumo personalizado da sua simulação.</p>
-
-        <div class="result-card" id="resultCard"></div>
-
-        <div class="result-actions">
-            <button class="btn btn-primary" onclick="imprimirPDF()">🖨️ Imprimir / PDF</button>
-            <button class="btn btn-outline" onclick="resetarSimulacao()">🔄 Nova Simulação</button>
-            <button class="btn btn-success" onclick="proximoPassoOrcamento()">📐 Montar Orçamento Personalizado</button>
+    <!-- STEP 5: Monte Seu Projeto (Ambientes) -->
+    <div class="card" id="s5">
+        <h2>📏 Monte Seu Projeto</h2>
+        <p class="sub">Personalize os ambientes da sua casa — clique em cada um para ajustar as medidas.</p>
+        <div class="amb-grid" id="ambGrid"></div>
+        <div class="bar-total">
+            <span><strong>Área total:</strong> <span id="areaTotalDisplay">0,00</span> m²</span>
+            <span class="valor" id="areaTotalValor">0,00 m²</span>
         </div>
+        <div class="btn-group">
+            <button class="btn btn-sec" onclick="voltar(4)">← Voltar</button>
+            <button class="btn btn-pri" onclick="avancar(5)">Avançar →</button>
+        </div>
+    </div>
 
-        <div class="info-box" style="margin-top:16px;">
-            <strong>✅ Dados salvos localmente.</strong> Em breve suas informações serão registradas em nossa base para que possamos dar continuidade ao seu atendimento personalizado.
+    <!-- STEP 6: Itens Extras -->
+    <div class="card" id="s6">
+        <h2>➕ Itens Extras</h2>
+        <p class="sub">Adicione itens complementares ao seu projeto.</p>
+        <div id="extrasContainer"></div>
+        <div class="bar-total" style="margin-top:10px;">
+            <span><strong>Total itens extras:</strong></span>
+            <span class="valor" id="totalExtras">R$ 0,00</span>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-sec" onclick="voltar(5)">← Voltar</button>
+            <button class="btn btn-suc" onclick="gerarProposta()">📊 Gerar Proposta Comercial</button>
+        </div>
+    </div>
+
+    <!-- STEP 7: Proposta Comercial -->
+    <div class="card" id="s7">
+        <h2>📊 Proposta Comercial</h2>
+        <p class="sub" id="orcSubtitle">Orçamento estimado com base nas suas escolhas.</p>
+        <div class="result-card" id="propostaCard"></div>
+        <div class="btn-group no-print" style="justify-content:center;flex-wrap:wrap;">
+            <button class="btn btn-pri" onclick="window.print()">🖨️ Imprimir / PDF</button>
+            <button class="btn btn-out" onclick="salvarEVoltar()">💾 Salvar e Nova Simulação</button>
+            <button class="btn btn-suc" onclick="solicitarOrcamento()">📞 Solicitar Orçamento Detalhado</button>
         </div>
     </div>
 
 </div>
 
+<!-- MODAL AMBIENTE -->
+<div class="modal-over" id="modalAmb">
+    <div class="modal">
+        <h3>📐 <span id="modalAmbNome">Ambiente</span></h3>
+        <div class="form-row-3">
+            <div class="form-group">
+                <label>Largura (m)</label>
+                <input type="number" id="modalLarg" step="0.01" min="0" oninput="calcModalArea()">
+            </div>
+            <div class="form-group">
+                <label>Comprimento (m)</label>
+                <input type="number" id="modalComp" step="0.01" min="0" oninput="calcModalArea()">
+            </div>
+            <div class="form-group">
+                <label>Altura (m)</label>
+                <input type="number" id="modalAlt" step="0.01" min="0" value="3.0">
+            </div>
+        </div>
+        <div style="font-size:15px;margin-bottom:12px;">
+            Área: <strong id="modalArea">0,00</strong> m² &nbsp;|&nbsp; Perímetro: <strong id="modalPerim">0,00</strong> m
+        </div>
+        <div class="form-group">
+            <label>Quantidade deste ambiente</label>
+            <input type="number" id="modalQtd" min="0" step="1" value="1">
+        </div>
+        <div class="btn-group" style="justify-content:flex-end;">
+            <button class="btn btn-sec" onclick="fecharModal()">Cancelar</button>
+            <button class="btn btn-pri" onclick="salvarModal()">Salvar</button>
+        </div>
+    </div>
+</div>
+
 <script>
-    // ===== ESTADOS E CIDADES =====
-    const cidadesPorEstado = {
-        'AC': ['Acrelândia', 'Cruzeiro do Sul', 'Rio Branco', 'Sena Madureira', 'Tarauacá'],
-        'AL': ['Arapiraca', 'Maceió', 'Marechal Deodoro', 'Palmeira dos Índios', 'Penedo', 'Rio Largo', 'São Miguel dos Campos', 'União dos Palmares'],
-        'AM': ['Coari', 'Itacoatiara', 'Manaus', 'Manacapuru', 'Parintins', 'Tefé'],
-        'AP': ['Macapá', 'Santana', 'Laranjal do Jari'],
-        'BA': ['Alagoinhas', 'Barreiras', 'Camaçari', 'Feira de Santana', 'Ilhéus', 'Itabuna', 'Jequié', 'Juazeiro', 'Lauro de Freitas', 'Paulo Afonso', 'Porto Seguro', 'Salvador', 'Santo Antônio de Jesus', 'Teixeira de Freitas', 'Vitória da Conquista'],
-        'CE': ['Caucaia', 'Crato', 'Fortaleza', 'Juazeiro do Norte', 'Maracanaú', 'Sobral'],
-        'DF': ['Brasília', 'Ceilândia', 'Taguatinga', 'Planaltina', 'Samambaia'],
-        'ES': ['Aracruz', 'Cariacica', 'Colatina', 'Guarapari', 'Linhares', 'São Mateus', 'Serra', 'Vila Velha', 'Vitória'],
-        'GO': ['Anápolis', 'Aparecida de Goiânia', 'Goiânia', 'Itumbiara', 'Jataí', 'Luziânia', 'Rio Verde', 'Trindade', 'Valparaíso de Goiás'],
-        'MA': ['Açailândia', 'Bacabal', 'Caxias', 'Imperatriz', 'São José de Ribamar', 'São Luís', 'Timon'],
-        'MG': ['Alfenas', 'Araguari', 'Araxá', 'Barbacena', 'Belo Horizonte', 'Betim', 'Contagem', 'Diamantina', 'Divinópolis', 'Governador Valadares', 'Ipatinga', 'Itajubá', 'Juiz de Fora', 'Lavras', 'Montes Claros', 'Muriaé', 'Nova Lima', 'Ouro Preto', 'Paracatu', 'Passos', 'Patos de Minas', 'Poços de Caldas', 'Pouso Alegre', 'Ribeirão das Neves', 'Sabará', 'Santa Luzia', 'São João del-Rei', 'Setor Lagoa', 'Uberaba', 'Uberlândia', 'Varginha', 'Viçosa'],
-        'MS': ['Campo Grande', 'Corumbá', 'Dourados', 'Naviraí', 'Ponta Porã', 'Três Lagoas'],
-        'MT': ['Cáceres', 'Cuiabá', 'Rondonópolis', 'Sinop', 'Tangará da Serra', 'Várzea Grande'],
-        'PA': ['Altamira', 'Ananindeua', 'Belém', 'Bragança', 'Castanhal', 'Itaituba', 'Marabá', 'Parauapebas', 'Santarém', 'Tucuruí'],
-        'PB': ['Campina Grande', 'Cajazeiras', 'João Pessoa', 'Patos', 'Santa Rita', 'Sousa'],
-        'PE': ['Cabo de Santo Agostinho', 'Camaragibe', 'Caruaru', 'Garanhuns', 'Jaboatão dos Guararapes', 'Olinda', 'Paulista', 'Petrolina', 'Recife', 'Vitória de Santo Antão'],
-        'PI': ['Campo Maior', 'Floriano', 'Parnaíba', 'Picos', 'Teresina', 'Uruçuí'],
-        'PR': ['Apucarana', 'Araucária', 'Campo Largo', 'Cascavel', 'Colombo', 'Curitiba', 'Foz do Iguaçu', 'Guarapuava', 'Londrina', 'Maringá', 'Paranaguá', 'Pinhais', 'Ponta Grossa', 'São José dos Pinhais', 'Toledo', 'Umuarama'],
-        'RJ': ['Angra dos Reis', 'Araruama', 'Barra Mansa', 'Belford Roxo', 'Cabo Frio', 'Campos dos Goytacazes', 'Duque de Caxias', 'Itaboraí', 'Itaguaí', 'Macaé', 'Magé', 'Niterói', 'Nova Friburgo', 'Nova Iguaçu', 'Petrópolis', 'Resende', 'Rio Bonito', 'Rio de Janeiro', 'São Gonçalo', 'São João de Meriti', 'Teresópolis', 'Três Rios', 'Volta Redonda'],
-        'RN': ['Caicó', 'Ceará-Mirim', 'Mossoró', 'Natal', 'Parnamirim', 'São Gonçalo do Amarante'],
-        'RO': ['Ariquemes', 'Cacoal', 'Ji-Paraná', 'Porto Velho', 'Vilhena'],
-        'RR': ['Boa Vista', 'Rorainópolis'],
-        'RS': ['Alvorada', 'Bento Gonçalves', 'Canoas', 'Caxias do Sul', 'Erechim', 'Gravataí', 'Lajeado', 'Novo Hamburgo', 'Passo Fundo', 'Pelotas', 'Porto Alegre', 'Rio Grande', 'Santa Cruz do Sul', 'Santa Maria', 'Santo Ângelo', 'São Leopoldo', 'Uruguaiana', 'Viamão'],
-        'SC': ['Balneário Camboriú', 'Blumenau', 'Brusque', 'Chapecó', 'Criciúma', 'Florianópolis', 'Itajaí', 'Jaraguá do Sul', 'Joinville', 'Lages', 'Palhoça', 'São José', 'Tubarão'],
-        'SE': ['Aracaju', 'Estância', 'Itabaiana', 'Lagarto', 'Nossa Senhora do Socorro', 'São Cristóvão'],
-        'SP': ['Americana', 'Araraquara', 'Araras', 'Assis', 'Atibaia', 'Barretos', 'Barueri', 'Bauru', 'Birigui', 'Botucatu', 'Bragança Paulista', 'Campinas', 'Campo Limpo Paulista', 'Caraguatatuba', 'Carapicuíba', 'Catanduva', 'Cotia', 'Cubatão', 'Diadema', 'Embu das Artes', 'Ferraz de Vasconcelos', 'Franca', 'Francisco Morato', 'Franco da Rocha', 'Guaratinguetá', 'Guarujá', 'Guarulhos', 'Hortolândia', 'Indaiatuba', 'Itapecerica da Serra', 'Itapetininga', 'Itapeva', 'Itaquaquecetuba', 'Itu', 'Jaboticabal', 'Jacareí', 'Jandira', 'Jundiaí', 'Leme', 'Limeira', 'Lins', 'Lorena', 'Marília', 'Mauá', 'Mogi das Cruzes', 'Mogi Guaçu', 'Osasco', 'Ourinhos', 'Paulínia', 'Piracicaba', 'Pirassununga', 'Poá', 'Praia Grande', 'Presidente Prudente', 'Ribeirão Pires', 'Ribeirão Preto', 'Rio Claro', 'Salto', 'Santa Bárbara d\'Oeste', 'Santana de Parnaíba', 'Santos', 'São Bernardo do Campo', 'São Caetano do Sul', 'São Carlos', 'São João da Boa Vista', 'São José do Rio Preto', 'São José dos Campos', 'São Paulo', 'São Roque', 'São Vicente', 'Sertãozinho', 'Sorocaba', 'Sumaré', 'Suzano', 'Taboão da Serra', 'Tatuí', 'Taubaté', 'Valinhos', 'Várzea Paulista', 'Votorantim'],
-        'TO': ['Araguaína', 'Gurupi', 'Palmas', 'Paraíso do Tocantins', 'Porto Nacional']
-    };
+// ========== DADOS DA PLANILHA ==========
 
-    // ===== ESTADO GLOBAL =====
-    const state = {
-        step: 1,
-        hasTerreno: null,
-        hasProjeto: null,
-        hasRecursoProprio: null,
-        hasFinanciamento: null
-    };
+const ESTILOS = [
+    { id: 'minimalista',  nome: 'Minimalista',      ico: '◻️', desc: 'Linhas retas, simplicidade' },
+    { id: 'americano',    nome: 'Americano',        ico: '🏡', desc: 'Estilo colonial moderno' },
+    { id: 'contemporanea',nome: 'Contemporânea',    ico: '🏢', desc: 'Design atual e sofisticado' },
+    { id: 'europeia',     nome: 'Européia',         ico: '🏰', desc: 'Inspiração europeia clássica' },
+    { id: 'neoclassica',  nome: 'Neo-Clássica',     ico: '🏛️', desc: 'Clássico revisitado' },
+    { id: 'brasileira',   nome: 'Brasileira',       ico: '🌴', desc: 'Arquitetura tropical' },
+    { id: 'classica',     nome: 'Clássica',         ico: '✨', desc: 'Tradicional e elegante' },
+    { id: 'mediterranea', nome: 'Mediterrânea',     ico: '🌊', desc: 'Aconchegante e rústica' },
+];
 
-    // ===== MÁSCARA DE TELEFONE =====
-    document.getElementById('telefone').addEventListener('input', function(e) {
-        let v = e.target.value.replace(/\D/g, '');
-        if (v.length > 11) v = v.slice(0, 11);
-        if (v.length > 6) {
-            v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
-        } else if (v.length > 2) {
-            v = `(${v.slice(0,2)}) ${v.slice(2)}`;
-        } else if (v.length > 0) {
-            v = `(${v}`;
+const PAVIMENTOS = [
+    { id: '1', nome: '1 Pavimento (Térrea)', ico: '🏠', desc: 'Casa térrea, tudo no mesmo nível' },
+    { id: '2', nome: '2 Pavimentos (Sobrado)', ico: '🏘️', desc: 'Sobrado ou mezanino' },
+    { id: '3', nome: '3 Pavimentos', ico: '🏙️', desc: 'Sobrado + subsolo/porão' },
+];
+
+const TELHAS = [
+    { id: 'termoacustica',  nome: 'Termoacústica',         ico: '🛡️', desc: 'Máximo conforto térmico e acústico' },
+    { id: 'fibrocimento',   nome: 'Fibrocimento',          ico: '📋', desc: 'Custo-benefício tradicional' },
+    { id: 'ceramica',       nome: 'Cerâmica',              ico: '🏺', desc: 'Telha cerâmica clássica' },
+    { id: 'metalica',       nome: 'Telha Metálica',        ico: '⚙️', desc: 'Leve e durável' },
+    { id: 'laje',           nome: 'Laje Impermeabilizada', ico: '🏗️', desc: 'Cobertura plana com laje' },
+];
+
+const PAREDES = [
+    { id: 'standard', nome: 'Standard', ico: '📐', desc: 'Acabamento básico', custoAdicional: 0 },
+    { id: 'premium',  nome: 'Premium',  ico: '⭐', desc: 'Acabamento intermediário', custoAdicional: 0 },
+    { id: 'supreme',  nome: 'Supreme',  ico: '👑', desc: 'Máxima qualidade — estrutura, lã, placa cimentícia, tratamento e acabamento', custoAdicional: 0 },
+];
+
+// Ambientes com medidas DEFAULT da planilha (resumo)
+const AMBIENTES_DEFAULT = [
+    { id: 'garagem',         nome: 'Garagem',             larg: 6.0, comp: 4.0, alt: 3.0, qtd: 1, ico: '🚗' },
+    { id: 'sala_estar',      nome: 'Sala Estar / Jantar', larg: 6.6, comp: 5.1, alt: 3.0, qtd: 1, ico: '🛋️' },
+    { id: 'sala_tv',         nome: 'Sala TV / Home Theater', larg: 3.6, comp: 3.36, alt: 3.0, qtd: 1, ico: '📺' },
+    { id: 'lavabo',          nome: 'Lavabo',              larg: 2.0, comp: 1.2, alt: 3.0, qtd: 1, ico: '🚻' },
+    { id: 'cozinha_gourmet', nome: 'Cozinha / Gourmet',   larg: 4.6, comp: 6.0, alt: 3.0, qtd: 1, ico: '🍳' },
+    { id: 'despensa',        nome: 'Despensa',            larg: 3.5, comp: 1.2, alt: 3.0, qtd: 1, ico: '📦' },
+    { id: 'area_servico',    nome: 'Área de Serviço',     larg: 2.3, comp: 1.5, alt: 3.0, qtd: 1, ico: '🧺' },
+    { id: 'quartos',         nome: 'Quartos',             larg: 3.4, comp: 3.0, alt: 3.0, qtd: 3, ico: '🛏️' },
+    { id: 'closet',          nome: 'Closet',              larg: 1.9, comp: 1.6, alt: 3.0, qtd: 1, ico: '👔' },
+    { id: 'banheiro',        nome: 'Banheiros',           larg: 2.9, comp: 1.2, alt: 3.0, qtd: 4, ico: '🚿' },
+    { id: 'escritorio',      nome: 'Escritório / Quarto', larg: 3.0, comp: 2.6, alt: 3.0, qtd: 0, ico: '💼' },
+    { id: 'deposito',        nome: 'Depósito',            larg: 2.5, comp: 1.5, alt: 3.0, qtd: 1, ico: '🗄️' },
+];
+
+const ITENS_EXTRAS = [
+    { id: 'piscina',      nome: 'Piscina',              ico: '🏊', un: 'm²', preco: 2500,      temDimensao: true },
+    { id: 'muro',         nome: 'Fechamento Terreno',   ico: '🧱', un: 'm²', preco: 279.45,   temDimensao: true },
+    { id: 'terraplenagem',nome: 'Terraplenagem',        ico: '🚜', un: 'vb', preco: 50000,    temDimensao: false },
+    { id: 'fund_prof',    nome: 'Fundações Profundas',  ico: '⛰️', un: 'vb', preco: 0,        temDimensao: false },
+];
+
+// Preços por padrão de acabamento (da planilha)
+const PRECOS_M2 = { Standard: 4000, Premium: 5000, Supreme: 6000 };
+
+// ========== ESTADO ==========
+const state = {
+    estilo: null,
+    pavimento: null,
+    telha: null,
+    parede: null,
+    ambientes: JSON.parse(JSON.stringify(AMBIENTES_DEFAULT)),
+    extras: {},
+    step: 1,
+};
+
+// ========== INIT ==========
+const STEPS = ['Estilo', 'Pavimentos', 'Telha', 'Paredes', 'Ambientes', 'Extras', 'Proposta'];
+const STEP_ICONS = ['🏛️', '📐', '🏠', '🧱', '📏', '➕', '📊'];
+
+function initStepper() {
+    const el = document.getElementById('stepper');
+    el.innerHTML = '';
+    STEPS.forEach((nome, i) => {
+        const n = i + 1;
+        const div = document.createElement('div');
+        div.className = 's';
+        div.innerHTML = `<div class="dot${n===1?' act':''}" id="dot${n}">${STEP_ICONS[i]}</div>
+            <span class="lbl${n===1?' act':''}" id="lbl${n}">${nome}</span>`;
+        el.appendChild(div);
+        if (i < STEPS.length - 1) {
+            const cn = document.createElement('div');
+            cn.className = 'cn';
+            cn.id = 'cn'+n;
+            el.appendChild(cn);
         }
-        e.target.value = v;
     });
+}
 
-    // ===== INICIALIZAÇÃO =====
-    window.onload = function() {
-        const estados = Object.keys(cidadesPorEstado).sort();
-        const sel = document.getElementById('estadoSelect');
-        estados.forEach(uf => {
-            const opt = document.createElement('option');
-            opt.value = uf;
-            const nomes = { 'AC':'Acre','AL':'Alagoas','AM':'Amazonas','AP':'Amapá','BA':'Bahia','CE':'Ceará','DF':'Distrito Federal','ES':'Espírito Santo','GO':'Goiás','MA':'Maranhão','MG':'Minas Gerais','MS':'Mato Grosso do Sul','MT':'Mato Grosso','PA':'Pará','PB':'Paraíba','PE':'Pernambuco','PI':'Piauí','PR':'Paraná','RJ':'Rio de Janeiro','RN':'Rio Grande do Norte','RO':'Rondônia','RR':'Roraima','RS':'Rio Grande do Sul','SC':'Santa Catarina','SE':'Sergipe','SP':'São Paulo','TO':'Tocantins' };
-            opt.textContent = `${uf} — ${nomes[uf] || uf}`;
-            sel.appendChild(opt);
-        });
-    };
+function renderOptions(containerId, items, selectedId, onClick) {
+    const el = document.getElementById(containerId);
+    el.innerHTML = '';
+    items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'opt' + (item.id === selectedId ? ' pick' : '');
+        div.innerHTML = `<div class="ico">${item.ico}</div>
+            <div>${item.nome}</div>
+            <div class="subopt">${item.desc || ''}</div>`;
+        div.onclick = () => onClick(item.id);
+        el.appendChild(div);
+    });
+}
 
-    function carregarCidades() {
-        const uf = document.getElementById('estadoSelect').value;
-        const sel = document.getElementById('cidadeSelect');
-        sel.innerHTML = '';
-        if (!uf) { sel.innerHTML = '<option value="">Selecione primeiro o estado</option>'; return; }
-        const cidades = cidadesPorEstado[uf] || [];
-        sel.appendChild(new Option('Selecione a cidade', ''));
-        cidades.forEach(c => sel.appendChild(new Option(c, c)));
-    }
+function renderAmbientes() {
+    const grid = document.getElementById('ambGrid');
+    grid.innerHTML = '';
+    let total = 0;
+    state.ambientes.forEach(amb => {
+        const area = amb.larg * amb.comp;
+        const areaTotal = area * amb.qtd;
+        total += areaTotal;
+        const div = document.createElement('div');
+        div.className = 'amb-card';
+        div.innerHTML = `<div class="acheck">✏️</div>
+            <div class="aname">${amb.ico} ${amb.nome}</div>
+            <div class="asize">${area.toFixed(2)} m² ${amb.qtd > 1 ? '× '+amb.qtd : ''}</div>
+            <div class="asize" style="color:#0f3460;font-weight:500;">${areaTotal.toFixed(2)} m² total</div>`;
+        div.onclick = () => abrirModal(amb.id);
+        grid.appendChild(div);
+    });
+    document.getElementById('areaTotalDisplay').textContent = total.toFixed(2);
+    document.getElementById('areaTotalValor').textContent = total.toFixed(2) + ' m²';
+}
 
-    // ===== TERRENO =====
-    function setTerreno(v) {
-        state.hasTerreno = v;
-        document.getElementById('terrenoSim').className = 'toggle-btn' + (v ? ' selected-yes' : '');
-        document.getElementById('terrenoNao').className = 'toggle-btn' + (!v ? ' selected-no' : '');
-        document.getElementById('terrenoFields').className = 'toggle-field' + (v ? ' open' : '');
-    }
+function renderExtras() {
+    const el = document.getElementById('extrasContainer');
+    el.innerHTML = '';
+    let total = 0;
+    ITENS_EXTRAS.forEach(item => {
+        const key = item.id;
+        const checked = state.extras[key]?.ativo || false;
+        const val = state.extras[key]?.valor || 0;
+        const dim = state.extras[key]?.dimensao || 0;
+        let custo = 0;
+        let detalhe = '';
 
-    function calcularAreaTerreno() {
-        const l = parseFloat(document.getElementById('terrenoLarg').value) || 0;
-        const c = parseFloat(document.getElementById('terrenoComp').value) || 0;
-        const area = l * c;
-        document.getElementById('areaTerrenoDisplay').textContent = area > 0 ? area.toFixed(2) + ' m²' : '—';
-    }
-
-    // ===== PROJETO =====
-    function setProjeto(v) {
-        state.hasProjeto = v;
-        document.getElementById('projetoSim').className = 'toggle-btn' + (v ? ' selected-yes' : '');
-        document.getElementById('projetoNao').className = 'toggle-btn' + (!v ? ' selected-no' : '');
-        document.getElementById('projetoField').className = 'toggle-field' + (v ? ' open' : '');
-    }
-
-    function exibirNomeArquivo() {
-        const file = document.getElementById('projetoFile').files[0];
-        const area = document.getElementById('fileUploadArea');
-        const display = document.getElementById('fileNameDisplay');
-        if (file) {
-            area.classList.add('has-file');
-            display.textContent = '📎 ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
-        } else {
-            area.classList.remove('has-file');
-            display.textContent = '';
-        }
-    }
-
-    // ===== RECURSO PRÓPRIO =====
-    function setRecursoProprio(v) {
-        state.hasRecursoProprio = v;
-        document.getElementById('recursoSim').className = 'toggle-btn' + (v ? ' selected-yes' : '');
-        document.getElementById('recursoNao').className = 'toggle-btn' + (!v ? ' selected-no' : '');
-        document.getElementById('recursoField').className = 'toggle-field' + (v ? ' open' : '');
-    }
-
-    // ===== FINANCIAMENTO =====
-    function setFinanciamento(v) {
-        state.hasFinanciamento = v;
-        document.getElementById('financiaSim').className = 'toggle-btn' + (v ? ' selected-yes' : '');
-        document.getElementById('financiaNao').className = 'toggle-btn' + (!v ? ' selected-no' : '');
-        document.getElementById('financiaField').className = 'toggle-field' + (v ? ' open' : '');
-    }
-
-    // ===== NAVEGAÇÃO =====
-    function atualizarSteps(step) {
-        for (let i = 1; i <= 4; i++) {
-            const dot = document.getElementById('dot' + i);
-            const label = document.getElementById('label' + i);
-            const conn = document.getElementById('conn' + i);
-            dot.classList.remove('active', 'done');
-            label.classList.remove('active', 'done');
-            if (conn) conn.classList.remove('done');
-            if (i < step) {
-                dot.classList.add('done');
-                label.classList.add('done');
-                if (conn) conn.classList.add('done');
-            } else if (i === step) {
-                dot.classList.add('active');
-                label.classList.add('active');
+        if (checked) {
+            if (item.temDimensao && dim > 0) {
+                custo = dim * item.preco;
+                detalhe = `${dim.toFixed(2)} ${item.un} × ${fmt(item.preco)}`;
+            } else if (!item.temDimensao) {
+                custo = val;
+                detalhe = fmt(val);
             }
         }
-        for (let i = 1; i <= 4; i++) {
-            document.getElementById('step' + i).className = 'card' + (i === step ? ' active' : '');
-        }
-        document.getElementById('stepIndicator').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+        total += custo;
 
-    function voltarPasso(para) {
-        state.step = para;
-        atualizarSteps(para);
-    }
-
-    // ===== VALIDAÇÕES =====
-    function validarPasso1() {
-        const nome = document.getElementById('nome').value.trim();
-        const tel = document.getElementById('telefone').value.trim();
-        const email = document.getElementById('email').value.trim();
-        let ok = true;
-
-        document.getElementById('errNome').style.display = 'none';
-        document.getElementById('errTel').style.display = 'none';
-        document.getElementById('errEmail').style.display = 'none';
-
-        if (!nome) { document.getElementById('errNome').style.display = 'block'; ok = false; }
-        if (!tel || tel.replace(/\D/g,'').length < 10) { document.getElementById('errTel').style.display = 'block'; ok = false; }
-        if (!email || !email.includes('@') || !email.includes('.')) { document.getElementById('errEmail').style.display = 'block'; ok = false; }
-
-        if (!ok) return;
-
-        state.step = 2;
-        atualizarSteps(2);
-    }
-
-    function validarPasso2() {
-        if (state.hasTerreno === null) { alert('Por favor, informe se você já possui terreno.'); return; }
-        if (state.hasProjeto === null) { alert('Por favor, informe se você já possui projeto arquitetônico.'); return; }
-        const cidade = document.getElementById('cidadeSelect').value;
-        if (!cidade) { alert('Por favor, selecione a cidade da obra.'); return; }
-
-        state.step = 3;
-        atualizarSteps(3);
-    }
-
-    // ===== CÁLCULO FINANCEIRO =====
-    function calcularFinanciamento(rendaMensal) {
-        if (!rendaMensal || rendaMensal <= 0) return 0;
-        // Parâmetros de mercado: taxa ~9,5% a.a., prazo 35 anos (420 meses)
-        // Máxima parcela: ~30% da renda
-        const maxParcela = rendaMensal * 0.3;
-        const taxaMensal = 0.095 / 12; // 9,5% a.a.
-        const prazo = 420; // 35 anos
-
-        // Price: PV = PMT * [(1+i)^n - 1] / [i * (1+i)^n]
-        const fator = Math.pow(1 + taxaMensal, prazo);
-        if (!isFinite(fator)) return maxParcela * 240; // fallback simplificado
-        const financiamento = maxParcela * (fator - 1) / (taxaMensal * fator);
-        return isFinite(financiamento) ? financiamento : maxParcela * 240;
-    }
-
-    function calcularResumo() {
-        // Recurso próprio
-        let recursoProprio = 0;
-        if (state.hasRecursoProprio === true) {
-            recursoProprio = parseFloat(document.getElementById('recursoValor').value) || 0;
-        }
-
-        // Financiamento
-        let financiamento = 0;
-        if (state.hasFinanciamento === true) {
-            const renda = parseFloat(document.getElementById('rendaFamiliar').value) || 0;
-            financiamento = calcularFinanciamento(renda);
-        }
-
-        const totalDisponivel = recursoProprio + financiamento;
-
-        // Preços por m² (da planilha)
-        const precos = { Standard: 4000, Premium: 5000, Supreme: 6000 };
-
-        // Área do terreno
-        let areaTerreno = 0;
-        if (state.hasTerreno === true) {
-            const l = parseFloat(document.getElementById('terrenoLarg').value) || 0;
-            const c = parseFloat(document.getElementById('terrenoComp').value) || 0;
-            areaTerreno = l * c;
-        }
-
-        // Montar resultado
-        const nome = document.getElementById('nome').value.trim().split(' ')[0];
-        const cidade = document.getElementById('cidadeSelect').value;
-        const estado = document.getElementById('estadoSelect').value;
-
-        let html = `
-            <div class="greeting">Olá,</div>
-            <div class="name">${nome} 👋</div>
-            <div style="font-size:14px;opacity:0.85;margin-bottom:16px;">
-                📍 ${cidade}, ${estado}
-                ${state.hasTerreno === true ? ` · Terreno: ${areaTerreno.toFixed(2)} m²` : ''}
-                ${state.hasTerreno === false ? ' · Sem terreno definido' : ''}
-                ${state.hasProjeto === true ? ' · Possui projeto' : ' · Sem projeto'}
-            </div>
-            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.15);margin:12px 0;">
-            <div style="font-size:13px;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Seu Potencial Financeiro</div>
-            <div class="result-highlight">
-                <div class="box">
-                    <div class="value" style="font-size:22px;">${recursoProprio > 0 ? formatar(recursoProprio) : '—'}</div>
-                    <div class="label">Recurso Próprio</div>
+        const div = document.createElement('div');
+        div.style.cssText = 'border:1.5px solid #e5e7eb;border-radius:10px;padding:14px;margin-bottom:8px;';
+        div.innerHTML = `
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <input type="checkbox" id="ex${key}" ${checked?'checked':''} onchange="toggleExtra('${key}')" style="width:18px;height:18px;accent-color:#0f3460;">
+                    <label for="ex${key}" style="font-weight:600;font-size:14px;cursor:pointer;">${item.ico} ${item.nome}</label>
                 </div>
-                <div class="box">
-                    <div class="value green" style="font-size:22px;">${financiamento > 0 ? formatar(financiamento) : '—'}</div>
-                    <div class="label">Financiamento Estimado</div>
-                </div>
+                <div style="font-size:13px;color:#6b7280;">${item.temDimensao ? 'R$ '+fmt(item.preco)+'/'+item.un : 'R$ '+fmt(item.preco)}</div>
             </div>
-            <div style="background:rgba(255,255,255,0.12);border-radius:12px;padding:16px;text-align:center;margin-bottom:18px;">
-                <div style="font-size:12px;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px;">Total Disponível</div>
-                <div style="font-size:32px;font-weight:800;color:#fbbf24;">${totalDisponivel > 0 ? formatar(totalDisponivel) : '—'}</div>
+            <div id="exFields${key}" style="display:${checked?'block':'none'};margin-top:10px;">
+                ${item.temDimensao ? `
+                    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                        <span style="font-size:13px;">Dimensão (${item.un}):</span>
+                        <input type="number" id="exDim${key}" value="${dim||''}" min="0" step="0.1" style="width:100px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;font-size:14px;" onchange="calcExtra('${key}')">
+                        <span style="font-size:13px;color:#059669;font-weight:600;">= ${fmt(custo)}</span>
+                    </div>
+                ` : `
+                    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                        <span style="font-size:13px;">Valor (R$):</span>
+                        <input type="number" id="exVal${key}" value="${val||''}" min="0" step="100" style="width:120px;padding:6px 10px;border:1.5px solid #d1d5db;border-radius:6px;font-size:14px;" onchange="calcExtra('${key}')">
+                        <span style="font-size:13px;color:#059669;font-weight:600;">= ${fmt(custo)}</span>
+                    </div>
+                `}
             </div>
         `;
+        el.appendChild(div);
+    });
+    document.getElementById('totalExtras').textContent = fmt(total);
+}
 
-        if (totalDisponivel > 0) {
-            html += `
-                <div style="font-size:13px;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Metragem que você pode construir</div>
-                <table class="result-table">
-                    <thead><tr><th>Padrão de Acabamento</th><th>Valor/m²</th><th>m² Possíveis</th></tr></thead>
-                    <tbody>
-            `;
-            for (const [padrao, preco] of Object.entries(precos)) {
-                const m2 = totalDisponivel / preco;
-                const icone = padrao === 'Standard' ? '🏠' : padrao === 'Premium' ? '⭐' : '👑';
-                html += `<tr>
-                    <td>${icone} ${padrao}</td>
-                    <td>${formatar(preco)}</td>
-                    <td><span class="highlight-value">${m2.toFixed(2)} m²</span></td>
-                </tr>`;
+function toggleExtra(key) {
+    const chk = document.getElementById('ex'+key);
+    state.extras[key] = state.extras[key] || {};
+    state.extras[key].ativo = chk.checked;
+    renderExtras();
+}
+
+function calcExtra(key) {
+    const item = ITENS_EXTRAS.find(i => i.id === key);
+    if (!state.extras[key]) state.extras[key] = { ativo: true };
+    if (item.temDimensao) {
+        state.extras[key].dimensao = parseFloat(document.getElementById('exDim'+key).value) || 0;
+    } else {
+        state.extras[key].valor = parseFloat(document.getElementById('exVal'+key).value) || 0;
+    }
+    renderExtras();
+}
+
+// ========== NAVEGAÇÃO ==========
+function atualizarSteps(step) {
+    state.step = step;
+    for (let i = 1; i <= STEPS.length; i++) {
+        const dot = document.getElementById('dot'+i);
+        const lbl = document.getElementById('lbl'+i);
+        const cn = document.getElementById('cn'+i);
+        if (!dot) continue;
+        dot.className = 'dot';
+        if (lbl) lbl.className = 'lbl';
+        if (cn) cn.className = 'cn';
+        if (i < step) { dot.classList.add('done'); if (lbl) lbl.classList.add('done'); if (cn) cn.classList.add('done'); }
+        else if (i === step) { dot.classList.add('act'); if (lbl) lbl.classList.add('act'); }
+    }
+    for (let i = 1; i <= STEPS.length; i++) {
+        const card = document.getElementById('s'+i);
+        if (card) card.className = 'card' + (i === step ? ' on' : '');
+    }
+    document.getElementById('stepper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function avancar(from) {
+    if (from === 1 && !state.estilo) { alert('Selecione um estilo arquitetônico.'); return; }
+    if (from === 2 && !state.pavimento) { alert('Selecione a quantidade de pavimentos.'); return; }
+    if (from === 3 && !state.telha) { alert('Selecione o tipo de telha.'); return; }
+    if (from === 4 && !state.parede) { alert('Selecione o padrão de paredes.'); return; }
+    if (from === 5) {
+        const total = calcAreaTotalConstruida();
+        if (total <= 0) { alert('Adicione pelo menos um ambiente com medidas.'); return; }
+    }
+    atualizarSteps(from + 1);
+}
+
+function voltar(para) { atualizarSteps(para); }
+
+// ========== MODAL AMBIENTE ==========
+let modalAmbId = null;
+
+function abrirModal(id) {
+    modalAmbId = id;
+    const amb = state.ambientes.find(a => a.id === id);
+    if (!amb) return;
+    document.getElementById('modalAmbNome').textContent = amb.ico + ' ' + amb.nome;
+    document.getElementById('modalLarg').value = amb.larg;
+    document.getElementById('modalComp').value = amb.comp;
+    document.getElementById('modalAlt').value = amb.alt;
+    document.getElementById('modalQtd').value = amb.qtd;
+    calcModalArea();
+    document.getElementById('modalAmb').classList.add('on');
+}
+
+function calcModalArea() {
+    const l = parseFloat(document.getElementById('modalLarg').value) || 0;
+    const c = parseFloat(document.getElementById('modalComp').value) || 0;
+    const h = parseFloat(document.getElementById('modalAlt').value) || 0;
+    document.getElementById('modalArea').textContent = (l * c).toFixed(2);
+    document.getElementById('modalPerim').textContent = (2 * (l + c)).toFixed(2);
+}
+
+function salvarModal() {
+    const amb = state.ambientes.find(a => a.id === modalAmbId);
+    if (!amb) return;
+    amb.larg = parseFloat(document.getElementById('modalLarg').value) || 0;
+    amb.comp = parseFloat(document.getElementById('modalComp').value) || 0;
+    amb.alt = parseFloat(document.getElementById('modalAlt').value) || 3;
+    amb.qtd = parseInt(document.getElementById('modalQtd').value) || 1;
+    fecharModal();
+    renderAmbientes();
+}
+
+function fecharModal() {
+    document.getElementById('modalAmb').classList.remove('on');
+    modalAmbId = null;
+}
+
+function calcAreaTotalConstruida() {
+    return state.ambientes.reduce((acc, a) => acc + (a.larg * a.comp * a.qtd), 0);
+}
+
+// ========== PROPOSTA COMERCIAL ==========
+function gerarProposta() {
+    const areaTotal = calcAreaTotalConstruida();
+    if (areaTotal <= 0) { alert('Configure os ambientes antes de gerar a proposta.'); return; }
+
+    // Determinar padrão baseado na parede externa
+    const mapaPadrao = { standard: 'Standard', premium: 'Premium', supreme: 'Supreme' };
+    const padrao = mapaPadrao[state.parede] || 'Standard';
+    const precoM2 = PRECOS_M2[padrao] || 4000;
+
+    // Cálculos
+    const custoObraBranca = areaTotal * 3138.99;  // R$/m² da planilha
+    const custoAcabamentos = areaTotal * 1463.70;
+    const custoBase = custoObraBranca + custoAcabamentos;
+
+    // Itens extras
+    let totalExtras = 0;
+    const extrasDetalhes = [];
+    ITENS_EXTRAS.forEach(item => {
+        const ext = state.extras[item.id];
+        if (ext?.ativo) {
+            let v = 0;
+            if (item.temDimensao && ext.dimensao > 0) {
+                v = ext.dimensao * item.preco;
+                extrasDetalhes.push(`${item.ico} ${item.nome}: ${ext.dimensao.toFixed(2)} ${item.un} × ${fmt(item.preco)} = ${fmt(v)}`);
+            } else if (!item.temDimensao && ext.valor > 0) {
+                v = ext.valor;
+                extrasDetalhes.push(`${item.ico} ${item.nome}: ${fmt(v)}`);
             }
-            html += `</tbody></table>`;
+            totalExtras += v;
         }
+    });
 
-        if (state.hasTerreno === true && areaTerreno > 0) {
-            html += `<div style="font-size:12px;opacity:0.6;margin-top:10px;">🏗️ Área do terreno: ${areaTerreno.toFixed(2)} m² — considere o coeficiente de aproveitamento permitido pela prefeitura local.</div>`;
+    const custoTotal = custoBase + totalExtras;
+
+    // Info do cliente (do localStorage)
+    let nomeCliente = 'Cliente';
+    try {
+        const chaves = Object.keys(localStorage).filter(k => k.startsWith('ibuild_simulacao_'));
+        if (chaves.length) {
+            const ult = JSON.parse(localStorage.getItem(chaves[chaves.length-1]));
+            if (ult.nome) nomeCliente = ult.nome.split(' ')[0];
         }
+    } catch(e) {}
 
-        if (state.hasTerreno !== true) {
-            html += `<div style="font-size:12px;opacity:0.6;margin-top:10px;">💡 Você ainda não possui terreno. Considere incluir o valor do terreno no seu planejamento financeiro.</div>`;
+    const estiloNome = ESTILOS.find(e => e.id === state.estilo)?.nome || '—';
+    const pavNome = PAVIMENTOS.find(p => p.id === state.pavimento)?.nome || '—';
+    const telhaNome = TELHAS.find(t => t.id === state.telha)?.nome || '—';
+    const paredeNome = PAREDES.find(p => p.id === state.parede)?.nome || '—';
+
+    // Área de paredes (aproximadamente 3.27x área construída)
+    const areaParedes = areaTotal * 3.27;
+
+    let html = `
+        <div style="font-size:14px;opacity:.8;">Olá, <strong>${nomeCliente}</strong> 👋</div>
+        <div style="font-size:13px;opacity:.6;margin:4px 0 14px;">
+            🏛️ ${estiloNome} · ${pavNome} · ${telhaNome} · ${paredeNome}
+        </div>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.15);margin:10px 0;">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+            <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;text-align:center;">
+                <div class="label">Área Construída</div>
+                <div style="font-size:24px;font-weight:800;">${areaTotal.toFixed(2)} m²</div>
+            </div>
+            <div style="background:rgba(255,255,255,.08);border-radius:10px;padding:12px;text-align:center;">
+                <div class="label">Padrão</div>
+                <div style="font-size:20px;font-weight:800;color:#fbbf24;">${padrao}</div>
+                <div style="font-size:12px;opacity:.7;">${fmt(precoM2)}/m²</div>
+            </div>
+        </div>
+
+        <table class="r-table">
+            <thead><tr><th>Item</th><th>Valor</th></tr></thead>
+            <tbody>
+                <tr><td>🏗️ Obra Branca (${areaTotal.toFixed(2)} m² × ${fmt(3138.99)}/m²)</td><td>${fmt(custoObraBranca)}</td></tr>
+                <tr><td>🎨 Acabamentos ${padrao} (${areaTotal.toFixed(2)} m² × ${fmt(1463.70)}/m²)</td><td>${fmt(custoAcabamentos)}</td></tr>
+                ${extrasDetalhes.length ? `<tr><td>➕ Itens Extras</td><td>${fmt(totalExtras)}</td></tr>` : ''}
+                <tr style="border-top:1px solid rgba(255,255,255,.15);">
+                    <td style="font-weight:700;font-size:16px;">💰 Valor Total Estimado</td>
+                    <td><span class="gold">${fmt(custoTotal)}</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px;">
+            <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:10px;text-align:center;">
+                <div class="label">Obra Branca/m²</div>
+                <div style="font-weight:700;">${fmt(3138.99)}</div>
+            </div>
+            <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:10px;text-align:center;">
+                <div class="label">Acabamentos/m²</div>
+                <div style="font-weight:700;">${fmt(1463.70)}</div>
+            </div>
+            <div style="background:rgba(255,255,255,.08);border-radius:8px;padding:10px;text-align:center;">
+                <div class="label">Total/m²</div>
+                <div style="font-weight:700;color:#fbbf24;">${fmt(custoTotal / areaTotal)}</div>
+            </div>
+        </div>
+
+        <div style="font-size:11px;opacity:.5;margin-top:14px;line-height:1.4;">
+            🏗️ Área de paredes externas: ~${areaParedes.toFixed(2)} m²/fac · 
+            🚗 ${state.ambientes.find(a=>a.id==='garagem')?.qtd||0} vaga(s) · 
+            🛏️ ${state.ambientes.find(a=>a.id==='quartos')?.qtd||0} quarto(s) · 
+            🚿 ${state.ambientes.find(a=>a.id==='banheiro')?.qtd||0} banheiro(s)
+            <br><em>* Valores estimados com base nas premissas da franquia iBUILD. Orçamento final mediante projeto executivo.</em>
+        </div>
+    `;
+
+    document.getElementById('propostaCard').innerHTML = html;
+    document.getElementById('orcSubtitle').textContent = `${padrao} · ${areaTotal.toFixed(2)} m² · Total ${fmt(custoTotal)}`;
+    atualizarSteps(7);
+
+    // Salvar
+    salvarDadosCompletos(areaTotal, padrao, custoTotal, custoObraBranca, custoAcabamentos, totalExtras);
+}
+
+function fmt(v) {
+    return 'R$ ' + v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+}
+
+function salvarDadosCompletos(area, padrao, total, ob, ac, ext) {
+    const dados = {
+        tipo: 'modelagem_completa',
+        timestamp: new Date().toISOString(),
+        escolhas: {
+            estilo: state.estilo,
+            pavimento: state.pavimento,
+            telha: state.telha,
+            parede: state.parede,
+        },
+        ambientes: state.ambientes.map(a => ({ id: a.id, nome: a.nome, larg: a.larg, comp: a.comp, alt: a.alt, qtd: a.qtd })),
+        areaConstruida: area,
+        padraoAcabamento: padrao,
+        valores: {
+            obraBranca: ob,
+            acabamentos: ac,
+            itensExtras: ext,
+            total: total,
         }
+    };
+    localStorage.setItem('ibuild_proposta_' + Date.now(), JSON.stringify(dados));
+    console.log('📦 Proposta completa salva:', dados);
+}
 
-        document.getElementById('resultCard').innerHTML = html;
-        state.step = 4;
-        atualizarSteps(4);
+function salvarEVoltar() {
+    if (confirm('Dados salvos! Deseja iniciar uma nova simulação?')) location.reload();
+}
 
-        // Salvar dados no localStorage
-        salvarDadosLocais(totalDisponivel, financiamento, recursoProprio);
-    }
+function solicitarOrcamento() {
+    alert('📞 Ótimo! Um membro da nossa equipe iBUILD São Carlos entrará em contato para detalharmos juntos o orçamento executivo do seu projeto.');
+}
 
-    function formatar(valor) {
-        return 'R$ ' + valor.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
+// ========== INIT ==========
+function init() {
+    initStepper();
+    renderOptions('estiloOpts', ESTILOS, state.estilo, (id) => {
+        state.estilo = id;
+        renderOptions('estiloOpts', ESTILOS, state.estilo);
+    });
+    renderOptions('pavOpts', PAVIMENTOS, state.pavimento, (id) => {
+        state.pavimento = id;
+        renderOptions('pavOpts', PAVIMENTOS, state.pavimento);
+    });
+    renderOptions('telhaOpts', TELHAS, state.telha, (id) => {
+        state.telha = id;
+        renderOptions('telhaOpts', TELHAS, state.telha);
+    });
+    renderOptions('paredeOpts', PAREDES, state.parede, (id) => {
+        state.parede = id;
+        renderOptions('paredeOpts', PAREDES, state.parede);
+    });
+    renderAmbientes();
+    renderExtras();
+}
+init();
 
-    function salvarDadosLocais(total, finance, recurso) {
-        const dados = {
-            nome: document.getElementById('nome').value.trim(),
-            telefone: document.getElementById('telefone').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            temTerreno: state.hasTerreno,
-            larguraTerreno: document.getElementById('terrenoLarg').value,
-            comprimentoTerreno: document.getElementById('terrenoComp').value,
-            temProjeto: state.hasProjeto,
-            estado: document.getElementById('estadoSelect').value,
-            cidade: document.getElementById('cidadeSelect').value,
-            temRecursoProprio: state.hasRecursoProprio,
-            recursoProprio: recurso,
-            temFinanciamento: state.hasFinanciamento,
-            rendaFamiliar: document.getElementById('rendaFamiliar').value,
-            financiamentoEstimado: finance,
-            totalDisponivel: total,
-            data: new Date().toISOString()
-        };
-        localStorage.setItem('ibuild_simulacao_' + Date.now(), JSON.stringify(dados));
-
-        // Preparar dados para integração futura com SharePoint
-        console.log('📦 Dados capturados para SharePoint:', JSON.stringify(dados, null, 2));
-    }
-
-    function imprimirPDF() {
-        window.print();
-    }
-
-    function resetarSimulacao() {
-        if (!confirm('Tem certeza? Os dados desta simulação serão perdidos.')) return;
-        location.reload();
-    }
-
-    function proximoPassoOrcamento() {
-        alert('📐 Ótimo! Em breve você poderá montar um orçamento personalizado com as medidas da sua casa. Um membro da nossa equipe entrará em contato para dar continuidade.');
-    }
+// Fechar modal com ESC
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') fecharModal();
+});
 </script>
 </body>
 </html>
