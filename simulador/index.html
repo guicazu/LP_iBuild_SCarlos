@@ -6,23 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador de Orçamento | iBUILD São Carlos</title>
 
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
     <style>
-        /* ===========================================================
-           RESET & VARIÁVEIS (mesmo design system da LP)
-           ============================================================ */
+        /* 
+           FONTES (EXATAMENTE IGUAIS À LP)
+            */
+        @font-face {
+            font-family: 'Transducer';
+            src: url('./fonts/Transducer-Regular.woff2') format('woff2'),
+                 url('./fonts/Transducer-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Transducer';
+            src: url('./fonts/Transducer-Medium.woff2') format('woff2'),
+                 url('./fonts/Transducer-Medium.woff') format('woff');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Transducer';
+            src: url('./fonts/Transducer-Bold.woff2') format('woff2'),
+                 url('./fonts/Transducer-Bold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Transducer';
+            src: url('./fonts/Transducer-Light.woff2') format('woff2'),
+                 url('./fonts/Transducer-Light.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Brittany Signature';
+            src: url('./fonts/BrittanySignatureRegular.woff2') format('woff2'),
+                 url('./fonts/BrittanySignatureRegular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* 
+           RESET & VARIÁVEIS (MESMAS DA LP)
+            */
         *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         :root {
-            /* Cores iBUILD (exatas da LP) */
             --black: #1d1d1f;
             --dark: #2d2d2d;
             --charcoal: #424245;
@@ -36,21 +73,18 @@
             --gold: #C8A96E;
             --gold-light: #d4bc8a;
 
-            /* Fontes */
-            --font-display: 'Inter', 'Segoe UI', sans-serif;
-            --font-body: 'Inter', 'Segoe UI', sans-serif;
+            --font-display: 'Transducer', sans-serif;
+            --font-body: 'Transducer', sans-serif;
+            --font-script: 'Brittany Signature', cursive;
 
-            /* Layout */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
             --content-width: 800px;
             --side-padding: max(24px, calc((100vw - var(--content-width)) / 2));
-
-            /* Transições */
-            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-            --transition: 0.4s var(--ease-out-expo);
         }
 
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
             font-size: 16px;
         }
 
@@ -69,9 +103,12 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ============================================================
+        a { text-decoration: none; color: inherit; }
+        button { border: none; background: none; cursor: pointer; font-family: inherit; }
+
+        /* 
            CONTAINER PRINCIPAL
-           ============================================================ */
+            */
         .simulador-container {
             width: 100%;
             max-width: var(--content-width);
@@ -80,26 +117,24 @@
             overflow: hidden;
         }
 
-        /* ============================================================
-           HEADER
-           ============================================================ */
+        /* 
+           HEADER (ESTILO LP: fundo preto + barra dourada)
+            */
         .simulador-header {
             background: var(--black);
-            padding: 48px var(--side-padding) 40px;
+            padding: 56px var(--side-padding) 40px;
             text-align: center;
             position: relative;
         }
-
         .simulador-header::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 2px;
             background: var(--gold);
         }
-
         .simulador-header .pretitle {
             font-size: 0.7rem;
             font-weight: 500;
@@ -108,353 +143,356 @@
             color: var(--gold);
             margin-bottom: 16px;
         }
-
         .simulador-header h1 {
             font-family: var(--font-display);
-            font-size: clamp(1.8rem, 4vw, 2.6rem);
-            font-weight: 600;
+            font-size: clamp(2rem, 4.2vw, 2.8rem);
+            font-weight: 500;
             color: #fff;
-            line-height: 1.2;
+            line-height: 1.15;
             margin-bottom: 12px;
-            letter-spacing: -0.5px;
+            letter-spacing: 0px;
         }
-
+        .simulador-header h1 em {
+            font-family: var(--font-script);
+            font-style: normal;
+            color: var(--gold);
+            font-weight: normal;
+            letter-spacing: 0px;
+            text-transform: none;
+            font-size: 1.3em;
+        }
         .simulador-header p {
             font-size: 1rem;
             font-weight: 400;
-            color: var(--gray);
+            color: rgba(255,255,255,.55);
             max-width: 520px;
             margin: 0 auto;
+            line-height: 1.5;
         }
-
         .badge-passos {
             display: inline-block;
             margin-top: 20px;
-            font-size: 0.65rem;
-            font-weight: 500;
+            font-size: 0.6rem;
+            font-weight: 400;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--gold);
-            border: 1px solid rgba(200, 169, 110, 0.3);
+            color: rgba(255,255,255,.5);
+            border: 1px solid rgba(255,255,255,.18);
             padding: 6px 18px;
+            transition: all .4s var(--ease-out-expo);
+        }
+        .badge-passos:hover {
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
-        /* ============================================================
+        /* 
            CORPO
-           ============================================================ */
+            */
         .simulador-body {
-            padding: 48px var(--side-padding) 56px;
+            padding: 48px var(--side-padding) 60px;
         }
 
-        /* ============================================================
-           PROGRESSO
-           ============================================================ */
+        /* 
+           PROGRESSO (bolinhas)
+            */
         .progresso {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 48px;
         }
-
         .progresso .ponto {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: var(--light-gray);
-            transition: all var(--transition);
+            transition: all .4s var(--ease-out-expo);
         }
-
         .progresso .ponto.ativo {
             background: var(--gold);
-            transform: scale(1.3);
-            box-shadow: 0 0 12px rgba(200, 169, 110, 0.4);
+            transform: scale(1.4);
+            box-shadow: 0 0 16px rgba(200,169,110,.35);
         }
-
         .progresso .ponto.concluido {
             background: var(--gold);
-            opacity: 0.5;
+            opacity: .4;
         }
 
-        /* ============================================================
+        /* 
            ETAPAS
-           ============================================================ */
+            */
         .etapa {
             display: none;
-            animation: fadeIn 0.6s var(--ease-out-expo);
+            animation: fadeIn .6s var(--ease-out-expo);
         }
         .etapa.ativa { display: block; }
-
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(24px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
         .etapa-titulo {
             font-family: var(--font-display);
-            font-size: 1.6rem;
-            font-weight: 600;
+            font-size: 1.8rem;
+            font-weight: 500;
             color: var(--black);
             margin-bottom: 4px;
-            letter-spacing: -0.3px;
+            line-height: 1.15;
         }
-
         .etapa-subtitulo {
             font-size: 0.9rem;
             font-weight: 400;
             color: var(--gray);
-            margin-bottom: 32px;
+            margin-bottom: 36px;
+            line-height: 1.5;
         }
 
-        /* ============================================================
+        /* 
            FORMULÁRIO
-           ============================================================ */
+            */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
-
         .form-grid .full-width { grid-column: 1 / -1; }
 
         .campo {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
-
         .campo label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 1.5px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--charcoal);
         }
-
-        .campo label .obrigatorio {
-            color: #c0392b;
-        }
+        .campo label .obrigatorio { color: #c0392b; }
 
         .campo input,
         .campo select {
             padding: 14px 16px;
-            border: 1.5px solid var(--light-gray);
+            border: 1px solid var(--light-gray);
             font-size: 0.95rem;
             font-family: var(--font-body);
-            transition: border var(--transition);
+            font-weight: 400;
+            transition: all .4s var(--ease-out-expo);
             outline: none;
             background: #fff;
             color: var(--black);
         }
-
         .campo input:focus,
         .campo select:focus {
             border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.1);
+            box-shadow: 0 0 0 3px rgba(200,169,110,.12);
         }
-
         .campo input::placeholder {
             color: var(--light-gray);
+            font-weight: 300;
         }
-
         .campo input.error {
             border-color: #c0392b;
         }
-
         .campo .error-msg {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
+            font-weight: 400;
             color: #c0392b;
             display: none;
-            letter-spacing: 0.5px;
+            letter-spacing: .5px;
         }
         .campo .error-msg.visible { display: block; }
 
-        /* ============================================================
-           RADIO GROUP
-           ============================================================ */
+        /* 
+           RADIO GROUP (estilo LP)
+            */
         .radio-group {
             display: flex;
             gap: 12px;
             margin-top: 2px;
         }
-
         .radio-group label {
             display: flex;
             align-items: center;
             gap: 8px;
             padding: 12px 24px;
-            border: 1.5px solid var(--light-gray);
+            border: 1px solid var(--light-gray);
             cursor: pointer;
-            transition: all var(--transition);
-            font-weight: 500;
-            font-size: 0.85rem;
+            transition: all .4s var(--ease-out-expo);
+            font-family: var(--font-display);
+            font-weight: 400;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             color: var(--charcoal);
             background: #fff;
         }
-
         .radio-group label:hover {
             border-color: var(--gold);
+            color: var(--gold);
         }
-
         .radio-group input[type="radio"] {
             accent-color: var(--gold);
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
         }
-
         .radio-group label.selecionado {
             border-color: var(--gold);
-            background: rgba(200, 169, 110, 0.06);
+            background: rgba(200,169,110,.04);
+            color: var(--gold);
         }
 
-        /* ============================================================
+        /* 
            CAMPOS CONDICIONAIS
-           ============================================================ */
+            */
         .campo-condicional {
             display: none;
             margin-top: 16px;
-            animation: fadeIn 0.3s var(--ease-out-expo);
+            animation: fadeIn .3s var(--ease-out-expo);
         }
         .campo-condicional.ativo { display: block; }
 
-        /* ============================================================
+        /* 
            UPLOAD DE ARQUIVO
-           ============================================================ */
+            */
         .file-upload-wrapper {
             display: flex;
             align-items: center;
             gap: 14px;
             padding: 16px 20px;
-            border: 1.5px dashed var(--light-gray);
+            border: 1px dashed var(--light-gray);
             background: var(--cream);
             cursor: pointer;
-            transition: all var(--transition);
+            transition: all .4s var(--ease-out-expo);
         }
-
         .file-upload-wrapper:hover {
             border-color: var(--gold);
-            background: rgba(200, 169, 110, 0.04);
+            background: rgba(200,169,110,.04);
         }
-
         .file-upload-wrapper input[type="file"] { display: none; }
-
         .file-upload-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--gray);
             font-weight: 400;
         }
-
-        .file-upload-label strong {
-            color: var(--charcoal);
-        }
-
+        .file-upload-label strong { color: var(--charcoal); }
         .file-upload-label small {
             display: block;
             margin-top: 2px;
+            font-size: 0.7rem;
             color: var(--light-gray);
         }
-
         .file-selected {
             display: none;
             align-items: center;
             gap: 8px;
             padding: 8px 16px;
             background: var(--cream);
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             margin-top: 8px;
+            color: var(--charcoal);
         }
         .file-selected.ativo { display: inline-flex; }
         .file-selected .remover {
             cursor: pointer;
             color: #c0392b;
-            font-weight: 600;
+            font-weight: 500;
             margin-left: 4px;
         }
 
-        /* ============================================================
+        /* 
            M² EXIBIÇÃO
-           ============================================================ */
+            */
         .m2-exibicao {
             background: var(--cream);
             padding: 12px 16px;
-            font-size: 0.9rem;
-            font-weight: 500;
+            font-size: 0.85rem;
+            font-weight: 400;
             color: var(--black);
             display: none;
             margin-top: 12px;
         }
         .m2-exibicao.ativo { display: block; }
 
-        /* ============================================================
+        /* 
            NOTA INFORMATIVA
-           ============================================================ */
+            */
         .nota-info {
             background: var(--cream);
-            padding: 16px;
-            font-size: 0.78rem;
-            line-height: 1.6;
+            padding: 16px 20px;
+            font-size: 0.75rem;
+            font-weight: 400;
+            line-height: 1.7;
             color: var(--gray);
         }
 
-        /* ============================================================
-           BOTÕES
-           ============================================================ */
+        /* 
+           BOTÕES (EXATAMENTE IGUAIS AOS DA LP)
+            */
         .btn {
             padding: 16px 36px;
-            border: 1.5px solid transparent;
-            font-size: 0.75rem;
-            font-weight: 600;
+            border: 1px solid transparent;
             font-family: var(--font-display);
+            font-size: 0.72rem;
+            font-weight: 600;
             letter-spacing: 3px;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all var(--transition);
+            transition: all .4s var(--ease-out-expo);
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             white-space: nowrap;
         }
-
-        .btn-primary {
-            background: var(--gold);
-            color: var(--black);
-            border-color: var(--gold);
-        }
-
-        .btn-primary:hover {
-            background: transparent;
-            color: var(--gold);
-            box-shadow: 0 8px 28px rgba(200, 169, 110, 0.35);
-        }
-
-        .btn-primary:hover svg {
-            transform: translateX(4px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--charcoal);
-            border-color: var(--light-gray);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--charcoal);
-            background: var(--cream);
-        }
-
-        .btn-full { width: 100%; }
-
         .btn svg {
             width: 14px;
             height: 14px;
             stroke: currentColor;
             fill: none;
-            transition: transform var(--transition);
+            transition: transform .4s var(--ease-out-expo);
         }
 
-        /* ============================================================
-           NAVEGAÇÃO
-           ============================================================ */
+        /* Primary = gold (mesmo estilo do journey-cta / hero-cta da LP) */
+        .btn-primary {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+        }
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--gold);
+            box-shadow: 0 8px 28px rgba(200,169,110,.35);
+        }
+        .btn-primary:hover svg {
+            transform: translateX(4px);
+        }
+        .btn-primary:active {
+            transform: scale(.985);
+        }
+
+        /* Secondary = outline (estilo about-sc-cta da LP) */
+        .btn-secondary {
+            background: transparent;
+            color: var(--charcoal);
+            border-color: var(--light-gray);
+        }
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(200,169,110,.04);
+        }
+        .btn-secondary:hover svg {
+            transform: translateX(-4px);
+        }
+
+        .btn-full { width: 100%; }
+
+        /* 
+           NAVEGAÇÃO ENTRE ETAPAS
+            */
         .nav-botoes {
             display: flex;
             justify-content: space-between;
@@ -463,9 +501,9 @@
             gap: 16px;
         }
 
-        /* ============================================================
-           RESULTADO
-           ============================================================ */
+        /* 
+           RESULTADO (ETAPA 4)
+            */
         .badge-fase {
             display: inline-block;
             font-size: 0.6rem;
@@ -473,38 +511,9 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--gold);
-            border: 1px solid rgba(200, 169, 110, 0.3);
+            border: 1px solid rgba(200,169,110,.3);
             padding: 4px 14px;
             margin-bottom: 20px;
-        }
-
-        .resultado-card {
-            background: var(--cream);
-            padding: 32px 24px;
-            margin-bottom: 28px;
-            text-align: center;
-        }
-
-        .resultado-card .label {
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--gray);
-        }
-
-        .resultado-card .valor-principal {
-            font-family: var(--font-display);
-            font-size: 2.6rem;
-            font-weight: 700;
-            color: var(--black);
-            margin: 8px 0 4px;
-            letter-spacing: -1px;
-        }
-
-        .resultado-card .composicao {
-            font-size: 0.75rem;
-            color: var(--gray);
         }
 
         .lead-info {
@@ -514,72 +523,107 @@
             padding: 12px 16px;
             background: var(--cream);
             margin-bottom: 24px;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--gray);
         }
-
         .lead-info .lead-nome {
-            font-weight: 600;
+            font-weight: 500;
             color: var(--black);
         }
-        .lead-info .lead-email { color: var(--gray); }
 
+        .resultado-card {
+            background: var(--cream);
+            padding: 36px 24px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .resultado-card .label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gray);
+        }
+        .resultado-card .valor-principal {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 500;
+            color: var(--black);
+            margin: 8px 0 4px;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+        .resultado-card .composicao {
+            font-size: 0.72rem;
+            font-weight: 400;
+            color: var(--gray);
+        }
+
+        .section-subtitle {
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--black);
+            margin-bottom: 16px;
+        }
+
+        /* 
+           TABELA DE PADRÕES
+            */
         .tabela-padroes {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 16px;
+            margin-bottom: 16px;
         }
-
         .tabela-padroes th,
         .tabela-padroes td {
             padding: 14px 16px;
             text-align: center;
             border-bottom: 1px solid var(--light-gray);
         }
-
         .tabela-padroes th {
             background: var(--black);
             color: #fff;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 500;
             letter-spacing: 2px;
             text-transform: uppercase;
+            font-family: var(--font-display);
         }
-
         .tabela-padroes td {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 400;
             color: var(--charcoal);
         }
-
         .tabela-padroes .destaque-m2 {
             font-family: var(--font-display);
-            font-weight: 700;
+            font-weight: 500;
             font-size: 1.2rem;
             color: var(--black);
         }
-
         .tabela-padroes tr:last-child td { border-bottom: none; }
 
         .badge-padrao {
             display: inline-block;
-            font-size: 0.6rem;
-            font-weight: 600;
+            font-size: 0.55rem;
+            font-weight: 500;
             letter-spacing: 2px;
             text-transform: uppercase;
             padding: 3px 12px;
         }
-
         .badge-standard {
             background: var(--cream);
             color: var(--charcoal);
             border: 1px solid var(--light-gray);
         }
-
         .badge-premium {
-            background: rgba(200, 169, 110, 0.1);
+            background: rgba(200,169,110,.06);
             color: var(--gold);
-            border: 1px solid rgba(200, 169, 110, 0.3);
+            border: 1px solid rgba(200,169,110,.25);
         }
-
         .badge-supreme {
             background: var(--black);
             color: var(--gold-light);
@@ -587,54 +631,49 @@
         }
 
         .result-extra {
-            margin-top: 16px;
             padding: 16px;
             background: var(--cream);
-            font-size: 0.82rem;
+            font-size: 0.78rem;
+            font-weight: 400;
             color: var(--gray);
-            line-height: 1.7;
+            line-height: 1.8;
         }
-
-        .result-extra span {
-            display: block;
-        }
-
-        .result-extra strong {
-            color: var(--charcoal);
-        }
+        .result-extra strong { color: var(--charcoal); font-weight: 500; }
 
         .disclaimer {
             text-align: center;
-            margin-top: 20px;
-            font-size: 0.7rem;
+            margin-top: 24px;
+            font-size: 0.65rem;
+            font-weight: 400;
             color: var(--light-gray);
-            line-height: 1.6;
+            line-height: 1.7;
         }
+        .disclaimer strong { color: var(--gray); }
 
-        /* ============================================================
-           RESPONSIVIDADE (mobile-first)
-           ============================================================ */
+        /* 
+           RESPONSIVIDADE
+            */
         @media (max-width: 768px) {
             body { padding: 12px; }
-            .simulador-header { padding: 36px 20px 32px; }
-            .simulador-body { padding: 32px 20px 40px; }
+            .simulador-header { padding: 40px 20px 32px; }
+            .simulador-body { padding: 36px 20px 44px; }
             .form-grid { grid-template-columns: 1fr; }
             .radio-group { flex-direction: column; }
             .radio-group label { justify-content: center; }
             .nav-botoes { flex-direction: column; }
-            .nav-botoes .btn { width: 100%; }
+            .nav-botoes .btn { width: 100%; justify-content: center; }
             .resultado-card .valor-principal { font-size: 2rem; }
-            .tabela-padroes { font-size: 0.8rem; }
+            .tabela-padroes { font-size: 0.78rem; }
             .tabela-padroes th,
             .tabela-padroes td { padding: 10px 8px; }
             .tabela-padroes .destaque-m2 { font-size: 1rem; }
         }
-
         @media (max-width: 480px) {
-            .simulador-header h1 { font-size: 1.5rem; }
-            .etapa-titulo { font-size: 1.3rem; }
+            .simulador-header h1 { font-size: 1.6rem; }
+            .simulador-header .pretitle { font-size: 0.6rem; letter-spacing: 3px; }
+            .etapa-titulo { font-size: 1.4rem; }
             .resultado-card .valor-principal { font-size: 1.6rem; }
-            .btn { padding: 14px 24px; font-size: 0.7rem; letter-spacing: 2px; }
+            .btn { padding: 14px 24px; font-size: 0.68rem; letter-spacing: 2px; }
         }
     </style>
 </head>
@@ -647,7 +686,7 @@
             🏠 iBUILD São Carlos
 
 
-            <h1>Simulador de Orçamento Express</h1>
+            <h1>Simulador de *Orçamento* Express</h1>
             Descubra quantos m² você pode construir com light steel frame
 
 
@@ -694,7 +733,7 @@
 
 
                     
-                        <label>Telefone / WhatsApp *</label>
+                        <label>WhatsApp *</label>
                         <input type="tel" id="lead-telefone" placeholder="(16) 99999-8888" required>
                         Informe um telefone.
                     
@@ -707,7 +746,8 @@
                 
                     
                     <button class="btn btn-primary" onclick="avancar(1)">
-                        Começar →
+                        Começar
+                        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                 
 
@@ -726,7 +766,6 @@
                 
 
                     
-                    
                         <label>Você já tem o terreno? *</label>
                         
                             <label>
@@ -744,7 +783,6 @@
 
 
 
-                    
                     
                         
                             
@@ -771,7 +809,6 @@
 
 
 
-                    
                     
                         <label>Já possui projeto arquitetônico? *</label>
                         
@@ -812,14 +849,12 @@
 
 
                     
-                    
                         <label>Cidade da obra *</label>
                         <input type="text" id="obra-cidade" placeholder="Ex: São Carlos - SP">
                     
 
 
 
-                    
                     
                         <label>A obra será em: *</label>
                         
@@ -848,7 +883,8 @@
                         Voltar
                     </button>
                     <button class="btn btn-primary" onclick="avancar(2)">
-                        Avançar →
+                        Avançar
+                        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                 
 
@@ -918,8 +954,7 @@
                         💡 **Simulação de financiamento:** consideramos taxa de
                         **8,6% a.a. + TR** (TR atualmente em 0%), prazo de
                         **360 meses** e comprometimento máximo de
-                        **30% da renda** — valores aproximados com base nas
-                        condições de mercado.
+                        **30% da renda** — valores aproximados.
                     
 
 
@@ -934,7 +969,8 @@
                         Voltar
                     </button>
                     <button class="btn btn-primary" onclick="calcularResultado()">
-                        Ver Resultado →
+                        Ver Resultado
+                        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                 
 
@@ -963,7 +999,7 @@
 
 
                 
-                    Valor Total Disponível para Obra
+                    Valor Total Disponível
 
 
                     R$ 0
@@ -976,9 +1012,7 @@
 
 
 
-                
-                    Metros quadrados estimados por padrão
-                
+                Metros quadrados estimados por padrão
 
 
 
@@ -990,6 +1024,7 @@
 
                 
                     
+
                     
                 
 
@@ -1001,7 +1036,8 @@
                         Revisar
                     </button>
                     <button class="btn btn-primary" onclick="enviarParaLead()">
-                        Quero Montar Minha Casa →
+                        Quero Montar Minha Casa
+                        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                 
 
@@ -1011,8 +1047,8 @@
                     * Valores estimados com base em médias de mercado para light steel frame.
 
                     O orçamento final depende do projeto arquitetônico detalhado.
-                    
-Na **próxima fase** vamos detalhar acabamentos e personalizações.
+
+                    Na **próxima fase** vamos detalhar acabamentos e personalizações.
                 
 
 
@@ -1028,25 +1064,11 @@ Na **próxima fase** vamos detalhar acabamentos e personalizações.
 
 
     <script>
-        // ============================================================
-        // CONFIGURAÇÃO
-        // ============================================================
         const CONFIG = {
-            custoM2: {
-                standard: 3200,
-                premium:  4500,
-                supreme:  6200
-            },
-            financiamento: {
-                taxaAnual:       0.086,
-                prazoMeses:      360,
-                percentualRenda: 0.30
-            }
+            custoM2: { standard: 3200, premium: 4500, supreme: 6200 },
+            financiamento: { taxaAnual: 0.086, prazoMeses: 360, percentualRenda: 0.30 }
         };
 
-        // ============================================================
-        // DADOS
-        // ============================================================
         const dados = {
             lead:       { nome: '', email: '', telefone: '' },
             terreno:    { temTerreno: null, largura: 0, comprimento: 0, area: 0, cidade: '', local: '' },
@@ -1054,270 +1076,166 @@ Na **próxima fase** vamos detalhar acabamentos e personalizações.
             financeiro: { recursoProprio: false, valorProprio: 0, vaiFinanciar: false, rendaFamiliar: 0 }
         };
 
-        // ============================================================
-        // NAVEGAÇÃO
-        // ============================================================
-        function avancar(etapaAtual) {
-            if (!validarEtapa(etapaAtual)) return;
-            salvarDados(etapaAtual);
-            const prox = etapaAtual + 1;
-            document.getElementById(`etapa-${etapaAtual}`).classList.remove('ativa');
-            document.getElementById(`etapa-${prox}`).classList.add('ativa');
-            atualizarProgresso(prox);
-            document.getElementById('passo-atual').textContent = prox;
-            document.querySelector('.simulador-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        function avancar(e) { if (!validarEtapa(e)) return; salvarDados(e); const p=e+1;
+            document.getElementById(`etapa-${e}`).classList.remove('ativa');
+            document.getElementById(`etapa-${p}`).classList.add('ativa');
+            atualizarProgresso(p); document.getElementById('passo-atual').textContent=p;
+            document.querySelector('.simulador-container').scrollIntoView({behavior:'smooth',block:'start'}); }
+        function voltar(e) { const a=e-1;
+            document.getElementById(`etapa-${e}`).classList.remove('ativa');
+            document.getElementById(`etapa-${a}`).classList.add('ativa');
+            atualizarProgresso(a); document.getElementById('passo-atual').textContent=a;
+            document.querySelector('.simulador-container').scrollIntoView({behavior:'smooth',block:'start'}); }
 
-        function voltar(etapaAtual) {
-            const ant = etapaAtual - 1;
-            document.getElementById(`etapa-${etapaAtual}`).classList.remove('ativa');
-            document.getElementById(`etapa-${ant}`).classList.add('ativa');
-            atualizarProgresso(ant);
-            document.getElementById('passo-atual').textContent = ant;
-            document.querySelector('.simulador-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // ============================================================
-        // VALIDAÇÃO
-        // ============================================================
-        function validarEtapa(etapa) {
-            switch (etapa) {
-                case 1: return validarLead();
-                case 2: return validarTerreno();
-                case 3: return validarFinanceiro();
-                default: return true;
-            }
+        function validarEtapa(e) {
+            if (e===1) return validarLead();
+            if (e===2) return validarTerreno();
+            if (e===3) return validarFinanceiro();
+            return true;
         }
 
         function validarLead() {
-            let valido = true;
-            const n  = document.getElementById('lead-nome');
-            const e  = document.getElementById('lead-email');
-            const t  = document.getElementById('lead-telefone');
-            if (!n.value.trim()) { mostrarErro(n, true); valido = false; } else { mostrarErro(n, false); }
-            if (!e.value.trim() || !e.value.includes('@')) { mostrarErro(e, true); valido = false; } else { mostrarErro(e, false); }
-            if (!t.value.trim()) { mostrarErro(t, true); valido = false; } else { mostrarErro(t, false); }
-            if (!valido) alert('Por favor, preencha todos os campos obrigatórios.');
-            return valido;
+            let v=true;
+            const n=document.getElementById('lead-nome'), em=document.getElementById('lead-email'), t=document.getElementById('lead-telefone');
+            if (!n.value.trim()) { mostrarErro(n,true); v=false; } else mostrarErro(n,false);
+            if (!em.value.trim()||!em.value.includes('@')) { mostrarErro(em,true); v=false; } else mostrarErro(em,false);
+            if (!t.value.trim()) { mostrarErro(t,true); v=false; } else mostrarErro(t,false);
+            if (!v) alert('Preencha todos os campos obrigatórios.');
+            return v;
         }
 
         function validarTerreno() {
-            const temTerreno = document.querySelector('input[name="tem-terreno"]:checked');
-            if (!temTerreno) { alert('Informe se você já tem o terreno.'); return false; }
-            dados.terreno.temTerreno = temTerreno.value === 'sim';
+            const tt=document.querySelector('input[name="tem-terreno"]:checked');
+            if (!tt) { alert('Informe se você já tem o terreno.'); return false; }
+            dados.terreno.temTerreno=tt.value==='sim';
             if (dados.terreno.temTerreno) {
-                const l = document.getElementById('terreno-largura');
-                const c = document.getElementById('terreno-comprimento');
-                if (!l.value || parseFloat(l.value) <= 0) { mostrarErro(l, true); return false; } else { mostrarErro(l, false); }
-                if (!c.value || parseFloat(c.value) <= 0) { mostrarErro(c, true); return false; } else { mostrarErro(c, false); }
+                const l=document.getElementById('terreno-largura'), c=document.getElementById('terreno-comprimento');
+                if (!l.value||parseFloat(l.value)<=0) { mostrarErro(l,true); return false; } else mostrarErro(l,false);
+                if (!c.value||parseFloat(c.value)<=0) { mostrarErro(c,true); return false; } else mostrarErro(c,false);
             }
-            const tp = document.querySelector('input[name="tem-projeto"]:checked');
-            if (!tp) { alert('Informe se você já possui projeto arquitetônico.'); return false; }
-            dados.projeto.temProjeto = tp.value === 'sim';
-            const cid = document.getElementById('obra-cidade');
-            if (!cid.value.trim()) { mostrarErro(cid, true); return false; } else { mostrarErro(cid, false); }
-            if (!document.querySelector('input[name="local-obra"]:checked')) { alert('Informe se a obra será em condomínio ou via pública.'); return false; }
+            const tp=document.querySelector('input[name="tem-projeto"]:checked');
+            if (!tp) { alert('Informe se já possui projeto arquitetônico.'); return false; }
+            dados.projeto.temProjeto=tp.value==='sim';
+            const cid=document.getElementById('obra-cidade');
+            if (!cid.value.trim()) { mostrarErro(cid,true); return false; } else mostrarErro(cid,false);
+            if (!document.querySelector('input[name="local-obra"]:checked')) { alert('Informe condomínio ou via pública.'); return false; }
             return true;
         }
 
         function validarFinanceiro() {
-            const r = document.querySelector('input[name="recurso-proprio"]:checked');
-            if (!r) { alert('Informe se você tem recurso próprio.'); return false; }
-            dados.financeiro.recursoProprio = r.value === 'sim';
+            const r=document.querySelector('input[name="recurso-proprio"]:checked');
+            if (!r) { alert('Informe se tem recurso próprio.'); return false; }
+            dados.financeiro.recursoProprio=r.value==='sim';
             if (dados.financeiro.recursoProprio) {
-                const v = document.getElementById('valor-proprio');
-                if (!v.value || parseFloat(v.value) <= 0) { alert('Informe o valor do recurso próprio.'); return false; }
-                dados.financeiro.valorProprio = parseFloat(v.value);
+                const v=document.getElementById('valor-proprio');
+                if (!v.value||parseFloat(v.value)<=0) { alert('Informe o valor do recurso próprio.'); return false; }
+                dados.financeiro.valorProprio=parseFloat(v.value);
             }
-            const f = document.querySelector('input[name="vai-financiar"]:checked');
+            const f=document.querySelector('input[name="vai-financiar"]:checked');
             if (!f) { alert('Informe se vai financiar.'); return false; }
-            dados.financeiro.vaiFinanciar = f.value === 'sim';
+            dados.financeiro.vaiFinanciar=f.value==='sim';
             if (dados.financeiro.vaiFinanciar) {
-                const rf = document.getElementById('renda-familiar');
-                if (!rf.value || parseFloat(rf.value) <= 0) { alert('Informe sua renda familiar mensal.'); return false; }
-                dados.financeiro.rendaFamiliar = parseFloat(rf.value);
+                const rf=document.getElementById('renda-familiar');
+                if (!rf.value||parseFloat(rf.value)<=0) { alert('Informe sua renda familiar.'); return false; }
+                dados.financeiro.rendaFamiliar=parseFloat(rf.value);
             }
             return true;
         }
 
-        function mostrarErro(input, show) {
-            if (show) {
-                input.classList.add('error');
-                const e = input.parentElement.querySelector('.error-msg');
-                if (e) e.classList.add('visible');
-            } else {
-                input.classList.remove('error');
-                const e = input.parentElement.querySelector('.error-msg');
-                if (e) e.classList.remove('visible');
+        function mostrarErro(i,s) {
+            if (s) { i.classList.add('error'); const e=i.parentElement.querySelector('.error-msg'); if(e) e.classList.add('visible'); }
+            else { i.classList.remove('error'); const e=i.parentElement.querySelector('.error-msg'); if(e) e.classList.remove('visible'); }
+        }
+
+        function salvarDados(e) {
+            if (e===1) {
+                dados.lead.nome=document.getElementById('lead-nome').value.trim();
+                dados.lead.email=document.getElementById('lead-email').value.trim();
+                dados.lead.telefone=document.getElementById('lead-telefone').value.trim();
+            } else if (e===2) {
+                dados.terreno.temTerreno=document.querySelector('input[name="tem-terreno"]:checked').value==='sim';
+                if (dados.terreno.temTerreno) {
+                    dados.terreno.largura=parseFloat(document.getElementById('terreno-largura').value)||0;
+                    dados.terreno.comprimento=parseFloat(document.getElementById('terreno-comprimento').value)||0;
+                    dados.terreno.area=dados.terreno.largura*dados.terreno.comprimento;
+                }
+                dados.projeto.temProjeto=document.querySelector('input[name="tem-projeto"]:checked').value==='sim';
+                dados.terreno.cidade=document.getElementById('obra-cidade').value.trim();
+                dados.terreno.local=document.querySelector('input[name="local-obra"]:checked').value;
             }
         }
 
-        // ============================================================
-        // SALVAR DADOS
-        // ============================================================
-        function salvarDados(etapa) {
-            switch (etapa) {
-                case 1:
-                    dados.lead.nome = document.getElementById('lead-nome').value.trim();
-                    dados.lead.email = document.getElementById('lead-email').value.trim();
-                    dados.lead.telefone = document.getElementById('lead-telefone').value.trim();
-                    break;
-                case 2:
-                    dados.terreno.temTerreno = document.querySelector('input[name="tem-terreno"]:checked').value === 'sim';
-                    if (dados.terreno.temTerreno) {
-                        dados.terreno.largura = parseFloat(document.getElementById('terreno-largura').value) || 0;
-                        dados.terreno.comprimento = parseFloat(document.getElementById('terreno-comprimento').value) || 0;
-                        dados.terreno.area = dados.terreno.largura * dados.terreno.comprimento;
-                    }
-                    dados.projeto.temProjeto = document.querySelector('input[name="tem-projeto"]:checked').value === 'sim';
-                    dados.terreno.cidade = document.getElementById('obra-cidade').value.trim();
-                    dados.terreno.local = document.querySelector('input[name="local-obra"]:checked').value;
-                    break;
-            }
-        }
-
-        // ============================================================
-        // CAMPOS CONDICIONAIS
-        // ============================================================
-        function toggleTerreno(tem) {
-            const c = document.getElementById('campos-terreno');
-            if (tem) { c.classList.add('ativo'); }
-            else {
-                c.classList.remove('ativo');
+        function toggleTerreno(t) { const c=document.getElementById('campos-terreno');
+            if (t) c.classList.add('ativo'); else { c.classList.remove('ativo');
                 document.getElementById('m2-exibicao').classList.remove('ativo');
-                document.getElementById('terreno-largura').value = '';
-                document.getElementById('terreno-comprimento').value = '';
-            }
-        }
-        function toggleProjeto(tem) {
-            const c = document.getElementById('campo-upload-projeto');
-            if (tem) c.classList.add('ativo');
-            else { c.classList.remove('ativo'); removerArquivo(); }
-        }
-        function onFileSelected(input) {
-            const file = input.files[0];
-            if (!file) return;
-            if (file.size > 10 * 1024 * 1024) { alert('Arquivo muito grande. Máx. 10 MB.'); input.value = ''; return; }
-            dados.projeto.arquivo = file;
-            dados.projeto.arquivoNome = file.name;
-            document.getElementById('file-name').textContent = file.name;
-            document.getElementById('file-selected').classList.add('ativo');
-        }
-        function removerArquivo() {
-            document.getElementById('arquivo-projeto').value = '';
-            dados.projeto.arquivo = null;
-            dados.projeto.arquivoNome = '';
-            document.getElementById('file-selected').classList.remove('ativo');
-        }
+                document.getElementById('terreno-largura').value=''; document.getElementById('terreno-comprimento').value=''; } }
+        function toggleProjeto(t) { const c=document.getElementById('campo-upload-projeto');
+            if (t) c.classList.add('ativo'); else { c.classList.remove('ativo'); removerArquivo(); } }
+        function onFileSelected(i) { const f=i.files[0]; if(!f) return;
+            if(f.size>10*1024*1024) { alert('Arquivo muito grande. Máx. 10 MB.'); i.value=''; return; }
+            dados.projeto.arquivo=f; dados.projeto.arquivoNome=f.name;
+            document.getElementById('file-name').textContent=f.name;
+            document.getElementById('file-selected').classList.add('ativo'); }
+        function removerArquivo() { document.getElementById('arquivo-projeto').value='';
+            dados.projeto.arquivo=null; dados.projeto.arquivoNome='';
+            document.getElementById('file-selected').classList.remove('ativo'); }
         function calcularM2() {
-            const l = parseFloat(document.getElementById('terreno-largura').value) || 0;
-            const c = parseFloat(document.getElementById('terreno-comprimento').value) || 0;
-            const a = l * c;
-            if (a > 0) {
-                document.getElementById('m2-valor').textContent = a.toFixed(2);
-                document.getElementById('m2-exibicao').classList.add('ativo');
-            } else {
-                document.getElementById('m2-exibicao').classList.remove('ativo');
-            }
-        }
-        function toggleRecursoProprio(sim) {
-            const c = document.getElementById('campo-valor-proprio');
-            if (sim) c.classList.add('ativo');
-            else { c.classList.remove('ativo'); document.getElementById('valor-proprio').value = ''; }
-        }
-        function toggleFinanciamento(sim) {
-            const c = document.getElementById('campo-renda-familiar');
-            if (sim) c.classList.add('ativo');
-            else { c.classList.remove('ativo'); document.getElementById('renda-familiar').value = ''; }
-        }
-        function atualizarProgresso(passo) {
-            document.querySelectorAll('.ponto').forEach((p, i) => {
-                const s = i + 1;
-                p.classList.remove('ativo', 'concluido');
-                if (s === passo) p.classList.add('ativo');
-                else if (s < passo) p.classList.add('concluido');
-            });
-        }
+            const l=parseFloat(document.getElementById('terreno-largura').value)||0;
+            const c=parseFloat(document.getElementById('terreno-comprimento').value)||0;
+            const a=l*c;
+            if (a>0) { document.getElementById('m2-valor').textContent=a.toFixed(2);
+                document.getElementById('m2-exibicao').classList.add('ativo'); }
+            else document.getElementById('m2-exibicao').classList.remove('ativo'); }
+        function toggleRecursoProprio(s) { const c=document.getElementById('campo-valor-proprio');
+            if (s) c.classList.add('ativo'); else { c.classList.remove('ativo');
+                document.getElementById('valor-proprio').value=''; } }
+        function toggleFinanciamento(s) { const c=document.getElementById('campo-renda-familiar');
+            if (s) c.classList.add('ativo'); else { c.classList.remove('ativo');
+                document.getElementById('renda-familiar').value=''; } }
+        function atualizarProgresso(p) { document.querySelectorAll('.ponto').forEach((pt,i)=>{
+            const s=i+1; pt.classList.remove('ativo','concluido');
+            if(s===p) pt.classList.add('ativo'); else if(s0&&financ>0) comp=`${fmt(recurso)} (recurso próprio) + ${fmt(financ)} (financiamento)`;
+            else if(recurso>0) comp=`${fmt(recurso)} (recurso próprio)`;
+            else if(financ>0) comp=`${fmt(financ)} (financiamento estimado)`;
+            document.getElementById('result-composicao').textContent=comp;
 
-        // ============================================================
-        // CÁLCULO PRINCIPAL (Fórmula Price)
-        // ============================================================
-        function calcularFinanciamento(renda) {
-            const { taxaAnual, prazoMeses, percentualRenda } = CONFIG.financiamento;
-            const i = taxaAnual / 12;
-            const pmt = renda * percentualRenda;
-            return pmt * ((1 - Math.pow(1 + i, -prazoMeses)) / i);
-        }
+            document.getElementById('custo-standard').textContent=fmt(CONFIG.custoM2.standard);
+            document.getElementById('custo-premium').textContent=fmt(CONFIG.custoM2.premium);
+            document.getElementById('custo-supreme').textContent=fmt(CONFIG.custoM2.supreme);
+            document.getElementById('m2-standard').textContent=m2s;
+            document.getElementById('m2-premium').textContent=m2p;
+            document.getElementById('m2-supreme').textContent=m2u;
 
-        function calcularResultado() {
-            if (!validarFinanceiro()) return;
+            let infoT='';
+            if(dados.terreno.temTerreno) infoT=`📍 Terreno de ${dados.terreno.area.toFixed(2)} m² em ${dados.terreno.cidade} (${dados.terreno.local==='condominio'?'Condomínio':'Via Pública'}).`;
+            else infoT=`📍 Obra em ${dados.terreno.cidade} (${dados.terreno.local==='condominio'?'Condomínio':'Via Pública'}). Terreno a definir.`;
+            document.getElementById('result-info-terreno').textContent=infoT;
 
-            const recurso = dados.financeiro.recursoProprio ? dados.financeiro.valorProprio : 0;
-            const financ = dados.financeiro.vaiFinanciar ? calcularFinanciamento(dados.financeiro.rendaFamiliar) : 0;
-            const total = recurso + financ;
-
-            const m2s = Math.floor(total / CONFIG.custoM2.standard);
-            const m2p = Math.floor(total / CONFIG.custoM2.premium);
-            const m2u = Math.floor(total / CONFIG.custoM2.supreme);
-
-            document.getElementById('result-nome').textContent = dados.lead.nome;
-            document.getElementById('result-email').textContent = dados.lead.email;
-            document.getElementById('result-valor-total').textContent = formatarMoeda(total);
-
-            let comp = '';
-            if (recurso > 0 && financ > 0) comp = `${formatarMoeda(recurso)} (recurso próprio) + ${formatarMoeda(financ)} (financiamento)`;
-            else if (recurso > 0) comp = `${formatarMoeda(recurso)} (recurso próprio)`;
-            else if (financ > 0) comp = `${formatarMoeda(financ)} (financiamento estimado)`;
-            document.getElementById('result-composicao').textContent = comp;
-
-            document.getElementById('custo-standard').textContent = formatarMoeda(CONFIG.custoM2.standard);
-            document.getElementById('custo-premium').textContent = formatarMoeda(CONFIG.custoM2.premium);
-            document.getElementById('custo-supreme').textContent = formatarMoeda(CONFIG.custoM2.supreme);
-            document.getElementById('m2-standard').textContent = m2s;
-            document.getElementById('m2-premium').textContent = m2p;
-            document.getElementById('m2-supreme').textContent = m2u;
-
-            let infoT = '';
-            if (dados.terreno.temTerreno) {
-                infoT = `📍 Terreno de ${dados.terreno.area.toFixed(2)} m² em ${dados.terreno.cidade} (${dados.terreno.local === 'condominio' ? 'Condomínio' : 'Via Pública'}).`;
-            } else {
-                infoT = `📍 Obra em ${dados.terreno.cidade} (${dados.terreno.local === 'condominio' ? 'Condomínio' : 'Via Pública'}). Terreno a definir.`;
-            }
-            document.getElementById('result-info-terreno').textContent = infoT;
-
-            const infoP = dados.projeto.temProjeto
-                ? `📐 Possui projeto arquitetônico.${dados.projeto.arquivoNome ? ' (Anexo: ' + dados.projeto.arquivoNome + ')' : ''}`
-                : '📐 Ainda não possui projeto arquitetônico — podemos ajudar!';
-            document.getElementById('result-info-projeto').textContent = infoP;
+            const infoP=dados.projeto.temProjeto
+                ? `📐 Possui projeto arquitetônico.${dados.projeto.arquivoNome?' (Anexo: '+dados.projeto.arquivoNome+')':''}`
+                : '📐 Ainda não possui projeto — podemos ajudar!';
+            document.getElementById('result-info-projeto').textContent=infoP;
 
             document.getElementById('etapa-3').classList.remove('ativa');
             document.getElementById('etapa-4').classList.add('ativa');
             atualizarProgresso(4);
-            document.getElementById('passo-atual').textContent = 4;
-            document.querySelector('.simulador-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.getElementById('passo-atual').textContent=4;
+            document.querySelector('.simulador-container').scrollIntoView({behavior:'smooth',block:'start'});
         }
 
-        function formatarMoeda(valor) {
-            return 'R$ ' + valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
+        function fmt(v) { return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 
         function calcularResultadoAtual() {
-            const r = dados.financeiro.recursoProprio ? dados.financeiro.valorProprio : 0;
-            const f = dados.financeiro.vaiFinanciar ? calcularFinanciamento(dados.financeiro.rendaFamiliar) : 0;
-            const t = r + f;
-            return { valorTotal: t, m2Standard: Math.floor(t / CONFIG.custoM2.standard), m2Premium: Math.floor(t / CONFIG.custoM2.premium), m2Supreme: Math.floor(t / CONFIG.custoM2.supreme) };
+            const r=dados.financeiro.recursoProprio?dados.financeiro.valorProprio:0;
+            const f=dados.financeiro.vaiFinanciar?calcularFinanciamento(dados.financeiro.rendaFamiliar):0;
+            const t=r+f;
+            return {valorTotal:t,m2Standard:Math.floor(t/CONFIG.custoM2.standard),m2Premium:Math.floor(t/CONFIG.custoM2.premium),m2Supreme:Math.floor(t/CONFIG.custoM2.supreme)};
         }
 
         function enviarParaLead() {
-            const payload = {
-                lead: dados.lead,
-                terreno: dados.terreno,
-                projeto: { temProjeto: dados.projeto.temProjeto, arquivoNome: dados.projeto.arquivoNome },
-                financeiro: dados.financeiro,
-                resultado: calcularResultadoAtual()
-            };
-            console.log('📦 Dados do lead:', JSON.stringify(payload, null, 2));
-            alert('✅ Obrigado, ' + dados.lead.nome + '! Recebemos seus dados.\n\nNa próxima fase vamos detalhar os acabamentos e personalizações para chegar no orçamento final da sua casa.');
+            const payload={lead:dados.lead,terreno:dados.terreno,projeto:{temProjeto:dados.projeto.temProjeto,arquivoNome:dados.projeto.arquivoNome},financeiro:dados.financeiro,resultado:calcularResultadoAtual()};
+            console.log('📦 Lead:',JSON.stringify(payload,null,2));
+            alert('✅ Obrigado, '+dados.lead.nome+'! Recebemos seus dados.\n\nNa próxima fase vamos detalhar os acabamentos e personalizações para chegar no orçamento final da sua casa.');
         }
     </script>
 
