@@ -1,995 +1,894 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Simulador de Capacidade — iBuild São Carlos</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #f5f7fa; color:#1e293b; line-height:1.6;
-  }
-  .container { max-width:800px; margin:0 auto; padding:16px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iBuild Simulador de Capacidade Construtiva</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
+            color: #1a1a2e;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            padding: 28px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #e94560, #ff6b6b, #e94560);
+        }
+        .header h1 { font-size: 26px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.5px; }
+        .header h1 span { color: #e94560; }
+        .header p { font-size: 14px; opacity: 0.85; }
+        .container { max-width: 780px; margin: 0 auto; padding: 24px 16px 60px; }
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .step-dot {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .step-dot .circle {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid #d1d5db;
+            color: #9ca3af;
+            background: #fff;
+            transition: all 0.3s;
+        }
+        .step-dot .circle.active {
+            border-color: #0f3460;
+            background: #0f3460;
+            color: #fff;
+        }
+        .step-dot .circle.done {
+            border-color: #10b981;
+            background: #10b981;
+            color: #fff;
+        }
+        .step-dot .label {
+            font-size: 11px;
+            color: #9ca3af;
+            font-weight: 500;
+            display: none;
+        }
+        .step-dot .label.active { color: #0f3460; display: block; }
+        .step-dot .label.done { color: #10b981; display: block; }
+        .step-connector {
+            width: 28px;
+            height: 2px;
+            background: #d1d5db;
+            align-self: center;
+        }
+        .step-connector.done { background: #10b981; }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
+            display: none;
+        }
+        .card.active { display: block; animation: fadeIn 0.35s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #1a1a2e;
+        }
+        .card .subtitle {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+        .form-group label .required { color: #e94560; }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: border-color 0.2s;
+            background: #fff;
+            font-family: inherit;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #0f3460;
+            box-shadow: 0 0 0 3px rgba(15,52,96,0.1);
+        }
+        .form-group input.error {
+            border-color: #e94560;
+            box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 540px) {
+            .form-row, .form-row-3 { grid-template-columns: 1fr; }
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+        .btn-primary {
+            background: #0f3460;
+            color: #fff;
+        }
+        .btn-primary:hover { background: #1a1a2e; transform: translateY(-1px); }
+        .btn-primary:disabled {
+            background: #93a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        .btn-secondary:hover { background: #e5e7eb; }
+        .btn-success {
+            background: #10b981;
+            color: #fff;
+        }
+        .btn-success:hover { background: #059669; transform: translateY(-1px); }
+        .btn-outline {
+            background: transparent;
+            color: #0f3460;
+            border: 1.5px solid #0f3460;
+        }
+        .btn-outline:hover { background: #f0f4ff; }
+        .btn-danger-outline {
+            background: transparent;
+            color: #e94560;
+            border: 1.5px solid #e94560;
+        }
+        .btn-danger-outline:hover { background: #fef2f2; }
+        .toggle-field {
+            display: none;
+            margin-top: 12px;
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+        }
+        .toggle-field.open { display: block; animation: fadeIn 0.25s ease; }
+        .toggle-group {
+            display: flex;
+            gap: 10px;
+            margin: 6px 0 4px;
+        }
+        .toggle-btn {
+            padding: 8px 24px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            color: #6b7280;
+        }
+        .toggle-btn.selected-yes {
+            border-color: #10b981;
+            background: #ecfdf5;
+            color: #059669;
+        }
+        .toggle-btn.selected-no {
+            border-color: #e94560;
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        .file-upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #6b7280;
+        }
+        .file-upload-area:hover { border-color: #0f3460; background: #f0f4ff; }
+        .file-upload-area.has-file {
+            border-color: #10b981;
+            background: #ecfdf5;
+            color: #059669;
+        }
+        .file-upload-area input { display: none; }
+        .file-upload-area .icon { font-size: 28px; margin-bottom: 6px; }
+        .file-upload-area .filename { font-size: 13px; font-weight: 500; margin-top: 4px; }
+        .radio-group { display: flex; gap: 12px; flex-wrap: wrap; }
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 400;
+            cursor: pointer;
+            padding: 6px 0;
+        }
+        .radio-group input[type="radio"] { width: auto; accent-color: #0f3460; }
 
-  /* ===== HEADER ===== */
-  .header {
-    background: linear-gradient(135deg, #1a3a5c 0%, #2a5a8c 100%);
-    color:#fff; padding:28px 0 24px; text-align:center;
-    border-radius:0 0 28px 28px; margin-bottom:28px;
-  }
-  .header h1 { font-size:1.5rem; font-weight:700; }
-  .header p  { font-size:.9rem; opacity:.8; margin-top:4px; }
-  .header .badge {
-    display:inline-block; background:rgba(255,255,255,.15);
-    padding:3px 14px; border-radius:20px; font-size:.7rem;
-    font-weight:600; letter-spacing:.5px; margin-bottom:6px;
-  }
-
-  /* ===== PROGRESS ===== */
-  .progress-wrap {
-    display:flex; justify-content:space-between; margin-bottom:28px;
-    position:relative; padding:0 10px;
-  }
-  .progress-wrap::before {
-    content:''; position:absolute; top:14px; left:28px; right:28px;
-    height:3px; background:#e2e8f0; border-radius:2px; z-index:0;
-  }
-  .bar-fill {
-    position:absolute; top:14px; left:28px; height:3px;
-    background:#2a5a8c; border-radius:2px; z-index:1;
-    transition:width .4s ease; width:0%;
-  }
-  .step-dot {
-    display:flex; flex-direction:column; align-items:center;
-    gap:6px; z-index:2; position:relative;
-  }
-  .step-dot .circle {
-    width:30px; height:30px; border-radius:50%; background:#e2e8f0;
-    color:#94a3b8; display:flex; align-items:center; justify-content:center;
-    font-size:.8rem; font-weight:700; transition:.3s;
-    border:3px solid #f5f7fa;
-  }
-  .step-dot.active .circle { background:#2a5a8c; color:#fff; border-color:#2a5a8c; }
-  .step-dot.done .circle { background:#10b981; color:#fff; border-color:#10b981; }
-  .step-dot .label { font-size:.68rem; color:#94a3b8; font-weight:500; }
-  .step-dot.active .label { color:#2a5a8c; font-weight:600; }
-  .step-dot.done .label { color:#10b981; }
-
-  /* ===== STEP CARDS ===== */
-  .step-card { display:none; }
-  .step-card.active { display:block; animation:fadeIn .35s ease; }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-
-  .card {
-    background:#fff; border-radius:20px; padding:28px 24px;
-    box-shadow:0 1px 3px rgba(0,0,0,.06); margin-bottom:20px;
-  }
-  .card h2 { font-size:1.2rem; font-weight:700; margin-bottom:4px; }
-  .card .sub { color:#64748b; font-size:.88rem; margin-bottom:20px; }
-
-  /* ===== FORM ===== */
-  .form-group { margin-bottom:18px; }
-  .form-group label {
-    display:block; font-weight:600; font-size:.85rem;
-    margin-bottom:5px; color:#334155;
-  }
-  .form-group label .req { color:#ef4444; }
-  .form-control {
-    width:100%; padding:11px 14px; border:1.5px solid #e2e8f0;
-    border-radius:10px; font-size:.93rem; transition:.2s;
-    background:#f8fafc; font-family:inherit;
-  }
-  .form-control:focus {
-    outline:none; border-color:#2a5a8c;
-    box-shadow:0 0 0 3px rgba(42,90,140,.12); background:#fff;
-  }
-  select.form-control { appearance:auto; }
-  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-
-  /* ===== RADIO ===== */
-  .radio-group { display:flex; gap:10px; margin-top:4px; }
-  .radio-btn {
-    flex:1; padding:11px 14px; border:1.5px solid #e2e8f0;
-    border-radius:10px; text-align:center; cursor:pointer;
-    font-weight:600; font-size:.85rem; transition:.2s;
-    background:#f8fafc; color:#475569; user-select:none;
-  }
-  .radio-btn:hover { border-color:#94a3b8; }
-  .radio-btn.selected-sim { border-color:#10b981; background:#ecfdf5; color:#065f46; }
-  .radio-btn.selected-nao { border-color:#ef4444; background:#fef2f2; color:#991b1b; }
-  .radio-btn input { display:none; }
-
-  /* ===== CONDITIONAL ===== */
-  .conditional { display:none; margin-top:14px; padding:16px; background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0; }
-  .conditional.open { display:block; animation:fadeIn .25s ease; }
-  .conditional h4 { font-size:.82rem; color:#475569; margin-bottom:10px; font-weight:600; }
-  .input-group { position:relative; }
-  .input-group .prefix {
-    position:absolute; left:14px; top:50%; transform:translateY(-50%);
-    font-weight:600; color:#64748b; font-size:.9rem;
-  }
-  .input-group .form-control { padding-left:44px; }
-
-  /* ===== BUTTONS ===== */
-  .btn-row { display:flex; gap:10px; margin-top:24px; flex-wrap:wrap; }
-  .btn {
-    padding:13px 28px; border-radius:10px; font-weight:600; font-size:.92rem;
-    border:none; cursor:pointer; transition:.2s;
-    display:inline-flex; align-items:center; gap:8px; font-family:inherit;
-  }
-  .btn-primary { background:#1a3a5c; color:#fff; }
-  .btn-primary:hover { background:#2a5a8c; transform:translateY(-1px); }
-  .btn-secondary { background:#e2e8f0; color:#475569; }
-  .btn-secondary:hover { background:#cbd5e1; }
-  .btn-success { background:#10b981; color:#fff; }
-  .btn-success:hover { background:#059669; transform:translateY(-1px); }
-  .btn-outline { background:transparent; border:1.5px solid #e2e8f0; color:#475569; }
-  .btn-outline:hover { background:#f8fafc; }
-  .btn-wa { background:#25d366; color:#fff; }
-  .btn-wa:hover { background:#1ebe5d; transform:translateY(-1px); }
-  .btn-block { width:100%; justify-content:center; }
-  .btn:disabled { opacity:.5; cursor:not-allowed; transform:none !important; }
-
-  /* ===== RESULTS ===== */
-  .total-value {
-    text-align:center; padding:20px;
-    background:linear-gradient(135deg,#1a3a5c,#2a5a8c);
-    border-radius:14px; color:#fff; margin-bottom:20px;
-  }
-  .total-value .tl { font-size:.8rem; opacity:.8; }
-  .total-value .tn { font-size:2.2rem; font-weight:800; letter-spacing:-1px; margin:2px 0; }
-  .total-value .ts { font-size:.82rem; opacity:.7; }
-
-  .resumo-box { background:#f8fafc; border-radius:14px; padding:20px; margin-bottom:20px; }
-  .resumo-box h3 { font-size:.9rem; color:#64748b; margin-bottom:10px; font-weight:600; }
-  .resumo-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .resumo-item .rl { font-size:.75rem; color:#94a3b8; }
-  .resumo-item .rv { font-size:1rem; font-weight:700; color:#1e293b; }
-
-  .result-cards { display:grid; gap:14px; margin:16px 0; }
-  .result-card { border-radius:14px; padding:18px; }
-  .result-card .tag { font-size:.65rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
-  .result-card .title { font-size:1.05rem; font-weight:700; }
-  .result-card .desc { font-size:.8rem; opacity:.8; margin-bottom:8px; }
-  .result-card .m2 { font-size:2rem; font-weight:800; }
-  .result-card .m2-label { font-size:.8rem; opacity:.7; }
-  .result-card .price { font-size:.85rem; margin-top:6px; }
-  .card-standard { background:linear-gradient(135deg,#e0f2fe,#bae6fd); color:#0369a1; }
-  .card-premium  { background:linear-gradient(135deg,#dbeafe,#c7d2fe); color:#4338ca; }
-  .card-supreme  { background:linear-gradient(135deg,#fef3c7,#fde68a); color:#92400e; }
-
-  .actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:20px; }
-
-  .obs { font-size:.78rem; color:#94a3b8; margin-top:8px; }
-  .text-muted { color:#94a3b8; }
-  .mt-1 { margin-top:4px; }
-  .error-msg { color:#ef4444; font-size:.8rem; margin-top:4px; display:none; }
-
-  @media (max-width:600px) {
-    .form-row { grid-template-columns:1fr; }
-    .card { padding:20px 16px; }
-    .header h1 { font-size:1.2rem; }
-    .step-dot .label { display:none; }
-    .progress-wrap::before { left:15px; right:15px; }
-    .bar-fill { left:15px !important; }
-    .resumo-grid { grid-template-columns:1fr; }
-  }
-
-  @media print {
-    body { background:#fff; }
-    .header { background:#1a3a5c !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .card-standard, .card-premium, .card-supreme, .total-value { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .btn, .btn-row, .actions .btn { display:none !important; }
-    .step-card.active { display:block !important; }
-    .card { box-shadow:none; padding:14px 0; }
-    .no-print { display:none !important; }
-  }
-</style>
+        /* Resultado */
+        .result-card {
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            color: #fff;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+        .result-card .greeting { font-size: 14px; opacity: 0.85; }
+        .result-card .name { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+        .result-highlight {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .result-highlight .box {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .result-highlight .box .value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ff6b6b;
+        }
+        .result-highlight .box .label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .result-highlight .box .value.green { color: #34d399; }
+        .result-highlight .box .value.gold { color: #fbbf24; }
+        .result-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 6px;
+            margin-top: 12px;
+        }
+        .result-table th {
+            text-align: left;
+            padding: 10px 14px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.7;
+            font-weight: 600;
+        }
+        .result-table td {
+            padding: 14px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        .result-table tr td:first-child { border-radius: 10px 0 0 10px; }
+        .result-table tr td:last-child { border-radius: 0 10px 10px 0; text-align: right; }
+        .result-table .highlight-value { font-size: 20px; font-weight: 700; color: #fbbf24; }
+        .result-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #0f3460;
+            padding: 14px 16px;
+            border-radius: 0 10px 10px 0;
+            font-size: 13px;
+            color: #374151;
+            margin-top: 16px;
+            line-height: 1.5;
+        }
+        .info-box strong { color: #0f3460; }
+        .error-feedback {
+            color: #e94560;
+            font-size: 13px;
+            margin-top: 4px;
+            display: none;
+        }
+        .format-currency { font-family: 'Segoe UI', system-ui, sans-serif; }
+        .loading {
+            display: inline-block;
+            width: 16px; height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .estado-select, .cidade-select { width: 100%; }
+        @media print {
+            .header, .step-indicator, .result-actions { display: none !important; }
+            .card { box-shadow: none; border: 1px solid #ddd; }
+            body { background: #fff; }
+            .result-card { background: #1a1a2e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
 </head>
 <body>
 
-
-  
-    iBUILD SÃO CARLOS • LSF CHAVE NA MÃO
-
-
-    <h1>Simulador de Capacidade de Construção</h1>
-    Light Steel Frame — Descubra o potencial da sua obra
-
-
-  
-
-
-
-
-
-
-
-
-  
-  
-    
-
-
-    
-      1
-
-
-      Dados
-
-
-    
-
-
-    
-      2
-
-
-      Terreno
-
-
-    
-
-
-    
-      3
-
-
-      Finanças
-
-
-    
-
-
-    
-      4
-
-
-      Resultado
-
-
-    
-
-
-  
-
-
-
-  
-  
-    
-      <h2>📋 Dados de Contato</h2>
-      Preencha seus dados para começarmos a simulação.
-
-
-
-      
-        <label>Nome completo *</label>
-        <input class="form-control" id="nome" placeholder="Seu nome" />
-      
-
-
-      
-        
-          <label>Telefone / WhatsApp *</label>
-          <input class="form-control" id="telefone" placeholder="(16) 99999-9999" />
-        
-
-
-        
-          <label>E-mail *</label>
-          <input class="form-control" id="email" type="email" placeholder="seu@email.com" />
-        
-
-
-      
-
-
-      Preencha todos os campos obrigatórios.
-
-
-
-      
-        <button class="btn btn-primary btn-block" onclick="irPara(2)">Avançar →</button>
-      
-
-
-    
-
-
-  
-
-
-
-  
-  
-    
-      <h2>🏗️ Informações da Obra</h2>
-      Conte-nos sobre o terreno, projeto e localização.
-
-
-
-      
-      
-        <label>1. Você já tem terreno?</label>
-        
-          
-            <input type="radio" name="hasLand" value="sim" /> Sim
-          
-
-
-          
-            <input type="radio" name="hasLand" value="nao" /> Não
-          
-
-
-        
-
-
-      
-
-
-      
-        <h4>📐 Dimensões do terreno</h4>
-        
-          
-            <label>Largura (m)</label>
-            <input class="form-control" id="largura" type="number" step="0.1" min="0.1" placeholder="Ex: 10" oninput="calcArea()" />
-          
-
-
-          
-            <label>Comprimento (m)</label>
-            <input class="form-control" id="comprimento" type="number" step="0.1" min="0.1" placeholder="Ex: 25" oninput="calcArea()" />
-          
-
-
-        
-
-
-        
-          <label>Área do terreno</label>
-          <input class="form-control" id="areaTerreno" readonly placeholder="Preencha largura e comprimento" style="background:#eef2f6;font-weight:700;" />
-        
-
-
-      
-
-
-
-      
-      
-        <label>2. Você já tem projeto arquitetônico?</label>
-        
-          
-            <input type="radio" name="hasProject" value="sim" /> Sim
-          
-
-
-          
-            <input type="radio" name="hasProject" value="nao" /> Não
-          
-
-
-        
-
-
-      
-
-
-      
-        <h4>📄 Anexar projeto (opcional)</h4>
-        <input class="form-control" id="projetoFile" type="file" accept=".pdf,.dwg,.jpg,.png" />
-        Opcional — você pode enviar depois.
-
-
-      
-
-
-
-      
-      
-        <label>3. Qual o estado e cidade da obra? *</label>
-      
-
-
-      
-        
-          <label>Estado</label>
-          <select class="form-control" id="estado" onchange="carregarCidades()">
-            <option value="">Selecione</option>
-          </select>
-        
-
-
-        
-          <label>Cidade</label>
-          <select class="form-control" id="cidade">
-            <option value="">Selecione</option>
-          </select>
-        
-
-
-      
-
-
-      Responda todas as perguntas e selecione estado/cidade.
-
-
-
-      
-        <button class="btn btn-secondary" onclick="irPara(1)">← Voltar</button>
-        <button class="btn btn-primary" style="flex:1;" onclick="irPara(3)">Avançar →</button>
-      
-
-
-    
-
-
-  
-
-
-
-  
-  
-    
-      <h2>💰 Informações Financeiras</h2>
-      Para estimarmos sua capacidade de investimento.
-
-
-
-      
-        <label>1. Você tem recurso próprio para a obra?</label>
-        
-          
-            <input type="radio" name="hasOwnResources" value="sim" /> Sim
-          
-
-
-          
-            <input type="radio" name="hasOwnResources" value="nao" /> Não
-          
-
-
-        
-
-
-      
-
-
-      
-        <h4>💵 Valor do recurso próprio</h4>
-        
-          <label>Quanto você tem disponível para a obra?</label>
-          
-            R$
-            <input class="form-control" id="recursoProprio" type="number" step="100" min="0" placeholder="Ex: 80000" />
-          
-
-
-        
-
-
-      
-
-
-
-      
-        <label>2. Você vai financiar parte ou total da obra?</label>
-        
-          
-            <input type="radio" name="willFinance" value="sim" /> Sim
-          
-
-
-          
-            <input type="radio" name="willFinance" value="nao" /> Não
-          
-
-
-        
-
-
-      
-
-
-      
-        <h4>🏦 Estimativa de financiamento</h4>
-        
-          <label>Renda familiar média mensal (bruta)</label>
-          
-            R$
-            <input class="form-control" id="rendaFamiliar" type="number" step="100" min="0" placeholder="Ex: 8000" />
-          
-
-
-          
-            ⚡ Usamos ~30% da renda para parcela, taxa ~10,5% a.a., prazo de 360 meses. Valor meramente orientativo.
-          
-
-
-        
-
-
-      
-
-
-      Responda todas as perguntas financeiras.
-
-
-
-      
-        <button class="btn btn-secondary" onclick="irPara(2)">← Voltar</button>
-        <button class="btn btn-success btn-block" onclick="calcular()">📊 Estimar Capacidade de Construção</button>
-      
-
-
-    
-
-
-  
-
-
-
-  
-  
-    
-      <h2>📈 Resultado da Simulação</h2>
-      Resumo da sua capacidade de construção em Light Steel Frame.
-
-
-
-      
-        <h3>👤 Dados do Cliente</h3>
-        
-
-
-      
-
-
-
-      
-        Capital Total Disponível
-
-
-        R$ 0
-
-
-        
-
-
-      
-
-
-
-      <h3 style="margin-bottom:10px;font-size:.95rem;color:#475569;">
-        🚧 Área construída estimada por padrão de acabamento
-      </h3>
-      
-
-
-      * Valores referenciais com base no custo médio do LSF por m². Consulte-nos para um orçamento personalizado.
-
-
-
-      
-        <button class="btn btn-primary" onclick="imprimir()">🖨️ Imprimir / Salvar PDF</button>
-        <button class="btn btn-outline" onclick="recomecar()">🔄 Nova Simulação</button>
-        <button class="btn btn-wa" onclick="whatsapp()">📐 Orçamento Personalizado</button>
-      
-
-
-    
-
-
-  
-
-
-
-
-
-
+<div class="header">
+    <h1>🏗️ iBUILD <span>São Carlos</span></h1>
+    <p>Simulador de Capacidade Construtiva — Light Steel Frame</p>
+</div>
+
+<div class="container">
+
+    <!-- Step Indicator -->
+    <div class="step-indicator" id="stepIndicator">
+        <div class="step-dot"><div class="circle active" id="dot1">1</div><span class="label active" id="label1">Dados</span></div>
+        <div class="step-connector" id="conn1"></div>
+        <div class="step-dot"><div class="circle" id="dot2">2</div><span class="label" id="label2">Obra</span></div>
+        <div class="step-connector" id="conn2"></div>
+        <div class="step-dot"><div class="circle" id="dot3">3</div><span class="label" id="label3">Finanças</span></div>
+        <div class="step-connector" id="conn3"></div>
+        <div class="step-dot"><div class="circle" id="dot4">4</div><span class="label" id="label4">Resultado</span></div>
+    </div>
+
+    <!-- STEP 1: DADOS DO CLIENTE -->
+    <div class="card active" id="step1">
+        <h2>📋 Seus Dados</h2>
+        <p class="subtitle">Preencha suas informações para começarmos a simulação.</p>
+
+        <div class="form-group">
+            <label>Nome completo <span class="required">*</span></label>
+            <input type="text" id="nome" placeholder="Como você prefere ser chamado" autocomplete="name">
+            <div class="error-feedback" id="errNome">Por favor, informe seu nome.</div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Telefone / WhatsApp <span class="required">*</span></label>
+                <input type="tel" id="telefone" placeholder="(16) 9XXXX-XXXX" autocomplete="tel">
+                <div class="error-feedback" id="errTel">Informe um telefone válido.</div>
+            </div>
+            <div class="form-group">
+                <label>E-mail <span class="required">*</span></label>
+                <input type="email" id="email" placeholder="seu@email.com" autocomplete="email">
+                <div class="error-feedback" id="errEmail">Informe um e-mail válido.</div>
+            </div>
+        </div>
+
+        <div class="btn-group" style="justify-content: flex-end;">
+            <button class="btn btn-primary" onclick="validarPasso1()">Avançar →</button>
+        </div>
+    </div>
+
+    <!-- STEP 2: DADOS DA OBRA -->
+    <div class="card" id="step2">
+        <h2>🏠 Dados da Obra</h2>
+        <p class="subtitle">Conte-nos um pouco sobre o terreno e o projeto dos seus sonhos.</p>
+
+        <!-- 1. Terreno -->
+        <div class="form-group">
+            <label>1. Você já possui terreno? <span class="required">*</span></label>
+            <div class="toggle-group">
+                <button class="toggle-btn" id="terrenoSim" onclick="setTerreno(true)">Sim, tenho</button>
+                <button class="toggle-btn" id="terrenoNao" onclick="setTerreno(false)">Ainda não</button>
+            </div>
+            <div class="toggle-field" id="terrenoFields">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Largura (m)</label>
+                        <input type="number" id="terrenoLarg" placeholder="0,00" min="0" step="0.01" oninput="calcularAreaTerreno()">
+                    </div>
+                    <div class="form-group">
+                        <label>Comprimento (m)</label>
+                        <input type="number" id="terrenoComp" placeholder="0,00" min="0" step="0.01" oninput="calcularAreaTerreno()">
+                    </div>
+                </div>
+                <div style="font-size:14px;color:#374151;margin-top:4px;">
+                    📐 Área do terreno: <strong id="areaTerrenoDisplay">—</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Projeto -->
+        <div class="form-group">
+            <label>2. Você já possui projeto arquitetônico? <span class="required">*</span></label>
+            <div class="toggle-group">
+                <button class="toggle-btn" id="projetoSim" onclick="setProjeto(true)">Sim, tenho</button>
+                <button class="toggle-btn" id="projetoNao" onclick="setProjeto(false)">Ainda não</button>
+            </div>
+            <div class="toggle-field" id="projetoField">
+                <div class="file-upload-area" id="fileUploadArea" onclick="document.getElementById('projetoFile').click()">
+                    <div class="icon">📄</div>
+                    <div>Anexar arquivo do projeto (opcional)</div>
+                    <div style="font-size:12px;margin-top:4px;">PDF, DWG, PNG, JPG — máximo 10 MB</div>
+                    <div class="filename" id="fileNameDisplay"></div>
+                    <input type="file" id="projetoFile" accept=".pdf,.dwg,.png,.jpg,.jpeg" onchange="exibirNomeArquivo()">
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Cidade -->
+        <div class="form-group">
+            <label>3. Qual a cidade da obra? <span class="required">*</span></label>
+            <div class="form-row">
+                <div class="form-group">
+                    <label style="font-size:12px;font-weight:500;">Estado</label>
+                    <select id="estadoSelect" onchange="carregarCidades()">
+                        <option value="">Selecione o estado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label style="font-size:12px;font-weight:500;">Cidade</label>
+                    <select id="cidadeSelect"><option value="">Selecione primeiro o estado</option></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group" style="justify-content:space-between;">
+            <button class="btn btn-secondary" onclick="voltarPasso(1)">← Voltar</button>
+            <button class="btn btn-primary" onclick="validarPasso2()">Avançar →</button>
+        </div>
+    </div>
+
+    <!-- STEP 3: DADOS FINANCEIROS -->
+    <div class="card" id="step3">
+        <h2>💰 Dados Financeiros</h2>
+        <p class="subtitle">Essas informações nos ajudam a estimar seu potencial de compra.</p>
+
+        <div class="form-group">
+            <label>1. Você tem recurso próprio para investir?</label>
+            <div class="toggle-group">
+                <button class="toggle-btn" id="recursoSim" onclick="setRecursoProprio(true)">Sim</button>
+                <button class="toggle-btn" id="recursoNao" onclick="setRecursoProprio(false)">Não</button>
+            </div>
+            <div class="toggle-field" id="recursoField">
+                <div class="form-group">
+                    <label>Valor do recurso próprio disponível (R$)</label>
+                    <input type="number" id="recursoValor" placeholder="0,00" min="0" step="100">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>2. Você pretende financiar parte ou total da obra?</label>
+            <div class="toggle-group">
+                <button class="toggle-btn" id="financiaSim" onclick="setFinanciamento(true)">Sim</button>
+                <button class="toggle-btn" id="financiaNao" onclick="setFinanciamento(false)">Não</button>
+            </div>
+            <div class="toggle-field" id="financiaField">
+                <div class="form-group">
+                    <label>Qual a renda média mensal da sua família? (R$)</label>
+                    <input type="number" id="rendaFamiliar" placeholder="0,00" min="0" step="100">
+                    <div style="font-size:12px;color:#6b7280;margin-top:4px;">
+                        💡 Usamos esse valor para estimar o potencial de financiamento.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>📌 Importante:</strong> Esta é uma simulação orientativa baseada em parâmetros médios de mercado (taxa ~9,5% a.a., prazo de 35 anos). O valor real do financiamento dependerá da análise de crédito da instituição financeira.
+        </div>
+
+        <div class="btn-group" style="justify-content:space-between;">
+            <button class="btn btn-secondary" onclick="voltarPasso(2)">← Voltar</button>
+            <button class="btn btn-success" onclick="calcularResumo()">🔍 Estimar Capacidade Construtiva</button>
+        </div>
+    </div>
+
+    <!-- STEP 4: RESULTADO / RESUMO -->
+    <div class="card" id="step4">
+        <h2>📊 Sua Capacidade Construtiva</h2>
+        <p class="subtitle" id="resultSubtitle">Resumo personalizado da sua simulação.</p>
+
+        <div class="result-card" id="resultCard"></div>
+
+        <div class="result-actions">
+            <button class="btn btn-primary" onclick="imprimirPDF()">🖨️ Imprimir / PDF</button>
+            <button class="btn btn-outline" onclick="resetarSimulacao()">🔄 Nova Simulação</button>
+            <button class="btn btn-success" onclick="proximoPassoOrcamento()">📐 Montar Orçamento Personalizado</button>
+        </div>
+
+        <div class="info-box" style="margin-top:16px;">
+            <strong>✅ Dados salvos localmente.</strong> Em breve suas informações serão registradas em nossa base para que possamos dar continuidade ao seu atendimento personalizado.
+        </div>
+    </div>
+
+</div>
 
 <script>
-// ===== BANCO DE CIDADES =====
-const CIDADES = {
-  AC:{n:'Acre',c:['Rio Branco','Cruzeiro do Sul','Sena Madureira','Tarauacá','Feijó','Brasiléia']},
-  AL:{n:'Alagoas',c:['Maceió','Arapiraca','Rio Largo','Palmeira dos Índios','Penedo','Delmiro Gouveia']},
-  AP:{n:'Amapá',c:['Macapá','Santana','Laranjal do Jari','Oiapoque','Porto Grande','Mazagão']},
-  AM:{n:'Amazonas',c:['Manaus','Parintins','Itacoatiara','Manacapuru','Coari','Tefé']},
-  BA:{n:'Bahia',c:['Salvador','Feira de Santana','Vitória da Conquista','Camaçari','Juazeiro','Ilhéus','Lauro de Freitas','Barreiras','Porto Seguro']},
-  CE:{n:'Ceará',c:['Fortaleza','Caucaia','Juazeiro do Norte','Maracanaú','Sobral','Crato','Itapipoca']},
-  DF:{n:'Distrito Federal',c:['Brasília','Taguatinga','Ceilândia','Planaltina','Sobradinho','Gama','Guará']},
-  ES:{n:'Espírito Santo',c:['Vitória','Vila Velha','Serra','Cariacica','Linhares','Colatina','Guarapari']},
-  GO:{n:'Goiás',c:['Goiânia','Aparecida de Goiânia','Anápolis','Rio Verde','Luziânia','Catalão','Trindade']},
-  MA:{n:'Maranhão',c:['São Luís','Imperatriz','Timon','Caxias','Codó','Açailândia']},
-  MT:{n:'Mato Grosso',c:['Cuiabá','Várzea Grande','Rondonópolis','Sinop','Tangará da Serra','Cáceres']},
-  MS:{n:'Mato Grosso do Sul',c:['Campo Grande','Dourados','Três Lagoas','Corumbá','Ponta Porã','Naviraí']},
-  MG:{n:'Minas Gerais',c:['Belo Horizonte','Uberlândia','Contagem','Juiz de Fora','Montes Claros','Uberaba','Governador Valadares','Divinópolis','Poços de Caldas']},
-  PA:{n:'Pará',c:['Belém','Ananindeua','Santarém','Marabá','Castanhal','Parauapebas','Itaituba']},
-  PB:{n:'Paraíba',c:['João Pessoa','Campina Grande','Santa Rita','Patos','Bayeux','Cajazeiras']},
-  PR:{n:'Paraná',c:['Curitiba','Londrina','Maringá','Ponta Grossa','Cascavel','São José dos Pinhais','Foz do Iguaçu','Toledo']},
-  PE:{n:'Pernambuco',c:['Recife','Jaboatão','Olinda','Caruaru','Petrolina','Paulista','Cabo de Santo Agostinho']},
-  PI:{n:'Piauí',c:['Teresina','Parnaíba','Picos','Floriano','Campo Maior','Oeiras']},
-  RJ:{n:'Rio de Janeiro',c:['Rio de Janeiro','Niterói','Duque de Caxias','Nova Iguaçu','Campos dos Goytacazes','Petrópolis','Volta Redonda']},
-  RN:{n:'Rio Grande do Norte',c:['Natal','Mossoró','Parnamirim','Caicó','Açu','Currais Novos']},
-  RS:{n:'Rio Grande do Sul',c:['Porto Alegre','Caxias do Sul','Pelotas','Canoas','Santa Maria','Novo Hamburgo','Passo Fundo']},
-  RO:{n:'Rondônia',c:['Porto Velho','Ji-Paraná','Ariquemes','Vilhena','Cacoal','Rolim de Moura']},
-  RR:{n:'Roraima',c:['Boa Vista','Rorainópolis','Caracaraí','Mucajaí','Alto Alegre','Pacaraima']},
-  SC:{n:'Santa Catarina',c:['Florianópolis','Joinville','Blumenau','São José','Chapecó','Itajaí','Criciúma','Lages']},
-  SP:{n:'São Paulo',c:['São Paulo','Guarulhos','Campinas','São Bernardo do Campo','Ribeirão Preto','São Carlos','Araraquara','Sorocaba','Santos','Bauru','São José do Rio Preto','Franca','Jundiaí']},
-  SE:{n:'Sergipe',c:['Aracaju','Nossa Senhora do Socorro','Lagarto','Itabaiana','Estância','Tobias Barreto']},
-  TO:{n:'Tocantins',c:['Palmas','Araguaína','Gurupi','Porto Nacional','Paraíso do Tocantins','Guaraí']}
-};
-
-// ===== STATE =====
-const S = {
-  passo: 1,
-  nome:'', telefone:'', email:'',
-  hasLand:null, largura:0, comprimento:0, areaTerreno:0,
-  hasProject:null, projetoFile:null,
-  estado:'', cidade:'',
-  hasOwnResources:null, recursoProprio:0,
-  willFinance:null, rendaFamiliar:0,
-  financiamento:0, totalCapital:0
-};
-
-const CUSTOS = { standard:2500, premium:3500, supreme:5000 };
-const NOMES  = { standard:'Standard', premium:'Premium', supreme:'Supreme' };
-const DESC   = { standard:'Acabamento funcional e econômico', premium:'Acabamento intermediário com mais conforto', supreme:'Acabamento alto padrão — materiais premium' };
-
-// ===== INICIALIZAR ESTADOS =====
-function initEstados() {
-  const sel = document.getElementById('estado');
-  for (const s in CIDADES) {
-    const o = document.createElement('option');
-    o.value = s; o.textContent = s + ' — ' + CIDADES[s].n;
-    sel.appendChild(o);
-  }
-}
-initEstados();
-
-function carregarCidades() {
-  const sigla = document.getElementById('estado').value;
-  const sel = document.getElementById('cidade');
-  sel.innerHTML = '<option value="">Selecione</option>';
-  if (!sigla || !CIDADES[sigla]) return;
-  CIDADES[sigla].c.forEach(c => {
-    const o = document.createElement('option');
-    o.value = c; o.textContent = c;
-    sel.appendChild(o);
-  });
-}
-
-// ===== ESCOLHA (RADIO) =====
-function escolher(campo, valor, btn) {
-  S[campo] = valor;
-
-  // Destacar botão
-  const grupo = btn.closest('.radio-group');
-  grupo.querySelectorAll('.radio-btn').forEach(b => {
-    b.classList.remove('selected-sim','selected-nao');
-  });
-  btn.classList.add(valor ? 'selected-sim' : 'selected-nao');
-
-  // Mostrar/esconder condicional
-  const condId = 'c' + campo.charAt(0).toUpperCase() + campo.slice(1);
-  const el = document.getElementById(condId);
-  if (el) {
-    el.classList.toggle('open', valor);
-  }
-
-  // Se "Não tem terreno", zera área
-  if (campo === 'hasLand' && !valor) {
-    S.areaTerreno = 0;
-    document.getElementById('largura').value = '';
-    document.getElementById('comprimento').value = '';
-    document.getElementById('areaTerreno').value = '';
-  }
-}
-
-// ===== CALCULAR ÁREA =====
-function calcArea() {
-  const l = parseFloat(document.getElementById('largura').value) || 0;
-  const c = parseFloat(document.getElementById('comprimento').value) || 0;
-  S.largura = l; S.comprimento = c;
-  S.areaTerreno = l * c;
-  document.getElementById('areaTerreno').value = S.areaTerreno > 0
-    ? S.areaTerreno.toFixed(2) + ' m²'
-    : 'Preencha largura e comprimento';
-}
-
-// ===== NAVEGAÇÃO =====
-function irPara(n) {
-  // Esconder erros
-  document.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
-
-  if (n > S.passo && !validar(S.passo)) return;
-  S.passo = n;
-  renderizar();
-}
-
-function validar(p) {
-  if (p === 1) {
-    const n = document.getElementById('nome').value.trim();
-    const t = document.getElementById('telefone').value.trim();
-    const e = document.getElementById('email').value.trim();
-    if (!n || !t || !e) {
-      document.getElementById('erroPasso1').style.display = 'block';
-      return false;
-    }
-    S.nome = n; S.telefone = t; S.email = e;
-    salvarLead({ nome:n, telefone:t, email:e });
-    return true;
-  }
-  if (p === 2) {
-    if (S.hasLand === null || S.hasProject === null) {
-      document.getElementById('erroPasso2').style.display = 'block';
-      return false;
-    }
-    const estado = document.getElementById('estado').value;
-    const cidade = document.getElementById('cidade').value;
-    if (!estado || !cidade) {
-      document.getElementById('erroPasso2').style.display = 'block';
-      return false;
-    }
-    S.estado = estado; S.cidade = cidade;
-    const file = document.getElementById('projetoFile');
-    S.projetoFile = file.files && file.files[0] ? file.files[0].name : null;
-    salvarLeadCompleto();
-    return true;
-  }
-  if (p === 3) {
-    if (S.hasOwnResources === null || S.willFinance === null) {
-      document.getElementById('erroPasso3').style.display = 'block';
-      return false;
-    }
-    S.recursoProprio = S.hasOwnResources ? (parseFloat(document.getElementById('recursoProprio').value) || 0) : 0;
-    S.rendaFamiliar = S.willFinance ? (parseFloat(document.getElementById('rendaFamiliar').value) || 0) : 0;
-
-    // Se não tem recurso próprio E não vai financiar, não faz sentido
-    if (!S.hasOwnResources && !S.willFinance) {
-      alert('É necessário informar recurso próprio ou financiamento para estimar a capacidade.');
-      return false;
-    }
-    return true;
-  }
-  return true;
-}
-
-function renderizar() {
-  // Mostrar passo certo
-  document.querySelectorAll('.step-card').forEach(el => el.classList.remove('active'));
-  const alvo = document.getElementById('passo' + S.passo);
-  if (alvo) alvo.classList.add('active');
-
-  // Atualizar progresso
-  document.querySelectorAll('.step-dot').forEach(el => {
-    const num = parseInt(el.dataset.s);
-    el.classList.remove('active','done');
-    if (num === S.passo) el.classList.add('active');
-    else if (num < S.passo) el.classList.add('done');
-  });
-
-  // Barra
-  const total = document.querySelectorAll('.step-dot').length;
-  const pct = ((S.passo - 1) / (total - 1)) * 100;
-  document.getElementById('barFill').style.width = pct + '%';
-
-  window.scrollTo({ top:0, behavior:'smooth' });
-}
-
-// ===== CÁLCULO =====
-function calcular() {
-  if (!validar(3)) return;
-
-  const rp = S.recursoProprio || 0;
-  const renda = S.rendaFamiliar || 0;
-  let fin = 0;
-
-  if (S.willFinance && renda > 0) {
-    const pmt = renda * 0.30;
-    const i = 0.105 / 12;
-    const n = 360;
-    const f = (Math.pow(1 + i, n) - 1) / (i * Math.pow(1 + i, n));
-    fin = Math.floor(pmt * f / 1000) * 1000;
-  }
-
-  const total = rp + fin;
-  S.financiamento = fin;
-  S.totalCapital = total;
-
-  // Preencher resumo
-  const loc = S.cidade ? S.cidade + ' / ' + S.estado : '—';
-  document.getElementById('resumoCliente').innerHTML = `
-    Nome
-
-${S.nome}
-
-
-
-
-    Telefone
-
-${S.telefone}
-
-
-
-
-    E-mail
-
-${S.email}
-
-
-
-
-    Local da obra
-
-${loc}
-
-
-
-
-    Terreno
-
-${S.hasLand ? (S.areaTerreno > 0 ? S.areaTerreno.toFixed(1)+' m²' : 'Sim') : 'Não possui'}
-
-
-
-
-    Projeto
-
-${S.hasProject ? 'Sim' : 'Não'}
-
-
-
-
-  `;
-
-  document.getElementById('totalCapital').textContent = 'R$ ' + total.toLocaleString('pt-BR');
-  let det = '';
-  if (rp > 0) det += 'Recurso próprio: R$ ' + rp.toLocaleString('pt-BR');
-  if (fin > 0) {
-    if (det) det += ' · ';
-    det += 'Financiamento estimado: R$ ' + fin.toLocaleString('pt-BR');
-  }
-  if (!det) det = 'Nenhum recurso informado.';
-  document.getElementById('capitalBreakdown').textContent = det;
-
-  // Cards
-  const cards = document.getElementById('resultCards');
-  cards.innerHTML = '';
-  for (const [k, custo] of Object.entries(CUSTOS)) {
-    const m2 = total > 0 ? total / custo : 0;
-    const div = document.createElement('div');
-    div.className = 'result-card card-' + k;
-    div.innerHTML = `
-      ${k}
-
-
-      ${NOMES[k]}
-
-
-      ${DESC[k]}
-
-
-      ${m2 > 0 ? m2.toFixed(1) : '0'} m²
-
-
-      R$ ${custo.toLocaleString('pt-BR')}/m²
-
-
-    `;
-    cards.appendChild(div);
-  }
-
-  S.passo = 4;
-  renderizar();
-  salvarSimulacao();
-}
-
-// ===== PERSISTÊNCIA =====
-function salvarLead(d) {
-  try {
-    localStorage.setItem('ibuild_lead', JSON.stringify(d));
-    console.log('[iBuild] Lead salvo no navegador:', d);
-
-    // ─── INTEGRAÇÃO SHAREPOINT LIST ───────────────────────────────
-    // Descomente e configure com os dados da sua lista do SharePoint:
-    //
-    // const siteUrl = 'https://seu-site.sharepoint.com/sites/x';
-    // const listName = 'Leads';
-    // const accessToken = 'SEU_TOKEN_AQUI'; // via Azure AD / App Registration
-    //
-    // fetch(siteUrl + '/_api/web/lists/getbytitle(\'' + listName + '\')/items', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json;odata=verbose',
-    //     'Accept': 'application/json;odata=verbose',
-    //     'Authorization': 'Bearer ' + accessToken
-    //   },
-    //   body: JSON.stringify({
-    //     __metadata: { type: 'SP.Data.' + listName + 'ListItem' },
-    //     Title: d.nome,
-    //     Telefone: d.telefone,
-    //     Email: d.email,
-    //     DataCadastro: new Date().toISOString()
-    //   })
-    // })
-    // .then(r => r.json())
-    // .then(data => console.log('[SharePoint] Lead salvo:', data))
-    // .catch(err => console.error('[SharePoint] Erro:', err));
-    // ─── FIM INTEGRAÇÃO 
-  } catch(e) { console.warn(e); }
-}
-
-function salvarLeadCompleto() {
-  try {
-    const data = {
-      nome:S.nome, telefone:S.telefone, email:S.email,
-      hasLand:S.hasLand, areaTerreno:S.areaTerreno,
-      hasProject:S.hasProject, projetoFile:S.projetoFile,
-      estado:S.estado, cidade:S.cidade,
-      data: new Date().toISOString()
+    // ===== ESTADOS E CIDADES =====
+    const cidadesPorEstado = {
+        'AC': ['Acrelândia', 'Cruzeiro do Sul', 'Rio Branco', 'Sena Madureira', 'Tarauacá'],
+        'AL': ['Arapiraca', 'Maceió', 'Marechal Deodoro', 'Palmeira dos Índios', 'Penedo', 'Rio Largo', 'São Miguel dos Campos', 'União dos Palmares'],
+        'AM': ['Coari', 'Itacoatiara', 'Manaus', 'Manacapuru', 'Parintins', 'Tefé'],
+        'AP': ['Macapá', 'Santana', 'Laranjal do Jari'],
+        'BA': ['Alagoinhas', 'Barreiras', 'Camaçari', 'Feira de Santana', 'Ilhéus', 'Itabuna', 'Jequié', 'Juazeiro', 'Lauro de Freitas', 'Paulo Afonso', 'Porto Seguro', 'Salvador', 'Santo Antônio de Jesus', 'Teixeira de Freitas', 'Vitória da Conquista'],
+        'CE': ['Caucaia', 'Crato', 'Fortaleza', 'Juazeiro do Norte', 'Maracanaú', 'Sobral'],
+        'DF': ['Brasília', 'Ceilândia', 'Taguatinga', 'Planaltina', 'Samambaia'],
+        'ES': ['Aracruz', 'Cariacica', 'Colatina', 'Guarapari', 'Linhares', 'São Mateus', 'Serra', 'Vila Velha', 'Vitória'],
+        'GO': ['Anápolis', 'Aparecida de Goiânia', 'Goiânia', 'Itumbiara', 'Jataí', 'Luziânia', 'Rio Verde', 'Trindade', 'Valparaíso de Goiás'],
+        'MA': ['Açailândia', 'Bacabal', 'Caxias', 'Imperatriz', 'São José de Ribamar', 'São Luís', 'Timon'],
+        'MG': ['Alfenas', 'Araguari', 'Araxá', 'Barbacena', 'Belo Horizonte', 'Betim', 'Contagem', 'Diamantina', 'Divinópolis', 'Governador Valadares', 'Ipatinga', 'Itajubá', 'Juiz de Fora', 'Lavras', 'Montes Claros', 'Muriaé', 'Nova Lima', 'Ouro Preto', 'Paracatu', 'Passos', 'Patos de Minas', 'Poços de Caldas', 'Pouso Alegre', 'Ribeirão das Neves', 'Sabará', 'Santa Luzia', 'São João del-Rei', 'Setor Lagoa', 'Uberaba', 'Uberlândia', 'Varginha', 'Viçosa'],
+        'MS': ['Campo Grande', 'Corumbá', 'Dourados', 'Naviraí', 'Ponta Porã', 'Três Lagoas'],
+        'MT': ['Cáceres', 'Cuiabá', 'Rondonópolis', 'Sinop', 'Tangará da Serra', 'Várzea Grande'],
+        'PA': ['Altamira', 'Ananindeua', 'Belém', 'Bragança', 'Castanhal', 'Itaituba', 'Marabá', 'Parauapebas', 'Santarém', 'Tucuruí'],
+        'PB': ['Campina Grande', 'Cajazeiras', 'João Pessoa', 'Patos', 'Santa Rita', 'Sousa'],
+        'PE': ['Cabo de Santo Agostinho', 'Camaragibe', 'Caruaru', 'Garanhuns', 'Jaboatão dos Guararapes', 'Olinda', 'Paulista', 'Petrolina', 'Recife', 'Vitória de Santo Antão'],
+        'PI': ['Campo Maior', 'Floriano', 'Parnaíba', 'Picos', 'Teresina', 'Uruçuí'],
+        'PR': ['Apucarana', 'Araucária', 'Campo Largo', 'Cascavel', 'Colombo', 'Curitiba', 'Foz do Iguaçu', 'Guarapuava', 'Londrina', 'Maringá', 'Paranaguá', 'Pinhais', 'Ponta Grossa', 'São José dos Pinhais', 'Toledo', 'Umuarama'],
+        'RJ': ['Angra dos Reis', 'Araruama', 'Barra Mansa', 'Belford Roxo', 'Cabo Frio', 'Campos dos Goytacazes', 'Duque de Caxias', 'Itaboraí', 'Itaguaí', 'Macaé', 'Magé', 'Niterói', 'Nova Friburgo', 'Nova Iguaçu', 'Petrópolis', 'Resende', 'Rio Bonito', 'Rio de Janeiro', 'São Gonçalo', 'São João de Meriti', 'Teresópolis', 'Três Rios', 'Volta Redonda'],
+        'RN': ['Caicó', 'Ceará-Mirim', 'Mossoró', 'Natal', 'Parnamirim', 'São Gonçalo do Amarante'],
+        'RO': ['Ariquemes', 'Cacoal', 'Ji-Paraná', 'Porto Velho', 'Vilhena'],
+        'RR': ['Boa Vista', 'Rorainópolis'],
+        'RS': ['Alvorada', 'Bento Gonçalves', 'Canoas', 'Caxias do Sul', 'Erechim', 'Gravataí', 'Lajeado', 'Novo Hamburgo', 'Passo Fundo', 'Pelotas', 'Porto Alegre', 'Rio Grande', 'Santa Cruz do Sul', 'Santa Maria', 'Santo Ângelo', 'São Leopoldo', 'Uruguaiana', 'Viamão'],
+        'SC': ['Balneário Camboriú', 'Blumenau', 'Brusque', 'Chapecó', 'Criciúma', 'Florianópolis', 'Itajaí', 'Jaraguá do Sul', 'Joinville', 'Lages', 'Palhoça', 'São José', 'Tubarão'],
+        'SE': ['Aracaju', 'Estância', 'Itabaiana', 'Lagarto', 'Nossa Senhora do Socorro', 'São Cristóvão'],
+        'SP': ['Americana', 'Araraquara', 'Araras', 'Assis', 'Atibaia', 'Barretos', 'Barueri', 'Bauru', 'Birigui', 'Botucatu', 'Bragança Paulista', 'Campinas', 'Campo Limpo Paulista', 'Caraguatatuba', 'Carapicuíba', 'Catanduva', 'Cotia', 'Cubatão', 'Diadema', 'Embu das Artes', 'Ferraz de Vasconcelos', 'Franca', 'Francisco Morato', 'Franco da Rocha', 'Guaratinguetá', 'Guarujá', 'Guarulhos', 'Hortolândia', 'Indaiatuba', 'Itapecerica da Serra', 'Itapetininga', 'Itapeva', 'Itaquaquecetuba', 'Itu', 'Jaboticabal', 'Jacareí', 'Jandira', 'Jundiaí', 'Leme', 'Limeira', 'Lins', 'Lorena', 'Marília', 'Mauá', 'Mogi das Cruzes', 'Mogi Guaçu', 'Osasco', 'Ourinhos', 'Paulínia', 'Piracicaba', 'Pirassununga', 'Poá', 'Praia Grande', 'Presidente Prudente', 'Ribeirão Pires', 'Ribeirão Preto', 'Rio Claro', 'Salto', 'Santa Bárbara d\'Oeste', 'Santana de Parnaíba', 'Santos', 'São Bernardo do Campo', 'São Caetano do Sul', 'São Carlos', 'São João da Boa Vista', 'São José do Rio Preto', 'São José dos Campos', 'São Paulo', 'São Roque', 'São Vicente', 'Sertãozinho', 'Sorocaba', 'Sumaré', 'Suzano', 'Taboão da Serra', 'Tatuí', 'Taubaté', 'Valinhos', 'Várzea Paulista', 'Votorantim'],
+        'TO': ['Araguaína', 'Gurupi', 'Palmas', 'Paraíso do Tocantins', 'Porto Nacional']
     };
-    localStorage.setItem('ibuild_lead_completo', JSON.stringify(data));
-  } catch(e) { console.warn(e); }
-}
 
-function salvarSimulacao() {
-  try {
-    localStorage.setItem('ibuild_simulacao', JSON.stringify({
-      nome:S.nome, telefone:S.telefone, email:S.email,
-      areaTerreno:S.areaTerreno, cidade:S.cidade,
-      recursoProprio:S.recursoProprio, rendaFamiliar:S.rendaFamiliar,
-      financiamento:S.financiamento, totalCapital:S.totalCapital,
-      data: new Date().toISOString()
-    }));
-  } catch(e) { console.warn(e); }
-}
+    // ===== ESTADO GLOBAL =====
+    const state = {
+        step: 1,
+        hasTerreno: null,
+        hasProjeto: null,
+        hasRecursoProprio: null,
+        hasFinanciamento: null
+    };
 
-// ===== AÇÕES =====
-function imprimir() { window.print(); }
+    // ===== MÁSCARA DE TELEFONE =====
+    document.getElementById('telefone').addEventListener('input', function(e) {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length > 11) v = v.slice(0, 11);
+        if (v.length > 6) {
+            v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+        } else if (v.length > 2) {
+            v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+        } else if (v.length > 0) {
+            v = `(${v}`;
+        }
+        e.target.value = v;
+    });
 
-function recomecar() {
-  if (!confirm('Tem certeza? Os dados atuais serão perdidos.')) return;
-  Object.assign(S, {
-    passo:1, nome:'', telefone:'', email:'',
-    hasLand:null, largura:0, comprimento:0, areaTerreno:0,
-    hasProject:null, projetoFile:null,
-    estado:'', cidade:'',
-    hasOwnResources:null, recursoProprio:0,
-    willFinance:null, rendaFamiliar:0,
-    financiamento:0, totalCapital:0
-  });
-  document.querySelectorAll('.form-control').forEach(el => {
-    if (el.type === 'text' || el.type === 'email' || el.type === 'number') el.value = '';
-    if (el.tagName === 'SELECT') el.selectedIndex = 0;
-  });
-  document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('selected-sim','selected-nao'));
-  document.querySelectorAll('.conditional').forEach(c => c.classList.remove('open'));
-  document.getElementById('areaTerreno').value = '';
-  document.getElementById('erroPasso1').style.display = 'none';
-  document.getElementById('erroPasso2').style.display = 'none';
-  document.getElementById('erroPasso3').style.display = 'none';
-  carregarCidades();
-  renderizar();
-}
+    // ===== INICIALIZAÇÃO =====
+    window.onload = function() {
+        const estados = Object.keys(cidadesPorEstado).sort();
+        const sel = document.getElementById('estadoSelect');
+        estados.forEach(uf => {
+            const opt = document.createElement('option');
+            opt.value = uf;
+            const nomes = { 'AC':'Acre','AL':'Alagoas','AM':'Amazonas','AP':'Amapá','BA':'Bahia','CE':'Ceará','DF':'Distrito Federal','ES':'Espírito Santo','GO':'Goiás','MA':'Maranhão','MG':'Minas Gerais','MS':'Mato Grosso do Sul','MT':'Mato Grosso','PA':'Pará','PB':'Paraíba','PE':'Pernambuco','PI':'Piauí','PR':'Paraná','RJ':'Rio de Janeiro','RN':'Rio Grande do Norte','RO':'Rondônia','RR':'Roraima','RS':'Rio Grande do Sul','SC':'Santa Catarina','SE':'Sergipe','SP':'São Paulo','TO':'Tocantins' };
+            opt.textContent = `${uf} — ${nomes[uf] || uf}`;
+            sel.appendChild(opt);
+        });
+    };
 
-function whatsapp() {
-  // Substitua 5516999999999 pelo número real da iBuild
-  const numero = '5516999999999';
-  const msg = encodeURIComponent(
-    'Olá! Fiz a simulação de capacidade no site da iBuild São Carlos.\n\n' +
-    'Nome: ' + S.nome + '\n' +
-    'Tel: ' + S.telefone + '\n' +
-    'Capital total: R$ ' + (S.totalCapital || 0).toLocaleString('pt-BR') + '\n\n' +
-    'Gostaria de solicitar um orçamento personalizado.'
-  );
-  window.open('https://wa.me/' + numero + '?text=' + msg, '_blank');
-}
+    function carregarCidades() {
+        const uf = document.getElementById('estadoSelect').value;
+        const sel = document.getElementById('cidadeSelect');
+        sel.innerHTML = '';
+        if (!uf) { sel.innerHTML = '<option value="">Selecione primeiro o estado</option>'; return; }
+        const cidades = cidadesPorEstado[uf] || [];
+        sel.appendChild(new Option('Selecione a cidade', ''));
+        cidades.forEach(c => sel.appendChild(new Option(c, c)));
+    }
+
+    // ===== TERRENO =====
+    function setTerreno(v) {
+        state.hasTerreno = v;
+        document.getElementById('terrenoSim').className = 'toggle-btn' + (v ? ' selected-yes' : '');
+        document.getElementById('terrenoNao').className = 'toggle-btn' + (!v ? ' selected-no' : '');
+        document.getElementById('terrenoFields').className = 'toggle-field' + (v ? ' open' : '');
+    }
+
+    function calcularAreaTerreno() {
+        const l = parseFloat(document.getElementById('terrenoLarg').value) || 0;
+        const c = parseFloat(document.getElementById('terrenoComp').value) || 0;
+        const area = l * c;
+        document.getElementById('areaTerrenoDisplay').textContent = area > 0 ? area.toFixed(2) + ' m²' : '—';
+    }
+
+    // ===== PROJETO =====
+    function setProjeto(v) {
+        state.hasProjeto = v;
+        document.getElementById('projetoSim').className = 'toggle-btn' + (v ? ' selected-yes' : '');
+        document.getElementById('projetoNao').className = 'toggle-btn' + (!v ? ' selected-no' : '');
+        document.getElementById('projetoField').className = 'toggle-field' + (v ? ' open' : '');
+    }
+
+    function exibirNomeArquivo() {
+        const file = document.getElementById('projetoFile').files[0];
+        const area = document.getElementById('fileUploadArea');
+        const display = document.getElementById('fileNameDisplay');
+        if (file) {
+            area.classList.add('has-file');
+            display.textContent = '📎 ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+        } else {
+            area.classList.remove('has-file');
+            display.textContent = '';
+        }
+    }
+
+    // ===== RECURSO PRÓPRIO =====
+    function setRecursoProprio(v) {
+        state.hasRecursoProprio = v;
+        document.getElementById('recursoSim').className = 'toggle-btn' + (v ? ' selected-yes' : '');
+        document.getElementById('recursoNao').className = 'toggle-btn' + (!v ? ' selected-no' : '');
+        document.getElementById('recursoField').className = 'toggle-field' + (v ? ' open' : '');
+    }
+
+    // ===== FINANCIAMENTO =====
+    function setFinanciamento(v) {
+        state.hasFinanciamento = v;
+        document.getElementById('financiaSim').className = 'toggle-btn' + (v ? ' selected-yes' : '');
+        document.getElementById('financiaNao').className = 'toggle-btn' + (!v ? ' selected-no' : '');
+        document.getElementById('financiaField').className = 'toggle-field' + (v ? ' open' : '');
+    }
+
+    // ===== NAVEGAÇÃO =====
+    function atualizarSteps(step) {
+        for (let i = 1; i <= 4; i++) {
+            const dot = document.getElementById('dot' + i);
+            const label = document.getElementById('label' + i);
+            const conn = document.getElementById('conn' + i);
+            dot.classList.remove('active', 'done');
+            label.classList.remove('active', 'done');
+            if (conn) conn.classList.remove('done');
+            if (i < step) {
+                dot.classList.add('done');
+                label.classList.add('done');
+                if (conn) conn.classList.add('done');
+            } else if (i === step) {
+                dot.classList.add('active');
+                label.classList.add('active');
+            }
+        }
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById('step' + i).className = 'card' + (i === step ? ' active' : '');
+        }
+        document.getElementById('stepIndicator').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function voltarPasso(para) {
+        state.step = para;
+        atualizarSteps(para);
+    }
+
+    // ===== VALIDAÇÕES =====
+    function validarPasso1() {
+        const nome = document.getElementById('nome').value.trim();
+        const tel = document.getElementById('telefone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        let ok = true;
+
+        document.getElementById('errNome').style.display = 'none';
+        document.getElementById('errTel').style.display = 'none';
+        document.getElementById('errEmail').style.display = 'none';
+
+        if (!nome) { document.getElementById('errNome').style.display = 'block'; ok = false; }
+        if (!tel || tel.replace(/\D/g,'').length < 10) { document.getElementById('errTel').style.display = 'block'; ok = false; }
+        if (!email || !email.includes('@') || !email.includes('.')) { document.getElementById('errEmail').style.display = 'block'; ok = false; }
+
+        if (!ok) return;
+
+        state.step = 2;
+        atualizarSteps(2);
+    }
+
+    function validarPasso2() {
+        if (state.hasTerreno === null) { alert('Por favor, informe se você já possui terreno.'); return; }
+        if (state.hasProjeto === null) { alert('Por favor, informe se você já possui projeto arquitetônico.'); return; }
+        const cidade = document.getElementById('cidadeSelect').value;
+        if (!cidade) { alert('Por favor, selecione a cidade da obra.'); return; }
+
+        state.step = 3;
+        atualizarSteps(3);
+    }
+
+    // ===== CÁLCULO FINANCEIRO =====
+    function calcularFinanciamento(rendaMensal) {
+        if (!rendaMensal || rendaMensal <= 0) return 0;
+        // Parâmetros de mercado: taxa ~9,5% a.a., prazo 35 anos (420 meses)
+        // Máxima parcela: ~30% da renda
+        const maxParcela = rendaMensal * 0.3;
+        const taxaMensal = 0.095 / 12; // 9,5% a.a.
+        const prazo = 420; // 35 anos
+
+        // Price: PV = PMT * [(1+i)^n - 1] / [i * (1+i)^n]
+        const fator = Math.pow(1 + taxaMensal, prazo);
+        if (!isFinite(fator)) return maxParcela * 240; // fallback simplificado
+        const financiamento = maxParcela * (fator - 1) / (taxaMensal * fator);
+        return isFinite(financiamento) ? financiamento : maxParcela * 240;
+    }
+
+    function calcularResumo() {
+        // Recurso próprio
+        let recursoProprio = 0;
+        if (state.hasRecursoProprio === true) {
+            recursoProprio = parseFloat(document.getElementById('recursoValor').value) || 0;
+        }
+
+        // Financiamento
+        let financiamento = 0;
+        if (state.hasFinanciamento === true) {
+            const renda = parseFloat(document.getElementById('rendaFamiliar').value) || 0;
+            financiamento = calcularFinanciamento(renda);
+        }
+
+        const totalDisponivel = recursoProprio + financiamento;
+
+        // Preços por m² (da planilha)
+        const precos = { Standard: 4000, Premium: 5000, Supreme: 6000 };
+
+        // Área do terreno
+        let areaTerreno = 0;
+        if (state.hasTerreno === true) {
+            const l = parseFloat(document.getElementById('terrenoLarg').value) || 0;
+            const c = parseFloat(document.getElementById('terrenoComp').value) || 0;
+            areaTerreno = l * c;
+        }
+
+        // Montar resultado
+        const nome = document.getElementById('nome').value.trim().split(' ')[0];
+        const cidade = document.getElementById('cidadeSelect').value;
+        const estado = document.getElementById('estadoSelect').value;
+
+        let html = `
+            <div class="greeting">Olá,</div>
+            <div class="name">${nome} 👋</div>
+            <div style="font-size:14px;opacity:0.85;margin-bottom:16px;">
+                📍 ${cidade}, ${estado}
+                ${state.hasTerreno === true ? ` · Terreno: ${areaTerreno.toFixed(2)} m²` : ''}
+                ${state.hasTerreno === false ? ' · Sem terreno definido' : ''}
+                ${state.hasProjeto === true ? ' · Possui projeto' : ' · Sem projeto'}
+            </div>
+            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.15);margin:12px 0;">
+            <div style="font-size:13px;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Seu Potencial Financeiro</div>
+            <div class="result-highlight">
+                <div class="box">
+                    <div class="value" style="font-size:22px;">${recursoProprio > 0 ? formatar(recursoProprio) : '—'}</div>
+                    <div class="label">Recurso Próprio</div>
+                </div>
+                <div class="box">
+                    <div class="value green" style="font-size:22px;">${financiamento > 0 ? formatar(financiamento) : '—'}</div>
+                    <div class="label">Financiamento Estimado</div>
+                </div>
+            </div>
+            <div style="background:rgba(255,255,255,0.12);border-radius:12px;padding:16px;text-align:center;margin-bottom:18px;">
+                <div style="font-size:12px;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px;">Total Disponível</div>
+                <div style="font-size:32px;font-weight:800;color:#fbbf24;">${totalDisponivel > 0 ? formatar(totalDisponivel) : '—'}</div>
+            </div>
+        `;
+
+        if (totalDisponivel > 0) {
+            html += `
+                <div style="font-size:13px;opacity:0.7;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Metragem que você pode construir</div>
+                <table class="result-table">
+                    <thead><tr><th>Padrão de Acabamento</th><th>Valor/m²</th><th>m² Possíveis</th></tr></thead>
+                    <tbody>
+            `;
+            for (const [padrao, preco] of Object.entries(precos)) {
+                const m2 = totalDisponivel / preco;
+                const icone = padrao === 'Standard' ? '🏠' : padrao === 'Premium' ? '⭐' : '👑';
+                html += `<tr>
+                    <td>${icone} ${padrao}</td>
+                    <td>${formatar(preco)}</td>
+                    <td><span class="highlight-value">${m2.toFixed(2)} m²</span></td>
+                </tr>`;
+            }
+            html += `</tbody></table>`;
+        }
+
+        if (state.hasTerreno === true && areaTerreno > 0) {
+            html += `<div style="font-size:12px;opacity:0.6;margin-top:10px;">🏗️ Área do terreno: ${areaTerreno.toFixed(2)} m² — considere o coeficiente de aproveitamento permitido pela prefeitura local.</div>`;
+        }
+
+        if (state.hasTerreno !== true) {
+            html += `<div style="font-size:12px;opacity:0.6;margin-top:10px;">💡 Você ainda não possui terreno. Considere incluir o valor do terreno no seu planejamento financeiro.</div>`;
+        }
+
+        document.getElementById('resultCard').innerHTML = html;
+        state.step = 4;
+        atualizarSteps(4);
+
+        // Salvar dados no localStorage
+        salvarDadosLocais(totalDisponivel, financiamento, recursoProprio);
+    }
+
+    function formatar(valor) {
+        return 'R$ ' + valor.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    function salvarDadosLocais(total, finance, recurso) {
+        const dados = {
+            nome: document.getElementById('nome').value.trim(),
+            telefone: document.getElementById('telefone').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            temTerreno: state.hasTerreno,
+            larguraTerreno: document.getElementById('terrenoLarg').value,
+            comprimentoTerreno: document.getElementById('terrenoComp').value,
+            temProjeto: state.hasProjeto,
+            estado: document.getElementById('estadoSelect').value,
+            cidade: document.getElementById('cidadeSelect').value,
+            temRecursoProprio: state.hasRecursoProprio,
+            recursoProprio: recurso,
+            temFinanciamento: state.hasFinanciamento,
+            rendaFamiliar: document.getElementById('rendaFamiliar').value,
+            financiamentoEstimado: finance,
+            totalDisponivel: total,
+            data: new Date().toISOString()
+        };
+        localStorage.setItem('ibuild_simulacao_' + Date.now(), JSON.stringify(dados));
+
+        // Preparar dados para integração futura com SharePoint
+        console.log('📦 Dados capturados para SharePoint:', JSON.stringify(dados, null, 2));
+    }
+
+    function imprimirPDF() {
+        window.print();
+    }
+
+    function resetarSimulacao() {
+        if (!confirm('Tem certeza? Os dados desta simulação serão perdidos.')) return;
+        location.reload();
+    }
+
+    function proximoPassoOrcamento() {
+        alert('📐 Ótimo! Em breve você poderá montar um orçamento personalizado com as medidas da sua casa. Um membro da nossa equipe entrará em contato para dar continuidade.');
+    }
 </script>
-
 </body>
 </html>
