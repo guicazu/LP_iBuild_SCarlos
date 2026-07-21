@@ -626,13 +626,22 @@
     font-display: swap;
 }
 
-        /* ===== BITRIX24 FORM ===== */
-.cta-form .b24-form {
-    max-width: 500px;
+/* ===== BITRIX24 FORM ===== */
+.cta-form {
+    max-width: 520px;
     margin: 0 auto;
+    background: var(--gray-100);
+    padding: 2rem;
+    border-radius: 16px;
+}
+.cta-form .b24-form {
+    background: transparent;
 }
 .cta-form .b24-form-wrapper {
     background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 .cta-form .b24-form-btn {
     width: 100% !important;
