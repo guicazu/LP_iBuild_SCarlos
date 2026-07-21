@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-book Steel Frame — 10 Mitos e Verdades | iBUILD São Carlos</title>
+    <meta name="description" content="Baixe grátis o e-book Steel Frame: 10 Mitos e Verdades. Guia com dados técnicos do IPT e normas NBR.">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        @font-face {
+            font-family: 'Transducer';
+            src: url('./fonts/Transducer-Regular.woff2') format('woff2'),
+                 url('./fonts/Transducer-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Transducer';
+            src: url('./fonts/Transducer-Medium.woff2') format('woff2'),
+                 url('./fonts/Transducer-Medium.woff') format('woff');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Transducer';
+            src: url('./fonts/Transducer-Bold.woff2') format('woff2'),
+                 url('./fonts/Transducer-Bold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Transducer';
+            src: url('./fonts/Transducer-Light.woff2') format('woff2'),
+                 url('./fonts/Transducer-Light.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #2A646B;
+            --primary-dark: #1E4A50;
+            --primary-light: #3A8A94;
+            --black: #1d1d1f;
+            --dark: #2d2d2d;
+            --gray-700: #424245;
+            --gray-500: #666;
+            --gray-300: #b2b2b2;
+            --gray-100: #f1f1f1;
+            --warm-white: #fbfbfd;
+            --white: #fff;
+            --gold: #C8A96E;
+            --font: 'Transducer', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--black);
+            background: var(--warm-white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: var(--white);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            padding: 0.8rem 2rem;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-logo { height: 22px; width: auto; }
+
+        .header-tag {
+            font-size: 0.65rem;
+            color: var(--gray-500);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(26,26,26,0.97) 0%, rgba(30,74,80,0.92) 100%);
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.12;
+            mix-blend-mode: overlay;
+        }
+
+        .hero-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (max-width: 820px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .hero { padding: 5rem 1.25rem 2.5rem; }
+        }
+
+        .hero-content { }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.08);
+            color: var(--gold);
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(200,169,110,0.2);
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--white);
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-title span { color: var(--gold); }
+
+        .hero-sub {
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        .hero-bullets {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .hero-bullet {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .hero-bullet .check {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: rgba(42,100,107,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 820px) {
+            .hero-content { text-align: center; }
+            .hero-bullets { align-items: center; }
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+            transition: opacity 0.4s;
+        }
+
+        .card.sent .card-form { display: none; }
+        .card.sent .card-success { display: block; }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--black);
+            text-align: center;
+            margin-bottom: 0.4rem;
+        }
+
+        .card-sub {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 1.1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 0.35rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1.5px solid var(--gray-300);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-family: var(--font);
+            color: var(--black);
+            background: var(--warm-white);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(42,100,107,0.08);
+        }
+
+        .form-group input.error { border-color: #d32f2f; }
+
+        .form-group .error-msg {
+            font-size: 0.72rem;
+            color: #d32f2f;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .form-group .error-msg.show { display: block; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary);
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: var(--font);
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+            position: relative;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-submit .spinner {
+            display: none;
+            width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin: 0 auto;
+        }
+
+        .btn-submit.loading .btn-text { display: none; }
+        .btn-submit.loading .spinner { display: block; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .form-disclaimer {
+            font-size: 0.68rem;
+            color: var(--gray-300);
+            text-align: center;
+            margin-top: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .card-success { display: none; }
+
+        .success-icon {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: rgba(42,100,107,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.6rem;
+        }
+
+        .success-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--black);
+            text-align: center;
+            margin-bottom: 0.4rem;
+        }
+
+        .success-text {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .success-email-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1rem;
+            background: var(--gray-100);
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            word-break: break-all;
+        }
+
+        .btn-whatsapp {
+            display: block;
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 10px;
+            background: #25D366;
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: var(--font);
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .btn-whatsapp:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-voltar {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.82rem;
+            color: var(--gray-500);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.72rem;
+            color: var(--gray-300);
+            background: var(--warm-white);
+        }
+
+        .footer strong { color: var(--gray-500); }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--black);
+            color: var(--white);
+            padding: 0.9rem 1.5rem;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 200;
+            text-align: center;
+            max-width: 90vw;
+        }
+
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        @media (max-width: 500px) {
+            .card { padding: 1.75rem 1.25rem; }
+            .header { padding: 0.6rem 1.25rem; }
+            .header-logo { height: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    
+    <header class="header">
+        
+            <img src="assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" class="header-logo">
+            E-book Gratuito
+        
+
+
+    </header>
+
+    
+    
+        
+            <img src="https://generated-images.adapta.one/cazu89%40gmail.com/019f863c-bab3-772e-9a5f-c6ac6d5df76a/2026-07-21T22-54-48-942Z_Original_user_intent_A_clean_modern_split_screen.png" alt="Construção em Steel Frame">
+        
+
+
+
+        
+
+            
+            
+                📖 Material Exclusivo e Gratuito
+                <h1 class="hero-title">Steel Frame:
+10 Mitos e Verdades</h1>
+                
+                    O guia definitivo com dados técnicos do **IPT** e normas **NBR** que derrubam os maiores mitos do Steel Frame.
+                
+
+
+                
+                    ✓ Dados técnicos reais
+                    ✓ 10 mitos desmistificados
+                    ✓ Checklist de contratação
+                    ✓ Conteúdo criado pela iBUILD São Carlos
+                
+
+
+            
+
+
+
+            
+            
+
+                
+                
+                    <h2 class="card-title">Baixe seu e-book grátis</h2>
+                    Preencha e receba o link de acesso no seu e-mail.
+
+
+
+                    <form id="leadForm" novalidate>
+                        
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" placeholder="Seu nome" required autocomplete="name">
+                            Informe seu nome
+
+
+                        
+
+
+
+                        
+                            <label for="email">E-mail *</label>
+                            <input type="email" id="email" placeholder="seu@email.com" required autocomplete="email">
+                            Informe um e-mail válido
+
+
+                        
+
+
+
+                        
+                            <label for="telefone">WhatsApp</label>
+                            <input type="tel" id="telefone" placeholder="(16) 99999-9999" autocomplete="tel">
+                            Informe um telefone válido com DDD
+
+
+                        
+
+
+
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            Quero receber o e-book
+                            
+                        </button>
+                    </form>
+
+                    Seus dados estão protegidos. Usaremos apenas para enviar o e-book e, se você quiser, oferecer uma consultoria gratuita.
+
+
+                
+
+
+
+                
+                
+                    📬
+
+
+                    <h2 class="success-title">E-book enviado!</h2>
+                    
+                        Enviamos o link do e-book para:
+
+                        ****
+                    
+
+
+                    
+                        ⏱ Pode levar até 2 minutos. Se não encontrar, verifique a **caixa de spam**.
+                    
+
+
+
+                    
+                        Quer falar direto com um engenheiro?
+                    
+
+
+                    <a href="https://wa.me/5516997634187?text=Ol%C3%A1%20Guilherme%21%20Acabei%20de%20baixar%20o%20e-book%20Steel%20Frame%20e%20gostaria%20de%20saber%20mais." class="btn-whatsapp" target="_blank">
+                        💬 Falar no WhatsApp
+                    </a>
+                    Quero informar outro e-mail
+                
+
+
+
+            
+
+
+        
+
+
+    
+
+
+
+    
+    <footer class="footer">
+        **iBUILD São Carlos** — Eng. Guilherme Cazú
+    </footer>
+
+    
+    
+
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script>
+    //
+    // ⚙️ CONFIGURAÇÃO — SUBSTITUA AQUI SEUS DADOS
+    //
+    const CONFIG = {
+        // ---- EmailJS ----
+        // Crie conta grátis em https://www.emailjs.com/
+        emailjs: {
+            serviceId: 'SEU_SERVICE_ID',    // ex: 'service_abc123'
+            templateId: 'SEU_TEMPLATE_ID',  // ex: 'template_def456'
+            publicKey: 'SUA_PUBLIC_KEY'     // ex: 'xyz789...'
+        },
+
+        // ---- E-book ----
+        ebookUrl: 'https://ibuildsaocarlos.com.br/ebook',
+
+        // ---- WhatsApp ----
+        whatsapp: '5516997634187'
+    };
+
+    // 
+    // ESTADO
+    // 
+    let formSubmitting = false;
+
+    // 
+    // DOM
+    // 
+    const $ = id => document.getElementById(id);
+    const card = $('card');
+    const form = $('leadForm');
+    const submitBtn = $('submitBtn');
+    const nomeInput = $('nome');
+    const emailInput = $('email');
+    const telInput = $('telefone');
+    const toast = $('toast');
+    const emailDisplay = $('emailDisplay');
+
+    // 
+    // MÁSCARA DE TELEFONE
+    // 
+    telInput.addEventListener('input', function() {
+        const digits = this.value.replace(/\D/g, '');
+        if (digits.length <= 2) this.value = `(${digits}`;
+        else if (digits.length <= 7) this.value = `(${digits.slice(0,2)}) ${digits.slice(2)}`;
+        else this.value = `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7,11)}`;
+    });
+
+    // 
+    // TOAST
+    // 
+    function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    // 
+    // VALIDAÇÕES
+    // 
+    function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function validatePhone(phone) {
+        if (!phone) return true; // campo opcional
+        const digits = phone.replace(/\D/g, '');
+        return digits.length >= 10 && digits.length <= 11;
+    }
+
+    // 
+    // ENVIAR E-MAIL VIA EMAILJS
+    // Envia 1 e-mail para o lead:
+    //   - Lead recebe o link + vê o próprio telefone no corpo
+    //   - Você recebe BCC (configurado no template do EmailJS)
+    // 
+    async function sendEmail(name, email, phone) {
+        try {
+            emailjs.init(CONFIG.emailjs.publicKey);
+            await emailjs.send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateId, {
+                to_name: name,
+                to_email: email,
+                telefone: phone || 'Não informado',
+                ebook_link: CONFIG.ebookUrl,
+                from_name: 'iBUILD São Carlos'
+            });
+            return true;
+        } catch (err) {
+            console.error('EmailJS error:', err);
+            return false;
+        }
+    }
+
+    // 
+    // SUBMIT
+    // 
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        if (formSubmitting) return;
+
+        // Validação
+        let valid = true;
+
+        const nome = nomeInput.value.trim();
+        if (!nome || nome.length < 2) {
+            $('nomeError').classList.add('show');
+            nomeInput.classList.add('error');
+            valid = false;
+        } else {
+            $('nomeError').classList.remove('show');
+            nomeInput.classList.remove('error');
+        }
+
+        const email = emailInput.value.trim().toLowerCase();
+        if (!validateEmail(email)) {
+            $('emailError').classList.add('show');
+            emailInput.classList.add('error');
+            valid = false;
+        } else {
+            $('emailError').classList.remove('show');
+            emailInput.classList.remove('error');
+        }
+
+        const phone = telInput.value.trim();
+        if (!validatePhone(phone)) {
+            $('telError').classList.add('show');
+            telInput.classList.add('error');
+            valid = false;
+        } else {
+            $('telError').classList.remove('show');
+            telInput.classList.remove('error');
+        }
+
+        if (!valid) return;
+
+        // Enviando...
+        formSubmitting = true;
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+
+        // Dispara 1 único e-mail (você recebe BCC configurado no template)
+        const sent = await sendEmail(nome, email, phone);
+
+        if (!sent) {
+            showToast('❌ Erro ao enviar. Verifique se o EmailJS está configurado.');
+            formSubmitting = false;
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            return;
+        }
+
+        // Sucesso!
+        emailDisplay.textContent = email;
+        card.classList.add('sent');
+        formSubmitting = false;
+    });
+
+    // 
+    // RESETAR
+    // 
+    function resetForm() {
+        card.classList.remove('sent');
+        form.reset();
+        document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('input.error').forEach(el => el.classList.remove('error'));
+    }
+    </script>
+
+</body>
+</html>
