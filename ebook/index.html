@@ -1,278 +1,1001 @@
-
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
- <head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20260717-05-8209e4e"}');</script><script src="/_sdk/f432b76fb310b513.telemetry_sdk.js" integrity="sha512-9FJQ55EKmmqhyyik8BhrMVfm0+iYYfb8uOlRsjtkxJMEI97qOVEI4PnHohDjQAtvAep0IOEpdQ64eki0sz62ug=="></script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Steel Frame — 10 Mitos e Verdades</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&amp;display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --ink: #102a43;
-      --navy: #06233d;
-      --orange: #ed6a2c;
-      --paper: #f7f4ee;
-      --steel: #cad4dc;
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: "Source Serif 4", Georgia, serif;
-      color: var(--ink);
-      background: var(--paper);
-    }
-    .sans { font-family: "DM Sans", sans-serif; }
-    .technical-grid {
-      background-image:
-        linear-gradient(rgba(16,42,67,.055) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(16,42,67,.055) 1px, transparent 1px);
-      background-size: 28px 28px;
-    }
-    .page-rule { border-top: 1px solid rgba(16,42,67,.18); }
-    .chapter-card { box-shadow: 0 20px 65px rgba(6,35,61,.09); }
-    .chapter-card:nth-child(even) .chapter-image { order: 2; }
-    .eyebrow { letter-spacing: .16em; text-transform: uppercase; }
-    .reveal { animation: rise .8s both; }
-    .reveal-delay { animation: rise .8s .15s both; }
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .nav-open { display: flex !important; }
-    @media (max-width: 768px) {
-      .chapter-card:nth-child(even) .chapter-image { order: initial; }
-    }
-  </style>
-  <script src="/_sdk/e3937a0574eb2d69.data_sdk.js" type="text/javascript" integrity="sha512-xbp/ACqEQy1aDxYMtXTrR3y5MUbzxuggRR/9sD48Gl4VhLMMCiAHsxMaFV6DTdeBpR6ymF+t2zhPKYkWM3+Jfw=="></script>
-  <script src="/_sdk/9432170dbd2ae0df.resizing_sdk.js" type="text/javascript" integrity="sha512-FeT+58sb1f9ejWPWFjCbJvTT+SDwGV+ngrHUnlO7TWEOoqwOLj6p256kO3vOL7DIWl1cIgrobiof8v2bOigwPg=="></script>
- </head>
- <body data-template-id="__page-root" class="w-full">
-  <header class="w-full sticky top-0 z-30 border-b border-white/10 bg-[#06233d]/95 backdrop-blur">
-   <div class="w-full max-w-7xl mx-auto px-5 py-4 flex items-center justify-between"><a href="#capa" data-template-id="nav-brand" class="canva-link sans text-sm font-bold tracking-[0.16em] uppercase"></a> <button id="menu-button" type="button" class="md:hidden text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-300" aria-label="Abrir menu" aria-expanded="false"> <i data-lucide="menu" class="w-5 h-5"></i> </button>
-    <nav id="main-nav" class="hidden md:flex absolute md:static top-full left-0 w-full md:w-auto flex-col md:flex-row gap-4 md:gap-6 p-5 md:p-0 bg-[#06233d] md:bg-transparent sans text-xs font-semibold uppercase tracking-wider" aria-label="Navegação do ebook"><a href="#apresentacao" data-template-id="nav-intro" class="canva-link hover:text-orange-300 transition-colors"></a> <a href="#mitos" data-template-id="nav-myths" class="canva-link hover:text-orange-300 transition-colors"></a> <a href="#checklist" data-template-id="nav-checklist" class="canva-link hover:text-orange-300 transition-colors"></a> <a href="#ibuild" data-template-id="nav-contact" class="canva-link hover:text-orange-300 transition-colors"></a>
-    </nav>
-   </div>
-  </header>
-  <main>
-   <section id="capa" class="w-full min-h-[calc(100*min(var(--vh,1vh),1vh))] bg-[#06233d] text-white relative overflow-hidden flex items-center">
-    <div class="absolute inset-0 opacity-25 technical-grid"></div>
-    <div class="absolute top-0 right-0 w-2/5 h-full border-l border-white/20"></div>
-    <div class="w-full max-w-7xl mx-auto px-5 py-16 lg:py-20 relative grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-     <div class="reveal">
-      <p data-template-id="cover-kicker" class="canva-text sans eyebrow text-xs font-bold text-orange-300 mb-7"></p>
-      <h1 data-template-id="cover-title" class="canva-text font-bold leading-[.92] mb-7"></h1>
-      <p data-template-id="cover-subtitle" class="canva-text text-xl md:text-2xl leading-relaxed max-w-xl text-slate-200"></p>
-      <div class="mt-10 flex flex-wrap items-center gap-4"><a href="#apresentacao" data-template-id="cover-cta" class="canva-button sans inline-flex items-center gap-2 px-6 py-4 font-bold rounded-sm transition-transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-white"> <i data-lucide="arrow-down" class="w-4 h-4"></i> </a> <span data-template-id="cover-date" class="canva-text sans text-xs tracking-widest uppercase text-slate-300"></span>
-      </div>
-     </div>
-     <div class="reveal-delay relative">
-      <div class="absolute -top-4 -left-4 w-full h-full border border-orange-300"></div><img data-template-id="cover-image" loading="lazy" class="canva-image relative w-full h-[420px] md:h-[520px] object-cover grayscale-[15%]">
-      <div data-template-id="cover-image-caption" class="canva-banner absolute bottom-0 right-0 max-w-xs p-5 sans text-sm leading-relaxed"></div>
-     </div>
-    </div>
-   </section>
-   <section id="apresentacao" class="w-full technical-grid py-20 md:py-28">
-    <div class="w-full max-w-5xl mx-auto px-5">
-     <div class="max-w-3xl">
-      <p data-template-id="intro-kicker" class="canva-text sans eyebrow text-xs font-bold text-[#ed6a2c] mb-5"></p>
-      <h2 data-template-id="intro-title" class="canva-text font-bold leading-tight mb-8"></h2>
-      <div class="page-rule pt-8 space-y-5 text-lg md:text-xl leading-relaxed">
-       <p data-template-id="intro-text-1" class="canva-text"></p>
-       <p data-template-id="intro-text-2" class="canva-text"></p>
-      </div>
-      <div class="mt-10 flex items-center gap-4">
-       <div class="w-12 h-12 rounded-full bg-[#ed6a2c] text-white flex items-center justify-center">
-        <i data-lucide="hard-hat" class="w-6 h-6"></i>
-       </div>
-       <div>
-        <p data-template-id="intro-author" class="canva-text sans font-bold"></p>
-        <p data-template-id="intro-company" class="canva-text sans text-sm text-slate-600"></p>
-       </div>
-      </div>
-     </div>
-     <div data-template-id="facts-panel" class="canva-panel mt-16 grid md:grid-cols-3 border border-slate-300">
-      <div class="p-7 border-b md:border-b-0 md:border-r border-slate-300">
-       <p data-template-id="fact-1-number" class="canva-text sans text-4xl font-bold text-[#ed6a2c]"></p>
-       <p data-template-id="fact-1-label" class="canva-text sans mt-2 text-sm font-semibold"></p>
-      </div>
-      <div class="p-7 border-b md:border-b-0 md:border-r border-slate-300">
-       <p data-template-id="fact-2-number" class="canva-text sans text-4xl font-bold text-[#ed6a2c]"></p>
-       <p data-template-id="fact-2-label" class="canva-text sans mt-2 text-sm font-semibold"></p>
-      </div>
-      <div class="p-7">
-       <p data-template-id="fact-3-number" class="canva-text sans text-4xl font-bold text-[#ed6a2c]"></p>
-       <p data-template-id="fact-3-label" class="canva-text sans mt-2 text-sm font-semibold"></p>
-      </div>
-     </div>
-    </div>
-   </section>
-   <section id="mitos" class="w-full py-20 md:py-28 bg-[#e9eef0]">
-    <div class="w-full max-w-7xl mx-auto px-5">
-     <div class="max-w-3xl mb-14">
-      <p data-template-id="myths-kicker" class="canva-text sans eyebrow text-xs font-bold text-[#ed6a2c] mb-4"></p>
-      <h2 data-template-id="myths-title" class="canva-text font-bold leading-tight"></h2>
-     </div>
-     <div class="space-y-10">
-      <article class="chapter-card grid md:grid-cols-5 bg-[#fdfcf9] overflow-hidden"><img data-template-id="myth-1-image" loading="lazy" class="canva-image chapter-image w-full h-72 md:h-full object-cover md:col-span-2">
-       <div class="md:col-span-3 p-7 md:p-10">
-        <p data-template-id="myth-1-number" class="canva-text sans eyebrow text-xs font-bold text-[#ed6a2c]"></p>
-        <h3 data-template-id="myth-1-title" class="canva-text font-bold mt-3 mb-7 leading-tight"></h3>
-        <p data-template-id="myth-1-myth" class="canva-text italic text-lg leading-relaxed border-l-4 border-[#ed6a2c] pl-5"></p>
-        <p data-template-id="myth-1-truth" class="canva-text mt-6 text-lg leading-relaxed"></p>
-        <p data-template-id="myth-1-source" class="canva-text sans mt-7 pt-5 page-rule text-xs font-semibold uppercase tracking-wide text-slate-500"></p>
-       </div>
-      </article>
-      <article class="chapter-card grid md:grid-cols-5 bg-[#06233d] text-white overflow-hidden"><img data-template-id="myth-2-image" loading="lazy" class="canva-image chapter-image w-full h-72 md:h-full object-cover md:col-span-2">
-       <div class="md:col-span-3 p-7 md:p-10">
-        <p data-template-id="myth-2-number" class="canva-text sans eyebrow text-xs font-bold text-orange-300"></p>
-        <h3 data-template-id="myth-2-title" class="canva-text font-bold mt-3 mb-7 leading-tight"></h3>
-        <p data-template-id="myth-2-myth" class="canva-text italic text-lg leading-relaxed border-l-4 border-orange-300 pl-5 text-slate-200"></p>
-        <p data-template-id="myth-2-truth" class="canva-text mt-6 text-lg leading-relaxed text-slate-100"></p>
-        <p data-template-id="myth-2-source" class="canva-text sans mt-7 pt-5 border-t border-white/20 text-xs font-semibold uppercase tracking-wide text-slate-400"></p>
-       </div>
-      </article>
-      <article class="chapter-card grid md:grid-cols-5 bg-[#fdfcf9] overflow-hidden"><img data-template-id="myth-3-image" loading="lazy" class="canva-image chapter-image w-full h-72 md:h-full object-cover md:col-span-2">
-       <div class="md:col-span-3 p-7 md:p-10">
-        <p data-template-id="myth-3-number" class="canva-text sans eyebrow text-xs font-bold text-[#ed6a2c]"></p>
-        <h3 data-template-id="myth-3-title" class="canva-text font-bold mt-3 mb-7 leading-tight"></h3>
-        <p data-template-id="myth-3-myth" class="canva-text italic text-lg leading-relaxed border-l-4 border-[#ed6a2c] pl-5"></p>
-        <p data-template-id="myth-3-truth" class="canva-text mt-6 text-lg leading-relaxed"></p>
-        <p data-template-id="myth-3-source" class="canva-text sans mt-7 pt-5 page-rule text-xs font-semibold uppercase tracking-wide text-slate-500"></p>
-       </div>
-      </article>
-      <article class="chapter-card grid md:grid-cols-5 bg-[#fdfcf9] overflow-hidden"><img data-template-id="myth-4-image" loading="lazy" class="canva-image chapter-image w-full h-72 md:h-full object-cover md:col-span-2">
-       <div class="md:col-span-3 p-7 md:p-10">
-        <p data-template-id="myth-4-number" class="canva-text sans eyebrow text-xs font-bold text-[#ed6a2c]"></p>
-        <h3 data-template-id="myth-4-title" class="canva-text font-bold mt-3 mb-7 leading-tight"></h3>
-        <p data-template-id="myth-4-myth" class="canva-text italic text-lg leading-relaxed border-l-4 border-[#ed6a2c] pl-5"></p>
-        <p data-template-id="myth-4-truth" class="canva-text mt-6 text-lg leading-relaxed"></p>
-        <p data-template-id="myth-4-source" class="canva-text sans mt-7 pt-5 page-rule text-xs font-semibold uppercase tracking-wide text-slate-500"></p>
-       </div>
-      </article>
-      <article class="chapter-card grid md:grid-cols-5 bg-[#06233d] text-white overflow-hidden"><img data-template-id="myth-5-image" loading="lazy" class="canva-image chapter-image w-full h-72 md:h-full object-cover md:col-span-2">
-       <div class="md:col-span-3 p-7 md:p-10">
-        <p data-template-id="myth-5-number" class="canva-text sans eyebrow text-xs font-bold text-orange-300"></p>
-        <h3 data-template-id="myth-5-title" class="canva-text font-bold mt-3 mb-7 leading-tight"></h3>
-        <p data-template-id="myth-5-myth" class="canva-text italic text-lg leading-relaxed border-l-4 border-orange-300 pl-5 text-slate-200"></p>
-        <p data-template-id="myth-5-truth" class="canva-text mt-6 text-lg leading-relaxed text-slate-100"></p>
-        <p data-template-id="myth-5-source" class="canva-text sans mt-7 pt-5 border-t border-white/20 text-xs font-semibold uppercase tracking-wide text-slate-400"></p>
-       </div>
-      </article>
-      <article class="chapter-card grid md:grid-cols-5 bg-[#fdfcf9] overflow-hidden"><img data-template-id="myth-6-image" loading="lazy" class="canva-image chapter-image w-full h-72 md:h-full object-cover md:col-span-2">
-       <div class="md:col-span-3 p-7 md:p-10">
-        <p data-template-id="myth-6-number" class="canva-text sans eyebrow text-xs font-bold text-[#ed6a2c]"></p>
-        <h3 data-template-id="myth-6-title" class="canva-text font-bold mt-3 mb-7 leading-tight"></h3>
-        <p data-template-id="myth-6-myth" class="canva-text italic text-lg leading-relaxed border-l-4 border-[#ed6a2c] pl-5"></p>
-        <p data-template-id="myth-6-truth" class="canva-text mt-6 text-lg leading-relaxed"></p>
-        <p data-template-id="myth-6-source" class="canva-text sans mt-7 pt-5 page-rule text-xs font-semibold uppercase tracking-wide text-slate-500"></p>
-       </div>
-      </article>
-      <article class="chapter-card grid md:grid-cols-5 bg-[#fdfcf9] overflow-hidden"><img data-template-id="myth-7-image" loading="lazy" class="canva-image chapter-image w-full h-72 md:h-full object-cover md:col-span-2">
-       <div class="md:col-span-3 p-7 md:p-10">
-        <p data-template-id="myth-7-number" class="canva-text sans eyebrow text-xs font-bold text-[#ed6a2c]"></p>
-        <h3 data-template-id="myth-7-title" class="canva-text font-bold mt-3 mb-7 leading-tight"></h3>
-        <p data-template-id="myth-7-myth" class="canva-text italic text-lg leading-relaxed border-l-4 border-[#ed6a2c] pl-5"></p>
-        <p data-template-id="myth-7-truth" class="canva-text mt-6 text-lg leading-relaxed"></p>
-        <p data-template-id="myth-7-source" class="canva-text sans mt-7 pt-5 page-rule text-xs font-semibold uppercase tracking-wide text-slate-500"></p>
-       </div>
-      </article>
-      <article class="chapter-card grid md:grid-cols-5 bg-[#06233d] text-white overflow-hidden"><img data-template-id="myth-8-image" loading="lazy" class="canva-image chapter-image w-full h-72 md:h-full object-cover md:col-span-2">
-       <div class="md:col-span-3 p-7 md:p-10">
-        <p data-template-id="myth-8-number" class="canva-text sans eyebrow text-xs font-bold text-orange-300"></p>
-        <h3 data-template-id="myth-8-title" class="canva-text font-bold mt-3 mb-7 leading-tight"></h3>
-        <p data-template-id="myth-8-myth" class="canva-text italic text-lg leading-relaxed border-l-4 border-orange-300 pl-5 text-slate-200"></p>
-        <p data-template-id="myth-8-truth" class="canva-text mt-6 text-lg leading-relaxed text-slate-100"></p>
-        <p data-template-id="myth-8-source" class="canva-text sans mt-7 pt-5 border-t border-white/20 text-xs font-semibold uppercase tracking-wide text-slate-400"></p>
-       </div>
-      </article>
-      <article class="chapter-card grid md:grid-cols-5 bg-[#fdfcf9] overflow-hidden">
-       <div class="md:col-span-2 bg-[#dbe6ea] flex items-center justify-center min-h-72 p-10"><i data-lucide="wrench" class="w-20 h-20 text-[#ed6a2c]"></i>
-       </div>
-       <div class="md:col-span-3 p-7 md:p-10">
-        <p data-template-id="myth-9-number" class="canva-text sans eyebrow text-xs font-bold text-[#ed6a2c]"></p>
-        <h3 data-template-id="myth-9-title" class="canva-text font-bold mt-3 mb-7 leading-tight"></h3>
-        <p data-template-id="myth-9-myth" class="canva-text italic text-lg leading-relaxed border-l-4 border-[#ed6a2c] pl-5"></p>
-        <p data-template-id="myth-9-truth" class="canva-text mt-6 text-lg leading-relaxed"></p>
-        <p data-template-id="myth-9-source" class="canva-text sans mt-7 pt-5 page-rule text-xs font-semibold uppercase tracking-wide text-slate-500"></p>
-       </div>
-      </article>
-      <article class="chapter-card grid md:grid-cols-5 bg-[#fdfcf9] overflow-hidden"><img data-template-id="myth-10-image" loading="lazy" class="canva-image chapter-image w-full h-72 md:h-full object-cover md:col-span-2">
-       <div class="md:col-span-3 p-7 md:p-10">
-        <p data-template-id="myth-10-number" class="canva-text sans eyebrow text-xs font-bold text-[#ed6a2c]"></p>
-        <h3 data-template-id="myth-10-title" class="canva-text font-bold mt-3 mb-7 leading-tight"></h3>
-        <p data-template-id="myth-10-myth" class="canva-text italic text-lg leading-relaxed border-l-4 border-[#ed6a2c] pl-5"></p>
-        <p data-template-id="myth-10-truth" class="canva-text mt-6 text-lg leading-relaxed"></p>
-        <p data-template-id="myth-10-source" class="canva-text sans mt-7 pt-5 page-rule text-xs font-semibold uppercase tracking-wide text-slate-500"></p>
-       </div>
-      </article>
-     </div>
-    </div>
-   </section>
-   <section id="checklist" class="w-full bg-[#ed6a2c] py-20 md:py-28">
-    <div class="w-full max-w-6xl mx-auto px-5">
-     <div class="grid lg:grid-cols-5 gap-10">
-      <div class="lg:col-span-2 text-white">
-       <p data-template-id="checklist-kicker" class="canva-text sans eyebrow text-xs font-bold mb-4 text-[#06233d]"></p>
-       <h2 data-template-id="checklist-title" class="canva-text font-bold leading-tight"></h2>
-       <p data-template-id="checklist-text" class="canva-text mt-6 text-lg leading-relaxed"></p>
-      </div>
-      <div data-template-id="checklist-panel" class="canva-panel lg:col-span-3 bg-[#fdfcf9] p-7 md:p-10">
-       <ol class="space-y-5">
-        <li class="flex gap-4"><span class="sans font-bold text-[#ed6a2c]">01</span><p data-template-id="check-1" class="canva-text text-lg"></p></li>
-        <li class="flex gap-4"><span class="sans font-bold text-[#ed6a2c]">02</span><p data-template-id="check-2" class="canva-text text-lg"></p></li>
-        <li class="flex gap-4"><span class="sans font-bold text-[#ed6a2c]">03</span><p data-template-id="check-3" class="canva-text text-lg"></p></li>
-        <li class="flex gap-4"><span class="sans font-bold text-[#ed6a2c]">04</span><p data-template-id="check-4" class="canva-text text-lg"></p></li>
-        <li class="flex gap-4"><span class="sans font-bold text-[#ed6a2c]">05</span><p data-template-id="check-5" class="canva-text text-lg"></p></li>
-        <li class="flex gap-4"><span class="sans font-bold text-[#ed6a2c]">06</span><p data-template-id="check-6" class="canva-text text-lg"></p></li>
-        <li class="flex gap-4"><span class="sans font-bold text-[#ed6a2c]">07</span><p data-template-id="check-7" class="canva-text text-lg"></p></li>
-       </ol>
-      </div>
-     </div>
-    </div>
-   </section>
-   <section id="ibuild" class="w-full bg-[#06233d] text-white py-20 md:py-28">
-    <div class="w-full max-w-7xl mx-auto px-5 grid lg:grid-cols-2 gap-12 items-center">
-     <div>
-      <p data-template-id="about-kicker" class="canva-text sans eyebrow text-xs font-bold text-orange-300 mb-5"></p>
-      <h2 data-template-id="about-title" class="canva-text font-bold leading-tight"></h2>
-      <p data-template-id="about-text" class="canva-text mt-7 text-lg leading-relaxed text-slate-200"></p>
-      <div class="mt-9 space-y-3 sans text-sm">
-       <p data-template-id="about-phone" class="canva-text"></p>
-       <p data-template-id="about-email" class="canva-text"></p>
-       <p data-template-id="about-location" class="canva-text"></p>
-      </div><a href="mailto:contato@ibuildsaocarlos.com.br" target="_blank" rel="noopener noreferrer" data-template-id="about-cta" class="canva-button sans mt-9 inline-flex items-center gap-2 px-6 py-4 font-bold rounded-sm hover:bg-white hover:text-[#06233d] transition-colors"> <i data-lucide="mail" class="w-4 h-4"></i> </a>
-     </div>
-     <div class="relative">
-      <div class="absolute inset-0 translate-x-4 translate-y-4 border border-orange-300"></div><img data-template-id="about-image" loading="lazy" class="canva-image relative w-full h-[430px] object-cover">
-     </div>
-    </div>
-   </section>
-  </main>
-  <footer class="w-full bg-[#031827] text-slate-300 py-8">
-   <div class="w-full max-w-7xl mx-auto px-5 flex flex-col md:flex-row justify-between gap-3 sans text-xs">
-    <p data-template-id="footer-copy" class="canva-text"></p>
-    <p data-template-id="footer-note" class="canva-text"></p>
-   </div>
-  </footer>
-  <script src="/_sdk/b7bbbe551ba4f8f5.editing_sdk.js" integrity="sha512-h06pMz6KcVo4Wjvoggb4sS5DZpb55bTriAzBmA0YwbkBA3z2ZXl8CBEbCWT+/fAsm0SwDejJ7jJHOZsLZKqPoQ=="></script>
-  <script>
-    document.getElementById('menu-button').addEventListener('click', function () {
-      const nav = document.getElementById('main-nav');
-      const open = nav.classList.toggle('nav-open');
-      this.setAttribute('aria-expanded', String(open));
-    });
-    document.querySelectorAll('#main-nav a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        document.getElementById('main-nav').classList.remove('nav-open');
-        document.getElementById('menu-button').setAttribute('aria-expanded', 'false');
-      });
-    });
-    lucide.createIcons();
-  </script>
- </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steel Frame: 10 Mitos e Verdades | iBUILD São Carlos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #2A646B;
+            --primary-dark: #1E4A50;
+            --primary-light: #3A8A94;
+            --black: #000000;
+            --dark: #1A1A1A;
+            --gray-900: #222222;
+            --gray-700: #333333;
+            --gray-500: #666666;
+            --gray-300: #B2B2B2;
+            --gray-100: #F1F1F1;
+            --white: #FFFFFF;
+            --accent: #E8B84B;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--gray-900);
+            background: var(--white);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== COVER ===== */
+        .cover {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--black) 0%, var(--gray-900) 50%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 3rem 2rem;
+            overflow: hidden;
+        }
+
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://generated-images.adapta.one/cazu89%40gmail.com/019f863c-bab3-772e-9a5f-c6ac6d5df76a/2026-07-21T19-57-56-686Z_Original_user_intent_A_modern_clean_architectura.png') center/cover no-repeat;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .cover > * { position: relative; z-index: 1; }
+
+        .cover-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 2.5rem;
+        }
+
+        .cover h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            max-width: 800px;
+            margin-bottom: 1rem;
+        }
+
+        .cover h1 span { color: var(--primary-light); }
+
+        .cover-subtitle {
+            font-size: clamp(1rem, 2vw, 1.35rem);
+            font-weight: 300;
+            color: var(--gray-300);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .cover-divider {
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .cover-meta {
+            font-size: 0.85rem;
+            color: var(--gray-300);
+            letter-spacing: 1px;
+        }
+
+        .cover-meta strong { color: var(--white); }
+
+        .cover-slogan {
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        /* ===== SECTION COMMON ===== */
+        section { padding: 5rem 2rem; }
+
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 800;
+            color: var(--black);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title .highlight { color: var(--primary); }
+
+        .section-text {
+            font-size: 1.05rem;
+            color: var(--gray-500);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ===== APRESENTAÇÃO ===== */
+        .presentation {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .presentation-author {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--gray-100);
+            border-radius: 12px;
+        }
+
+        .presentation-author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 800;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .presentation-author-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        .presentation-author-info p {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+
+        /* ===== ÍNDICE ===== */
+        .toc {
+            background: var(--gray-100);
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .toc-grid { grid-template-columns: 1fr; }
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.9rem 1.2rem;
+            background: var(--white);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--gray-700);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-left: 3px solid var(--primary);
+        }
+
+        .toc-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .toc-num {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 0.8rem;
+            min-width: 28px;
+        }
+
+        /* ===== MYTH SECTIONS ===== */
+        .myth {
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .myth:nth-child(even) {
+            background: var(--gray-100);
+        }
+
+        .myth-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .myth h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 0.25rem;
+        }
+
+        .myth-subtitle {
+            font-size: 0.85rem;
+            color: var(--gray-300);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .myth-block {
+            background: rgba(178, 178, 178, 0.1);
+            border-left: 4px solid #D32F2F;
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .myth-block-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #D32F2F;
+            margin-bottom: 0.4rem;
+        }
+
+        .myth-block p {
+            font-size: 0.95rem;
+            color: var(--gray-500);
+            line-height: 1.7;
+        }
+
+        .truth-block {
+            background: rgba(42, 100, 107, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .truth-block-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .truth-block p {
+            font-size: 0.95rem;
+            color: var(--gray-700);
+            line-height: 1.7;
+        }
+
+        .source-block {
+            font-size: 0.8rem;
+            color: var(--gray-300);
+            padding: 0.75rem 1rem;
+            background: var(--white);
+            border-radius: 8px;
+            border: 1px solid var(--gray-100);
+        }
+
+        .source-block strong {
+            color: var(--gray-700);
+        }
+
+        /* ===== BÔNUS CHECKLIST ===== */
+        .bonus {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: var(--white);
+        }
+
+        .bonus .section-title { color: var(--white); }
+        .bonus .section-text { color: rgba(255,255,255,0.8); }
+        .bonus .section-tag { color: var(--accent); }
+
+        .checklist-grid {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+        }
+
+        .checklist-num {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            min-width: 36px;
+            line-height: 1;
+        }
+
+        .checklist-item h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .checklist-item p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.5;
+        }
+
+        /* ===== CTA LEAD CAPTURE ===== */
+        .cta-section {
+            background: var(--black);
+            color: var(--white);
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.05rem;
+            color: var(--gray-300);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .cta-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .cta-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(42, 100, 107, 0.3);
+        }
+
+        .cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            border: 2px solid var(--gray-500);
+            transition: all 0.3s;
+        }
+
+        .cta-secondary:hover {
+            border-color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .cta-form {
+            max-width: 500px;
+            margin: 2rem auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .cta-form input {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--gray-700);
+            background: var(--gray-900);
+            color: var(--white);
+            font-size: 0.95rem;
+            font-family: var(--font);
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .cta-form input:focus {
+            border-color: var(--primary);
+        }
+
+        .cta-form input::placeholder {
+            color: var(--gray-300);
+        }
+
+        .cta-form button {
+            padding: 1rem;
+            border-radius: 8px;
+            border: none;
+            background: var(--primary);
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: background 0.2s;
+        }
+
+        .cta-form button:hover {
+            background: var(--primary-light);
+        }
+
+        .cta-form-disclaimer {
+            font-size: 0.75rem;
+            color: var(--gray-300);
+            margin-top: 0.5rem;
+        }
+
+        /* ===== SOBRE ===== */
+        .about {
+            background: var(--white);
+            text-align: center;
+        }
+
+        .about-logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--black);
+            letter-spacing: -1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .about-logo span { color: var(--primary); }
+
+        .about-slogan {
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-contact {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--gray-500);
+        }
+
+        .about-contact a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .about-contact a:hover { text-decoration: underline; }
+
+        .about-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray-100);
+            font-size: 0.8rem;
+            color: var(--gray-300);
+        }
+
+        /* ===== VALUES BAR ===== */
+        .values-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .values-bar span {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.4rem 1rem;
+            background: var(--gray-100);
+            color: var(--gray-500);
+            border-radius: 50px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            section { padding: 3rem 1.25rem; }
+            .cover { padding: 2rem 1.25rem; min-height: 90vh; }
+            .myth h3 { font-size: 1.3rem; }
+            .presentation-author { flex-direction: column; text-align: center; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .about-contact { flex-direction: column; gap: 0.75rem; }
+        }
+
+        /* ===== PRINT ===== */
+        @media print {
+            .cover { min-height: 100vh; }
+            section { page-break-inside: avoid; }
+            .myth { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== COVER ===== -->
+    <header class="cover">
+        <div class="cover-badge">E-Book Exclusivo</div>
+        <h1>Steel Frame:<br><span>10 Mitos e Verdades</span></h1>
+        <p class="cover-subtitle">O guia definitivo com dados técnicos reais que derrubam os maiores mitos do Steel Frame — e ajudam você a tomar a melhor decisão para sua família.</p>
+        <div class="cover-divider"></div>
+        <p class="cover-meta"><strong>iBUILD São Carlos</strong> &nbsp;|&nbsp; Eng. Guilherme Cazú &nbsp;|&nbsp; Julho 2026</p>
+        <p class="cover-slogan">"Deixa com a gente, nós construímos!"</p>
+    </header>
+
+    <!-- ===== APRESENTAÇÃO ===== -->
+    <section class="presentation">
+        <div class="container">
+            <span class="section-tag">Apresentação</span>
+            <h2 class="section-title">Por que este guia existe</h2>
+            <p class="section-text">
+                Se você está pensando em construir sua casa, provavelmente já ouviu falar do <strong>Steel Frame</strong>. E provavelmente também já ouviu aquelas dúvidas que todo mundo tem: <em>"pega fogo?", "enferruja?", "é frágil?", "não dura?"</em>
+            </p>
+            <p class="section-text">
+                Este guia foi criado pela <strong>iBUILD São Carlos</strong> para responder de uma vez por todas às <strong>10 maiores dúvidas</strong> sobre o Steel Frame — com dados técnicos reais, respaldados por ensaios do <strong>IPT (Instituto de Pesquisas Tecnológicas)</strong>, normas técnicas brasileiras (<strong>NBR</strong>) e cases reais de obras.
+            </p>
+            <p class="section-text">
+                Aqui você não vai encontrar opinião. Você vai encontrar <strong>fatos, números e evidências</strong> para tomar a melhor decisão para a sua família.
+            </p>
+
+            <div class="values-bar">
+                <span>Disciplina</span>
+                <span>Respeito</span>
+                <span>Excelência</span>
+                <span>Atitude Positiva</span>
+                <span>Melhoria Contínua</span>
+                <span>Simplicidade</span>
+            </div>
+
+            <div class="presentation-author">
+                <div class="presentation-author-avatar">GC</div>
+                <div class="presentation-author-info">
+                    <h4>Eng. Guilherme Cazú</h4>
+                    <p>Proprietário e Responsável Técnico — iBUILD São Carlos</p>
+                    <p style="font-size:0.8rem;color:var(--gray-300);margin-top:0.25rem;">Especialista em Light Steel Frame · Construção Chave na Mão</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ÍNDICE ===== -->
+    <section class="toc">
+        <div class="container">
+            <span class="section-tag">Navegue pelo Guia</span>
+            <h2 class="section-title">Índice</h2>
+            <div class="toc-grid">
+                <a href="#mito1" class="toc-item"><span class="toc-num">Mito 1</span> "Steel Frame não dura"</a>
+                <a href="#mito2" class="toc-item"><span class="toc-num">Mito 2</span> "Pega fogo e derrete"</a>
+                <a href="#mito3" class="toc-item"><span class="toc-num">Mito 3</span> "É frio no inverno e quente no verão"</a>
+                <a href="#mito4" class="toc-item"><span class="toc-num">Mito 4</span> "Parede frágil, não segura armário"</a>
+                <a href="#mito5" class="toc-item"><span class="toc-num">Mito 5</span> "Enferruja com o tempo"</a>
+                <a href="#mito6" class="toc-item"><span class="toc-num">Mito 6</span> "É barulhento, parece lata"</a>
+                <a href="#mito7" class="toc-item"><span class="toc-num">Mito 7</span> "Desvaloriza o imóvel"</a>
+                <a href="#mito8" class="toc-item"><span class="toc-num">Mito 8</span> "Atrai raios"</a>
+                <a href="#mito9" class="toc-item"><span class="toc-num">Mito 9</span> "Dá muita manutenção"</a>
+                <a href="#mito10" class="toc-item"><span class="toc-num">Mito 10</span> "Infiltração e umidade"</a>
+                <a href="#bonus" class="toc-item" style="border-left-color:var(--accent);"><span class="toc-num" style="color:var(--accent);">★</span> Checklist: 7 Perguntas para Fazer Antes de Contratar</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MITO 1 ===== -->
+    <section class="myth" id="mito1">
+        <div class="container">
+            <div class="myth-number">1</div>
+            <h3>"Steel Frame não dura"</h3>
+            <p class="myth-subtitle">Mito & Verdade</p>
+
+            <div class="myth-block">
+                <div class="myth-block-label">O Mito</div>
+                <p>Muitas pessoas acreditam que a construção em aço é uma "novidade passageira" ou um sistema experimental que não possui histórico de durabilidade. Existe o receio comum de que uma casa de Steel Frame dure significativamente menos que uma construção de alvenaria convencional.</p>
+            </div>
+
+            <div class="truth-block">
+                <div class="truth-block-label">A Verdade</div>
+                <p>A primeira casa em Steel Frame do mundo foi construída em <strong>1933</strong>, em Chicago, e permanece em perfeito estado de conservação até hoje. No Brasil, o <strong>IPT</strong> realizou ensaios de envelhecimento acelerado que comprovam uma <strong>vida útil superior a 100 anos</strong> para estruturas em aço galvanizado. O aço utilizado é protegido por uma camada de zinco que impede a degradação química do material.</p>
+                <p style="margin-top:0.75rem;">Diferente da alvenaria, que sofre com a porosidade e a movimentação térmica constante (gerando trincas e fissuras), o Steel Frame é um sistema industrializado com <strong>tolerâncias milimétricas</strong>. A estrutura não "trabalha" de forma a comprometer sua integridade ao longo das décadas.</p>
+            </div>
+
+            <div class="source-block">
+                <strong>Fonte:</strong> NBR 15253 (Perfis de aço formados a frio para Light Steel Framing) e Relatórios Técnicos de Ensaio de Durabilidade do IPT.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MITO 2 ===== -->
+    <section class="myth" id="mito2">
+        <div class="container">
+            <div class="myth-number">2</div>
+            <h3>"Pega fogo e derrete"</h3>
+            <p class="myth-subtitle">Mito & Verdade</p>
+
+            <div class="myth-block">
+                <div class="myth-block-label">O Mito</div>
+                <p>O senso comum sugere que, por ser uma estrutura metálica "leve", o Steel Frame seria vulnerável a incêndios, derretendo rapidamente e causando o colapso da residência em poucos minutos.</p>
+            </div>
+
+            <div class="truth-block">
+                <div class="truth-block-label">A Verdade</div>
+                <p>O aço é um material <strong>incombustível</strong>. Ele não queima, não propaga chamas e não emite gases tóxicos. As residências em Steel Frame são projetadas com sistemas de proteção passiva que garantem resistência ao fogo <strong>CF-90 (90 minutos)</strong>, através do uso de placas de gesso acartonado especiais e isolamentos como a lã de rocha, que possui ponto de fusão acima de <strong>1.000°C</strong>.</p>
+                <p style="margin-top:0.75rem;">Em um incêndio, o objetivo principal é a preservação da vida. O sistema LSF garante que a estrutura mantenha sua estabilidade por tempo suficiente para a evacuação total e o combate às chamas.</p>
+            </div>
+
+            <div class="source-block">
+                <strong>Fonte:</strong> NBR 14432 (Exigências de resistência ao fogo de elementos construtivos) e ensaios de resistência ao fogo realizados em laboratórios acreditados pelo INMETRO.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MITO 3 ===== -->
+    <section class="myth" id="mito3">
+        <div class="container">
+            <div class="myth-number">3</div>
+            <h3>"É frio no inverno e quente no verão"</h3>
+            <p class="myth-subtitle">Mito & Verdade</p>
+
+            <div class="myth-block">
+                <div class="myth-block-label">O Mito</div>
+                <p>Existe a percepção de que, por ser "oco" ou feito de metal, o sistema não teria capacidade de isolar a temperatura externa, tornando a casa dependente de ar-condicionado 24 horas por dia.</p>
+            </div>
+
+            <div class="truth-block">
+                <div class="truth-block-label">A Verdade</div>
+                <p>O Steel Frame oferece um <strong>desempenho térmico muito superior</strong> à alvenaria. Enquanto o tijolo armazena o calor do sol durante o dia e o libera para dentro da casa à noite (inércia térmica negativa), o Steel Frame utiliza o conceito de isolamento térmico. As paredes funcionam como uma <strong>garrafa térmica</strong>, mantendo a temperatura interna estável.</p>
+                <p style="margin-top:0.75rem;">Com o uso de lã de vidro ou lã de PET no recheio das paredes, é possível manter a casa até <strong>5°C mais fresca no verão</strong> e significativamente mais quente no inverno. Isso resulta em uma <strong>economia de até 30% na conta de energia</strong>.</p>
+            </div>
+
+            <div class="source-block">
+                <strong>Fonte:</strong> NBR 15220 (Desempenho térmico de edificações) e estudos de eficiência energética da CBIC.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MITO 4 ===== -->
+    <section class="myth" id="mito4">
+        <div class="container">
+            <div class="myth-number">4</div>
+            <h3>"Parede frágil, não segura armário"</h3>
+            <p class="myth-subtitle">Mito & Verdade</p>
+
+            <div class="myth-block">
+                <div class="myth-block-label">O Mito</div>
+                <p>Há quem pense que as paredes de Steel Frame são ocas e frágeis, incapazes de suportar o peso de armários, televisores ou prateleiras.</p>
+            </div>
+
+            <div class="truth-block">
+                <div class="truth-block-label">A Verdade</div>
+                <p>As paredes de Steel Frame são dimensionadas para suportar <strong>cargas suspensas de até 50kg por ponto de fixação direta</strong> nos montantes. A iBUILD entrega o "Manual do Usuário" indicando a localização exata dos perfis estruturais para facilitar a instalação de armários, televisores e prateleiras sem comprometer a integridade do sistema.</p>
+                <p style="margin-top:0.75rem;">A resistência mecânica é testada conforme a <strong>NBR 15575-4</strong>, que simula impactos de corpo mole e corpo duro, garantindo que a parede não sofra danos por uso cotidiano ou acidentes domésticos leves.</p>
+            </div>
+
+            <div class="source-block">
+                <strong>Fonte:</strong> NBR 15575-4 (Sistemas de vedações verticais externas e internas) e ensaios de impacto do IPT.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MITO 5 ===== -->
+    <section class="myth" id="mito5">
+        <div class="container">
+            <div class="myth-number">5</div>
+            <h3>"Enferruja com o tempo"</h3>
+            <p class="myth-subtitle">Mito & Verdade</p>
+
+            <div class="myth-block">
+                <div class="myth-block-label">O Mito</div>
+                <p>Uma das preocupações mais comuns é que a estrutura metálica enferrujaria com o passar dos anos, comprometendo a segurança da edificação.</p>
+            </div>
+
+            <div class="truth-block">
+                <div class="truth-block-label">A Verdade</div>
+                <p>Todo o aço utilizado na estrutura possui <strong>revestimento de zinco mínimo de 275 g/m² (Z275)</strong>, conforme exigido pela <strong>NBR 15253</strong>. A galvanização por imersão a quente cria uma barreira física e química (proteção catódica) que impede o contato do oxigênio com o ferro, <strong>eliminando o risco de oxidação</strong>.</p>
+                <p style="margin-top:0.75rem;">Este processo garante que a estrutura mantenha sua capacidade de carga intacta por <strong>mais de um século</strong>, mesmo em regiões com umidade relativa do ar elevada.</p>
+            </div>
+
+            <div class="source-block">
+                <strong>Fonte:</strong> NBR 15253 e NBR 7008 (Chapas de aço revestidas com zinco). Ensaios de corrosão acelerada do IPT.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MITO 6 ===== -->
+    <section class="myth" id="mito6">
+        <div class="container">
+            <div class="myth-number">6</div>
+            <h3>"É barulhento, parece lata"</h3>
+            <p class="myth-subtitle">Mito & Verdade</p>
+
+            <div class="myth-block">
+                <div class="myth-block-label">O Mito</div>
+                <p>A ideia de que uma casa de metal seria barulhenta, ecoando como uma "lata" a cada passo ou chuva.</p>
+            </div>
+
+            <div class="truth-block">
+                <div class="truth-block-label">A Verdade</div>
+                <p>O sistema de vedação atinge um <strong>índice de redução sonora (Rw) mínimo de 45 dB</strong> para paredes externas e entre dormitórios, superando os requisitos da NBR 15575-4. O sistema "massa-mola-massa" (placa-isolante-placa) é <strong>tecnicamente superior à parede de tijolo maciço</strong> no bloqueio de frequências sonoras variadas.</p>
+                <p style="margin-top:0.75rem;">Com o uso de lã de rocha ou lã de vidro no interior das paredes, o isolamento acústico de uma casa em Steel Frame é <strong>superior ao da alvenaria convencional</strong>, garantindo silêncio e privacidade.</p>
+            </div>
+
+            <div class="source-block">
+                <strong>Fonte:</strong> NBR 15575-4 (Desempenho acústico) e ensaios de laboratório de acústica.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MITO 7 ===== -->
+    <section class="myth" id="mito7">
+        <div class="container">
+            <div class="myth-number">7</div>
+            <h3>"Desvaloriza o imóvel"</h3>
+            <p class="myth-subtitle">Mito & Verdade</p>
+
+            <div class="myth-block">
+                <div class="myth-block-label">O Mito</div>
+                <p>Alguns acreditam que, por ser um sistema construtivo diferente do tradicional, o Steel Frame desvalorizaria o imóvel na hora da revenda.</p>
+            </div>
+
+            <div class="truth-block">
+                <div class="truth-block-label">A Verdade</div>
+                <p>O Steel Frame é um sistema construtivo <strong>certificado e normatizado pela ABNT</strong>. Imóveis construídos com este sistema possuem <strong>maior eficiência energética, melhor conforto térmico e acústico</strong>, e documentação técnica completa — atributos cada vez mais valorizados pelo mercado imobiliário.</p>
+                <p style="margin-top:0.75rem;">Além disso, a <strong>flexibilidade arquitetônica</strong> permite vãos livres maiores e maior facilidade para reformas futuras, tornando o imóvel mais adaptável e, portanto, <strong>mais valorizado</strong> no mercado.</p>
+            </div>
+
+            <div class="source-block">
+                <strong>Fonte:</strong> Pesquisas de mercado imobiliário e tendências de valorização de imóveis sustentáveis e eficientes.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MITO 8 ===== -->
+    <section class="myth" id="mito8">
+        <div class="container">
+            <div class="myth-number">8</div>
+            <h3>"Atrai raios"</h3>
+            <p class="myth-subtitle">Mito & Verdade</p>
+
+            <div class="myth-block">
+                <div class="myth-block-label">O Mito</div>
+                <p>Muita gente teme que uma estrutura metálica atraia descargas elétricas durante tempestades, colocando a família em risco.</p>
+            </div>
+
+            <div class="truth-block">
+                <div class="truth-block-label">A Verdade</div>
+                <p>A estrutura metálica da edificação deve ser devidamente aterrada conforme a <strong>NBR 5419</strong>. Diferente do mito popular, a estrutura de aço <strong>não atrai raios</strong>, mas atua como uma <strong>Gaiola de Faraday</strong>, proporcionando um caminho seguro para a dissipação da energia elétrica em caso de incidência direta ou próxima, protegendo os equipamentos eletrônicos e, principalmente, <strong>a vida dos ocupantes</strong>.</p>
+                <p style="margin-top:0.75rem;">Uma casa em Steel Frame com aterramento adequado é <strong>mais segura</strong> contra descargas atmosféricas do que uma casa de alvenaria sem proteção.</p>
+            </div>
+
+            <div class="source-block">
+                <strong>Fonte:</strong> NBR 5419 (Proteção contra descargas atmosféricas) e laudos de engenharia elétrica.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MITO 9 ===== -->
+    <section class="myth" id="mito9">
+        <div class="container">
+            <div class="myth-number">9</div>
+            <h3>"Dá muita manutenção"</h3>
+            <p class="myth-subtitle">Mito & Verdade</p>
+
+            <div class="myth-block">
+                <div class="myth-block-label">O Mito</div>
+                <p>A ideia de que uma casa de Steel Frame exigiria manutenção constante e cara para manter a estrutura em bom estado.</p>
+            </div>
+
+            <div class="truth-block">
+                <div class="truth-block-label">A Verdade</div>
+                <p>A manutenção de uma casa em Steel Frame é <strong>simplificada</strong> e semelhante à de qualquer construção de alto padrão. A iBUILD entrega, no ato do recebimento das chaves, o <strong>Manual de Uso, Operação e Manutenção</strong>, conforme as diretrizes da <strong>NBR 14037</strong>, detalhando a periodicidade das inspeções.</p>
+                <p style="margin-top:0.75rem;">As instalações hidráulicas e elétricas passam por dentro das paredes sem necessidade de quebrar alvenaria, o que <strong>reduz o custo de reformas em até 50%</strong> em comparação com o sistema tradicional.</p>
+            </div>
+
+            <div class="source-block">
+                <strong>Fonte:</strong> NBR 14037 (Manual de operação, uso e manutenção das edificações) e diretrizes de garantia do CBCS.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MITO 10 ===== -->
+    <section class="myth" id="mito10">
+        <div class="container">
+            <div class="myth-number">10</div>
+            <h3>"Infiltração e umidade"</h3>
+            <p class="myth-subtitle">Mito & Verdade</p>
+
+            <div class="myth-block">
+                <div class="myth-block-label">O Mito</div>
+                <p>O receio de que as paredes de Steel Frame sejam suscetíveis a infiltrações e acúmulo de umidade interna.</p>
+            </div>
+
+            <div class="truth-block">
+                <div class="truth-block-label">A Verdade</div>
+                <p>É obrigatória a aplicação de <strong>membrana hidrófuga</strong> (tipo Tyvek ou similar) em toda a face externa da estrutura. Esta membrana permite a saída de vapor de dentro para fora (evitando condensação interna), mas <strong>impede totalmente a entrada de água da chuva</strong> de fora para dentro.</p>
+                <p style="margin-top:0.75rem;">Banheiros, cozinhas e áreas de serviço recebem tratamento de impermeabilização rigoroso com membranas líquidas ou mantas asfálticas. A iBUILD realiza o <strong>teste de estanqueidade</strong> (enchimento de áreas por 72 horas) antes da colocação dos revestimentos, garantindo <strong>100% de eficácia</strong>.</p>
+            </div>
+
+            <div class="source-block">
+                <strong>Fonte:</strong> NBR 15575 (Estanqueidade) e protocolos de impermeabilização da iBUILD São Carlos.
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== IMAGEM DESTAQUE ===== -->
+    <section style="padding:0;background:var(--gray-900);">
+        <img src="https://generated-images.adapta.one/cazu89%40gmail.com/019f863c-bab3-772e-9a5f-c6ac6d5df76a/2026-07-21T19-59-46-324Z_Original_user_intent_A_beautiful_modern_residenti.png" alt="Casa em Steel Frame - iBUILD São Carlos" style="width:100%;max-height:500px;object-fit:cover;display:block;opacity:0.9;">
+    </section>
+
+    <!-- ===== BÔNUS CHECKLIST ===== -->
+    <section class="bonus" id="bonus">
+        <div class="container">
+            <span class="section-tag">Bônus Exclusivo</span>
+            <h2 class="section-title">7 Perguntas para Fazer Antes de Contratar</h2>
+            <p class="section-text">Use este checklist na hora de escolher sua construtora. São perguntas essenciais que separam profissionais sérios de aventureiros.</p>
+
+            <div class="checklist-grid">
+                <div class="checklist-item">
+                    <span class="checklist-num">1</span>
+                    <div>
+                        <h4>Qual o prazo de entrega da obra? Está em contrato?</h4>
+                        <p>Exija prazos reais e multas por atraso. Uma construtora séria não tem medo de colocar prazos no contrato.</p>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-num">2</span>
+                    <div>
+                        <h4>O orçamento é por empreitada global ou por administração?</h4>
+                        <p>Fuja de orçamentos que "podem mudar". Na empreitada global, o preço é fechado e não muda por desperdício de material.</p>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-num">3</span>
+                    <div>
+                        <h4>Quais materiais estão incluídos?</h4>
+                        <p>Peça marcas e especificações técnicas. Exija galvanização Z275 nos perfis de aço.</p>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-num">4</span>
+                    <div>
+                        <h4>A construtora tem experiência comprovada?</h4>
+                        <p>Visite obras prontas e fale com clientes antigos. Peça referências reais.</p>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-num">5</span>
+                    <div>
+                        <h4>O projeto executivo está incluído?</h4>
+                        <p>Nunca construa apenas com o "desenho" da prefeitura. Exija projetos estruturais, elétricos e hidráulicos detalhados.</p>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-num">6</span>
+                    <div>
+                        <h4>Qual a garantia oferecida?</h4>
+                        <p>Verifique se respeita os 5 anos do Código Civil para a estrutura (Art. 618).</p>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <span class="checklist-num">7</span>
+                    <div>
+                        <h4>Existe canal direto com o engenheiro?</h4>
+                        <p>A presença do responsável técnico é vital. Você precisa ter acesso direto ao engenheiro durante toda a obra.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA - CAPTURA DE LEADS ===== -->
+    <section class="cta-section">
+        <h2>Quer construir sua casa em Steel Frame?</h2>
+        <p>Preencha o formulário abaixo e receba uma <strong>consultoria gratuita</strong> personalizada com um engenheiro especialista. Vamos transformar seu sonho em realidade com a velocidade, segurança e economia que só o Steel Frame pode oferecer.</p>
+
+        <form class="cta-form" action="#" method="post">
+            <input type="text" placeholder="Seu nome completo" required>
+            <input type="email" placeholder="Seu melhor e-mail" required>
+            <input type="tel" placeholder="Seu WhatsApp com DDD" required>
+            <input type="text" placeholder="Cidade onde deseja construir">
+            <button type="submit">Quero minha consultoria gratuita</button>
+            <p class="cta-form-disclaimer">Seus dados estão protegidos. Usaremos apenas para entrar em contato com você sobre sua consultoria.</p>
+        </form>
+    </section>
+
+    <!-- ===== SOBRE A iBUILD ===== -->
+    <section class="about">
+        <div class="container">
+            <div class="about-logo"><span>i</span>BUILD</div>
+            <p class="about-slogan">"Deixa com a gente, nós construímos!"</p>
+            <p class="section-text" style="max-width:650px;margin:0 auto;">
+                A <strong>iBUILD São Carlos</strong> é especializada em construção em <strong>Light Steel Frame</strong> com entrega chave na mão. Sob a responsabilidade técnica do <strong>Eng. Guilherme Cazú</strong>, combinamos engenharia de ponta, materiais certificados e um atendimento personalizado para realizar o sonho da casa própria da sua família.
+            </p>
+
+            <div class="about-contact">
+                <span>📞 <a href="tel:+5516999999999">(16) 99999-9999</a></span>
+                <span>📧 <a href="mailto:contato@ibuildsaocarlos.com.br">contato@ibuildsaocarlos.com.br</a></span>
+                <span>🌐 <a href="https://www.ibuildsaocarlos.com.br" target="_blank">www.ibuildsaocarlos.com.br</a></span>
+                <span>📍 São Carlos - SP</span>
+            </div>
+
+            <div class="about-footer">
+                <p>iBUILD São Carlos — Eng. Guilherme Cazú · Todos os direitos reservados · Julho 2026</p>
+                <p style="margin-top:0.5rem;font-size:0.7rem;">As informações contidas neste guia são baseadas em normas técnicas brasileiras (ABNT/NBR), ensaios do IPT e legislação vigente. Consulte um engenheiro para orientações específicas para o seu projeto.</p>
+            </div>
+        </div>
+    </section>
+
+</body>
 </html>
-	
-	
