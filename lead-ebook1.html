@@ -18,22 +18,28 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
     <style>
-        /* ===== RESET ===== */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        /* 
+                   RESET & VARIÁVEIS — MESMO DESIGN SYSTEM DO INDEX.HTML
+                    */
+        *,
+        *::before,
+        *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* ===== VARIÁVEIS (mesmo design system do index.html) ===== */
         :root {
-            --dark:      #0a0f1a;
-            --dark2:     #111827;
-            --gold:      #c8a86e;
-            --gold-dark: #a8883e;
-            --warm-white:#f5f0e8;
-            --gray:      #8a94a6;
-            --white:     #ffffff;
-            --font-body: 'Transducer', 'Inter', system-ui, -apple-system, sans-serif;
+            --dark:       #0a0f1a;
+            --dark2:      #111827;
+            --gold:       #c8a86e;
+            --gold-dark:  #a8883e;
+            --gold-light: #dfc99a;
+            --warm-white: #f5f0e8;
+            --gray:       #6b7a8f;
+            --gray-light: #8a94a6;
+            --white:      #ffffff;
+            --font-body:  'Transducer', 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono:  'SF Mono', 'Fira Code', monospace;
             --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
             --content-width: 1300px;
             --side-padding: max(48px, calc((100vw - var(--content-width)) / 2));
@@ -42,6 +48,7 @@
         html {
             scroll-behavior: smooth;
             font-size: 16px;
+            overflow-x: hidden;
         }
 
         body {
@@ -49,25 +56,29 @@
             background: var(--dark);
             color: var(--white);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.25rem;
-            background-image:
-                radial-gradient(ellipse at 20% 50%, rgba(200, 168, 110, 0.04) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(200, 168, 110, 0.03) 0%, transparent 60%);
+            position: relative;
         }
 
-        /* ===== HEADER ===== */
+        /* ===== TEXTURA DE RUÍDO (MESMA DO INDEX) ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.35;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+        }
+
+        /* ===== HEADER (MESMO ESTILO DO INDEX) ===== */
         .header {
             position: fixed;
             top: 0; left: 0; right: 0;
-            padding: 1rem var(--side-padding);
-            background: rgba(10, 15, 26, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             z-index: 100;
+            padding: 0.9rem var(--side-padding);
+            background: rgba(10, 15, 26, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
@@ -79,126 +90,201 @@
             justify-content: space-between;
         }
 
-        .header-logo {
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--white);
+        .header-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 0.05rem;
         }
-        .header-logo span { color: var(--gold); }
 
-        .header-tag {
-            font-size: 0.65rem;
+        .header-brand .name {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--white);
+            line-height: 1.2;
+        }
+        .header-brand .name span { color: var(--gold); }
+
+        .header-brand .sub {
+            font-size: 0.55rem;
             color: var(--gray);
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
-            font-weight: 500;
+            font-weight: 400;
+        }
+
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1.2rem;
+            background: transparent;
+            border: 1px solid var(--gold);
+            border-radius: 6px;
+            color: var(--gold);
+            font-size: 0.65rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            transition: all 0.3s var(--ease-out-expo);
+            cursor: pointer;
+        }
+
+        .header-cta:hover {
+            background: var(--gold);
+            color: var(--dark);
         }
 
         /* ===== HERO ===== */
         .hero {
-            width: 100%;
-            max-width: var(--content-width);
+            position: relative;
+            z-index: 1;
             min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 6rem 0 3rem;
-            position: relative;
+            padding: 6rem var(--side-padding) 3rem;
         }
 
         .hero-container {
+            max-width: var(--content-width);
+            width: 100%;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-            width: 100%;
-            padding: 0 var(--side-padding);
         }
 
-        @media (max-width: 960px) {
-            .hero-container { grid-template-columns: 1fr; gap: 2.5rem; }
-            .hero { padding: 5rem 1.25rem 2.5rem; }
-        }
-
-        /* ===== CONTEÚDO ESQUERDO ===== */
+        /* ===== LADO ESQUERDO — CONTEÚDO ===== */
         .hero-content { }
 
         .hero-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.06);
-            color: var(--gold);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(200, 168, 110, 0.08);
+            border: 1px solid rgba(200, 168, 110, 0.15);
+            padding: 0.45rem 1rem;
+            border-radius: 100px;
             font-size: 0.6rem;
-            font-weight: 600;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 2px;
-            padding: 0.5rem 1rem;
-            border-radius: 100px;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(200, 168, 110, 0.2);
+            color: var(--gold);
+            margin-bottom: 2rem;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         .hero-title {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
         }
-        .hero-title em {
+
+        .hero-title .line-gold {
+            display: block;
             color: var(--gold);
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
             font-style: normal;
+        }
+
+        .hero-title .line-main {
+            display: block;
+        }
+
+        .hero-title .highlight {
+            color: var(--gold);
         }
 
         .hero-sub {
             font-size: 0.9rem;
-            line-height: 1.7;
-            color: var(--gray);
+            line-height: 1.8;
+            color: var(--gray-light);
             max-width: 480px;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
         }
 
         .hero-bullets {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.85rem;
         }
 
         .hero-bullet {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 0.85rem;
+            gap: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.65);
         }
 
         .hero-bullet .check {
-            width: 20px; height: 20px;
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
             border-radius: 50%;
-            background: rgba(200, 168, 110, 0.15);
+            background: rgba(200, 168, 110, 0.12);
+            border: 1px solid rgba(200, 168, 110, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: var(--gold);
-            flex-shrink: 0;
         }
 
-        @media (max-width: 860px) {
-            .hero-content { text-align: center; }
-            .hero-sub { margin: 0 auto 2rem; }
-            .hero-bullets { align-items: center; }
+        /* ===== LADO DIREITO — CARD ===== */
+        .hero-form-area {
+            position: relative;
         }
 
-        /* ===== CARD DO FORMULÁRIO ===== */
+        /* Mensagem de erro */
+        .msg-error {
+            display: none;
+            background: rgba(192, 57, 43, 0.08);
+            border: 1px solid rgba(192, 57, 43, 0.2);
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #e57373;
+            margin-bottom: 1.25rem;
+        }
+
+        .msg-error.visible { display: block; }
+        .msg-error strong { display: block; margin-bottom: 0.2rem; }
+
         .card {
-            background: var(--warm-white);
+            background: linear-gradient(165deg, #f5f0e8 0%, #ede6d8 100%);
             border-radius: 20px;
-            padding: 2.5rem 2rem;
+            padding: 2.5rem 2.2rem;
             color: #1a1a2e;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             position: relative;
             overflow: hidden;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
 
         .card::before {
@@ -208,78 +294,82 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-dark), var(--gold));
+            background: linear-gradient(90deg,
+                transparent 0%,
+                var(--gold) 20%,
+                var(--gold-light) 50%,
+                var(--gold) 80%,
+                transparent 100%
+            );
+        }
+
+        /* selo decorativo */
+        .card::after {
+            content: 'iBUILD';
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            font-size: 6rem;
+            font-weight: 900;
+            color: rgba(200, 168, 110, 0.04);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
         }
 
         .card-badge {
-            font-size: 0.65rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.6rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             color: var(--gold-dark);
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
+            background: rgba(200, 168, 110, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
         }
 
         .card h2 {
             font-size: 1.5rem;
-            font-weight: 700;
-            line-height: 1.3;
+            font-weight: 800;
+            line-height: 1.25;
             margin-bottom: 0.5rem;
             color: #0a0f1a;
+            position: relative;
+            z-index: 1;
         }
 
-        .card h2 span { color: var(--gold-dark); }
+        .card h2 span {
+            color: var(--gold-dark);
+        }
 
-        .card p {
-            font-size: 0.85rem;
-            color: #5a5a6e;
-            line-height: 1.5;
-            font-weight: 400;
+        .card > p {
+            font-size: 0.82rem;
+            color: #5a5a70;
+            line-height: 1.6;
             margin-bottom: 1.5rem;
-        }
-
-        .card-benefits {
-            background: rgba(200, 168, 110, 0.08);
-            border-radius: 12px;
-            padding: 1rem 1.25rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-benefits .item {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 0.78rem;
-            color: #2a2a3e;
-        }
-
-        .card-benefits .item .icon {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: var(--gold);
-            color: #fff;
-            font-size: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
         }
 
         /* ===== FORMULÁRIO ===== */
         .form-group {
             margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             color: #1a1a2e;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.4rem;
         }
 
         .form-group label .required {
@@ -288,62 +378,70 @@
 
         .form-group input {
             width: 100%;
-            padding: 0.85rem 1rem;
+            padding: 0.9rem 1rem;
             border: 1.5px solid #d5d0c8;
             border-radius: 10px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-family: var(--font-body);
             color: #1a1a2e;
-            background: #faf8f5;
-            transition: border-color 0.25s, box-shadow 0.25s;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
             outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: #a5a0b0;
+            font-weight: 300;
         }
 
         .form-group input:focus {
             border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(200, 168, 110, 0.15);
+            box-shadow: 0 0 0 4px rgba(200, 168, 110, 0.15);
             background: #ffffff;
         }
 
         .form-group input.error {
             border-color: #c0392b;
-            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.10);
+            box-shadow: 0 0 0 4px rgba(192, 57, 43, 0.08);
         }
 
         .form-group .error-msg {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: #c0392b;
-            margin-top: 0.25rem;
+            margin-top: 0.3rem;
             display: none;
         }
 
-        .form-group .error-msg.visible {
-            display: block;
-        }
+        .form-group .error-msg.visible { display: block; }
 
-        /* ===== BOTÃO CTA ===== */
+        /* ===== BOTÃO CTA (MESMO ESTILO DO INDEX) ===== */
         .btn-submit {
             width: 100%;
             padding: 1rem 1.5rem;
             background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: #0a0f1a;
             border: none;
             border-radius: 10px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             font-family: var(--font-body);
+            color: #0a0f1a;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
+            gap: 0.6rem;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.25s var(--ease-out-expo),
+                        box-shadow 0.25s var(--ease-out-expo);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .btn-submit:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(200, 168, 110, 0.4);
+            box-shadow: 0 12px 32px rgba(200, 168, 110, 0.35);
         }
 
         .btn-submit:active:not(:disabled) {
@@ -356,8 +454,9 @@
         }
 
         .btn-submit .spinner {
-            width: 18px; height: 18px;
-            border: 2.5px solid rgba(10, 15, 26, 0.2);
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(10, 15, 26, 0.15);
             border-top-color: #0a0f1a;
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
@@ -371,33 +470,60 @@
 
         /* ===== PRIVACIDADE ===== */
         .privacy-note {
-            font-size: 0.7rem;
-            color: #8a8a9e;
+            font-size: 0.65rem;
+            color: #7a7a90;
             text-align: center;
             margin-top: 1rem;
             line-height: 1.5;
+            position: relative;
+            z-index: 1;
         }
 
-        /* ===== SUCESSO ===== */
+        .privacy-note a {
+            color: var(--gold-dark);
+            text-decoration: none;
+        }
+
+        /* ===== CARD DE SUCESSO ===== */
         .card-success {
             display: none;
+            background: linear-gradient(165deg, #f5f0e8 0%, #ede6d8 100%);
+            border-radius: 20px;
+            padding: 3rem 2.2rem;
             text-align: center;
-            padding: 1rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
 
-        .success-icon {
-            width: 56px; height: 56px;
+        .card-success::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg,
+                transparent 0%, var(--gold) 20%, var(--gold-light) 50%, var(--gold) 80%, transparent 100%);
+        }
+
+        .card-success .icon-wrap {
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
-            background: rgba(200, 168, 110, 0.12);
+            background: rgba(200, 168, 110, 0.1);
+            border: 2px solid rgba(200, 168, 110, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            margin: 0 auto 1rem;
+            margin: 0 auto 1.25rem;
+            font-size: 2rem;
         }
 
         .card-success h3 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: #1a6b1a;
             margin-bottom: 0.5rem;
@@ -405,57 +531,149 @@
 
         .card-success p {
             font-size: 0.85rem;
-            color: #5a5a6e;
+            color: #5a5a70;
             line-height: 1.6;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
         .card-success .small {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #8a8a9e;
         }
 
-        /* ===== MENSAGEM DE ERRO ===== */
-        .msg-error {
-            display: none;
-            background: #fde8e8;
-            border: 1px solid #f5c6c6;
-            color: #a11f1f;
-            padding: 0.85rem 1rem;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
-        }
-
-        .msg-error strong { display: block; margin-bottom: 0.25rem; }
-
-        .msg-error.visible { display: block; }
-
-        /* ===== FOOTER ===== */
+        /* ===== FOOTER (MESMO DO INDEX) ===== */
         .footer {
+            position: relative;
+            z-index: 1;
             text-align: center;
-            padding: 2rem var(--side-padding);
-            font-size: 0.7rem;
+            padding: 2rem var(--side-padding) 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .footer-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-brand {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--white);
+            letter-spacing: 1px;
+        }
+        .footer-brand span { color: var(--gold); }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .footer-links a {
+            font-size: 0.65rem;
             color: var(--gray);
-        }
-
-        .footer a {
-            color: var(--gold);
             text-decoration: none;
+            transition: color 0.25s;
+            letter-spacing: 0.5px;
         }
-        .footer a:hover { text-decoration: underline; }
 
-        /* ===== RESPONSIVO ===== */
-        @media (max-width: 480px) {
-            .card { padding: 1.75rem 1.25rem; }
-            .hero-title { font-size: 1.8rem; }
-            .card h2 { font-size: 1.25rem; }
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-links .divider {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--gray);
+            opacity: 0.4;
+        }
+
+        .footer-copy {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 
+                   RESPONSIVO
+                    */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .hero-title .line-gold {
+                font-size: 1.2rem;
+            }
+
+            .hero-sub {
+                max-width: 100%;
+            }
+
+            .hero {
+                padding-top: 5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            :root {
+                --side-padding: max(20px, calc((100vw - var(--content-width)) / 2));
+            }
+
+            .hero {
+                padding-top: 4.5rem;
+                min-height: auto;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-title .line-gold {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+
+            .card {
+                padding: 1.75rem 1.25rem;
+            }
+
+            .card h2 {
+                font-size: 1.25rem;
+            }
+
+            .header-brand .name {
+                font-size: 0.85rem;
+            }
+
+            .header-cta {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.55rem;
+                letter-spacing: 1px;
+            }
+
+            .card-success {
+                padding: 2rem 1.25rem;
+            }
         }
 
         @media (max-width: 380px) {
-            .card { padding: 1.5rem 1rem; }
-            .hero-title { font-size: 1.5rem; }
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .card {
+                padding: 1.5rem 1rem;
+            }
         }
     </style>
 </head>
@@ -464,12 +682,19 @@
     
     <header class="header">
         
-            iBUILD São Carlos
+            
+                iBUILD São Carlos
 
 
-            Construção em Steel Frame
+                Construção em Light Steel Frame
 
 
+            
+
+
+            <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="header-cta">
+                Fale Conosco
+            </a>
         
 
 
@@ -481,35 +706,43 @@
 
             
             
-                📘 Material Exclusivo
+                
+                    
+                    Material Exclusivo
+                
+
 
 
                 <h1 class="hero-title">
+                    *⟶ E-book gratuito*
                     Steel Frame:
-*10 Mitos e Verdades*
+10 Mitos & Verdades
                 </h1>
+
                 
-                    Um guia completo com dados técnicos do IPT e normas NBR para
-                    ajudar você a tomar a melhor decisão na sua construção.
+                    Guia definitivo com dados técnicos do IPT, normas NBR e
+                    comparações reais entre Steel Frame e alvenaria &mdash;
+                    para você decidir com segurança e informação de qualidade.
                 
+
 
 
                 
                     
                         ✓
-                        Baseado em normas técnicas e ensaios do IPT
+                        Baseado em ensaios do IPT e normas técnicas brasileiras
                     
 
 
                     
                         ✓
-                        Comparação real entre Steel Frame e alvenaria
+                        Comparação real: custo, prazo, durabilidade e conforto
                     
 
 
                     
                         ✓
-                        Mitos desvendados com dados e evidências
+                        Mitos desvendados com dados, não com achismo
                     
 
 
@@ -531,8 +764,7 @@
 
                 
                 
-                    **❌ Algo deu errado.**
-                    Não foi possível enviar o e-book agora.
+                    **❌ Não foi possível enviar.**
                     
                     Tente novamente ou entre em contato pelo WhatsApp.
                 
@@ -541,31 +773,12 @@
 
                 
                 
-                    ⬇️ Baixe agora
-
-
-                    <h2>Receba seu e-book gratuito</h2>
-                    
-                        Preencha os dados abaixo e receba imediatamente o guia
-                        completo no seu e-mail.
-                    
+                    📥 Baixe agora
 
 
 
-                    
-                        
-                            ✓
-                            Conteúdo atualizado e técnico
-                        
-
-
-                        
-                            🔒
-                            Seus dados estão seguros
-                        
-
-
-                    
+                    <h2>Receba seu e-book</h2>
+                    Preencha os dados abaixo e receba o link de acesso no seu e-mail.
 
 
 
@@ -593,10 +806,10 @@
 
 
                         
-                            <label for="telefone">Telefone / WhatsApp *</label>
+                            <label for="telefone">WhatsApp *</label>
                             <input type="tel" id="telefone" name="telefone"
                                    placeholder="(16) 99999-9999" required autocomplete="tel" />
-                            Informe um telefone com DDD.
+                            Informe o telefone com DDD.
 
 
                         
@@ -610,8 +823,8 @@
                     </form>
 
                     
-                        Seus dados nunca serão compartilhados com terceiros.
-                        Ao enviar, você concorda em receber comunicações da iBUILD São Carlos.
+                        Seus dados estão protegidos. Nunca compartilhamos informações com terceiros.
+                        Ao enviar, você aceita receber comunicações da iBUILD São Carlos.
                     
 
 
@@ -627,13 +840,12 @@
                     <h3>✅ E-book enviado!</h3>
                     
                         Verifique sua caixa de entrada
-(e a pasta de spam)
-                        para acessar o material.
+(e a pasta de spam).
                     
 
 
                     
-                        Em instantes você será redirecionado.
+                        Você será redirecionado em instantes.
                     
 
 
@@ -652,35 +864,45 @@
 
 
     
-    
-        <a href="https://ibuildconstrutora.com.br" target="_blank" rel="noopener">
+    <footer class="footer">
+        
             iBUILD São Carlos
-        </a>
-        &mdash; Construção em Light Steel Frame &mdash;
-        <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" rel="noopener">
-            @ibuildsaocarlos
-        </a>
-    
 
 
+            
+                <a href="https://ibuildconstrutora.com.br" target="_blank" rel="noopener">Site</a>
+                
+                <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" rel="noopener">Instagram</a>
+                
+                <a href="https://wa.me/5516997634187" target="_blank" rel="noopener">WhatsApp</a>
+            
+
+
+            
+                &copy; 2026 iBUILD São Carlos &mdash; Construção em Light Steel Frame
+            
+
+
+        
+
+
+    </footer>
 
     
     <script>
         (function() {
             'use strict';
 
-            // ============================================================
+            // 
             // 🔧 CONFIGURAÇÃO — PREENCHA AQUI SEUS DADOS DO EMAILJS
-            // ============================================================
+            // 
             //
-            // Como obter:
-            //  1. Crie conta gratuita em https://www.emailjs.com/
-            //  2. "Email Services" → Add New → escolha Gmail/Outlook → copie SERVICE_ID
-            //  3. "Email Templates" → Create New → monte o template (instruções abaixo)
-            //     → copie TEMPLATE_ID
-            //  4. "Account" → "API Keys" → copie PUBLIC_KEY
+            //  1. Crie conta em https://www.emailjs.com/
+            //  2. "Email Services" → Add New → copie o SERVICE_ID
+            //  3. "Email Templates" → Create New → copie o TEMPLATE_ID
+            //  4. "Account" → "API Keys" → copie a PUBLIC_KEY
             //
-            // ============================================================
+            // 
 
             const EMAILJS_CONFIG = {
                 PUBLIC_KEY:  'SUA_PUBLIC_KEY_AQUI',
@@ -688,14 +910,14 @@
                 TEMPLATE_ID: 'template_ebook_lead',
             };
 
-            // ============================================================
-            // 📧 INSTRUÇÕES PARA CRIAR O TEMPLATE NO EMAILJS
-            // ============================================================
+            // 
+            // 📧 INSTRUÇÕES DO TEMPLATE — COLE NO EMAILJS
+            // 
             //
             // ASSUNTO:
             //   📘 E-book iBUILD São Carlos — O material chegou!
             //
-            // CORPO (HTML ou texto):
+            // CORPO:
             //   Olá {{to_name}},
             //
             //   Conforme solicitado, segue o link para acessar seu e-book
@@ -703,143 +925,127 @@
             //
             //   🔗 {{ebook_link}}
             //
-            //   Se tiver dúvidas ou quiser um orçamento sem compromisso,
-            //   fale conosco pelo WhatsApp: {{telefone_contato}}
+            //   Se tiver dúvidas ou quiser um orçamento, fale conosco:
+            //   WhatsApp: {{telefone_contato}}
             //
             //   Atenciosamente,
             //   Guilherme Cazú
             //   iBUILD São Carlos
             //
-            // BCC (OCULTO — VOCÊ RECEBE CÓPIA):
-            //   No template, vá em "Settings" → "Send a copy to"
-            //   → adicione SEU e-mail (ex: guilherme@ibuildsaocarlos.com.br)
+            // BCC — Settings > "Send a copy to" → SEU E-MAIL
+            // (assim você recebe nome, email e telefone do lead oculto)
             //
-            //   Pronto! Uma única chamada de API envia para o lead
-            //   E uma cópia oculta para você com todos os dados.
+            // VARIÁVEIS DO TEMPLATE:
+            //   {{to_email}}         → e-mail do lead
+            //   {{to_name}}          → nome do lead
+            //   {{ebook_link}}       → link do e-book
+            //   {{telefone_contato}} → seu WhatsApp
+            //   {{lead_telefone}}    → telefone do lead
             //
-            // VARIÁVEIS DO TEMPLATE (devem estar no template):
-            //   {{to_email}}        → e-mail do lead
-            //   {{to_name}}         → nome do lead
-            //   {{ebook_link}}      → link do e-book
-            //   {{telefone_contato}}→ seu WhatsApp
-            //   {{lead_telefone}}   → telefone do lead
-            //
-            // ============================================================
+            // 
 
-            // ============================================================
-            // 🔗 CONFIGURAÇÕES DO SEU NEGÓCIO
-            // ============================================================
+            // 
+            // 🔗 CONFIGURAÇÕES DE NEGÓCIO
+            // 
 
             const BUSINESS = {
-                // Link real do e-book (Google Drive, Dropbox, PDF, etc.)
-                EBOOK_URL: 'https://drive.google.com/file/d/SEU_ID_AQUI/view',
-                // Seu telefone que aparecerá no e-mail do lead
-                TELEFONE_CONTATO: '(16) 99181-4242',
-                // Para onde redirecionar o lead após envio (pode ser o link do e-book)
-                REDIRECT_URL: 'https://drive.google.com/file/d/SEU_ID_VIEW',
-                // Tempo em ms antes de redirecionar
+                EBOOK_URL:         'https://drive.google.com/file/d/SEU_ID_AQUI/view',
+                TELEFONE_CONTATO:  '(16) 99763-4187',
+                REDIRECT_URL:      'https://drive.google.com/file/d/SEU_ID_VIEW',
                 REDIRECT_DELAY_MS: 5000,
             };
 
-            // ============================================================
+            // 
             // MÁSCARA DE TELEFONE
-            // ============================================================
+            // 
 
             const telefoneInput = document.getElementById('telefone');
 
             telefoneInput.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length > 11) value = value.slice(0, 11);
+                let v = e.target.value.replace(/\D/g, '');
+                if (v.length > 11) v = v.slice(0, 11);
 
-                if (value.length <= 2) {
-                    value = '(' + value;
-                } else if (value.length <= 6) {
-                    value = '(' + value.slice(0, 2) + ') ' + value.slice(2);
-                } else if (value.length <= 10) {
-                    value = '(' + value.slice(0, 2) + ') ' + value.slice(2, 6) + '-' + value.slice(6);
+                if (v.length <= 2) {
+                    v = '(' + v;
+                } else if (v.length <= 6) {
+                    v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
+                } else if (v.length <= 10) {
+                    v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 6) + '-' + v.slice(6);
                 } else {
-                    value = '(' + value.slice(0, 2) + ') ' + value.slice(2, 7) + '-' + value.slice(7);
+                    v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7);
                 }
-
-                e.target.value = value;
+                e.target.value = v;
             });
 
-            // ============================================================
-            // VALIDAÇÃO DO FORMULÁRIO
-            // ============================================================
+            // 
+            // VALIDAÇÃO
+            // 
 
-            const form         = document.getElementById('leadForm');
-            const btnSubmit    = document.getElementById('btnSubmit');
-            const formCard     = document.getElementById('formCard');
-            const successCard  = document.getElementById('successCard');
-            const msgError     = document.getElementById('msgError');
-            const errorDetail  = document.getElementById('errorDetail');
+            const form        = document.getElementById('leadForm');
+            const btnSubmit   = document.getElementById('btnSubmit');
+            const formCard    = document.getElementById('formCard');
+            const successCard = document.getElementById('successCard');
+            const msgError    = document.getElementById('msgError');
+            const errorDetail = document.getElementById('errorDetail');
 
             const fields = {
                 nome: {
                     el: document.getElementById('nome'),
-                    errorEl: document.getElementById('nomeError'),
-                    validate: function(v) { return v.trim().length >= 2; }
+                    err: document.getElementById('nomeError'),
+                    valid: function(v) { return v.trim().length >= 2; }
                 },
                 email: {
                     el: document.getElementById('email'),
-                    errorEl: document.getElementById('emailError'),
-                    validate: function(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
+                    err: document.getElementById('emailError'),
+                    valid: function(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
                 },
                 telefone: {
                     el: telefoneInput,
-                    errorEl: document.getElementById('telefoneError'),
-                    validate: function(v) { return v.replace(/\D/g, '').length >= 10; }
+                    err: document.getElementById('telefoneError'),
+                    valid: function(v) { return v.replace(/\D/g, '').length >= 10; }
                 }
             };
 
-            function validateField(name) {
-                var field = fields[name];
-                var isValid = field.validate(field.el.value);
-                field.el.classList.toggle('error', !isValid);
-                field.errorEl.classList.toggle('visible', !isValid);
-                return isValid;
+            function validar(nome) {
+                var f = fields[nome];
+                var ok = f.valid(f.el.value);
+                f.el.classList.toggle('error', !ok);
+                f.err.classList.toggle('visible', !ok);
+                return ok;
             }
 
-            function validateAll() {
-                var allValid = true;
-                for (var name in fields) {
-                    if (!validateField(name)) allValid = false;
-                }
-                return allValid;
+            function validarTudo() {
+                var tudoOk = true;
+                for (var k in fields) { if (!validar(k)) tudoOk = false; }
+                return tudoOk;
             }
 
-            // Validação ao sair do campo
-            for (var name in fields) {
-                (function(field) {
-                    field.el.addEventListener('blur', function() {
-                        validateField(name);
-                    });
-                    field.el.addEventListener('input', function() {
-                        if (field.validate(field.el.value)) {
-                            field.el.classList.remove('error');
-                            field.errorEl.classList.remove('visible');
+            for (var k in fields) {
+                (function(f, nome) {
+                    f.el.addEventListener('blur', function() { validar(nome); });
+                    f.el.addEventListener('input', function() {
+                        if (f.valid(f.el.value)) {
+                            f.el.classList.remove('error');
+                            f.err.classList.remove('visible');
                         }
                     });
-                })(fields[name]);
+                })(fields[k], k);
             }
 
-            // ============================================================
-            // ENVIO VIA EMAILJS
-            // ============================================================
+            // 
+            // ENVIO EMAILJS
+            // 
 
             emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                // Oculta mensagens anteriores
                 msgError.classList.remove('visible');
 
-                // Valida campos
-                if (!validateAll()) {
+                if (!validarTudo()) {
                     for (var n in fields) {
-                        if (!fields[n].validate(fields[n].el.value)) {
+                        if (!fields[n].valid(fields[n].el.value)) {
                             fields[n].el.focus();
                             break;
                         }
@@ -847,7 +1053,6 @@
                     return;
                 }
 
-                // Estado de loading
                 btnSubmit.disabled = true;
                 btnSubmit.classList.add('loading');
 
@@ -856,55 +1061,40 @@
                 var telefone = fields.telefone.el.value.trim();
 
                 try {
-                    // ====================================================
-                    // 🚀 DISPARA 1 E-MAIL VIA EMAILJS
-                    // ====================================================
-                    // O template já está configurado com BCC no painel
-                    // (Settings > Send a copy to), portanto UMA ÚNICA
-                    // chamada envia para o lead E uma cópia oculta para
-                    // você com nome, e-mail e telefone do lead.
-                    // ====================================================
-
-                    var response = await emailjs.send(
+                    var resp = await emailjs.send(
                         EMAILJS_CONFIG.SERVICE_ID,
                         EMAILJS_CONFIG.TEMPLATE_ID,
                         {
-                            to_email:        email,
-                            to_name:         nome,
-                            from_name:       'iBUILD São Carlos',
-                            ebook_link:      BUSINESS.EBOOK_URL,
-                            telefone_contato:BUSINESS.TELEFONE_CONTATO,
-                            lead_telefone:   telefone,
-                            lead_email:      email,
-                            lead_nome:       nome
+                            to_email:         email,
+                            to_name:          nome,
+                            from_name:        'iBUILD São Carlos',
+                            ebook_link:       BUSINESS.EBOOK_URL,
+                            telefone_contato: BUSINESS.TELEFONE_CONTATO,
+                            lead_telefone:    telefone,
+                            lead_email:       email,
+                            lead_nome:        nome
                         }
                     );
 
-                    console.log('EmailJS ok:', response.status, response.text);
+                    console.log('EmailJS ok:', resp.status, resp.text);
 
                     // ✅ SUCESSO
-                    formCard.style.display  = 'none';
+                    formCard.style.display    = 'none';
                     successCard.style.display = 'block';
 
-                    // Redireciona para o e-book após alguns segundos
                     setTimeout(function() {
                         window.location.href = BUSINESS.REDIRECT_URL;
                     }, BUSINESS.REDIRECT_DELAY_MS);
 
                 } catch (err) {
-                    // ❌ ERRO
                     console.error('EmailJS erro:', err);
 
-                    var detail = '';
-                    if (err.status === 412) {
-                        detail = 'Configuração do template incompleta.';
-                    } else if (err.status === 400) {
-                        detail = 'Dados inválidos. Verifique o template.';
-                    } else {
-                        detail = 'Tente novamente mais tarde.';
-                    }
+                    var det = '';
+                    if (err.status === 412) det = 'Template incompleto.';
+                    else if (err.status === 400) det = 'Dados inválidos.';
+                    else det = 'Tente novamente.';
 
-                    errorDetail.textContent = ' (' + detail + ')';
+                    errorDetail.textContent = ' ' + det;
                     msgError.classList.add('visible');
 
                     btnSubmit.disabled = false;
