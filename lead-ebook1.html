@@ -1,831 +1,746 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-book Steel-Frame — 10 Mitos e Verdades | iBUILD São Carlos</title>
-    <meta name="description" content="Baixe grátis o e-book Steel Frame: 10 Mitos e Verdades. Guia com dados técnicos do IPT e normas NBR.">
-    <meta name="robots" content="index, follow">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-book iBuild São Carlos — Receba seu material</title>
 
     
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+
     <style>
-        @font-face {
-            font-family: 'Transducer';
-            src: url('./fonts/Transducer-Regular.woff2') format('woff2'),
-                 url('./fonts/Transducer-Regular.woff') format('woff');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        @font-face {
-            font-family: 'Transducer';
-            src: url('./fonts/Transducer-Medium.woff2') format('woff2'),
-                 url('./fonts/Transducer-Medium.woff') format('woff');
-            font-weight: 500;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'Transducer';
-            src: url('./fonts/Transducer-Bold.woff2') format('woff2'),
-                 url('./fonts/Transducer-Bold.woff') format('woff');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'Transducer';
-            src: url('./fonts/Transducer-Light.woff2') format('woff2'),
-                 url('./fonts/Transducer-Light.woff') format('woff');
-            font-weight: 300;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'Brittany Signature';
-            src: url('./fonts/BrittanySignatureRegular.woff2') format('woff2'),
-                 url('./fonts/BrittanySignatureRegular.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        /* ===== RESET ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        /* ===== VARIÁVEIS (idênticas ao index.html da raiz) ===== */
-        :root {
-            --black: #1d1d1f;
-            --dark: #2d2d2d;
-            --charcoal: #424245;
-            --gray: #86868b;
-            --light-gray: #d2d2d7;
-            --off-white: #f5f5f7;
-            --warm-white: #fbfbfd;
-            --cream: #f5f5f7;
-            --accent: #86868b;
-            --accent-dark: #6e6e73;
-            --gold: #C8A96E;
-            --gold-light: #d4bc8a;
-            --teal: #2A646B;
-            --teal-dark: #1E4A50;
-            --teal-light: #3A8A94;
-            --font-display: 'Transducer', sans-serif;
-            --font-body: 'Transducer', sans-serif;
-            --font-script: 'Brittany Signature', cursive;
-            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        html { scroll-behavior: smooth; overflow-x: hidden; font-size: 16px; }
 
         body {
-            font-family: var(--font-body);
-            color: var(--black);
-            background: var(--warm-white);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            min-height: 100vh;
-        }
-
-        img { max-width: 100%; height: auto; display: block; }
-        a { text-decoration: none; color: inherit; }
-        button { border: none; background: none; cursor: pointer; font-family: inherit; }
-
-        /* ===== HEADER (mesmo padrão do site) ===== */
-        .header {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            background: var(--warm-white);
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-            padding: 0.8rem 2rem;
-            z-index: 100;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-
-        .header-inner {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-logo { height: 22px; width: auto; }
-
-        .header-tag {
-            font-size: 0.65rem;
-            color: var(--gray);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
+            font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0b1a2e 0%, #1a3a5c 50%, #0d2137 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 6rem 2rem 3rem;
+            padding: 20px;
+        }
+
+        /* ===== CARD PRINCIPAL ===== */
+        .card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            max-width: 560px;
+            width: 100%;
+            padding: 48px 40px 40px;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #1d1d1f 0%, var(--teal-dark) 100%);
         }
 
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-
-        .hero-bg img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.1;
-            mix-blend-mode: overlay;
-        }
-
-        /* overlay sutileza (mesmo efeito do site) */
-        .hero::after {
+        .card::before {
             content: '';
             position: absolute;
-            inset: 0;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #1a6bb3, #4a9eff, #1a6bb3);
         }
 
-        .hero-container {
-            position: relative;
-            z-index: 1;
-            max-width: 1300px;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
-            align-items: center;
+        /* ===== LOGO ===== */
+        .logo {
+            text-align: center;
+            margin-bottom: 8px;
         }
 
-        @media (max-width: 860px) {
-            .hero-container { grid-template-columns: 1fr; gap: 2.5rem; }
-            .hero { padding: 5rem 1.25rem 2.5rem; }
+        .logo img {
+            max-height: 52px;
+            width: auto;
         }
 
-        /* ===== CONTEÚDO ESQUERDO ===== */
-        .hero-content { }
+        .logo-placeholder {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a3a5c;
+            letter-spacing: 1px;
+        }
 
-        .hero-badge {
+        .logo-placeholder span {
+            color: #1a6bb3;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header .badge {
             display: inline-block;
-            background: rgba(255,255,255,0.06);
-            color: var(--gold);
-            font-size: 0.6rem;
-            font-weight: 500;
-            letter-spacing: 4px;
+            background: #e8f0fe;
+            color: #1a6bb3;
+            font-size: 12px;
+            font-weight: 600;
             text-transform: uppercase;
-            padding: 0.5rem 1.5rem;
-            border-radius: 100px;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(200,169,110,0.15);
+            letter-spacing: 1.2px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 16px;
         }
 
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-            font-weight: 500;
-            line-height: 1.15;
-            color: var(--off-white);
-            margin-bottom: 1rem;
+        .header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0b1a2e;
+            line-height: 1.3;
+            margin-bottom: 12px;
         }
 
-        .hero-title em {
-            font-style: normal;
-            color: var(--gold);
+        .header h1 span {
+            color: #1a6bb3;
         }
 
-        .hero-sub {
-            font-size: 1.05rem;
-            font-weight: 400;
-            color: rgba(255,255,255,0.55);
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            max-width: 480px;
+        .header p {
+            font-size: 15px;
+            color: #5a6a7a;
+            line-height: 1.6;
         }
 
-        .hero-bullets {
+        /* ===== BENEFÍCIOS ===== */
+        .benefits {
+            background: #f5f8fc;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
             display: flex;
             flex-direction: column;
-            gap: 0.65rem;
+            gap: 10px;
         }
 
-        .hero-bullet {
+        .benefits .item {
             display: flex;
             align-items: center;
-            gap: 0.65rem;
-            font-size: 0.85rem;
-            font-weight: 400;
-            color: rgba(255,255,255,0.6);
+            gap: 12px;
+            font-size: 14px;
+            color: #1a2a3a;
         }
 
-        .hero-bullet .check {
-            width: 20px; height: 20px;
+        .benefits .item .icon {
+            width: 22px;
+            height: 22px;
+            background: #1a6bb3;
             border-radius: 50%;
-            background: rgba(42,100,107,0.35);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.6rem;
-            color: var(--gold);
+            color: #fff;
+            font-size: 12px;
             flex-shrink: 0;
-        }
-
-        @media (max-width: 860px) {
-            .hero-content { text-align: center; }
-            .hero-sub { margin: 0 auto 2rem; }
-            .hero-bullets { align-items: center; }
-        }
-
-        /* ===== CARD DO FORMULÁRIO ===== */
-        .card {
-            background: var(--warm-white);
-            border-radius: 20px;
-            padding: 2.75rem 2.25rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-            transition: opacity 0.4s;
-        }
-
-        .card.sent .card-form { display: none; }
-        .card.sent .card-success { display: block; }
-
-        .card-title {
-            font-family: var(--font-display);
-            font-size: 1.4rem;
-            font-weight: 500;
-            color: var(--black);
-            text-align: center;
-            margin-bottom: 0.35rem;
-        }
-
-        .card-sub {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: var(--gray);
-            text-align: center;
-            margin-bottom: 1.75rem;
-            line-height: 1.6;
         }
 
         /* ===== FORMULÁRIO ===== */
         .form-group {
-            margin-bottom: 1.15rem;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--charcoal);
-            margin-bottom: 0.35rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a2a3a;
+            margin-bottom: 6px;
+        }
+
+        .form-group label .required {
+            color: #d32f2f;
         }
 
         .form-group input {
             width: 100%;
-            padding: 0.9rem 1.1rem;
-            border: 1.5px solid var(--light-gray);
+            padding: 14px 16px;
+            border: 2px solid #dce4ec;
             border-radius: 12px;
-            font-size: 0.9rem;
-            font-family: var(--font-body);
-            color: var(--black);
-            background: var(--white);
+            font-size: 15px;
+            color: #0b1a2e;
+            background: #fafbfc;
+            transition: border-color 0.25s, box-shadow 0.25s;
             outline: none;
-            transition: border-color 0.3s var(--ease-out-expo),
-                        box-shadow 0.3s var(--ease-out-expo);
         }
 
         .form-group input:focus {
-            border-color: var(--teal);
-            box-shadow: 0 0 0 3px rgba(42,100,107,0.08);
-        }
-
-        .form-group input::placeholder {
-            color: var(--light-gray);
+            border-color: #1a6bb3;
+            box-shadow: 0 0 0 4px rgba(26, 107, 179, 0.12);
+            background: #ffffff;
         }
 
         .form-group input.error {
             border-color: #d32f2f;
+            box-shadow: 0 0 0 4px rgba(211, 47, 47, 0.10);
         }
 
         .form-group .error-msg {
-            font-size: 0.7rem;
+            font-size: 12px;
             color: #d32f2f;
-            margin-top: 0.25rem;
+            margin-top: 4px;
             display: none;
-            font-weight: 400;
         }
 
-        .form-group .error-msg.show { display: block; }
+        .form-group .error-msg.visible {
+            display: block;
+        }
 
-        /* ===== BOTÃO (mesmo estilo CTA do site) ===== */
+        /* ===== BOTÃO CTA ===== */
         .btn-submit {
             width: 100%;
-            padding: 1rem;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #1a6bb3, #0d4a8a);
+            color: #fff;
             border: none;
             border-radius: 12px;
-            background: var(--teal);
-            color: var(--white);
-            font-family: var(--font-display);
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
+            font-size: 17px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background 0.4s var(--ease-out-expo),
-                        transform 0.4s var(--ease-out-expo);
-            margin-top: 0.35rem;
-            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
         }
 
-        .btn-submit:hover {
-            background: var(--teal-light);
+        .btn-submit:hover:not(:disabled) {
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(26, 107, 179, 0.35);
+        }
+
+        .btn-submit:active:not(:disabled) {
+            transform: translateY(0);
         }
 
         .btn-submit:disabled {
-            opacity: 0.5;
+            opacity: 0.7;
             cursor: not-allowed;
-            transform: none;
         }
 
         .btn-submit .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
             display: none;
-            width: 20px; height: 20px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            margin: 0 auto;
         }
 
-        .btn-submit.loading .btn-text { display: none; }
-        .btn-submit.loading .spinner { display: block; }
+        .btn-submit.loading .spinner {
+            display: inline-block;
+        }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .btn-submit.loading .btn-text {
+            display: none;
+        }
 
-        .form-disclaimer {
-            font-size: 0.65rem;
-            color: var(--light-gray);
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== AVISO DE PRIVACIDADE ===== */
+        .privacy {
             text-align: center;
-            margin-top: 0.75rem;
+            font-size: 12px;
+            color: #8a9aaa;
+            margin-top: 20px;
             line-height: 1.5;
-            font-weight: 400;
         }
 
-        /* ===== SUCESSO ===== */
-        .card-success { display: none; }
-
-        .success-icon {
-            width: 56px; height: 56px;
-            border-radius: 50%;
-            background: rgba(42,100,107,0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.6rem;
-        }
-
-        .success-title {
-            font-family: var(--font-display);
-            font-size: 1.35rem;
-            font-weight: 500;
-            color: var(--black);
-            text-align: center;
-            margin-bottom: 0.4rem;
-        }
-
-        .success-text {
-            font-size: 0.88rem;
-            font-weight: 400;
-            color: var(--gray);
-            text-align: center;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .success-email-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.85rem 1.1rem;
-            background: var(--cream);
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--teal);
-            margin-bottom: 1.5rem;
-            word-break: break-all;
-        }
-
-        .btn-whatsapp {
-            display: block;
-            width: 100%;
-            padding: 0.95rem;
-            border-radius: 12px;
-            background: #25D366;
-            color: var(--white);
-            font-family: var(--font-display);
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
+        .privacy a {
+            color: #1a6bb3;
             text-decoration: none;
-            text-align: center;
-            transition: opacity 0.3s var(--ease-out-expo),
-                        transform 0.3s var(--ease-out-expo);
         }
 
-        .btn-whatsapp:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
-
-        .btn-voltar {
-            display: block;
-            text-align: center;
-            margin-top: 1.25rem;
-            font-size: 0.8rem;
-            font-weight: 400;
-            color: var(--gray);
+        .privacy a:hover {
             text-decoration: underline;
-            cursor: pointer;
-            transition: color 0.2s;
         }
 
-        .btn-voltar:hover { color: var(--charcoal); }
+        /* ===== MENSAGENS DE RETORNO ===== */
+        .message {
+            display: none;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
 
-        /* ===== FOOTER (mesmo estilo do site) ===== */
+        .message.success {
+            display: block;
+            background: #e6f7e6;
+            color: #1b6b1b;
+            border: 1px solid #b8e6b8;
+        }
+
+        .message.success strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .message.error {
+            display: block;
+            background: #fde8e8;
+            color: #a11f1f;
+            border: 1px solid #f5c6c6;
+        }
+
+        .message.error strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        /* ===== FOOTER ===== */
         .footer {
             text-align: center;
-            padding: 1.5rem 2rem;
-            font-size: 0.72rem;
-            font-weight: 400;
-            color: var(--light-gray);
-            background: var(--warm-white);
-            border-top: 1px solid rgba(0,0,0,0.04);
+            margin-top: 24px;
+            font-size: 12px;
+            color: #8a9aaa;
         }
 
-        .footer strong {
-            color: var(--charcoal);
-            font-weight: 500;
-        }
-
-        /* ===== TOAST ===== */
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--black);
-            color: var(--off-white);
-            padding: 0.9rem 1.5rem;
-            border-radius: 14px;
-            font-size: 0.82rem;
-            font-weight: 400;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-            opacity: 0;
-            transition: all 0.5s var(--ease-out-expo);
-            z-index: 200;
-            text-align: center;
-            max-width: 90vw;
-            pointer-events: none;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        .footer a {
+            color: #1a6bb3;
+            text-decoration: none;
         }
 
         /* ===== RESPONSIVO ===== */
-        @media (max-width: 500px) {
-            .card { padding: 1.75rem 1.25rem; }
-            .header { padding: 0.6rem 1.25rem; }
-            .header-logo { height: 18px; }
-            .btn-submit { font-size: 0.72rem; letter-spacing: 2px; }
-            .btn-whatsapp { font-size: 0.72rem; letter-spacing: 1.5px; }
+        @media (max-width: 480px) {
+            .card {
+                padding: 32px 20px 28px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .benefits {
+                padding: 16px 18px;
+            }
+
+            .btn-submit {
+                font-size: 15px;
+                padding: 14px 20px;
+            }
         }
     </style>
 </head>
 <body>
 
     
-    <header class="header">
+
         
-            <img src="assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD" class="header-logo">
-            E-book Gratuito
         
+            iBUILD São Carlos
 
 
-    </header>
-
-    
-    
-        
-            <img src="https://generated-images.adapta.one/cazu89%40gmail.com/019f863c-bab3-772e-9a5f-c6ac6d5df76a/2026-07-21T22-54-48-942Z_Original_user_intent_A_clean_modern_split_screen.png" alt="Construção em Steel Frame" loading="lazy">
+            
         
 
 
 
         
+        
+            📘 Material Exclusivo
 
+
+            <h1>Receba seu E-book Gratuito</h1>
             
-            
-                📖 Material Exclusivo
-                <h1 class="hero-title">Steel Frame:
-*10 Mitos e Verdades*</h1>
-                
-                    O guia definitivo com dados técnicos do **IPT** e normas **NBR** que derrubam os maiores mitos do Steel Frame.
-                
-
-
-                
-                    ✓ Dados técnicos reais do IPT
-                    ✓ 10 mitos desmistificados um a um
-                    ✓ Checklist de contratação exclusivo
-                    ✓ Conteúdo iBUILD São Carlos
-                
-
-
-            
-
-
-
-            
-            
-
-                
-                
-                    <h2 class="card-title">Baixe seu e-book grátis</h2>
-                    Preencha e receba o link de acesso no seu e-mail.
-
-
-
-                    <form id="leadForm" novalidate>
-                        
-                            <label for="nome">Nome completo</label>
-                            <input type="text" id="nome" placeholder="Seu nome" required autocomplete="name">
-                            Informe seu nome
-
-
-                        
-
-
-
-                        
-                            <label for="email">E-mail *</label>
-                            <input type="email" id="email" placeholder="seu@email.com" required autocomplete="email">
-                            Informe um e-mail válido
-
-
-                        
-
-
-
-                        
-                            <label for="telefone">WhatsApp</label>
-                            <input type="tel" id="telefone" placeholder="(16) 99999-9999" autocomplete="tel">
-                            Informe um telefone com DDD
-
-
-                        
-
-
-
-                        <button type="submit" class="btn-submit" id="submitBtn">
-                            Quero receber o e-book
-                            
-                        </button>
-                    </form>
-
-                    Seus dados estão protegidos. Usaremos apenas para enviar o e-book e, se você quiser, oferecer uma consultoria gratuita.
-
-
-                
-
-
-
-                
-                
-                    📬
-
-
-                    <h2 class="success-title">E-book enviado!</h2>
-                    
-                        Enviamos o link do e-book para:
-
-                        ****
-                    
-
-
-                    
-                        ⏱ Pode levar até 2 minutos. Se não encontrar, verifique a **caixa de spam**.
-                    
-
-
-
-                    
-                        Quer falar direto com um engenheiro?
-                    
-
-
-                    <a href="https://wa.me/5516997634187?text=Ol%C3%A1%20Guilherme%21%20Acabei%20de%20baixar%20o%20e-book%20Steel%20Frame%20e%20gostaria%20de%20saber%20mais." class="btn-whatsapp" target="_blank">
-                        💬 Falar no WhatsApp
-                    </a>
-                    Quero informar outro e-mail
-                
-
-
-
+                Preencha os dados abaixo e receba imediatamente no seu e-mail
+                o guia completo sobre construção em **Light Steel Frame**.
             
 
 
         
 
 
-    
+
+        
+        
+            
+                ✓
+                Conteúdo atualizado e prático
+            
+
+
+            
+                ✓
+                Acesso imediato após o cadastro
+            
+
+
+            
+                🔒
+                Seus dados estão seguros — não compartilhamos informações
+            
+
+
+        
+
+
+
+        
+        
+            **✅ E-book enviado!**
+            Verifique sua caixa de entrada (e a pasta de spam) para acessar
+            o material. Em instantes você será redirecionado.
+        
+
+
+
+        
+        
+            **❌ Algo deu errado.**
+            Não foi possível enviar o e-book agora.
+            
+            Tente novamente ou entre em contato pelo WhatsApp.
+        
+
+
+
+        
+        <form id="leadForm" novalidate>
+
+            
+                <label for="nome">Nome completo *</label>
+                <input type="text" id="nome" name="nome"
+                placeholder="Seu nome" required autocomplete="name" />
+                Por favor, informe seu nome.
+
+
+            
+
+
+
+            
+                <label for="email">E-mail *</label>
+                <input type="email" id="email" name="email"
+                placeholder="seu@email.com" required autocomplete="email" />
+                Informe um e-mail válido.
+
+
+            
+
+
+
+            
+                <label for="telefone">Telefone / WhatsApp *</label>
+                <input type="tel" id="telefone" name="telefone"
+                placeholder="(16) 99999-9999" required autocomplete="tel" />
+                Informe um telefone com DDD.
+
+
+            
+
+
+
+            <button type="submit" class="btn-submit" id="btnSubmit">
+                📩 Quero receber o e-book
+                
+            </button>
+
+        </form>
+
+        
+            Ao enviar, você concorda em receber comunicações da iBUILD São Carlos.
+            Seus dados nunca serão compartilhados com terceiros.
+        
+
+
+
+        
+            <a href="https://ibuildconstrutora.com.br" target="_blank" rel="noopener">
+                iBUILD São Carlos
+            </a>
+            &mdash; Construção em Light Steel Frame
+        
 
 
 
     
-    <footer class="footer">
-        **iBUILD São Carlos** — Eng. Guilherme Cazú
-    </footer>
-
-    
-    
 
 
 
     
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
+    
+    
     <script>
-    //
-    // ⚙ CONFIGURAÇÃO — SUBSTITUA PELOS SEUS DADOS
-    //
-    const CONFIG = {
-        emailjs: {
-            serviceId: 'SEU_SERVICE_ID',
-            templateId: 'SEU_TEMPLATE_ID',
-            publicKey: 'SUA_PUBLIC_KEY'
-        },
-        ebookUrl: 'https://ibuildsaocarlos.com.br/ebook',
-        whatsapp: '5516997634187'
-    };
+        (function() {
 
-    // 
-    // ESTADO
-    // 
-    let formSubmitting = false;
+            'use strict';
 
-    // 
-    // DOM
-    // 
-    const $ = id => document.getElementById(id);
-    const card = $('card');
-    const form = $('leadForm');
-    const submitBtn = $('submitBtn');
-    const nomeInput = $('nome');
-    const emailInput = $('email');
-    const telInput = $('telefone');
-    const toast = $('toast');
-    const emailDisplay = $('emailDisplay');
+            // 
+            // 🔧 CONFIGURAÇÃO — PREENCHA AQUI SEUS DADOS DO EMAILJS
+            // 
+            //
+            // Como obter:
+            //   1. Crie uma conta gratuita em https://www.emailjs.com/
+            //   2. Vá em "Email Services" → adicione um serviço (Gmail, Outlook, etc.)
+            //   3. Copie o Service ID
+            //   4. Vá em "Email Templates" → crie um template (veja instruções abaixo)
+            //   5. Copie o Template ID
+            //   6. Vá em "Account" → "API Keys" → copie sua Public Key
+            //
+            // 
 
-    // 
-    // MÁSCARA DE TELEFONE
-    // 
-    telInput.addEventListener('input', function() {
-        const digits = this.value.replace(/\D/g, '');
-        if (digits.length <= 2) this.value = `(${digits}`;
-        else if (digits.length <= 7) this.value = `(${digits.slice(0,2)}) ${digits.slice(2)}`;
-        else this.value = `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7,11)}`;
-    });
+            const EMAILJS_CONFIG = {
+                PUBLIC_KEY: 'SUA_PUBLIC_KEY_AQUI', // ← Cole sua Public Key
+                SERVICE_ID: 'service_seudominio', // ← Seu Service ID
+                TEMPLATE_ID: 'template_ebook_lead', // ← Seu Template ID
+            };
 
-    // 
-    // TOAST
-    // 
-    function showToast(msg) {
-        toast.textContent = msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 4000);
-    }
+            // 
+            // 📧 INSTRUÇÕES PARA CRIAR O TEMPLATE NO EMAILJS
+            // 
+            //
+            // No painel do EmailJS, crie um template com estas variáveis:
+            //
+            //   {{to_email}}       → e-mail do lead (destinatário)
+            //   {{to_name}}        → nome do lead
+            //   {{from_name}}      → "iBUILD São Carlos"
+            //   {{ebook_link}}     → link do e-book (Google Drive, Dropbox, etc.)
+            //   {{telefone_contato}} → seu telefone para contato
+            //   {{lead_telefone}}  → telefone do lead (para BCC)
+            //
+            // ASSUNTO sugerido:
+            //   "📘 E-book iBUILD São Carlos — O material chegou!"
+            //
+            // CORPO sugerido:
+            //   Olá {{to_name}},
+            //   Conforme solicitado, segue o link para acessar seu e-book:
+            //
+            //   🔗 {{ebook_link}}
+            //
+            //   Se tiver dúvidas, fale conosco pelo WhatsApp: {{telefone_contato}}
+            //
+            //   Atenciosamente,
+            //   Equipe iBUILD São Carlos
+            //
+            // CONFIGURAÇÃO DE BCC (oculto para você):
+            //   No template, em "Settings" → "Send a copy to":
+            //   Adicione seu e-mail (ex: guilherme@ibuildsaocarlos.com.br)
+            //   Isso garante que você receba uma cópia com todos os dados.
+            //
+            // 
 
-    // 
-    // VALIDAÇÕES
-    // 
-    function validateEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
+            // 
+            // 🔗 LINKS E CONFIGURAÇÕES DO SEU NEGÓCIO
+            // 
 
-    function validatePhone(phone) {
-        if (!phone) return true;
-        const digits = phone.replace(/\D/g, '');
-        return digits.length >= 10 && digits.length <= 11;
-    }
+            const BUSINESS = {
+                // Link do e-book (Google Drive, Dropbox, PDF direto, etc.)
+                EBOOK_URL: 'https://seudrive.google.com/file/d/SEU_ID_AQUI/view',
+                // Seu telefone de contato que aparecerá no e-mail do lead
+                TELEFONE_CONTATO: '(16) 99181-4242',
+                // URL para redirecionar após sucesso (pode ser o link do e-book)
+                REDIRECT_URL: 'https://seudrive.google.com/file/d/SEU_ID_VIEW',
+                // Tempo em ms antes de redirecionar
+                REDIRECT_DELAY_MS: 5000,
+            };
 
-    // 
-    // ENVIAR E-MAIL VIA EMAILJS
-    // 
-    async function sendEmail(name, email, phone) {
-        try {
-            emailjs.init(CONFIG.emailjs.publicKey);
-            await emailjs.send(CONFIG.emailjs.serviceId, CONFIG.emailjs.templateId, {
-                to_name: name,
-                to_email: email,
-                telefone: phone || 'Não informado',
-                ebook_link: CONFIG.ebookUrl,
-                from_name: 'iBUILD São Carlos'
+            // 
+            // MÁSCARA DE TELEFONE
+            // 
+
+            const telefoneInput = document.getElementById('telefone');
+
+            telefoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.slice(0, 11);
+
+                if (value.length <= 2) {
+                    value = '(' + value;
+                } else if (value.length <= 6) {
+                    value = '(' + value.slice(0, 2) + ') ' + value.slice(2);
+                } else if (value.length <= 10) {
+                    value = '(' + value.slice(0, 2) + ') ' + value.slice(2, 6) + '-' + value.slice(6);
+                } else {
+                    value = '(' + value.slice(0, 2) + ') ' + value.slice(2, 7) + '-' + value.slice(7);
+                }
+
+                e.target.value = value;
             });
-            return true;
-        } catch (err) {
-            console.error('EmailJS error:', err);
-            return false;
-        }
-    }
 
-    // 
-    // SUBMIT
-    // 
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        if (formSubmitting) return;
+            // 
+            // VALIDAÇÃO DO FORMULÁRIO
+            // 
 
-        let valid = true;
+            const form = document.getElementById('leadForm');
+            const btnSubmit = document.getElementById('btnSubmit');
+            const msgSuccess = document.getElementById('msgSuccess');
+            const msgError = document.getElementById('msgError');
+            const errorDetail = document.getElementById('errorDetail');
 
-        const nome = nomeInput.value.trim();
-        if (!nome || nome.length < 2) {
-            $('nomeError').classList.add('show');
-            nomeInput.classList.add('error');
-            valid = false;
-        } else {
-            $('nomeError').classList.remove('show');
-            nomeInput.classList.remove('error');
-        }
+            const fields = {
+                nome: {
+                    el: document.getElementById('nome'),
+                    errorEl: document.getElementById('nomeError'),
+                    validate: (v) => v.trim().length >= 2,
+                },
+                email: {
+                    el: document.getElementById('email'),
+                    errorEl: document.getElementById('emailError'),
+                    validate: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+                },
+                telefone: {
+                    el: telefoneInput,
+                    errorEl: document.getElementById('telefoneError'),
+                    validate: (v) => v.replace(/\D/g, '').length >= 10,
+                },
+            };
 
-        const email = emailInput.value.trim().toLowerCase();
-        if (!validateEmail(email)) {
-            $('emailError').classList.add('show');
-            emailInput.classList.add('error');
-            valid = false;
-        } else {
-            $('emailError').classList.remove('show');
-            emailInput.classList.remove('error');
-        }
+            function validateField(name) {
+                const field = fields[name];
+                const value = field.el.value;
+                const isValid = field.validate(value);
 
-        const phone = telInput.value.trim();
-        if (!validatePhone(phone)) {
-            $('telError').classList.add('show');
-            telInput.classList.add('error');
-            valid = false;
-        } else {
-            $('telError').classList.remove('show');
-            telInput.classList.remove('error');
-        }
+                field.el.classList.toggle('error', !isValid);
+                field.errorEl.classList.toggle('visible', !isValid);
 
-        if (!valid) return;
+                return isValid;
+            }
 
-        formSubmitting = true;
-        submitBtn.classList.add('loading');
-        submitBtn.disabled = true;
+            function validateAll() {
+                let allValid = true;
+                Object.keys(fields).forEach(function(name) {
+                    if (!validateField(name)) allValid = false;
+                });
+                return allValid;
+            }
 
-        const sent = await sendEmail(nome, email, phone);
+            // Validação ao sair do campo
+            Object.keys(fields).forEach(function(name) {
+                fields[name].el.addEventListener('blur', function() {
+                    validateField(name);
+                });
+                fields[name].el.addEventListener('input', function() {
+                    // Remove erro enquanto digita (se já estava válido)
+                    if (fields[name].validate(fields[name].el.value)) {
+                        fields[name].el.classList.remove('error');
+                        fields[name].errorEl.classList.remove('visible');
+                    }
+                });
+            });
 
-        if (!sent) {
-            showToast('❌ Erro ao enviar. Verifique a configuração do EmailJS.');
-            formSubmitting = false;
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
-            return;
-        }
+            // 
+            // ENVIO VIA EMAILJS
+            // 
 
-        emailDisplay.textContent = email;
-        card.classList.add('sent');
-        formSubmitting = false;
-    });
+            // Inicializa o EmailJS
+            emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 
-    // 
-    // RESETAR
-    // 
-    function resetForm() {
-        card.classList.remove('sent');
-        form.reset();
-        document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('show'));
-        document.querySelectorAll('input.error').forEach(el => el.classList.remove('error'));
-    }
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                // Esconde mensagens anteriores
+                msgSuccess.style.display = 'none';
+                msgError.style.display = 'none';
+
+                // Valida todos os campos
+                if (!validateAll()) {
+                    // Foca no primeiro campo inválido
+                    for (const name of Object.keys(fields)) {
+                        if (!fields[name].validate(fields[name].el.value)) {
+                            fields[name].el.focus();
+                            break;
+                        }
+                    }
+                    return;
+                }
+
+                // Estado de loading
+                btnSubmit.disabled = true;
+                btnSubmit.classList.add('loading');
+
+                const nome = fields.nome.el.value.trim();
+                const email = fields.email.el.value.trim();
+                const telefone = fields.telefone.el.value.trim();
+
+                try {
+
+                    // 
+                    // 🚀 DISPARA O E-MAIS VIA EMAILJS
+                    // 
+                    //
+                    // O template já está configurado com BCC no próprio
+                    // painel do EmailJS (Settings > Send a copy to),
+                    // então uma ÚNICA chamada envia para o lead E
+                    // uma cópia oculta para você.
+                    // 
+
+                    const response = await emailjs.send(
+                        EMAILJS_CONFIG.SERVICE_ID,
+                        EMAILJS_CONFIG.TEMPLATE_ID, {
+                            to_email: email,
+                            to_name: nome,
+                            from_name: 'iBUILD São Carlos',
+                            ebook_link: BUSINESS.EBOOK_URL,
+                            telefone_contato: BUSINESS.TELEFONE_CONTATO,
+                            lead_telefone: telefone,
+                            lead_email: email,
+                            lead_nome: nome,
+                        }
+                    );
+
+                    console.log('EmailJS sucesso:', response.status, response.text);
+
+                    // 
+                    // ✅ SUCESSO
+                    // 
+
+                    msgSuccess.style.display = 'block';
+                    form.style.display = 'none';
+
+                    // Redireciona para o e-book após alguns segundos
+                    setTimeout(function() {
+                        window.location.href = BUSINESS.REDIRECT_URL;
+                    }, BUSINESS.REDIRECT_DELAY_MS);
+
+                } catch (err) {
+                    // 
+                    // ❌ ERRO
+                    // 
+
+                    console.error('EmailJS erro:', err);
+
+                    let detail = '';
+                    if (err.status === 412) {
+                        detail = 'Configuração do template incompleta.';
+                    } else if (err.status === 400) {
+                        detail = 'Dados inválidos. Verifique o template.';
+                    } else {
+                        detail = 'Tente novamente mais tarde.';
+                    }
+
+                    errorDetail.textContent = detail;
+                    msgError.style.display = 'block';
+
+                    btnSubmit.disabled = false;
+                    btnSubmit.classList.remove('loading');
+                }
+            });
+
+            // 
+            // MASCARA DE TELEFONE — CORREÇÃO PARA CELULAR 9 DIGITOS
+            // 
+            // Já implementada no evento 'input' acima.
+
+        })();
     </script>
 
 </body>
