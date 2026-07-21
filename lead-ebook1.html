@@ -22,78 +22,90 @@
 
     <style>
         /* 
-                   RESET & VARIÁVEIS — MESMO DESIGN SYSTEM DO INDEX.HTML
-                    */
-        *,
-        *::before,
-        *::after { box-sizing: border-box; margin: 0; padding: 0; }
+           RESET & VARIÁVEIS
+            */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --dark:       #0a0f1a;
-            --dark2:      #111827;
-            --gold:       #c8a86e;
-            --gold-dark:  #a8883e;
-            --gold-light: #dfc99a;
-            --warm-white: #f5f0e8;
-            --gray:       #6b7a8f;
-            --gray-light: #8a94a6;
-            --white:      #ffffff;
-            --font-body:  'Transducer', 'Inter', system-ui, -apple-system, sans-serif;
-            --font-mono:  'SF Mono', 'Fira Code', monospace;
-            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-            --content-width: 1300px;
-            --side-padding: max(48px, calc((100vw - var(--content-width)) / 2));
+            --black:        #0a0f1a;
+            --black-2:      #0d1321;
+            --charcoal:     #151e2e;
+            --gold:         #c8a86e;
+            --gold-light:   #dfc99a;
+            --gold-dark:    #a8883e;
+            --warm-white:   #f5f0e8;
+            --cream:        #faf7f0;
+            --gray:         #6b7a8f;
+            --gray-light:   #8a94a6;
+            --gray-muted:   rgba(255, 255, 255, 0.45);
+            --white:        #ffffff;
+            --font:         'Inter', system-ui, -apple-system, sans-serif;
+            --ease:         cubic-bezier(0.16, 1, 0.3, 1);
+            --content:      1280px;
+            --side:         max(48px, calc((100vw - var(--content)) / 2));
         }
 
         html {
             scroll-behavior: smooth;
             font-size: 16px;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            font-family: var(--font-body);
-            background: var(--dark);
+            font-family: var(--font);
+            background: var(--black);
             color: var(--white);
             min-height: 100vh;
             position: relative;
         }
 
-        /* ===== TEXTURA DE RUÍDO (MESMA DO INDEX) ===== */
+        /* 
+           TEXTURA DE RUÍDO — MESMA DO INDEX.HTML
+            */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.35;
+            opacity: 0.4;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
         }
 
-        /* ===== HEADER (MESMO ESTILO DO INDEX) ===== */
+        /* Gradiente radial sutil (atmosfera) */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 40%, rgba(200, 168, 110, 0.03) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 50% at 80% 80%, rgba(200, 168, 110, 0.02) 0%, transparent 60%);
+        }
+
+        /* 
+           HEADER
+            */
         .header {
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 100;
-            padding: 0.9rem var(--side-padding);
+            padding: 0.9rem var(--side);
             background: rgba(10, 15, 26, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .header-inner {
-            max-width: var(--content-width);
+            max-width: var(--content);
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .header-brand {
-            display: flex;
-            flex-direction: column;
-            gap: 0.05rem;
         }
 
         .header-brand .name {
@@ -104,576 +116,465 @@
             line-height: 1.2;
         }
         .header-brand .name span { color: var(--gold); }
-
         .header-brand .sub {
             font-size: 0.55rem;
-            color: var(--gray);
+            color: var(--gray-light);
             letter-spacing: 2.5px;
             text-transform: uppercase;
             font-weight: 400;
+            opacity: 0.6;
         }
 
         .header-cta {
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            padding: 0.5rem 1.2rem;
-            background: transparent;
-            border: 1px solid var(--gold);
+            padding: 0.45rem 1.1rem;
+            border: 1px solid rgba(200, 168, 110, 0.3);
             border-radius: 6px;
             color: var(--gold);
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 600;
-            font-family: var(--font-body);
+            font-family: var(--font);
             text-transform: uppercase;
             letter-spacing: 1.5px;
             text-decoration: none;
-            transition: all 0.3s var(--ease-out-expo);
+            transition: all 0.3s var(--ease);
             cursor: pointer;
         }
-
         .header-cta:hover {
             background: var(--gold);
-            color: var(--dark);
+            color: var(--black);
+            border-color: var(--gold);
         }
 
-        /* ===== HERO ===== */
+        /* 
+           HERO — LAYOUT PRINCIPAL
+            */
         .hero {
             position: relative;
             z-index: 1;
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 6rem var(--side-padding) 3rem;
+            justify-content: center;
+            padding: 6rem var(--side) 3rem;
         }
 
-        .hero-container {
-            max-width: var(--content-width);
+        .hero-grid {
+            max-width: var(--content);
             width: 100%;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 5rem;
             align-items: center;
         }
 
-        /* ===== LADO ESQUERDO — CONTEÚDO ===== */
+        /* 
+           LADO ESQUERDO — CONTEÚDO
+            */
         .hero-content { }
 
-        .hero-badge {
+        .badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(200, 168, 110, 0.08);
-            border: 1px solid rgba(200, 168, 110, 0.15);
-            padding: 0.45rem 1rem;
+            background: rgba(200, 168, 110, 0.06);
+            border: 1px solid rgba(200, 168, 110, 0.12);
+            padding: 0.4rem 1rem 0.4rem 0.6rem;
             border-radius: 100px;
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--gold);
+            color: var(--gold-light);
             margin-bottom: 2rem;
         }
-
-        .hero-badge .dot {
-            width: 6px;
-            height: 6px;
+        .badge .dot {
+            width: 6px; height: 6px;
             background: var(--gold);
             border-radius: 50%;
-            animation: pulse-dot 2s ease-in-out infinite;
+            animation: pulse-dot 2.2s ease-in-out infinite;
         }
-
         @keyframes pulse-dot {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.25; transform: scale(0.7); }
         }
 
         .hero-title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            letter-spacing: -0.5px;
+            margin-bottom: 1.25rem;
         }
-
-        .hero-title .line-gold {
+        .hero-title .pre {
             display: block;
-            color: var(--gold);
-            font-size: 1.6rem;
+            font-size: 0.85rem;
             font-weight: 400;
+            color: var(--gold);
             letter-spacing: 4px;
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             font-style: normal;
         }
-
-        .hero-title .line-main {
+        .hero-title .main {
             display: block;
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            color: var(--white);
         }
-
-        .hero-title .highlight {
+        .hero-title .main .hl {
             color: var(--gold);
         }
-
-        .hero-sub {
-            font-size: 0.9rem;
-            line-height: 1.8;
-            color: var(--gray-light);
-            max-width: 480px;
-            margin-bottom: 2.5rem;
+        .hero-title .sub {
+            display: block;
+            font-size: 1.1rem;
             font-weight: 300;
+            color: var(--gray-light);
+            margin-top: 0.75rem;
+            letter-spacing: 0;
+            line-height: 1.5;
         }
 
         .hero-bullets {
             display: flex;
             flex-direction: column;
-            gap: 0.85rem;
+            gap: 0.7rem;
+            margin-bottom: 0;
         }
-
         .hero-bullet {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.75rem;
             font-size: 0.82rem;
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.65);
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.4;
         }
-
         .hero-bullet .check {
-            width: 20px;
-            height: 20px;
-            min-width: 20px;
+            width: 18px; height: 18px;
+            min-width: 18px;
             border-radius: 50%;
-            background: rgba(200, 168, 110, 0.12);
+            background: rgba(200, 168, 110, 0.1);
             border: 1px solid rgba(200, 168, 110, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             color: var(--gold);
         }
 
-        /* ===== LADO DIREITO — CARD ===== */
-        .hero-form-area {
-            position: relative;
-        }
+        /* 
+           LADO DIREITO — CARD DE CAPTURA
+            */
 
         /* Mensagem de erro */
         .msg-error {
             display: none;
-            background: rgba(192, 57, 43, 0.08);
-            border: 1px solid rgba(192, 57, 43, 0.2);
-            padding: 1rem 1.25rem;
+            background: rgba(192, 57, 43, 0.06);
+            border: 1px solid rgba(192, 57, 43, 0.15);
+            padding: 0.9rem 1.1rem;
             border-radius: 12px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             line-height: 1.6;
-            color: #e57373;
-            margin-bottom: 1.25rem;
+            color: #ef9a9a;
+            margin-bottom: 1rem;
         }
+        .msg-error.show { display: block; }
+        .msg-error strong { display: block; margin-bottom: 0.15rem; color: #e57373; }
 
-        .msg-error.visible { display: block; }
-        .msg-error strong { display: block; margin-bottom: 0.2rem; }
-
+        /* Card — vidro escuro integrado ao fundo */
         .card {
-            background: linear-gradient(165deg, #f5f0e8 0%, #ede6d8 100%);
-            border-radius: 20px;
-            padding: 2.5rem 2.2rem;
-            color: #1a1a2e;
+            background: rgba(21, 30, 46, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(200, 168, 110, 0.08);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
             position: relative;
             overflow: hidden;
             box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+                0 24px 80px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.03);
         }
 
+        /* Linha dourada no topo do card */
         .card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
+            left: 2rem;
+            right: 2rem;
+            height: 1px;
             background: linear-gradient(90deg,
                 transparent 0%,
-                var(--gold) 20%,
-                var(--gold-light) 50%,
-                var(--gold) 80%,
+                rgba(200, 168, 110, 0.15) 15%,
+                rgba(200, 168, 110, 0.4) 50%,
+                rgba(200, 168, 110, 0.15) 85%,
                 transparent 100%
             );
-        }
-
-        /* selo decorativo */
-        .card::after {
-            content: 'iBUILD';
-            position: absolute;
-            bottom: -10px;
-            right: -10px;
-            font-size: 6rem;
-            font-weight: 900;
-            color: rgba(200, 168, 110, 0.04);
-            line-height: 1;
-            pointer-events: none;
-            user-select: none;
         }
 
         .card-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            font-size: 0.6rem;
+            gap: 0.35rem;
+            font-size: 0.58rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--gold-dark);
-            margin-bottom: 1rem;
-            background: rgba(200, 168, 110, 0.1);
-            padding: 0.3rem 0.8rem;
+            color: var(--gold-light);
+            background: rgba(200, 168, 110, 0.06);
+            border: 1px solid rgba(200, 168, 110, 0.1);
+            padding: 0.3rem 0.75rem;
             border-radius: 4px;
+            margin-bottom: 1.25rem;
         }
 
         .card h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
+            font-size: 1.35rem;
+            font-weight: 700;
             line-height: 1.25;
             margin-bottom: 0.5rem;
-            color: #0a0f1a;
-            position: relative;
-            z-index: 1;
+            color: var(--white);
         }
-
-        .card h2 span {
-            color: var(--gold-dark);
-        }
+        .card h2 span { color: var(--gold); }
 
         .card > p {
             font-size: 0.82rem;
-            color: #5a5a70;
+            color: var(--gray-light);
             line-height: 1.6;
             margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ===== FORMULÁRIO ===== */
-        .form-group {
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #1a1a2e;
-            margin-bottom: 0.4rem;
-        }
-
-        .form-group label .required {
-            color: #c0392b;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.9rem 1rem;
-            border: 1.5px solid #d5d0c8;
-            border-radius: 10px;
-            font-size: 0.88rem;
-            font-family: var(--font-body);
-            color: #1a1a2e;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(4px);
-            transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
-            outline: none;
-        }
-
-        .form-group input::placeholder {
-            color: #a5a0b0;
             font-weight: 300;
         }
 
+        /* ═══ Formulário ═══ */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-light);
+            margin-bottom: 0.4rem;
+        }
+        .form-group label .req { color: var(--gold); }
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1.5px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-family: var(--font);
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s var(--ease);
+            outline: none;
+        }
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.15);
+            font-weight: 300;
+        }
         .form-group input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(200, 168, 110, 0.15);
-            background: #ffffff;
+            border-color: rgba(200, 168, 110, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 0 4px rgba(200, 168, 110, 0.05);
         }
-
         .form-group input.error {
-            border-color: #c0392b;
-            box-shadow: 0 0 0 4px rgba(192, 57, 43, 0.08);
+            border-color: rgba(229, 115, 115, 0.4);
+            box-shadow: 0 0 0 4px rgba(229, 115, 115, 0.06);
         }
-
         .form-group .error-msg {
             font-size: 0.65rem;
-            color: #c0392b;
+            color: #e57373;
             margin-top: 0.3rem;
             display: none;
         }
+        .form-group .error-msg.show { display: block; }
 
-        .form-group .error-msg.visible { display: block; }
-
-        /* ===== BOTÃO CTA (MESMO ESTILO DO INDEX) ===== */
+        /* ═══ Botão CTA — dourado maciço ═══ */
         .btn-submit {
             width: 100%;
             padding: 1rem 1.5rem;
             background: linear-gradient(135deg, var(--gold), var(--gold-dark));
             border: none;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
             font-weight: 700;
-            font-family: var(--font-body);
-            color: #0a0f1a;
+            font-family: var(--font);
+            color: var(--black);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.6rem;
-            position: relative;
-            z-index: 1;
-            transition: transform 0.25s var(--ease-out-expo),
-                        box-shadow 0.25s var(--ease-out-expo);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            transition: all 0.3s var(--ease);
+            margin-top: 0.25rem;
+            position: relative;
         }
-
         .btn-submit:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(200, 168, 110, 0.35);
+            box-shadow: 0 12px 32px rgba(200, 168, 110, 0.3);
         }
-
-        .btn-submit:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
+        .btn-submit:active:not(:disabled) { transform: translateY(0); }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .btn-submit .spinner {
-            width: 18px;
-            height: 18px;
+            width: 18px; height: 18px;
             border: 2.5px solid rgba(10, 15, 26, 0.15);
             border-top-color: #0a0f1a;
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
             display: none;
         }
-
         .btn-submit.loading .spinner { display: inline-block; }
         .btn-submit.loading .btn-text { display: none; }
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ===== PRIVACIDADE ===== */
-        .privacy-note {
-            font-size: 0.65rem;
-            color: #7a7a90;
+        /* ═══ Privacidade ═══ */
+        .privacy {
+            font-size: 0.62rem;
+            color: rgba(255, 255, 255, 0.2);
             text-align: center;
             margin-top: 1rem;
             line-height: 1.5;
-            position: relative;
-            z-index: 1;
         }
 
-        .privacy-note a {
-            color: var(--gold-dark);
-            text-decoration: none;
-        }
-
-        /* ===== CARD DE SUCESSO ===== */
+        /* ═══ Card de Sucesso ═══ */
         .card-success {
             display: none;
-            background: linear-gradient(165deg, #f5f0e8 0%, #ede6d8 100%);
-            border-radius: 20px;
-            padding: 3rem 2.2rem;
+            background: rgba(21, 30, 46, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(200, 168, 110, 0.08);
+            border-radius: 24px;
+            padding: 3rem 2rem;
             text-align: center;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
             position: relative;
             overflow: hidden;
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
+        .card-success.show { display: block; }
 
         .card-success::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
+            left: 2rem;
+            right: 2rem;
+            height: 1px;
             background: linear-gradient(90deg,
-                transparent 0%, var(--gold) 20%, var(--gold-light) 50%, var(--gold) 80%, transparent 100%);
+                transparent 0%, rgba(200,168,110,0.15) 15%,
+                rgba(200,168,110,0.4) 50%, rgba(200,168,110,0.15) 85%,
+                transparent 100%);
         }
 
-        .card-success .icon-wrap {
-            width: 72px;
-            height: 72px;
+        .success-icon {
+            width: 64px; height: 64px;
             border-radius: 50%;
-            background: rgba(200, 168, 110, 0.1);
-            border: 2px solid rgba(200, 168, 110, 0.2);
+            background: rgba(200, 168, 110, 0.08);
+            border: 1px solid rgba(200, 168, 110, 0.12);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.25rem;
-            font-size: 2rem;
+            font-size: 1.75rem;
         }
-
         .card-success h3 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            color: #1a6b1a;
+            color: var(--gold-light);
             margin-bottom: 0.5rem;
         }
-
         .card-success p {
-            font-size: 0.85rem;
-            color: #5a5a70;
+            font-size: 0.82rem;
+            color: var(--gray-light);
             line-height: 1.6;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.3rem;
         }
-
         .card-success .small {
-            font-size: 0.72rem;
-            color: #8a8a9e;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.25);
         }
 
-        /* ===== FOOTER (MESMO DO INDEX) ===== */
+        /* 
+           FOOTER
+            */
         .footer {
             position: relative;
             z-index: 1;
             text-align: center;
-            padding: 2rem var(--side-padding) 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 2rem var(--side) 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
         }
-
         .footer-inner {
-            max-width: var(--content-width);
+            max-width: var(--content);
             margin: 0 auto;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
-
-        .footer-brand {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--white);
-            letter-spacing: 1px;
-        }
-        .footer-brand span { color: var(--gold); }
-
-        .footer-links {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-        }
-
-        .footer-links a {
+        .footer a {
             font-size: 0.65rem;
             color: var(--gray);
             text-decoration: none;
             transition: color 0.25s;
             letter-spacing: 0.5px;
         }
-
-        .footer-links a:hover {
-            color: var(--gold);
-        }
-
-        .footer-links .divider {
-            width: 3px;
-            height: 3px;
+        .footer a:hover { color: var(--gold); }
+        .footer .divider {
+            width: 3px; height: 3px;
             border-radius: 50%;
-            background: var(--gray);
-            opacity: 0.4;
+            background: rgba(255, 255, 255, 0.15);
         }
-
-        .footer-copy {
+        .footer .copy {
             font-size: 0.6rem;
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.12);
+            width: 100%;
+            margin-top: 0.25rem;
         }
 
         /* 
-                   RESPONSIVO
-                    */
+           RESPONSIVO
+            */
         @media (max-width: 1024px) {
-            .hero-container {
+            .hero-grid {
                 grid-template-columns: 1fr;
                 gap: 3rem;
             }
-
-            .hero-title {
-                font-size: 2.2rem;
-            }
-
-            .hero-title .line-gold {
-                font-size: 1.2rem;
-            }
-
-            .hero-sub {
-                max-width: 100%;
-            }
-
-            .hero {
-                padding-top: 5rem;
-            }
+            .hero-title .main { font-size: 2.4rem; }
+            .hero { padding-top: 5rem; }
+            .card { padding: 2rem 1.75rem; }
         }
 
         @media (max-width: 640px) {
-            :root {
-                --side-padding: max(20px, calc((100vw - var(--content-width)) / 2));
-            }
-
+            :root { --side: max(20px, calc((100vw - var(--content)) / 2)); }
             .hero {
-                padding-top: 4.5rem;
+                padding: 4.5rem 0 2rem;
                 min-height: auto;
             }
-
-            .hero-title {
-                font-size: 1.8rem;
-            }
-
-            .hero-title .line-gold {
-                font-size: 1rem;
-                letter-spacing: 2px;
-            }
-
-            .card {
-                padding: 1.75rem 1.25rem;
-            }
-
-            .card h2 {
-                font-size: 1.25rem;
-            }
-
-            .header-brand .name {
-                font-size: 0.85rem;
-            }
-
-            .header-cta {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.55rem;
-                letter-spacing: 1px;
-            }
-
-            .card-success {
-                padding: 2rem 1.25rem;
-            }
+            .hero-grid { padding: 0 var(--side); gap: 2rem; }
+            .hero-title .main { font-size: 1.9rem; letter-spacing: -0.5px; }
+            .hero-title .pre { font-size: 0.7rem; letter-spacing: 3px; }
+            .hero-title .sub { font-size: 0.9rem; }
+            .card { padding: 1.75rem 1.25rem; border-radius: 20px; }
+            .card h2 { font-size: 1.2rem; }
+            .header-brand .name { font-size: 0.85rem; }
+            .header-cta { padding: 0.35rem 0.8rem; font-size: 0.55rem; }
+            .card-success { padding: 2rem 1.25rem; }
         }
 
         @media (max-width: 380px) {
-            .hero-title {
-                font-size: 1.5rem;
-            }
-
-            .card {
-                padding: 1.5rem 1rem;
-            }
+            .hero-title .main { font-size: 1.6rem; }
+            .card { padding: 1.5rem 1rem; }
         }
     </style>
 </head>
@@ -692,9 +593,7 @@
             
 
 
-            <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="header-cta">
-                Fale Conosco
-            </a>
+            <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="header-cta">Fale Conosco</a>
         
 
 
@@ -708,21 +607,15 @@
             
                 
                     
-                    Material Exclusivo
+                    E-book gratuito
                 
 
 
 
-                <h1 class="hero-title">
-                    *⟶ E-book gratuito*
-                    Steel Frame:
-10 Mitos & Verdades
-                </h1>
-
                 
-                    Guia definitivo com dados técnicos do IPT, normas NBR e
-                    comparações reais entre Steel Frame e alvenaria &mdash;
-                    para você decidir com segurança e informação de qualidade.
+                    *⟶ Steel Frame*
+                    10 Mitos & Verdades
+                    Guia definitivo com dados técnicos do IPT, normas NBR e comparações reais com a alvenaria convencional.
                 
 
 
@@ -730,13 +623,13 @@
                 
                     
                         ✓
-                        Baseado em ensaios do IPT e normas técnicas brasileiras
+                        Baseado em ensaios do IPT e normas NBR
                     
 
 
                     
                         ✓
-                        Comparação real: custo, prazo, durabilidade e conforto
+                        Comparação real: custo, prazo, durabilidade
                     
 
 
@@ -748,7 +641,7 @@
 
                     
                         ✓
-                        Acesso imediato após o cadastro
+                        Acesso imediato no seu e-mail
                     
 
 
@@ -766,7 +659,6 @@
                 
                     **❌ Não foi possível enviar.**
                     
-                    Tente novamente ou entre em contato pelo WhatsApp.
                 
 
 
@@ -776,44 +668,37 @@
                     📥 Baixe agora
 
 
-
                     <h2>Receba seu e-book</h2>
-                    Preencha os dados abaixo e receba o link de acesso no seu e-mail.
+                    Preencha os dados e receba o link de acesso no seu e-mail.
 
 
 
                     <form id="leadForm" novalidate>
                         
                             <label for="nome">Nome completo *</label>
-                            <input type="text" id="nome" name="nome"
-                                   placeholder="Seu nome" required autocomplete="name" />
+                            <input type="text" id="nome" name="nome" placeholder="Seu nome" required autocomplete="name" />
                             Informe seu nome.
 
 
                         
 
 
-
                         
                             <label for="email">E-mail *</label>
-                            <input type="email" id="email" name="email"
-                                   placeholder="seu@email.com" required autocomplete="email" />
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required autocomplete="email" />
                             Informe um e-mail válido.
 
 
                         
 
 
-
                         
                             <label for="telefone">WhatsApp *</label>
-                            <input type="tel" id="telefone" name="telefone"
-                                   placeholder="(16) 99999-9999" required autocomplete="tel" />
+                            <input type="tel" id="telefone" name="telefone" placeholder="(16) 99999-9999" required autocomplete="tel" />
                             Informe o telefone com DDD.
 
 
                         
-
 
 
                         <button type="submit" class="btn-submit" id="btnSubmit">
@@ -822,10 +707,7 @@
                         </button>
                     </form>
 
-                    
-                        Seus dados estão protegidos. Nunca compartilhamos informações com terceiros.
-                        Ao enviar, você aceita receber comunicações da iBUILD São Carlos.
-                    
+                    Seus dados estão protegidos. Nunca compartilhamos informações com terceiros.
 
 
                 
@@ -838,15 +720,11 @@
 
 
                     <h3>✅ E-book enviado!</h3>
-                    
-                        Verifique sua caixa de entrada
+                    Verifique sua caixa de entrada
 (e a pasta de spam).
-                    
 
 
-                    
-                        Você será redirecionado em instantes.
-                    
+                    Você será redirecionado em instantes.
 
 
                 
@@ -866,21 +744,12 @@
     
     <footer class="footer">
         
-            iBUILD São Carlos
-
-
+            <a href="https://ibuildconstrutora.com.br" target="_blank" rel="noopener">Site</a>
             
-                <a href="https://ibuildconstrutora.com.br" target="_blank" rel="noopener">Site</a>
-                
-                <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" rel="noopener">Instagram</a>
-                
-                <a href="https://wa.me/5516997634187" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" rel="noopener">Instagram</a>
             
-
-
-            
-                &copy; 2026 iBUILD São Carlos &mdash; Construção em Light Steel Frame
-            
+            <a href="https://wa.me/5516997634187" target="_blank" rel="noopener">WhatsApp</a>
+            © 2026 iBUILD São Carlos — Construção em Light Steel Frame
 
 
         
@@ -893,94 +762,35 @@
         (function() {
             'use strict';
 
-            // 
-            // 🔧 CONFIGURAÇÃO — PREENCHA AQUI SEUS DADOS DO EMAILJS
-            // 
-            //
-            //  1. Crie conta em https://www.emailjs.com/
-            //  2. "Email Services" → Add New → copie o SERVICE_ID
-            //  3. "Email Templates" → Create New → copie o TEMPLATE_ID
-            //  4. "Account" → "API Keys" → copie a PUBLIC_KEY
-            //
-            // 
-
-            const EMAILJS_CONFIG = {
-                PUBLIC_KEY:  'SUA_PUBLIC_KEY_AQUI',
+            // ─── CONFIGURAÇÃO EMAILJS ───
+            // Preencha com seus dados do EmailJS:
+            const EMAILJS = {
+                PUBLIC_KEY:  'SUA_PUBLIC_KEY',
                 SERVICE_ID:  'service_seudominio',
                 TEMPLATE_ID: 'template_ebook_lead',
             };
 
-            // 
-            // 📧 INSTRUÇÕES DO TEMPLATE — COLE NO EMAILJS
-            // 
-            //
-            // ASSUNTO:
-            //   📘 E-book iBUILD São Carlos — O material chegou!
-            //
-            // CORPO:
-            //   Olá {{to_name}},
-            //
-            //   Conforme solicitado, segue o link para acessar seu e-book
-            //   "Steel Frame: 10 Mitos e Verdades":
-            //
-            //   🔗 {{ebook_link}}
-            //
-            //   Se tiver dúvidas ou quiser um orçamento, fale conosco:
-            //   WhatsApp: {{telefone_contato}}
-            //
-            //   Atenciosamente,
-            //   Guilherme Cazú
-            //   iBUILD São Carlos
-            //
-            // BCC — Settings > "Send a copy to" → SEU E-MAIL
-            // (assim você recebe nome, email e telefone do lead oculto)
-            //
-            // VARIÁVEIS DO TEMPLATE:
-            //   {{to_email}}         → e-mail do lead
-            //   {{to_name}}          → nome do lead
-            //   {{ebook_link}}       → link do e-book
-            //   {{telefone_contato}} → seu WhatsApp
-            //   {{lead_telefone}}    → telefone do lead
-            //
-            // 
-
-            // 
-            // 🔗 CONFIGURAÇÕES DE NEGÓCIO
-            // 
-
+            // ─── DADOS DO SEU NEGÓCIO ───
             const BUSINESS = {
-                EBOOK_URL:         'https://drive.google.com/file/d/SEU_ID_AQUI/view',
+                EBOOK_URL:         'https://drive.google.com/file/d/SEU_ID/view',
                 TELEFONE_CONTATO:  '(16) 99763-4187',
-                REDIRECT_URL:      'https://drive.google.com/file/d/SEU_ID_VIEW',
+                REDIRECT_URL:      'https://drive.google.com/file/d/SEU_ID/view',
                 REDIRECT_DELAY_MS: 5000,
             };
 
-            // 
-            // MÁSCARA DE TELEFONE
-            // 
-
-            const telefoneInput = document.getElementById('telefone');
-
-            telefoneInput.addEventListener('input', function(e) {
+            // ─── MÁSCARA DE TELEFONE ───
+            const telInput = document.getElementById('telefone');
+            telInput.addEventListener('input', function(e) {
                 let v = e.target.value.replace(/\D/g, '');
                 if (v.length > 11) v = v.slice(0, 11);
-
-                if (v.length <= 2) {
-                    v = '(' + v;
-                } else if (v.length <= 6) {
-                    v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
-                } else if (v.length <= 10) {
-                    v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 6) + '-' + v.slice(6);
-                } else {
-                    v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7);
-                }
+                if (v.length <= 2) v = '(' + v;
+                else if (v.length <= 6) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+                else if (v.length <= 10) v = '(' + v.slice(0,2) + ') ' + v.slice(2,6) + '-' + v.slice(6);
+                else v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
                 e.target.value = v;
             });
 
-            // 
-            // VALIDAÇÃO
-            // 
-
+            // ─── VALIDAÇÃO ───
             const form        = document.getElementById('leadForm');
             const btnSubmit   = document.getElementById('btnSubmit');
             const formCard    = document.getElementById('formCard');
@@ -989,114 +799,63 @@
             const errorDetail = document.getElementById('errorDetail');
 
             const fields = {
-                nome: {
-                    el: document.getElementById('nome'),
-                    err: document.getElementById('nomeError'),
-                    valid: function(v) { return v.trim().length >= 2; }
-                },
-                email: {
-                    el: document.getElementById('email'),
-                    err: document.getElementById('emailError'),
-                    valid: function(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
-                },
-                telefone: {
-                    el: telefoneInput,
-                    err: document.getElementById('telefoneError'),
-                    valid: function(v) { return v.replace(/\D/g, '').length >= 10; }
-                }
+                nome:     { el: document.getElementById('nome'),     err: document.getElementById('nomeError'),     test: v => v.trim().length >= 2 },
+                email:    { el: document.getElementById('email'),    err: document.getElementById('emailError'),    test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+                telefone: { el: telInput,                           err: document.getElementById('telefoneError'), test: v => v.replace(/\D/g,'').length >= 10 },
             };
 
-            function validar(nome) {
-                var f = fields[nome];
-                var ok = f.valid(f.el.value);
-                f.el.classList.toggle('error', !ok);
-                f.err.classList.toggle('visible', !ok);
-                return ok;
+            function validar(n) { const f = fields[n]; const ok = f.test(f.el.value); f.el.classList.toggle('error', !ok); f.err.classList.toggle('show', !ok); return ok; }
+            function validarTudo() { let ok = true; for (const k in fields) if (!validar(k)) ok = false; return ok; }
+
+            for (const k in fields) {
+                const f = fields[k];
+                f.el.addEventListener('blur', () => validar(k));
+                f.el.addEventListener('input', () => {
+                    if (f.test(f.el.value)) { f.el.classList.remove('error'); f.err.classList.remove('show'); }
+                });
             }
 
-            function validarTudo() {
-                var tudoOk = true;
-                for (var k in fields) { if (!validar(k)) tudoOk = false; }
-                return tudoOk;
-            }
-
-            for (var k in fields) {
-                (function(f, nome) {
-                    f.el.addEventListener('blur', function() { validar(nome); });
-                    f.el.addEventListener('input', function() {
-                        if (f.valid(f.el.value)) {
-                            f.el.classList.remove('error');
-                            f.err.classList.remove('visible');
-                        }
-                    });
-                })(fields[k], k);
-            }
-
-            // 
-            // ENVIO EMAILJS
-            // 
-
-            emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+            // ─── ENVIO EMAILJS ───
+            emailjs.init(EMAILJS.PUBLIC_KEY);
 
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
-
-                msgError.classList.remove('visible');
-
+                msgError.classList.remove('show');
                 if (!validarTudo()) {
-                    for (var n in fields) {
-                        if (!fields[n].valid(fields[n].el.value)) {
-                            fields[n].el.focus();
-                            break;
-                        }
-                    }
+                    for (const k in fields) { if (!fields[k].test(fields[k].el.value)) { fields[k].el.focus(); break; } }
                     return;
                 }
 
                 btnSubmit.disabled = true;
                 btnSubmit.classList.add('loading');
 
-                var nome     = fields.nome.el.value.trim();
-                var email    = fields.email.el.value.trim();
-                var telefone = fields.telefone.el.value.trim();
+                const nome     = fields.nome.el.value.trim();
+                const email    = fields.email.el.value.trim();
+                const telefone = fields.telefone.el.value.trim();
 
                 try {
-                    var resp = await emailjs.send(
-                        EMAILJS_CONFIG.SERVICE_ID,
-                        EMAILJS_CONFIG.TEMPLATE_ID,
-                        {
-                            to_email:         email,
-                            to_name:          nome,
-                            from_name:        'iBUILD São Carlos',
-                            ebook_link:       BUSINESS.EBOOK_URL,
-                            telefone_contato: BUSINESS.TELEFONE_CONTATO,
-                            lead_telefone:    telefone,
-                            lead_email:       email,
-                            lead_nome:        nome
-                        }
-                    );
-
-                    console.log('EmailJS ok:', resp.status, resp.text);
-
-                    // ✅ SUCESSO
+                    const resp = await emailjs.send(EMAILJS.SERVICE_ID, EMAILJS.TEMPLATE_ID, {
+                        to_email:         email,
+                        to_name:          nome,
+                        from_name:        'iBUILD São Carlos',
+                        ebook_link:       BUSINESS.EBOOK_URL,
+                        telefone_contato: BUSINESS.TELEFONE_CONTATO,
+                        lead_telefone:    telefone,
+                        lead_email:       email,
+                        lead_nome:        nome
+                    });
+                    console.log('OK:', resp.status);
                     formCard.style.display    = 'none';
-                    successCard.style.display = 'block';
-
-                    setTimeout(function() {
-                        window.location.href = BUSINESS.REDIRECT_URL;
-                    }, BUSINESS.REDIRECT_DELAY_MS);
-
+                    successCard.classList.add('show');
+                    setTimeout(() => { window.location.href = BUSINESS.REDIRECT_URL; }, BUSINESS.REDIRECT_DELAY_MS);
                 } catch (err) {
-                    console.error('EmailJS erro:', err);
-
-                    var det = '';
-                    if (err.status === 412) det = 'Template incompleto.';
+                    console.error('Erro:', err);
+                    let det = '';
+                    if (err.status === 412) det = 'Configuração do template incompleta.';
                     else if (err.status === 400) det = 'Dados inválidos.';
-                    else det = 'Tente novamente.';
-
+                    else det = 'Tente novamente mais tarde.';
                     errorDetail.textContent = ' ' + det;
-                    msgError.classList.add('visible');
-
+                    msgError.classList.add('show');
                     btnSubmit.disabled = false;
                     btnSubmit.classList.remove('loading');
                 }
