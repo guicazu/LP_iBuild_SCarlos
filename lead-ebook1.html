@@ -1,26 +1,22 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta name="facebook-domain-verification" content="908ob77ywabnqjbqan4ers241t1m1q" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baixe nosso Ebook — iBUILD São Carlos</title>
-    <meta name="description" content="Baixe nosso ebook gratuito sobre construções inteligentes em Steel Frame com a iBUILD São Carlos.">
-    <meta name="keywords" content="ebook steel frame, construção inteligente, iBUILD São Carlos, guia de construção">
+    <title>Baixe o E-book Gratuito — iBUILD São Carlos</title>
+    <meta name="description" content="Baixe gratuitamente o e-book da iBUILD São Carlos e descubra tudo sobre construção em Light Steel Frame. Preencha o formulário e receba o link no seu e-mail.">
+    <meta name="keywords" content="ebook construção steel frame, baixar ebook construção, light steel frame São Carlos, iBUILD São Carlos, guia construção">
     <meta name="geo.region" content="BR-SP">
     <meta name="geo.placename" content="São Carlos">
-    <meta name="geo.position" content="-22.0174;-47.8861">
-    <meta name="ICBM" content="-22.0174, -47.8861">
     <link rel="canonical" href="https://lp.ibuildsaocarlos.com.br/ebook">
-    <meta property="og:title" content="Baixe nosso Ebook — iBUILD São Carlos">
-    <meta property="og:description" content="Baixe nosso ebook gratuito sobre construções inteligentes em Steel Frame com a iBUILD São Carlos.">
+    <meta property="og:title" content="Baixe o E-book Gratuito — iBUILD São Carlos">
+    <meta property="og:description" content="Descubra tudo sobre construção em Light Steel Frame. Baixe agora o e-book gratuito da iBUILD São Carlos.">
     <meta property="og:url" content="https://lp.ibuildsaocarlos.com.br/ebook">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="pt_BR">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Baixe nosso Ebook — iBUILD São Carlos">
-    <meta name="twitter:description" content="Baixe nosso ebook gratuito sobre construções inteligentes em Steel Frame com a iBUILD São Carlos.">
+    <meta name="twitter:title" content="E-book Gratuito — iBUILD São Carlos">
+    <meta name="twitter:description" content="Baixe o e-book gratuito sobre construção em Light Steel Frame.">
 
     <style>
         /* ============================================================
@@ -29,7 +25,7 @@
         @font-face {
             font-family: 'Transducer';
             src: url('./fonts/Transducer-Regular.woff2') format('woff2'),
-                 url('./fonts/Transducer-Regular.woff') format('woff');
+            url('./fonts/Transducer-Regular.woff') format('woff');
             font-weight: 400;
             font-style: normal;
             font-display: swap;
@@ -37,7 +33,7 @@
         @font-face {
             font-family: 'Transducer';
             src: url('./fonts/Transducer-Medium.woff2') format('woff2'),
-                 url('./fonts/Transducer-Medium.woff') format('woff');
+            url('./fonts/Transducer-Medium.woff') format('woff');
             font-weight: 500;
             font-style: normal;
             font-display: swap;
@@ -45,7 +41,7 @@
         @font-face {
             font-family: 'Transducer';
             src: url('./fonts/Transducer-Bold.woff2') format('woff2'),
-                 url('./fonts/Transducer-Bold.woff') format('woff');
+            url('./fonts/Transducer-Bold.woff') format('woff');
             font-weight: 700;
             font-style: normal;
             font-display: swap;
@@ -53,7 +49,7 @@
         @font-face {
             font-family: 'Transducer';
             src: url('./fonts/Transducer-Light.woff2') format('woff2'),
-                 url('./fonts/Transducer-Light.woff') format('woff');
+            url('./fonts/Transducer-Light.woff') format('woff');
             font-weight: 300;
             font-style: normal;
             font-display: swap;
@@ -61,7 +57,7 @@
         @font-face {
             font-family: 'Brittany Signature';
             src: url('./fonts/BrittanySignatureRegular.woff2') format('woff2'),
-                 url('./fonts/BrittanySignatureRegular.woff') format('woff');
+            url('./fonts/BrittanySignatureRegular.woff') format('woff');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -70,7 +66,9 @@
         /* ============================================================
            RESET & VARIÁVEIS
            ============================================================ */
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -123,7 +121,7 @@
         }
 
         /* ============================================================
-           LOADER (animação de entrada) - Mantido para consistência
+           LOADER (animação de entrada)
            ============================================================ */
         .loader {
             position: fixed;
@@ -143,7 +141,11 @@
             pointer-events: none;
         }
         @keyframes loaderAutoHide {
-            to { opacity: 0; visibility: hidden; pointer-events: none; }
+            to {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
         }
         .loader-logo {
             width: 240px;
@@ -168,11 +170,19 @@
             opacity: 0;
             animation: loaderFade 1s var(--ease-out-expo) 1s forwards;
         }
-        @keyframes loaderFade { to { opacity: 1; } }
-        @keyframes loaderLine { to { transform: scaleX(1); } }
+        @keyframes loaderFade {
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes loaderLine {
+            to {
+                transform: scaleX(1);
+            }
+        }
 
         /* ============================================================
-           NAVEGAÇÃO (mantida para consistência, mas pode ser simplificada)
+           NAVEGAÇÃO (fixa no topo)
            ============================================================ */
         .nav {
             position: fixed;
@@ -186,22 +196,11 @@
             align-items: center;
             gap: 24px;
             transition: background .5s, padding .4s, backdrop-filter .5s;
-        }
-        .nav.scrolled {
-            background: rgba(26,26,26,.92);
+            background: rgba(26, 26, 26, .85);
             backdrop-filter: blur(20px);
-            padding: 16px 48px;
-        }
-        .nav.scrolled .nav-logo {
-            display: flex;
-        }
-        .nav.scrolled .nav-cta {
-            background: #fff;
-            color: var(--black);
-            border-color: #fff;
         }
         .nav-logo {
-            display: none;
+            display: flex;
             margin-right: auto;
         }
         .nav-logo img {
@@ -246,8 +245,8 @@
             font-weight: 400;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: rgba(255,255,255,.6);
-            border: 1px solid rgba(255,255,255,.3);
+            color: rgba(255, 255, 255, .6);
+            border: 1px solid rgba(255, 255, 255, .3);
             padding: 12px 28px;
             transition: all .4s var(--ease-out-expo);
             white-space: nowrap;
@@ -314,7 +313,7 @@
             width: 44px;
             height: 44px;
             background: transparent;
-            border: 1px solid rgba(255,255,255,.18);
+            border: 1px solid rgba(255, 255, 255, .18);
             color: var(--off-white);
             cursor: pointer;
             display: flex;
@@ -333,298 +332,761 @@
             width: 18px;
             height: 18px;
         }
+        @media (max-width: 1200px) {
+            .nav-links {
+                gap: 14px;
+            }
+            .nav-links a {
+                font-size: .68rem;
+                letter-spacing: 2px;
+            }
+            .nav-cta {
+                padding: 10px 20px;
+                font-size: .68rem;
+            }
+        }
+        @media (max-width: 1024px) {
+            .nav-links,
+            .nav-cta {
+                display: none;
+            }
+            .nav-hamburger {
+                display: flex;
+            }
+            .nav-logo {
+                display: flex;
+                margin-right: auto;
+            }
+        }
         @media (max-width: 900px) {
-            .nav { padding: 20px 24px; }
-            .nav.scrolled { padding: 14px 24px; }
+            .nav {
+                padding: 20px 24px;
+            }
         }
 
         /* ============================================================
-           SEÇÃO HERO - Adaptado para o Ebook
+           HERO — E-book (com vídeo ou imagem de fundo)
            ============================================================ */
-        .hero-ebook {
+        .hero {
             position: relative;
-            min-height: 70vh; /* Altura menor que o hero principal */
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            background: var(--black);
-            padding: 120px var(--side-padding) 80px;
             overflow: hidden;
+            background: var(--black);
         }
-        .hero-ebook-bg {
+        .hero-bg {
             position: absolute;
             inset: 0;
-            z-index: 0;
-            background: url('./assets/hero-ebook-bg.webp') no-repeat center center/cover;
-        }
-        .hero-ebook-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top left, rgba(29,29,31,.9) 0%, rgba(29,29,31,.7) 50%, rgba(29,29,31,.4) 100%);
             z-index: 1;
         }
-        .hero-ebook-content {
-            position: relative;
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: .55;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
             z-index: 2;
-            text-align: center;
-            max-width: 700px;
+            background: linear-gradient(to top left, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.55) 50%, rgba(0, 0, 0, 0.3) 100%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 140px var(--side-padding) 100px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
             width: 100%;
         }
-        .hero-ebook-pretitle {
-            font-size: 0.8rem;
+        .hero-text {}
+        .hero-pretitle {
+            font-size: .7rem;
             font-weight: 500;
             letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--gold);
             margin-bottom: 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: heroReveal 1s var(--ease-out-expo) 1.5s forwards;
         }
-        .hero-ebook-title {
+        .hero-title {
             font-family: var(--font-display);
-            font-size: clamp(2.5rem, 6vw, 3.6rem);
+            font-size: clamp(2rem, 4vw, 3.2rem);
             font-weight: 700;
             line-height: 1.1;
             color: #fff;
             margin-bottom: 24px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .hero-title em {
+            font-family: 'Brittany Signature', cursive !important;
+            font-style: normal;
+            color: var(--gold);
+            font-weight: normal;
+            letter-spacing: 0px;
+            text-transform: none;
+            font-size: 1.25em;
+        }
+        .hero-subtitle {
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, .65);
+            margin-bottom: 32px;
+            line-height: 1.7;
+            letter-spacing: .5px;
+            max-width: 520px;
+        }
+        .hero-benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 24px;
+            list-style: none;
+            margin-bottom: 0;
+        }
+        .hero-benefits li {
+            font-size: .82rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, .75);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: .3px;
+        }
+        .hero-benefits li svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--gold);
+            flex-shrink: 0;
+        }
+        .hero-form-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 40px 36px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
+            position: relative;
+            z-index: 4;
+        }
+        .hero-form-card .form-eyebrow {
+            font-size: .65rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .hero-form-card .form-title {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--black);
+            text-align: center;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        .hero-form-card .form-subtitle {
+            font-size: .82rem;
+            color: var(--charcoal);
+            text-align: center;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+        .hero-form-card .ebook-cover-preview {
+            width: 120px;
+            height: 160px;
+            background: var(--black);
+            margin: 0 auto 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .15);
+        }
+        .hero-form-card .ebook-cover-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hero-form-card .ebook-cover-preview .ebook-placeholder {
+            color: var(--gold);
+            font-family: var(--font-display);
+            font-size: .7rem;
+            text-align: center;
+            padding: 12px;
+            line-height: 1.3;
+            letter-spacing: 1px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: .7rem;
+            font-weight: 500;
             letter-spacing: 2px;
             text-transform: uppercase;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: heroReveal 1.2s var(--ease-out-expo) 1.7s forwards;
+            color: var(--charcoal);
+            margin-bottom: 6px;
         }
-        .hero-ebook-subtitle {
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: rgba(255,255,255,.75);
-            max-width: 560px;
-            margin: 0 auto 40px;
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--light-gray);
+            font-family: var(--font-body);
+            font-size: .9rem;
+            color: var(--black);
+            background: var(--warm-white);
+            transition: border-color .3s, box-shadow .3s;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(200, 169, 110, .15);
+        }
+        .form-group input::placeholder {
+            color: var(--gray);
+        }
+        .form-submit {
+            width: 100%;
+            padding: 16px 24px;
+            background: var(--gold);
+            color: var(--black);
+            font-family: var(--font-display);
+            font-size: .85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid var(--gold);
+            cursor: pointer;
+            transition: all .4s var(--ease-out-expo);
+            margin-top: 8px;
+        }
+        .form-submit:hover {
+            background: var(--black);
+            color: var(--gold);
+            border-color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+        }
+        .form-disclaimer {
+            font-size: .65rem;
+            color: var(--gray);
+            text-align: center;
+            margin-top: 14px;
+            line-height: 1.5;
+        }
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .form-success.active {
+            display: block;
+        }
+        .form-success .success-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .form-success .success-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--black);
+            fill: none;
+            stroke-width: 2;
+        }
+        .form-success h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 8px;
+        }
+        .form-success p {
+            font-size: .85rem;
+            color: var(--charcoal);
             line-height: 1.6;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: heroReveal 1s var(--ease-out-expo) 2s forwards;
         }
-        @keyframes heroReveal {
-            to { opacity: 1; transform: translateY(0); }
+        @media (max-width: 900px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 120px 20px 60px;
+                text-align: center;
+            }
+            .hero-subtitle {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 100%;
+            }
+            .hero-benefits {
+                justify-content: center;
+            }
+            .hero-text {
+                order: 1;
+            }
+            .hero-form-card {
+                order: 2;
+                max-width: 480px;
+                margin: 0 auto;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-form-card {
+                padding: 28px 20px;
+            }
+            .hero-form-card .form-title {
+                font-size: 1.15rem;
+            }
+            .form-submit {
+                font-size: .75rem;
+                letter-spacing: 1px;
+            }
+            .hero-title {
+                font-size: clamp(1.7rem, 7vw, 2.2rem);
+                letter-spacing: 0;
+            }
         }
 
         /* ============================================================
-           SEÇÃO FORMULÁRIO DE CAPTURA (Lead Capture)
+           SEÇÃO: O QUE VOCÊ VAI APRENDER
            ============================================================ */
-        .lead-capture-section {
-            padding: 80px var(--side-padding);
+        .learn {
+            padding: 100px var(--side-padding);
             background: var(--cream);
             position: relative;
             z-index: 2;
         }
-        .lead-capture-inner {
+        .learn-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+        }
+        .learn-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .learn-label {
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .learn-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 500;
+            color: var(--black);
+            margin-bottom: 16px;
+        }
+        .learn-subtitle {
+            font-size: 1rem;
+            color: var(--charcoal);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        .learn-card {
+            background: #fff;
+            padding: 28px 24px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, .04);
+            transition: all .5s var(--ease-out-expo);
+        }
+        .learn-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .07);
+        }
+        .learn-card-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+        }
+        .learn-card-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--gold);
+            fill: none;
+        }
+        .learn-card-title {
+            font-family: var(--font-display);
+            font-size: .95rem;
+            font-weight: 500;
+            color: var(--black);
+            margin-bottom: 8px;
+        }
+        .learn-card-text {
+            font-size: .8rem;
+            color: var(--charcoal);
+            line-height: 1.65;
+        }
+        @media (max-width: 900px) {
+            .learn {
+                padding: 60px 20px;
+            }
+            .learn-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+        }
+        @media (max-width: 480px) {
+            .learn-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============================================================
+           SEÇÃO: SOBRE O E-BOOK (detalhes)
+           ============================================================ */
+        .ebook-details {
+            padding: 100px var(--side-padding);
+            background: var(--warm-white);
+            position: relative;
+            z-index: 2;
+        }
+        .ebook-details-inner {
             max-width: var(--content-width);
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 70px;
+            gap: 60px;
             align-items: center;
         }
-        .lead-capture-image {
+        .ebook-details-image {
             overflow: hidden;
             border-radius: 8px;
-            box-shadow: 0 16px 48px rgba(0,0,0,.1);
         }
-        .lead-capture-image img {
+        .ebook-details-image img {
             width: 100%;
             height: auto;
             object-fit: cover;
             transition: transform .8s var(--ease-out-expo);
         }
-        .lead-capture-image:hover img {
-            transform: scale(1.05);
+        .ebook-details-image:hover img {
+            transform: scale(1.04);
         }
-        .lead-capture-form {
-            background: #fff;
-            padding: 48px 48px 40px;
-            border-radius: 8px;
-            box-shadow: 0 16px 48px rgba(0,0,0,.06);
-        }
-        .lead-capture-form-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+        .ebook-details-content {}
+        .ebook-details-label {
+            font-size: .7rem;
             font-weight: 500;
-            line-height: 1.2;
-            color: var(--black);
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        .lead-capture-form-subtitle {
-            font-size: 0.9rem;
-            color: var(--charcoal);
-            line-height: 1.7;
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        .lead-capture-form label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            color: var(--gray);
-            margin-bottom: 8px;
+            color: var(--accent);
+            margin-bottom: 16px;
         }
-        .lead-capture-form input[type="text"],
-        .lead-capture-form input[type="email"],
-        .lead-capture-form input[type="tel"] {
-            width: 100%;
-            padding: 14px 20px;
+        .ebook-details-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 500;
+            color: var(--black);
             margin-bottom: 20px;
-            border: 1px solid var(--light-gray);
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 400;
-            color: var(--black);
-            font-family: var(--font-body);
-            transition: border-color .3s;
+            line-height: 1.3;
         }
-        .lead-capture-form input[type="text"]:focus,
-        .lead-capture-form input[type="email"]:focus,
-        .lead-capture-form input[type="tel"]:focus {
-            border-color: var(--gold);
-            outline: none;
-        }
-        .lead-capture-form button[type="submit"] {
-            width: 100%;
-            background: var(--gold);
-            color: var(--black);
-            font-family: var(--font-display);
-            font-size: 0.88rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            padding: 16px 30px;
-            border-radius: 6px;
-            transition: all .4s var(--ease-out-expo);
-            margin-top: 12px;
-        }
-        .lead-capture-form button[type="submit"]:hover {
-            background: var(--black);
+        .ebook-details-title em {
+            font-style: italic;
             color: var(--gold);
         }
-        .lead-capture-form-terms {
-            text-align: center;
-            font-size: 0.72rem;
-            color: var(--gray);
-            line-height: 1.6;
-            margin-top: 24px;
+        .ebook-details-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--charcoal);
         }
-        .lead-capture-form-terms a {
-            color: var(--accent);
+        .ebook-details-text p+p {
+            margin-top: 16px;
+        }
+        .ebook-details-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 32px;
+            font-size: .75rem;
             font-weight: 500;
-            text-decoration: underline;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            border: 1px solid var(--charcoal);
+            padding: 14px 32px;
+            transition: all .4s var(--ease-out-expo);
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .ebook-details-cta svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            transition: transform .4s var(--ease-out-expo);
+        }
+        .ebook-details-cta:hover svg {
+            transform: translateX(4px);
+        }
+        .ebook-details-cta:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
         }
         @media (max-width: 900px) {
-            .lead-capture-section { padding: 60px 20px; }
-            .lead-capture-inner {
-                grid-template-columns: 1fr;
-                gap: 40px;
+            .ebook-details {
+                padding: 60px 20px;
             }
-            .lead-capture-image { order: -1; }
-            .lead-capture-form { padding: 32px 24px 28px; }
+            .ebook-details-inner {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            .ebook-details-image {
+                order: -1;
+                max-width: 420px;
+                margin: 0 auto;
+            }
+        }
+
+        /* ============================================================
+           SEÇÃO: DEPOIMENTOS (simplificado)
+           ============================================================ */
+        .testimonials {
+            padding: 100px var(--side-padding);
+            background: var(--black);
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+            opacity: .5;
+        }
+        .testimonials-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        .testimonials-label {
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+        .testimonials-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 500;
+            color: var(--off-white);
+            margin-bottom: 48px;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        .testimonial-card {
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(255, 255, 255, .08);
+            padding: 28px 24px;
+            text-align: left;
+            transition: all .4s var(--ease-out-expo);
+        }
+        .testimonial-card:hover {
+            border-color: rgba(200, 169, 110, .4);
+            transform: translateY(-4px);
+        }
+        .testimonial-card .quote {
+            font-size: .88rem;
+            line-height: 1.7;
+            color: var(--light-gray);
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+        .testimonial-card .author {
+            font-size: .75rem;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        @media (max-width: 900px) {
+            .testimonials {
+                padding: 60px 20px;
+            }
+            .testimonials-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
         }
         @media (max-width: 480px) {
-            .hero-ebook { padding: 80px 16px 60px; }
-            .hero-ebook-pretitle { font-size: .7rem; }
-            .hero-ebook-title { font-size: clamp(2rem, 7vw, 2.8rem); }
-            .hero-ebook-subtitle { font-size: 1rem; }
-            .lead-capture-form input[type="text"],
-            .lead-capture-form input[type="email"],
-            .lead-capture-form input[type="tel"] { padding: 12px 16px; margin-bottom: 16px; }
-            .lead-capture-form button[type="submit"] { padding: 14px 24px; font-size: .8rem; }
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ============================================================
-           CTA FLUTUANTE LATERAL (#floatCta)
+           SEÇÃO: CTA FINAL (reforço)
            ============================================================ */
-        #floatCta {
-            position: fixed;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 120;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
+        .cta-section {
+            position: relative;
+            padding: 140px var(--side-padding);
+            text-align: center;
+            overflow: hidden;
+            z-index: 2;
+        }
+        .cta-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .cta-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: .7;
+        }
+        .cta-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(26, 26, 26, .78);
+        }
+        .cta-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .cta-label {
+            font-size: .7rem;
+            font-weight: 500;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            background: #C8A96E;
-            color: #1d1d1f;
-            padding: 22px 13px;
-            border-radius: 14px 0 0 14px;
-            font-family: 'Transducer', sans-serif;
-            font-weight: 600;
-            font-size: .8rem;
-            letter-spacing: 1px;
-            line-height: 1.35;
-            box-shadow: -5px 6px 26px rgba(0,0,0,.25);
-            text-decoration: none;
+            color: var(--accent);
+            margin-bottom: 28px;
+        }
+        .cta-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 500;
+            color: var(--off-white);
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        .cta-text {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--light-gray);
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            font-size: .85rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--black);
+            background: #fff;
+            padding: 18px 48px;
+            transition: all .5s var(--ease-out-expo);
             cursor: pointer;
-            transition: padding .3s ease, box-shadow .3s ease;
-            max-height: 80vh;
         }
-        #floatCta .cta-short { display: none; }
-        #floatCta:hover { padding-right: 19px; box-shadow: -9px 8px 34px rgba(0,0,0,.33); }
-
+        .cta-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform .4s var(--ease-out-expo);
+        }
+        .cta-btn:hover svg {
+            transform: translateX(4px);
+        }
+        .cta-btn:hover {
+            background: var(--gold) !important;
+            color: var(--black) !important;
+            border-color: var(--gold) !important;
+        }
         @media (max-width: 768px) {
-            #floatCta {
-                left: 50%;
-                right: auto;
-                bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-                transform: translateX(-50%);
-                width: 88%;
-                max-width: 440px;
-                max-height: none;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 14px;
-                writing-mode: horizontal-tb;
-                text-transform: none;
-                background: rgba(29,29,31,.94);
-                -webkit-backdrop-filter: blur(10px);
-                backdrop-filter: blur(10px);
-                color: #fff;
-                border: 1px solid rgba(255,255,255,.10);
-                border-radius: 16px;
-                padding: 15px 16px 15px 22px;
-                font-size: clamp(.78rem, 3.6vw, .9rem);
-                font-weight: 600;
-                letter-spacing: .2px;
-                white-space: nowrap;
-                line-height: 1.3;
-                box-shadow: 0 10px 34px rgba(0,0,0,.30);
+            .cta-section {
+                padding: 100px 24px;
             }
-            #floatCta .cta-full { display: none; }
-            #floatCta .cta-short { display: inline; }
-            #floatCta::after {
-                content: '→';
-                flex-shrink: 0;
-                width: 30px;
-                height: 30px;
-                border: 1.5px solid rgba(255,255,255,.40);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.05rem;
-                transition: transform .2s ease, background .2s ease;
-            }
-            #floatCta:hover { padding: 15px 16px 15px 22px; box-shadow: 0 10px 34px rgba(0,0,0,.30); }
-            #floatCta:active { transform: translateX(-50%) scale(.985); }
-            #floatCta:active::after { transform: translateX(3px); background: rgba(255,255,255,.14); }
-        }
-        @media (max-height: 560px) and (min-width: 769px) {
-            #floatCta { font-size: .64rem; padding: 12px 9px; }
         }
 
         /* ============================================================
-           FOOTER (mantido para consistência)
+           ANIMAÇÕES DE REVEAL (scroll)
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity .9s var(--ease-out-expo), transform .9s var(--ease-out-expo);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 {
+            transition-delay: .1s;
+        }
+        .reveal-delay-2 {
+            transition-delay: .2s;
+        }
+        .reveal-delay-3 {
+            transition-delay: .3s;
+        }
+        .reveal-delay-4 {
+            transition-delay: .4s;
+        }
+        .reveal-line {
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1.2s var(--ease-out-expo);
+        }
+        .reveal-line.visible {
+            transform: scaleX(1);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(.95);
+            transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
+        }
+        .reveal-scale.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ============================================================
+           INTRO LINE UTILITÁRIO
+           ============================================================ */
+        .intro-line {
+            width: 60px;
+            height: 2px;
+            background: var(--gold);
+            margin: 0 auto 24px;
+        }
+
+        /* ============================================================
+           FOOTER
            ============================================================ */
         .footer {
             padding: 80px var(--side-padding) 40px;
@@ -639,12 +1101,13 @@
             grid-template-columns: 2fr 1fr 1fr 1fr;
             gap: 48px;
             padding-bottom: 48px;
-            border-bottom: 1px solid rgba(255,255,255,.06);
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
         }
         .footer-brand img {
             height: 20px;
             opacity: .6;
             margin-bottom: 20px;
+            filter: brightness(10);
         }
         .footer-brand p {
             font-size: .85rem;
@@ -705,147 +1168,367 @@
             color: var(--accent);
         }
         @media (max-width: 768px) {
-            .footer { padding: 56px 20px 28px; }
+            .footer {
+                padding: 56px 20px 28px;
+            }
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
-                grid-template-areas:
-                    "brand brand"
-                    "nav contato"
-                    "social social";
+                grid-template-areas: "brand brand" "nav contato" "social social";
                 gap: 36px 16px;
             }
-            .footer-grid > div:nth-child(1) {
+            .footer-grid>div:nth-child(1) {
                 grid-area: brand;
                 text-align: center;
                 padding-bottom: 32px;
-                border-bottom: 1px solid rgba(255,255,255,.06);
+                border-bottom: 1px solid rgba(255, 255, 255, .06);
                 display: flex;
                 flex-direction: column;
                 align-items: center;
             }
-            .footer-brand p { text-align: center; max-width: 320px; margin: 0 auto; }
-            .footer-grid > div:nth-child(2) { grid-area: nav; text-align: center; }
-            .footer-grid > div:nth-child(3) { grid-area: contato; text-align: center; }
-            .footer-grid > div:nth-child(4) { grid-area: social; text-align: center; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.06); }
-            .footer-grid > div:nth-child(4) ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; }
-            .footer-grid > div:nth-child(4) li { margin-bottom: 0; }
-            .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-brand p {
+                text-align: center;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+            .footer-grid>div:nth-child(2) {
+                grid-area: nav;
+                text-align: center;
+            }
+            .footer-grid>div:nth-child(3) {
+                grid-area: contato;
+                text-align: center;
+            }
+            .footer-grid>div:nth-child(4) {
+                grid-area: social;
+                text-align: center;
+                padding-top: 32px;
+                border-top: 1px solid rgba(255, 255, 255, .06);
+            }
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* ============================================================
+           SCROLL-TO-FORM (botão flutuante de scroll no mobile)
+           ============================================================ */
+        .scroll-to-form-btn {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 110;
+            background: var(--gold);
+            color: var(--black);
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-family: var(--font-display);
+            font-size: .8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .3);
+            cursor: pointer;
+            white-space: nowrap;
+            animation: pulseCta 2s ease-in-out infinite;
+        }
+        @keyframes pulseCta {
+            0%,
+            100% {
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                transform: translateX(-50%) scale(1.06);
+            }
+        }
+        @media (max-width: 900px) {
+            .scroll-to-form-btn {
+                display: inline-flex;
+            }
         }
     </style>
 </head>
 <body>
 
     <!-- ============================================================
-    LOADER (Mantido para consistência, mesmo que a página seja menor)
+    LOADER
     ============================================================ -->
     <div class="loader" id="loader">
         <img src="assets/logo-light.webp" alt="iBUILD São Carlos" class="loader-logo" fetchpriority="high">
         <div class="loader-line"></div>
-        <span class="loader-text">Construções Inteligentes</span>
+        <span class="loader-text">E-book Gratuito</span>
     </div>
 
     <!-- ============================================================
-    NAVEGAÇÃO (Mantida para consistência)
+    NAVEGAÇÃO
     ============================================================ -->
     <nav class="nav" id="nav">
-        <a href="/#hero" class="nav-logo">
+        <a href="https://lp.ibuildsaocarlos.com.br/" class="nav-logo">
             <img src="assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy">
         </a>
         <ul class="nav-links">
-            <!-- Links adaptados para a página principal -->
-            <li><a href="/#hero">Home</a></li>
-            <li><a href="/#sobre">Sobre</a></li>
-            <li><a href="/#projetos">Projetos</a></li>
-            <li><a href="/#contato">Contato</a></li>
+            <li><a href="https://lp.ibuildsaocarlos.com.br/">Home</a></li>
+            <li><a href="https://lp.ibuildsaocarlos.com.br/#sobre">Sobre</a></li>
+            <li><a href="https://lp.ibuildsaocarlos.com.br/#projetos">Projetos</a></li>
+            <li><a href="https://lp.ibuildsaocarlos.com.br/#jornada">Jornada</a></li>
+            <li><a href="https://lp.ibuildsaocarlos.com.br/#contato">Contato</a></li>
         </ul>
-        <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="nav-cta">Faça seu Orçamento</a>
+        <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="nav-cta">Fale Conosco</a>
         <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
             <span></span><span></span><span></span>
         </div>
     </nav>
 
-    <!-- Menu mobile (Mantido) -->
+    <!-- Menu mobile -->
     <div class="mobile-menu" id="mobileMenu">
         <button class="mobile-menu-close" onclick="toggleMenu()" aria-label="Fechar menu">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
-        <a href="/#hero" onclick="toggleMenu()">Home</a>
-        <a href="/#sobre" onclick="toggleMenu()">Sobre</a>
-        <a href="/#projetos" onclick="toggleMenu()">Projetos</a>
-        <a href="/#contato" onclick="toggleMenu()">Contato</a>
+        <a href="https://lp.ibuildsaocarlos.com.br/" onclick="toggleMenu()">Home</a>
+        <a href="https://lp.ibuildsaocarlos.com.br/#sobre" onclick="toggleMenu()">Sobre</a>
+        <a href="https://lp.ibuildsaocarlos.com.br/#projetos" onclick="toggleMenu()">Projetos</a>
+        <a href="https://lp.ibuildsaocarlos.com.br/#jornada" onclick="toggleMenu()">Jornada</a>
+        <a href="https://lp.ibuildsaocarlos.com.br/#contato" onclick="toggleMenu()">Contato</a>
+        <a href="#form-section" onclick="toggleMenu()">Baixar E-book</a>
     </div>
 
     <!-- ============================================================
-    HERO PARA EBOOK
+    HERO — E-book com formulário de captura
     ============================================================ -->
-    <section class="hero-ebook" id="ebook-hero">
-        <div class="hero-ebook-bg"></div>
-        <div class="hero-ebook-overlay"></div>
-        <div class="hero-ebook-content">
-            <p class="hero-ebook-pretitle">iBUILD São Carlos Apresenta</p>
-            <h1 class="hero-ebook-title">O Guia Definitivo do Steel Frame</h1>
-            <p class="hero-ebook-subtitle">
-                Descubra os segredos da construção inteligente, sustentável e rápida. 
-                Baixe nosso ebook gratuito e comece a planejar sua obra com confiança.
-            </p>
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80" alt="Construção em Light Steel Frame" loading="eager">
         </div>
-    </section>
-
-    <!-- ============================================================
-    SEÇÃO FORMULÁRIO DE CAPTURA (Lead Capture)
-    ============================================================ -->
-    <section class="lead-capture-section">
-        <div class="lead-capture-inner">
-            <div class="lead-capture-image reveal-scale">
-                <img src="assets/ebook-cover.webp" alt="Capa do Ebook iBUILD São Carlos - Guia do Steel Frame" loading="lazy">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <p class="hero-pretitle">E-book Gratuito</p>
+                <h1 class="hero-title">
+                    O GUIA COMPLETO PARA CONSTRUIR <em>sem</em> DOR DE CABEÇA
+                </h1>
+                <p class="hero-subtitle">
+                    Descubra tudo sobre construção em Light Steel Frame: custos, prazos, vantagens
+                    e como evitar os erros mais comuns. Um guia prático feito por quem já entregou
+                    mais de <strong>42.000 m²</strong> de obras.
+                </p>
+                <ul class="hero-benefits">
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Conteúdo 100% gratuito
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        Acesso imediato por e-mail
+                    </li>
+                    <li>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        +11 anos de experiência reunidos
+                    </li>
+                </ul>
             </div>
-            <div class="lead-capture-form reveal">
-                <h2 class="lead-capture-form-title">Baixe Agora Seu Ebook Gratuito!</h2>
-                <p class="lead-capture-form-subtitle">Preencha seus dados e receba o link para download em seu e-mail.</p>
-                <!-- ATENÇÃO: Este formulário precisa ser adaptado para enviar os dados para um backend
-                     ou serviço de email marketing. O exemplo abaixo é apenas uma estrutura HTML. -->
-                <form action="/enviar-ebook" method="POST" id="ebook-form">
-                    <div>
-                        <label for="name">Seu Nome Completo</label>
-                        <input type="text" id="name" name="name" placeholder="Ex: João da Silva" required>
+            <div class="hero-form-card" id="form-section">
+                <div class="ebook-cover-preview">
+                    <!-- Substitua pelo caminho real da capa do e-book -->
+                    <div class="ebook-placeholder">
+                        CAPA DO<br>E-BOOK<br><span style="font-size:1.6rem;">📘</span>
                     </div>
-                    <div>
-                        <label for="email">Seu Melhor E-mail</label>
-                        <input type="email" id="email" name="email" placeholder="Ex: joao.silva@email.com" required>
+                    <!-- Se tiver a imagem: <img src="assets/ebook-cover.webp" alt="Capa do E-book iBUILD"> -->
+                </div>
+                <p class="form-eyebrow">Download Gratuito</p>
+                <h3 class="form-title">BAIXE AGORA O E-BOOK</h3>
+                <p class="form-subtitle">Preencha os dados abaixo e receba o link de acesso no seu e-mail.</p>
+
+                <!-- FORMULÁRIO -->
+                <form id="leadForm" novalidate>
+                    <div class="form-group">
+                        <label for="leadName">Nome Completo</label>
+                        <input type="text" id="leadName" name="name" placeholder="Seu nome completo" required autocomplete="name">
                     </div>
-                    <div>
-                        <label for="phone">Seu Telefone (com DDD)</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Ex: (16) 99999-9999" required pattern="(\(?\d{2}\)?\s?)?\d{4,5}-?\d{4}">
+                    <div class="form-group">
+                        <label for="leadEmail">E-mail</label>
+                        <input type="email" id="leadEmail" name="email" placeholder="seu@email.com" required autocomplete="email">
                     </div>
-                    <button type="submit">QUERO MEU EBOOK!</button>
-                    <p class="lead-capture-form-terms">
-                        Ao clicar em "Quero meu Ebook!", você concorda com nossa 
-                        <a href="/politica-privacidade">Política de Privacidade</a> e em receber comunicações da iBUILD São Carlos.
-                    </p>
+                    <div class="form-group">
+                        <label for="leadPhone">Telefone / WhatsApp</label>
+                        <input type="tel" id="leadPhone" name="phone" placeholder="(16) 99999-9999" required autocomplete="tel">
+                    </div>
+                    <button type="submit" class="form-submit" id="formSubmitBtn">
+                        Quero Baixar o E-book
+                    </button>
+                    <p class="form-disclaimer">Seus dados estão seguros. Não enviaremos spam.</p>
                 </form>
+
+                <!-- MENSAGEM DE SUCESSO -->
+                <div class="form-success" id="formSuccess">
+                    <div class="success-icon">
+                        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <h3>E-book enviado!</h3>
+                    <p>Verifique sua caixa de entrada. O link de acesso ao e-book foi enviado para o seu e-mail. Se não encontrar, olhe na pasta de spam.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ============================================================
-    CTA FLUTUANTE LATERAL (#floatCta)
+    SEÇÃO: O QUE VOCÊ VAI APRENDER
     ============================================================ -->
-    <a href="/#contato" id="floatCta" class="cta-full" aria-label="Fale conosco">Fale Conosco</a>
-    <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="cta-short" aria-label="Fale conosco pelo WhatsApp">Orçamento</a>
+    <section class="learn" id="aprender">
+        <div class="learn-inner">
+            <div class="learn-header">
+                <p class="learn-label reveal">Conteúdo do E-book</p>
+                <h2 class="learn-title reveal reveal-delay-1">O QUE VOCÊ VAI <em style="font-style:italic;color:var(--gold);">APRENDER</em></h2>
+                <p class="learn-subtitle reveal reveal-delay-2">Um guia completo e prático para quem quer construir com segurança, economia e tranquilidade.</p>
+            </div>
+            <div class="learn-grid">
+                <div class="learn-card reveal">
+                    <div class="learn-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+                    </div>
+                    <h4 class="learn-card-title">O que é Light Steel Frame</h4>
+                    <p class="learn-card-text">Entenda a tecnologia que está revolucionando a construção civil no Brasil e no mundo.</p>
+                </div>
+                <div class="learn-card reveal reveal-delay-1">
+                    <div class="learn-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                    </div>
+                    <h4 class="learn-card-title">Custos reais e orçamento</h4>
+                    <p class="learn-card-text">Comparativo de custos, dicas para planejar seu orçamento e evitar surpresas financeiras.</p>
+                </div>
+                <div class="learn-card reveal reveal-delay-2">
+                    <div class="learn-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                    </div>
+                    <h4 class="learn-card-title">Prazos e cronograma</h4>
+                    <p class="learn-card-text">Quanto tempo leva cada etapa e como garantir que sua obra seja entregue no prazo combinado.</p>
+                </div>
+                <div class="learn-card reveal">
+                    <div class="learn-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <h4 class="learn-card-title">Vantagens do sistema</h4>
+                    <p class="learn-card-text">Sustentabilidade, eficiência térmica, precisão milimétrica e muito mais.</p>
+                </div>
+                <div class="learn-card reveal reveal-delay-1">
+                    <div class="learn-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h4 class="learn-card-title">Como escolher a construtora</h4>
+                    <p class="learn-card-text">Checklist prático para avaliar e escolher a melhor construtora para o seu projeto.</p>
+                </div>
+                <div class="learn-card reveal reveal-delay-2">
+                    <div class="learn-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    </div>
+                    <h4 class="learn-card-title">Checklist completo</h4>
+                    <p class="learn-card-text">Lista de verificação para cada etapa da obra, da fundação ao acabamento final.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ============================================================
-    FOOTER (Mantido para consistência)
+    SEÇÃO: SOBRE O E-BOOK (detalhes)
+    ============================================================ -->
+    <section class="ebook-details" id="sobre-ebook">
+        <div class="ebook-details-inner">
+            <div class="ebook-details-image reveal-scale">
+                <img src="https://images.unsplash.com/photo-1600566753086-00f18f6b0050?w=800&q=80" alt="Construção iBUILD em Steel Frame" loading="lazy">
+            </div>
+            <div class="ebook-details-content reveal">
+                <p class="ebook-details-label">Por que este e-book?</p>
+                <h2 class="ebook-details-title">CONSTRUA COM <em>CONFIANÇA</em> E INFORMAÇÃO</h2>
+                <div class="intro-line reveal-line" style="margin:0 0 24px;"></div>
+                <div class="ebook-details-text">
+                    <p>
+                        Construir é um dos maiores investimentos da vida. E a falta de informação
+                        pode transformar esse sonho em um pesadelo de atrasos, custos extras e estresse.
+                    </p>
+                    <p>
+                        A <strong>iBUILD São Carlos</strong> preparou este e-book para que você tenha
+                        em mãos todo o conhecimento necessário antes de dar o primeiro passo.
+                        São mais de <strong>11 anos de experiência</strong> e mais de <strong>42.000 m²
+                        construídos</strong> reunidos em um guia prático e direto.
+                    </p>
+                    <p>
+                        <strong>Não importa se você já tem terreno ou ainda está planejando.</strong>
+                        Este material vai te ajudar a tomar as melhores decisões.
+                    </p>
+                </div>
+                <a href="#form-section" class="ebook-details-cta">
+                    Quero meu E-book
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    SEÇÃO: DEPOIMENTOS
+    ============================================================ -->
+    <section class="testimonials" id="depoimentos">
+        <div class="testimonials-inner">
+            <p class="testimonials-label reveal">Depoimentos</p>
+            <h2 class="testimonials-title reveal reveal-delay-1">QUEM JÁ CONSTRUIU COM A GENTE</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <p class="quote">"A iBUILD entregou nossa casa no prazo e com uma qualidade que superou todas as expectativas. O processo foi tão tranquilo que mal acreditamos."</p>
+                    <p class="author">— Família Oliveira, São Carlos - SP</p>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-1">
+                    <p class="quote">"O sistema Steel Frame é incrível. Obra limpa, rápida e com um acabamento impecável. Recomendo a iBUILD de olhos fechados."</p>
+                    <p class="author">— Ricardo M., Marília - SP</p>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-2">
+                    <p class="quote">"Desde a primeira reunião senti segurança. Cumpriram tudo o que prometeram. Minha obra foi entregue antes do prazo!"</p>
+                    <p class="author">— Ana Paula S., Botucatu - SP</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    SEÇÃO: CTA FINAL
+    ============================================================ -->
+    <section class="cta-section" id="cta-final">
+        <div class="cta-bg">
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80" alt="Residência moderna iBUILD" loading="lazy">
+        </div>
+        <div class="cta-inner">
+            <p class="cta-label reveal">Não perca tempo</p>
+            <h2 class="cta-title reveal reveal-delay-1">PRONTO PARA CONSTRUIR COM TRANQUILIDADE?</h2>
+            <p class="cta-text reveal reveal-delay-2">
+                Baixe agora o e-book gratuito e dê o primeiro passo para realizar o sonho da sua casa própria com segurança e informação de qualidade.
+            </p>
+            <a href="#form-section" class="cta-btn reveal reveal-delay-3">
+                BAIXAR E-BOOK GRATUITO
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    BOTÃO FLUTUANTE MOBILE — SCROLL PARA O FORMULÁRIO
+    ============================================================ -->
+    <button class="scroll-to-form-btn" id="scrollToFormBtn" onclick="document.getElementById('form-section').scrollIntoView({behavior:'smooth',block:'center'})">
+        📘 Baixar E-book Grátis
+    </button>
+
+    <!-- ============================================================
+    FOOTER
     ============================================================ -->
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-brand">
-                <img src="assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy" style="filter:brightness(10);">
+                <img src="assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy">
                 <p>
-                    Construções inteligentes em Light Steel Frame. 
-                    Sua obra chave na mão em São Carlos — da fundação ao acabamento. 
+                    Construções inteligentes em Light Steel Frame.
+                    Sua obra chave na mão em São Carlos — da fundação ao acabamento.
                     Deixa com a gente.
                 </p>
-                 <div style="display:flex;gap:12px;margin-top:20px;">
+                <div style="display:flex;gap:12px;margin-top:20px;">
                     <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="Instagram iBUILD">
                         <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#fff" stroke="none"/></svg>
                     </a>
@@ -863,29 +1546,29 @@
             <div class="footer-col">
                 <h3>Navegação</h3>
                 <ul>
-                    <li><a href="/#hero">Home</a></li>
-                    <li><a href="/#sobre">Sobre</a></li>
-                    <li><a href="/#projetos">Projetos</a></li>
-                    <li><a href="/#contato">Contato</a></li>
+                    <li><a href="https://lp.ibuildsaocarlos.com.br/#sobre">Sobre</a></li>
+                    <li><a href="https://lp.ibuildsaocarlos.com.br/#projetos">Projetos</a></li>
+                    <li><a href="https://lp.ibuildsaocarlos.com.br/#jornada">Jornada</a></li>
+                    <li><a href="#aprender">E-book</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Entre em Contato</h3>
+                <h3>Contato</h3>
                 <ul>
                     <li><a href="tel:+5516997634187">(16) 99763-4187</a></li>
                     <li><a href="mailto:guilherme.cazu@ibuildconstrutora.com.br">guilherme.cazu@ibuildconstrutora.com.br</a></li>
-                    <li><a href="https://lp.ibuildsaocarlos.com.br/" target="_blank">ibuildscarlosconstrutora.com.br</a></li>
+                    <li><a href="https://lp.ibuildsaocarlos.com.br/" target="_blank">ibuildsaocarlos.com.br</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h3>Visite-nos</h3>
+                <h3>Endereço</h3>
                 <ul>
                     <li><a href="https://maps.google.com/?q=Rua+Passeio+dos+Ipês,+350,+Torre+Nova+York,+Sala+604,+Parque+Faber+Castell+II,+São+Carlos+-+SP" target="_blank" rel="noopener">
-                        Rua Passeio dos Ipês, 350<br>
-                        Torre Nova York, Sala 604<br>
-                        Parque Faber Castell II<br>
-                        São Carlos - SP, 13561-385
-                    </a></li>
+                            Rua Passeio dos Ipês, 350<br>
+                            Torre Nova York, Sala 604<br>
+                            Parque Faber Castell II<br>
+                            São Carlos - SP, 13561-385
+                        </a></li>
                 </ul>
             </div>
         </div>
@@ -901,11 +1584,12 @@
     </footer>
 
     <!-- ============================================================
-    JAVASCRIPT (Adaptado para a nova página)
+    JAVASCRIPT
     ============================================================ -->
     <script>
         // --- Loader ---
         var ld = false;
+
         function hideLoader() {
             if (!ld) {
                 ld = true;
@@ -914,12 +1598,6 @@
             }
         }
         setTimeout(hideLoader, 2000);
-
-        // --- Nav scroll ---
-        window.addEventListener('scroll', function() {
-            var n = document.getElementById('nav');
-            if (n) n.classList.toggle('scrolled', window.scrollY > 80);
-        }, { passive: true });
 
         // --- Menu mobile ---
         function toggleMenu() {
@@ -947,85 +1625,120 @@
             });
         }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
 
-        // Seleciona elementos de reveal para a nova página
         document.querySelectorAll('.reveal, .reveal-line, .reveal-scale').forEach(function(el) {
             obs.observe(el);
         });
 
-        // --- Smooth scroll para links internos (adaptado para links da home) ---
-        document.querySelectorAll('a[href^="/#"]').forEach(function(a) {
+        // --- Smooth scroll para links internos ---
+        document.querySelectorAll('a[href^="#"]').forEach(function(a) {
             a.addEventListener('click', function(e) {
-                // Se o link aponta para a página atual, faz o scroll suave
-                if (window.location.pathname === '/') {
+                var target = document.querySelector(this.getAttribute('href'));
+                if (target) {
                     e.preventDefault();
-                    var targetId = this.getAttribute('href').substring(2); // Remove "/#"
-                    var target = document.querySelector(targetId);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                } else {
-                    // Se não estiver na página principal, redireciona para a home com hash
-                    window.location.href = '/#' + this.getAttribute('href').substring(2);
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
         });
 
-        // --- Lógica do formulário de captura ---
-        const ebookForm = document.getElementById('ebook-form');
-        if (ebookForm) {
-            ebookForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Previne o envio padrão do formulário
+        // --- Formulário de Lead Capture ---
+        var leadForm = document.getElementById('leadForm');
+        var formSuccess = document.getElementById('formSuccess');
+        var formSubmitBtn = document.getElementById('formSubmitBtn');
 
-                const nameInput = document.getElementById('name');
-                const emailInput = document.getElementById('email');
-                const phoneInput = document.getElementById('phone');
+        leadForm.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-                const name = nameInput.value.trim();
-                const email = emailInput.value.trim();
-                const phone = phoneInput.value.trim();
+            // Coleta os dados
+            var name = document.getElementById('leadName').value.trim();
+            var email = document.getElementById('leadEmail').value.trim();
+            var phone = document.getElementById('leadPhone').value.trim();
 
-                // Validação básica (pode ser mais robusta)
-                if (!name || !email || !phone) {
-                    alert('Por favor, preencha todos os campos.');
-                    return;
+            // Validação básica
+            if (!name || !email || !phone) {
+                alert('Por favor, preencha todos os campos antes de enviar.');
+                return;
+            }
+            if (!/\S+@\S+\.\S+/.test(email)) {
+                alert('Por favor, insira um e-mail válido.');
+                return;
+            }
+
+            // Simula envio (substitua pela sua lógica real de envio)
+            formSubmitBtn.textContent = 'Enviando...';
+            formSubmitBtn.disabled = true;
+
+            // Aqui você pode integrar com:
+            // - Bitrix24 (via script de formulário inline)
+            // - Google Sheets / Apps Script
+            // - Seu backend próprio
+            // - Serviço de e-mail marketing (Mailchimp, ActiveCampaign, etc.)
+
+            // Exemplo: envio para um webhook ou API
+            // fetch('https://sua-api.com/lead', {
+            //   method: 'POST',
+            //   headers: { 'Content-Type': 'application/json' },
+            //   body: JSON.stringify({ name, email, phone, source: 'ebook-landing-page' })
+            // }).then(...)
+
+            // Simulação de sucesso após 1.5s
+            setTimeout(function() {
+                leadForm.style.display = 'none';
+                formSuccess.classList.add('active');
+                formSubmitBtn.textContent = 'Quero Baixar o E-book';
+                formSubmitBtn.disabled = false;
+
+                // Scroll suave para a mensagem de sucesso
+                formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Dispara evento de conversão (Google Analytics / Meta Pixel)
+                if (typeof gtag === 'function') {
+                    gtag('event', 'generate_lead', {
+                        event_category: 'ebook',
+                        event_label: 'ebook_download'
+                    });
                 }
+                if (typeof fbq === 'function') {
+                    fbq('track', 'Lead', {
+                        content_name: 'ebook_steel_frame'
+                    });
+                }
+            }, 1500);
+        });
 
-                // Simula o envio dos dados para um backend (substitua isso pela sua lógica real de envio)
-                console.log('Enviando dados do Ebook:');
-                console.log('Nome:', name);
-                console.log('Email:', email);
-                console.log('Telefone:', phone);
+        // --- Esconde botão flutuante quando o formulário está visível ---
+        var scrollToFormBtn = document.getElementById('scrollToFormBtn');
+        var formSection = document.getElementById('form-section');
 
-                // Exemplo: Exibir uma mensagem de sucesso e limpar o formulário
-                alert('Obrigado por baixar nosso ebook! O link será enviado para o seu e-mail em breve.');
-                ebookForm.reset();
+        var formVisibilityObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(en) {
+                if (scrollToFormBtn) {
+                    scrollToFormBtn.style.display = en.isIntersecting ? 'none' : '';
+                }
+            });
+        }, { threshold: .3 });
 
-                // Aqui você implementaria o envio real para seu servidor ou API de email marketing.
-                // Exemplo com Fetch API:
-                /*
-                fetch('/api/enviar-ebook', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, phone })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Obrigado por baixar nosso ebook! O link será enviado para o seu e-mail em breve.');
-                        ebookForm.reset();
+        if (formSection && scrollToFormBtn) {
+            formVisibilityObserver.observe(formSection);
+        }
+
+        // --- Máscara simples para telefone ---
+        var phoneInput = document.getElementById('leadPhone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                var v = this.value.replace(/\D/g, '');
+                if (v.length > 11) v = v.substring(0, 11);
+                if (v.length > 0) {
+                    if (v.length <= 2) {
+                        v = '(' + v;
+                    } else if (v.length <= 7) {
+                        v = '(' + v.substring(0, 2) + ') ' + v.substring(2);
                     } else {
-                        alert('Ocorreu um erro ao enviar sua solicitação. Tente novamente mais tarde.');
+                        v = '(' + v.substring(0, 2) + ') ' + v.substring(2, 7) + '-' + v.substring(7);
                     }
-                })
-                .catch(error => {
-                    console.error('Erro no envio:', error);
-                    alert('Ocorreu um erro inesperado. Tente novamente.');
-                });
-                */
+                }
+                this.value = v;
             });
         }
     </script>
-
 </body>
 </html>
-```
