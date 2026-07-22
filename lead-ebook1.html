@@ -698,6 +698,7 @@ Descubra a verdade por trás dos maiores mitos da construção em <strong>Steel 
         var leadForm = document.getElementById('leadForm');
         var formSuccess = document.getElementById('formSuccess');
         var formSubmitBtn = document.getElementById('formSubmitBtn');
+        var N8N_WEBHOOK_URL = 'https://nitro5.tail869ec1.ts.net/webhook/ebook-lead';
 
         leadForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -719,20 +720,62 @@ Descubra a verdade por trás dos maiores mitos da construção em <strong>Steel 
             formSubmitBtn.disabled = true;
 
             // Simulação de envio — substitua pela sua integração real
-            setTimeout(function() {
-                leadForm.style.display = 'none';
-                formSuccess.classList.add('active');
-                formSubmitBtn.textContent = 'QUERO BAIXAR O E-BOOK';
-                formSubmitBtn.disabled = false;
+           
+            fetch(N8N_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            name: name,
+            email: email,
+            phone: phone,
+            source: 'ebook-landing-page',
+            ebook: 'steel-frame-10-mitos-e-verdades',
+            capturedAt: new Date().toISOString()
+        })
+    })
+    .then(function(response) {
+        if (!response.ok) throw new Error('Erro no servidor');
+        return response.json();
+    })
+    .then(function(data) {
+        // Sucesso
+        leadForm.style.display = 'none';
+        formSuccess.classList.add('active');
+
+        // Dispara eventos de conversão (Google Ads / Meta)
+        if (typeof gtag === 'function') {
+            gtag('event', 'generate_lead', {
+                event_category: 'ebook',
+                event_label: 'ebook_download'
+            });
+        }
+        if (typeof fbq === 'function') {
+            fbq('track', 'Lead', { content_name: 'ebook_steel_frame' });
+        }
+    })
+    .catch(function(error) {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao enviar. Por favor, tente novamente.');
+    })
+    .finally(function() {
+        formSubmitBtn.textContent = 'QUERO BAIXAR O E-BOOK';
+        formSubmitBtn.disabled = false;
+    });
+            
+            // setTimeout(function() {
+             //   leadForm.style.display = 'none';
+               // formSuccess.classList.add('active');
+               // formSubmitBtn.textContent = 'QUERO BAIXAR O E-BOOK';
+               // formSubmitBtn.disabled = false;
 
                 // Dispara eventos de conversão (Google / Meta)
-                if (typeof gtag === 'function') {
-                    gtag('event', 'generate_lead', { event_category: 'ebook', event_label: 'ebook_download' });
-                }
-                if (typeof fbq === 'function') {
-                    fbq('track', 'Lead', { content_name: 'ebook_steel_frame' });
-                }
-            }, 1500);
+                // if (typeof gtag === 'function') {
+                  //   gtag('event', 'generate_lead', { event_category: 'ebook', event_label: 'ebook_download' });
+                // }
+                // if (typeof fbq === 'function') {
+                  //   fbq('track', 'Lead', { content_name: 'ebook_steel_frame' });
+                // }
+            // }, 1500);
         });
 
         // --- Máscara simples de telefone ---
