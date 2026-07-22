@@ -1,44 +1,80 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <meta name="facebook-domain-verification" content="908ob77ywabnqjbqan4ers241t1m1q" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ebook Gratuito — iBUILD São Carlos</title>
-    <meta name="description" content="Baixe grátis o ebook completo sobre construção em Light Steel Frame. Guia prático da fundação ao acabamento.">
+    <title>Baixe nosso Ebook — iBUILD São Carlos</title>
+    <meta name="description" content="Baixe nosso ebook gratuito sobre construções inteligentes em Steel Frame com a iBUILD São Carlos.">
+    <meta name="keywords" content="ebook steel frame, construção inteligente, iBUILD São Carlos, guia de construção">
+    <meta name="geo.region" content="BR-SP">
+    <meta name="geo.placename" content="São Carlos">
+    <meta name="geo.position" content="-22.0174;-47.8861">
+    <meta name="ICBM" content="-22.0174, -47.8861">
+    <link rel="canonical" href="https://lp.ibuildsaocarlos.com.br/ebook">
+    <meta property="og:title" content="Baixe nosso Ebook — iBUILD São Carlos">
+    <meta property="og:description" content="Baixe nosso ebook gratuito sobre construções inteligentes em Steel Frame com a iBUILD São Carlos.">
+    <meta property="og:url" content="https://lp.ibuildsaocarlos.com.br/ebook">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Baixe nosso Ebook — iBUILD São Carlos">
+    <meta name="twitter:description" content="Baixe nosso ebook gratuito sobre construções inteligentes em Steel Frame com a iBUILD São Carlos.">
 
     <style>
-        /* 
-           FONTES
-            */
+        /* ============================================================
+           FONTES CARREGADAS LOCALMENTE (Transducer + Brittany Signature)
+           ============================================================ */
         @font-face {
             font-family: 'Transducer';
             src: url('./fonts/Transducer-Regular.woff2') format('woff2'),
                  url('./fonts/Transducer-Regular.woff') format('woff');
-            font-weight: 400; font-style: normal; font-display: swap;
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
         }
         @font-face {
             font-family: 'Transducer';
             src: url('./fonts/Transducer-Medium.woff2') format('woff2'),
                  url('./fonts/Transducer-Medium.woff') format('woff');
-            font-weight: 500; font-style: normal; font-display: swap;
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
         }
         @font-face {
             font-family: 'Transducer';
             src: url('./fonts/Transducer-Bold.woff2') format('woff2'),
                  url('./fonts/Transducer-Bold.woff') format('woff');
-            font-weight: 700; font-style: normal; font-display: swap;
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Transducer';
+            src: url('./fonts/Transducer-Light.woff2') format('woff2'),
+                 url('./fonts/Transducer-Light.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
         }
         @font-face {
             font-family: 'Brittany Signature';
             src: url('./fonts/BrittanySignatureRegular.woff2') format('woff2'),
                  url('./fonts/BrittanySignatureRegular.woff') format('woff');
-            font-weight: normal; font-style: normal; font-display: swap;
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
         }
 
-        /* 
+        /* ============================================================
            RESET & VARIÁVEIS
-            */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+           ============================================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         :root {
             --black: #1d1d1f;
             --dark: #2d2d2d;
@@ -49,763 +85,947 @@
             --warm-white: #fbfbfd;
             --cream: #f5f5f7;
             --accent: #86868b;
+            --accent-dark: #6e6e73;
             --gold: #C8A96E;
             --gold-light: #d4bc8a;
             --font-display: 'Transducer', sans-serif;
             --font-body: 'Transducer', sans-serif;
             --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-            --content-width: 1100px;
-            --side-padding: max(24px, calc((100vw - var(--content-width)) / 2));
+            --content-width: 1300px;
+            --side-padding: max(48px, calc((100vw - var(--content-width)) / 2));
         }
-        html { scroll-behavior: smooth; overflow-x: hidden; font-size: 16px; }
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
         body {
             color: var(--black);
             background: var(--warm-white);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             font-family: var(--font-body);
-            min-height: 100vh;
         }
-        img { max-width: 100%; height: auto; display: block; }
-        a { text-decoration: none; color: inherit; }
-        button, input { border: none; background: none; cursor: pointer; font-family: inherit; }
-        input { cursor: text; width: 100%; }
-        ul { list-style: none; }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
 
-        /* 
-           LOADER (enxuto, sem logo gigante)
-            */
+        /* ============================================================
+           LOADER (animação de entrada) - Mantido para consistência
+           ============================================================ */
         .loader {
-            position: fixed; inset: 0; z-index: 9999;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
             background: var(--black);
-            display: flex; align-items: center; justify-content: center; flex-direction: column;
-            animation: loaderOut .4s ease 2.4s forwards;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity .8s var(--ease-out-expo), visibility .8s;
+            animation: loaderAutoHide .8s ease 3s forwards;
         }
-        @keyframes loaderOut {
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        @keyframes loaderAutoHide {
             to { opacity: 0; visibility: hidden; pointer-events: none; }
         }
-        .loader-symbol {
-            width: 48px; height: 48px;
-            border: 1.5px solid rgba(255,255,255,.08);
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; animation: fadeIn .8s var(--ease-out-expo) .2s forwards;
+        .loader-logo {
+            width: 240px;
+            opacity: 0;
+            animation: loaderFade 1.5s var(--ease-out-expo) .3s forwards;
         }
-        .loader-symbol svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; }
         .loader-line {
-            width: 48px; height: 1px; background: rgba(255,255,255,.1);
-            margin-top: 20px; transform: scaleX(0);
-            animation: lineGrow 1.4s var(--ease-out-expo) .5s forwards;
+            width: 80px;
+            height: 1px;
+            background: var(--accent);
+            margin-top: 36px;
+            transform: scaleX(0);
+            animation: loaderLine 1.8s var(--ease-out-expo) .6s forwards;
         }
         .loader-text {
-            margin-top: 14px; font-size: .5rem; font-weight: 500;
-            letter-spacing: 4px; text-transform: uppercase; color: var(--gray);
-            opacity: 0; animation: fadeIn .6s var(--ease-out-expo) 1s forwards;
+            margin-top: 18px;
+            font-size: .65rem;
+            font-weight: 500;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gray);
+            opacity: 0;
+            animation: loaderFade 1s var(--ease-out-expo) 1s forwards;
         }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes lineGrow { to { transform: scaleX(1); } }
+        @keyframes loaderFade { to { opacity: 1; } }
+        @keyframes loaderLine { to { transform: scaleX(1); } }
 
-        /* 
-           NAVEGAÇÃO (sem logo de imagem, usa texto + SVG)
-            */
+        /* ============================================================
+           NAVEGAÇÃO (mantida para consistência, mas pode ser simplificada)
+           ============================================================ */
         .nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            padding: 20px 40px;
-            display: flex; justify-content: space-between; align-items: center;
-            transition: background .4s, padding .3s, backdrop-filter .4s;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 28px 48px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 24px;
+            transition: background .5s, padding .4s, backdrop-filter .5s;
         }
         .nav.scrolled {
             background: rgba(26,26,26,.92);
-            backdrop-filter: blur(16px);
-            padding: 12px 40px;
+            backdrop-filter: blur(20px);
+            padding: 16px 48px;
         }
-        .nav-brand {
-            display: flex; align-items: center; gap: 8px;
-            opacity: .7; transition: opacity .3s;
+        .nav.scrolled .nav-logo {
+            display: flex;
         }
-        .nav-brand:hover { opacity: 1; }
-        .nav-brand svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; flex-shrink: 0; }
-        .nav-brand span {
-            font-size: .65rem; font-weight: 500; letter-spacing: 2px;
-            text-transform: uppercase; color: #fff;
+        .nav.scrolled .nav-cta {
+            background: #fff;
+            color: var(--black);
+            border-color: #fff;
         }
-        .nav-links { display: flex; gap: 24px; align-items: center; }
-        .nav-links a {
-            font-size: .65rem; font-weight: 400; letter-spacing: 2px;
-            text-transform: uppercase; color: rgba(255,255,255,.55);
-            transition: color .3s; position: relative;
+        .nav-logo {
+            display: none;
+            margin-right: auto;
         }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -4px; left: 0;
-            width: 0; height: 1px; background: var(--gold);
-            transition: width .4s var(--ease-out-expo);
+        .nav-logo img {
+            height: 19px;
         }
-        .nav-links a:hover { color: #fff; }
-        .nav-links a:hover::after { width: 100%; }
-        .nav-cta-btn {
-            font-size: .62rem; font-weight: 500; letter-spacing: 2px;
-            text-transform: uppercase; color: var(--black);
-            background: var(--gold); padding: 8px 18px;
-            transition: all .3s var(--ease-out-expo); white-space: nowrap;
-        }
-        .nav-cta-btn:hover { background: #fff; color: var(--black); }
-        @media (max-width: 640px) {
-            .nav { padding: 16px 18px; }
-            .nav.scrolled { padding: 10px 18px; }
-            .nav-links a:not(.nav-cta-btn) { display: none; }
-        }
-
-        /* 
-           HERO — CAPTURA
-            */
-        .hero {
-            min-height: 100vh;
-            background: var(--black);
-            position: relative;
-            display: flex; align-items: center; justify-content: center;
-            padding: 120px 24px 80px;
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            list-style: none;
+            flex-shrink: 1;
+            flex-wrap: nowrap;
             overflow: hidden;
         }
-        .hero::before {
+        .nav-links a {
+            font-size: .75rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+            transition: color .3s;
+            position: relative;
+            white-space: nowrap;
+        }
+        .nav-links a::after {
             content: '';
-            position: absolute; inset: 0;
-            background:
-                radial-gradient(ellipse at 30% 50%, rgba(200,169,110,.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 30%, rgba(200,169,110,.04) 0%, transparent 50%);
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width .4s var(--ease-out-expo);
+        }
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-cta {
+            font-size: .75rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,.6);
+            border: 1px solid rgba(255,255,255,.3);
+            padding: 12px 28px;
+            transition: all .4s var(--ease-out-expo);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .nav-cta:hover {
+            background: var(--gold) !important;
+            color: var(--black) !important;
+            border-color: var(--gold) !important;
+        }
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 200;
+        }
+        .nav-hamburger span {
+            width: 28px;
+            height: 1.5px;
+            background: #fff;
+            transition: all .4s var(--ease-out-expo);
+        }
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--black);
+            z-index: 150;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(14px, 3.4vh, 28px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .5s var(--ease-out-expo), visibility .5s var(--ease-out-expo);
+            padding: 84px 24px 44px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            text-align: center;
+        }
+        .mobile-menu.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-menu a {
+            font-family: var(--font-display);
+            font-size: clamp(1.15rem, 5.6vw, 1.9rem);
+            color: var(--off-white);
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-align: center;
+            line-height: 1.15;
+            transition: color .3s var(--ease-out-expo);
+        }
+        .mobile-menu a:hover,
+        .mobile-menu a:active {
+            color: var(--gold);
+        }
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,.18);
+            color: var(--off-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .3s var(--ease-out-expo);
+            z-index: 5;
+            padding: 0;
+        }
+        .mobile-menu-close:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--black);
+        }
+        .mobile-menu-close svg {
+            width: 18px;
+            height: 18px;
+        }
+        @media (max-width: 900px) {
+            .nav { padding: 20px 24px; }
+            .nav.scrolled { padding: 14px 24px; }
+        }
+
+        /* ============================================================
+           SEÇÃO HERO - Adaptado para o Ebook
+           ============================================================ */
+        .hero-ebook {
+            position: relative;
+            min-height: 70vh; /* Altura menor que o hero principal */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--black);
+            padding: 120px var(--side-padding) 80px;
+            overflow: hidden;
+        }
+        .hero-ebook-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background: url('./assets/hero-ebook-bg.webp') no-repeat center center/cover;
+        }
+        .hero-ebook-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top left, rgba(29,29,31,.9) 0%, rgba(29,29,31,.7) 50%, rgba(29,29,31,.4) 100%);
             z-index: 1;
         }
-        .hero-inner {
-            position: relative; z-index: 2;
-            max-width: var(--content-width); width: 100%;
+        .hero-ebook-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+        }
+        .hero-ebook-pretitle {
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: heroReveal 1s var(--ease-out-expo) 1.5s forwards;
+        }
+        .hero-ebook-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 3.6rem);
+            font-weight: 700;
+            line-height: 1.1;
+            color: #fff;
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroReveal 1.2s var(--ease-out-expo) 1.7s forwards;
+        }
+        .hero-ebook-subtitle {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: rgba(255,255,255,.75);
+            max-width: 560px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: heroReveal 1s var(--ease-out-expo) 2s forwards;
+        }
+        @keyframes heroReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================================
+           SEÇÃO FORMULÁRIO DE CAPTURA (Lead Capture)
+           ============================================================ */
+        .lead-capture-section {
+            padding: 80px var(--side-padding);
+            background: var(--cream);
+            position: relative;
+            z-index: 2;
+        }
+        .lead-capture-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 48px;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
             align-items: center;
         }
-
-        /* Lado esquerdo */
-        .hero-left {
-            opacity: 0; transform: translateY(24px);
-            animation: revealUp 1s var(--ease-out-expo) 1.6s forwards;
+        .lead-capture-image {
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 16px 48px rgba(0,0,0,.1);
         }
-        .hero-label {
-            font-size: .6rem; font-weight: 500; letter-spacing: 4px;
-            text-transform: uppercase; color: var(--gold);
-            margin-bottom: 14px;
+        .lead-capture-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform .8s var(--ease-out-expo);
         }
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.6rem, 3.6vw, 2.8rem);
-            font-weight: 700; line-height: 1.08;
-            color: #fff; margin-bottom: 18px;
-            letter-spacing: .5px;
-            text-transform: uppercase;
+        .lead-capture-image:hover img {
+            transform: scale(1.05);
         }
-        .hero-title em {
-            font-family: 'Brittany Signature', cursive;
-            font-style: normal; color: var(--gold);
-            font-weight: normal; letter-spacing: 0;
-            text-transform: none; font-size: 1.15em;
-        }
-        .hero-sub {
-            font-size: .92rem; font-weight: 400;
-            color: rgba(255,255,255,.55);
-            line-height: 1.65; margin-bottom: 26px;
-            max-width: 420px;
-        }
-        .hero-bullets {
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        .hero-bullets li {
-            display: flex; align-items: center; gap: 10px;
-            font-size: .82rem; color: rgba(255,255,255,.65);
-        }
-        .hero-bullets li::before {
-            content: '';
-            width: 5px; height: 5px;
-            background: var(--gold); border-radius: 50%; flex-shrink: 0;
-        }
-
-        /* Lado direito — formulário */
-        .hero-right {
-            opacity: 0; transform: translateY(24px);
-            animation: revealUp 1s var(--ease-out-expo) 1.9s forwards;
-        }
-        .form-card {
+        .lead-capture-form {
             background: #fff;
-            padding: 32px 28px;
-            width: 100%; max-width: 420px; margin: 0 auto;
+            padding: 48px 48px 40px;
+            border-radius: 8px;
+            box-shadow: 0 16px 48px rgba(0,0,0,.06);
         }
-        .form-title {
+        .lead-capture-form-title {
             font-family: var(--font-display);
-            font-size: .95rem; font-weight: 600;
-            color: var(--black); margin-bottom: 4px;
+            font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+            font-weight: 500;
+            line-height: 1.2;
+            color: var(--black);
+            margin-bottom: 24px;
             text-align: center;
         }
-        .form-sub {
-            font-size: .75rem; color: var(--gray);
-            text-align: center; margin-bottom: 22px; line-height: 1.5;
+        .lead-capture-form-subtitle {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            line-height: 1.7;
+            text-align: center;
+            margin-bottom: 32px;
         }
-        .form-group { margin-bottom: 13px; }
-        .form-group label {
-            display: block; font-size: .62rem; font-weight: 500;
-            letter-spacing: 1.5px; text-transform: uppercase;
-            color: var(--charcoal); margin-bottom: 4px;
+        .lead-capture-form label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 8px;
         }
-        .form-group input {
-            padding: 11px 13px;
-            border: 1px solid #e0e0e4;
-            font-size: .88rem; color: var(--black);
-            background: var(--warm-white);
-            transition: border-color .3s, box-shadow .3s;
+        .lead-capture-form input[type="text"],
+        .lead-capture-form input[type="email"],
+        .lead-capture-form input[type="tel"] {
+            width: 100%;
+            padding: 14px 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--black);
+            font-family: var(--font-body);
+            transition: border-color .3s;
+        }
+        .lead-capture-form input[type="text"]:focus,
+        .lead-capture-form input[type="email"]:focus,
+        .lead-capture-form input[type="tel"]:focus {
+            border-color: var(--gold);
             outline: none;
         }
-        .form-group input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(200,169,110,.12);
-        }
-        .form-group input::placeholder { color: #c0c0c4; font-weight: 300; }
-        .form-btn {
-            width: 100%; padding: 13px 26px; margin-top: 4px;
-            background: var(--gold); color: var(--black);
-            font-family: var(--font-display); font-size: .72rem;
-            font-weight: 600; letter-spacing: 2.5px;
-            text-transform: uppercase;
-            border: 1px solid var(--gold);
-            transition: all .35s var(--ease-out-expo);
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .form-btn:hover {
-            background: transparent; color: var(--gold);
-            box-shadow: 0 6px 24px rgba(200,169,110,.2);
-        }
-        .form-btn svg { width: 12px; height: 12px; stroke: currentColor; transition: transform .35s var(--ease-out-expo); }
-        .form-btn:hover svg { transform: translateX(3px); }
-        .form-privacy {
-            text-align: center; margin-top: 13px;
-            font-size: .62rem; color: var(--gray); line-height: 1.5;
-        }
-        .form-privacy a { color: var(--charcoal); text-decoration: underline; }
-        .form-privacy a:hover { color: var(--gold); }
-
-        /* Estado de sucesso */
-        .form-success { display: none; text-align: center; padding: 16px 0; }
-        .form-success.show { display: block; animation: revealUp .5s var(--ease-out-expo) forwards; }
-        .form-success-icon {
-            width: 48px; height: 48px; border-radius: 50%;
-            background: rgba(200,169,110,.12);
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 14px;
-        }
-        .form-success-icon svg { width: 20px; height: 20px; stroke: var(--gold); stroke-width: 2; fill: none; }
-        .form-success-title {
-            font-family: var(--font-display); font-size: 1rem;
-            font-weight: 500; color: var(--black); margin-bottom: 6px;
-        }
-        .form-success-text { font-size: .8rem; color: var(--charcoal); line-height: 1.6; }
-
-        @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
-
-        @media (max-width: 820px) {
-            .hero { padding: 100px 20px 60px; }
-            .hero-inner { grid-template-columns: 1fr; gap: 32px; }
-            .hero-sub { max-width: 100%; margin: 0 auto 26px; }
-            .hero-left { text-align: center; }
-            .hero-bullets { align-items: center; }
-            .hero-bullets li { justify-content: center; }
-            .hero-right { max-width: 420px; margin: 0 auto; width: 100%; }
-            .form-card { padding: 26px 20px; }
-        }
-        @media (max-width: 480px) {
-            .hero-title { font-size: clamp(1.3rem, 6.5vw, 1.8rem); }
-            .hero-sub { font-size: .82rem; }
-            .hero-bullets li { font-size: .75rem; }
-            .form-card { padding: 20px 14px; }
-        }
-
-        /* 
-           SEÇÃO: CONTEÚDO DO EBOOK
-            */
-        .content {
-            padding: 72px var(--side-padding);
-            background: var(--cream);
-        }
-        .content-inner { max-width: var(--content-width); margin: 0 auto; }
-        .content-header { text-align: center; margin-bottom: 44px; }
-        .content-label {
-            font-size: .58rem; font-weight: 500; letter-spacing: 4px;
-            text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
-        }
-        .content-title {
+        .lead-capture-form button[type="submit"] {
+            width: 100%;
+            background: var(--gold);
+            color: var(--black);
             font-family: var(--font-display);
-            font-size: clamp(1.3rem, 2.6vw, 2rem);
-            font-weight: 500; color: var(--black);
-        }
-        .content-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-        .content-card {
-            background: #fff;
-            border: 1px solid rgba(0,0,0,.04);
-            padding: 24px 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 16px 30px;
+            border-radius: 6px;
             transition: all .4s var(--ease-out-expo);
-            text-align: center;
+            margin-top: 12px;
         }
-        .content-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,.06);
-        }
-        .content-card-icon {
-            width: 36px; height: 36px;
+        .lead-capture-form button[type="submit"]:hover {
             background: var(--black);
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 14px;
+            color: var(--gold);
         }
-        .content-card-icon svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; }
-        .content-card-title {
-            font-family: var(--font-display);
-            font-size: .85rem; font-weight: 500; color: var(--black);
-            margin-bottom: 7px;
+        .lead-capture-form-terms {
+            text-align: center;
+            font-size: 0.72rem;
+            color: var(--gray);
+            line-height: 1.6;
+            margin-top: 24px;
         }
-        .content-card-text { font-size: .75rem; color: var(--charcoal); line-height: 1.6; }
-        @media (max-width: 768px) {
-            .content { padding: 52px 20px; }
-            .content-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+        .lead-capture-form-terms a {
+            color: var(--accent);
+            font-weight: 500;
+            text-decoration: underline;
+        }
+        @media (max-width: 900px) {
+            .lead-capture-section { padding: 60px 20px; }
+            .lead-capture-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .lead-capture-image { order: -1; }
+            .lead-capture-form { padding: 32px 24px 28px; }
         }
         @media (max-width: 480px) {
-            .content-grid { grid-template-columns: 1fr; }
+            .hero-ebook { padding: 80px 16px 60px; }
+            .hero-ebook-pretitle { font-size: .7rem; }
+            .hero-ebook-title { font-size: clamp(2rem, 7vw, 2.8rem); }
+            .hero-ebook-subtitle { font-size: 1rem; }
+            .lead-capture-form input[type="text"],
+            .lead-capture-form input[type="email"],
+            .lead-capture-form input[type="tel"] { padding: 12px 16px; margin-bottom: 16px; }
+            .lead-capture-form button[type="submit"] { padding: 14px 24px; font-size: .8rem; }
         }
 
-        /* 
-           SEÇÃO: CTA
-            */
-        .cta-block {
-            padding: 80px var(--side-padding);
-            background: var(--black);
-            text-align: center;
-            position: relative;
-        }
-        .cta-block::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: radial-gradient(ellipse at center, rgba(200,169,110,.04) 0%, transparent 60%);
-        }
-        .cta-block-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
-        .cta-block-title {
-            font-family: var(--font-display);
-            font-size: clamp(1.3rem, 2.8vw, 2rem);
-            font-weight: 500; color: var(--off-white);
-            line-height: 1.25; margin-bottom: 14px;
-        }
-        .cta-block-text { font-size: .85rem; color: var(--gray); line-height: 1.6; margin-bottom: 28px; }
-        .cta-block-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 14px 32px;
-            background: var(--gold); color: var(--black);
-            font-family: var(--font-display); font-size: .72rem;
-            font-weight: 600; letter-spacing: 2.5px;
+        /* ============================================================
+           CTA FLUTUANTE LATERAL (#floatCta)
+           ============================================================ */
+        #floatCta {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 120;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
             text-transform: uppercase;
-            border: 1px solid var(--gold);
-            transition: all .35s var(--ease-out-expo);
+            background: #C8A96E;
+            color: #1d1d1f;
+            padding: 22px 13px;
+            border-radius: 14px 0 0 14px;
+            font-family: 'Transducer', sans-serif;
+            font-weight: 600;
+            font-size: .8rem;
+            letter-spacing: 1px;
+            line-height: 1.35;
+            box-shadow: -5px 6px 26px rgba(0,0,0,.25);
+            text-decoration: none;
+            cursor: pointer;
+            transition: padding .3s ease, box-shadow .3s ease;
+            max-height: 80vh;
         }
-        .cta-block-btn svg { width: 12px; height: 12px; stroke: currentColor; transition: transform .35s var(--ease-out-expo); }
-        .cta-block-btn:hover { background: transparent; color: var(--gold); box-shadow: 0 6px 24px rgba(200,169,110,.2); }
-        .cta-block-btn:hover svg { transform: translateX(3px); }
-        @media (max-width: 768px) { .cta-block { padding: 60px 24px; } }
+        #floatCta .cta-short { display: none; }
+        #floatCta:hover { padding-right: 19px; box-shadow: -9px 8px 34px rgba(0,0,0,.33); }
 
-        /* 
-           FOOTER
-            */
-        .footer {
-            padding: 40px var(--side-padding) 20px;
-            background: #111;
+        @media (max-width: 768px) {
+            #floatCta {
+                left: 50%;
+                right: auto;
+                bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+                transform: translateX(-50%);
+                width: 88%;
+                max-width: 440px;
+                max-height: none;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 14px;
+                writing-mode: horizontal-tb;
+                text-transform: none;
+                background: rgba(29,29,31,.94);
+                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
+                color: #fff;
+                border: 1px solid rgba(255,255,255,.10);
+                border-radius: 16px;
+                padding: 15px 16px 15px 22px;
+                font-size: clamp(.78rem, 3.6vw, .9rem);
+                font-weight: 600;
+                letter-spacing: .2px;
+                white-space: nowrap;
+                line-height: 1.3;
+                box-shadow: 0 10px 34px rgba(0,0,0,.30);
+            }
+            #floatCta .cta-full { display: none; }
+            #floatCta .cta-short { display: inline; }
+            #floatCta::after {
+                content: '→';
+                flex-shrink: 0;
+                width: 30px;
+                height: 30px;
+                border: 1.5px solid rgba(255,255,255,.40);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.05rem;
+                transition: transform .2s ease, background .2s ease;
+            }
+            #floatCta:hover { padding: 15px 16px 15px 22px; box-shadow: 0 10px 34px rgba(0,0,0,.30); }
+            #floatCta:active { transform: translateX(-50%) scale(.985); }
+            #floatCta:active::after { transform: translateX(3px); background: rgba(255,255,255,.14); }
         }
-        .footer-inner {
-            max-width: var(--content-width); margin: 0 auto;
-            display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 16px;
-            padding-bottom: 20px;
+        @media (max-height: 560px) and (min-width: 769px) {
+            #floatCta { font-size: .64rem; padding: 12px 9px; }
+        }
+
+        /* ============================================================
+           FOOTER (mantido para consistência)
+           ============================================================ */
+        .footer {
+            padding: 80px var(--side-padding) 40px;
+            background: #111;
+            position: relative;
+            z-index: 2;
+        }
+        .footer-grid {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            padding-bottom: 48px;
             border-bottom: 1px solid rgba(255,255,255,.06);
         }
-        .footer-brand { display: flex; align-items: center; gap: 8px; }
-        .footer-brand svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; }
-        .footer-brand span {
-            font-size: .65rem; font-weight: 500; letter-spacing: 2px;
-            text-transform: uppercase; color: rgba(255,255,255,.45);
+        .footer-brand img {
+            height: 20px;
+            opacity: .6;
+            margin-bottom: 20px;
         }
-        .footer-links { display: flex; gap: 18px; }
-        .footer-links a { font-size: .7rem; color: var(--gray); transition: color .3s; }
-        .footer-links a:hover { color: var(--off-white); }
+        .footer-brand p {
+            font-size: .85rem;
+            font-weight: 400;
+            color: var(--gray);
+            line-height: 1.7;
+            max-width: 280px;
+        }
+        .footer-col h3 {
+            font-size: .7rem;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col li {
+            margin-bottom: 12px;
+        }
+        .footer-col a {
+            font-size: .85rem;
+            font-weight: 400;
+            color: var(--gray);
+            transition: color .3s;
+        }
+        .footer-col a:hover {
+            color: var(--off-white);
+        }
+        .footer-bottom {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding-top: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
         .footer-copy {
-            max-width: var(--content-width); margin: 14px auto 0;
-            font-size: .62rem; color: var(--charcoal); text-align: center;
+            font-size: .75rem;
+            font-weight: 400;
+            color: var(--charcoal);
         }
-        @media (max-width: 480px) {
-            .footer-inner { flex-direction: column; text-align: center; }
+        .footer-blinks {
+            display: flex;
+            gap: 24px;
         }
-
-        /* 
-           REVEAL (scroll animations)
-            */
-        .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s var(--ease-out-expo), transform .7s var(--ease-out-expo); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-d1 { transition-delay: .1s; }
-        .reveal-d2 { transition-delay: .2s; }
-        .reveal-d3 { transition-delay: .3s; }
+        .footer-blinks a {
+            font-size: .75rem;
+            font-weight: 400;
+            color: var(--charcoal);
+            transition: color .3s;
+        }
+        .footer-blinks a:hover {
+            color: var(--accent);
+        }
+        @media (max-width: 768px) {
+            .footer { padding: 56px 20px 28px; }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-areas:
+                    "brand brand"
+                    "nav contato"
+                    "social social";
+                gap: 36px 16px;
+            }
+            .footer-grid > div:nth-child(1) {
+                grid-area: brand;
+                text-align: center;
+                padding-bottom: 32px;
+                border-bottom: 1px solid rgba(255,255,255,.06);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-brand p { text-align: center; max-width: 320px; margin: 0 auto; }
+            .footer-grid > div:nth-child(2) { grid-area: nav; text-align: center; }
+            .footer-grid > div:nth-child(3) { grid-area: contato; text-align: center; }
+            .footer-grid > div:nth-child(4) { grid-area: social; text-align: center; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.06); }
+            .footer-grid > div:nth-child(4) ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; }
+            .footer-grid > div:nth-child(4) li { margin-bottom: 0; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
     </style>
 </head>
 <body>
 
-    
-    
-        
-            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                <path d="M2 17l10 5 10-5"/>
-                <path d="M2 12l10 5 10-5"/>
-            </svg>
-        
+    <!-- ============================================================
+    LOADER (Mantido para consistência, mesmo que a página seja menor)
+    ============================================================ -->
+    <div class="loader" id="loader">
+        <img src="assets/logo-light.webp" alt="iBUILD São Carlos" class="loader-logo" fetchpriority="high">
+        <div class="loader-line"></div>
+        <span class="loader-text">Construções Inteligentes</span>
+    </div>
 
-
-        
-
-
-        Ebook Gratuito
-    
-
-
-
-    
+    <!-- ============================================================
+    NAVEGAÇÃO (Mantida para consistência)
+    ============================================================ -->
     <nav class="nav" id="nav">
-        <a href="https://ibuildsaocarlos.com.br" class="nav-brand">
-            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                <path d="M2 17l10 5 10-5"/>
-                <path d="M2 12l10 5 10-5"/>
-            </svg>
-            iBUILD São Carlos
+        <a href="/#hero" class="nav-logo">
+            <img src="assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy">
         </a>
-        
-            <a href="https://ibuildsaocarlos.com.br">Site Oficial</a>
-            <a href="#" class="nav-cta-btn" onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'});return false;">Baixar Ebook</a>
-        
-
-
+        <ul class="nav-links">
+            <!-- Links adaptados para a página principal -->
+            <li><a href="/#hero">Home</a></li>
+            <li><a href="/#sobre">Sobre</a></li>
+            <li><a href="/#projetos">Projetos</a></li>
+            <li><a href="/#contato">Contato</a></li>
+        </ul>
+        <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="nav-cta">Faça seu Orçamento</a>
+        <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
     </nav>
 
-    
-    
-        
-            
-                📘 Ebook Gratuito
-
-
-                <h1 class="hero-title">
-                    GUIA COMPLETO DE
-
-                    CONSTRUÇÃO EM *Steel Frame*
-                </h1>
-                
-                    Aprenda tudo sobre o método construtivo mais moderno, eficiente e sustentável. 
-                    Da fundação ao acabamento — um guia prático para construir sem dor de cabeça.
-                
-
-
-                
-                    - O que é Light Steel Frame e por que escolher
-
-                    - Comparativo de custos com alvenaria tradicional
-
-                    - Passo a passo da obra chave na mão
-
-                    - Dicas para proteger seu patrimônio
-
-                
-            
-
-
-            
-                
-                    
-                        <h2 class="form-title">Receba o Ebook Grátis</h2>
-                        Preencha abaixo e enviaremos o link por e-mail.
-
-
-                        <form id="captureForm" onsubmit="return handleSubmit(event)">
-                            
-                                <label for="nome">Nome</label>
-                                <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
-                            
-
-
-                            
-                                <label for="telefone">Telefone</label>
-                                <input type="tel" id="telefone" name="telefone" placeholder="(16) 99999-9999" required>
-                            
-
-
-                            
-                                <label for="email">E-mail</label>
-                                <input type="email" id="email" name="email" placeholder="seu@email.com" required>
-                            
-
-
-                            <button type="submit" class="form-btn" id="formBtn">
-                                Receber Ebook
-                                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                            </button>
-                        </form>
-                        
-                            Seus dados estão seguros. Não enviamos spam.
-
-                            Ao enviar, você concorda com nossa <a href="#">Política de Privacidade</a>.
-                        
-
-
-                    
-
-
-                    
-                        
-                            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                        
-
-
-                        <h3 class="form-success-title">Ebook enviado! 🎉</h3>
-                        
-                            Enviamos o link do ebook para **seu e-mail**.
-
-                            Verifique sua caixa de entrada (e a pasta de spam).
-                        
-
-
-                    
-
-
-                
-
-
-            
-
-
-        
-
-
-    
-
-
-
-    
-    
-        
-            
-                Conteúdo do Ebook
-
-
-                <h2 class="content-title reveal reveal-d1">O QUE VOCÊ VAI APRENDER</h2>
-            
-
-
-            
-                
-                    
-                        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                    
-
-
-                    <h3 class="content-card-title">O que é Steel Frame</h3>
-                    Entenda o método construtivo industrializado que está revolucionando a construção civil.
-
-
-                
-
-
-                
-                    
-                        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-                    
-
-
-                    <h3 class="content-card-title">Comparativo de Custos</h3>
-                    Veja a comparação real entre Steel Frame e alvenaria tradicional em diferentes cenários.
-
-
-                
-
-
-                
-                    
-                        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    
-
-
-                    <h3 class="content-card-title">Cronograma de Obra</h3>
-                    Entenda os prazos reais de cada etapa e como funciona a entrega chave na mão.
-
-
-                
-
-
-                
-                    
-                        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    
-
-
-                    <h3 class="content-card-title">Qualidade e Durabilidade</h3>
-                    Descubra por que o Steel Frame oferece mais conforto térmico, acústico e segurança.
-
-
-                
-
-
-                
-                    
-                        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                    
-
-
-                    <h3 class="content-card-title">Acompanhamento da Obra</h3>
-                    Como funciona o acompanhamento remoto e os relatórios diários da sua construção.
-
-
-                
-
-
-                
-                    
-                        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    
-
-
-                    <h3 class="content-card-title">Proteção do Patrimônio</h3>
-                    Dicas essenciais para garantir que sua obra seja um investimento seguro e sem surpresas.
-
-
-                
-
-
-            
-
-
-        
-
-
-    
-
-
-
-    
-    
-        
-            <h2 class="cta-block-title reveal">BAIXE AGORA E COMECE A CONSTRUIR COM INTELIGÊNCIA</h2>
-            Preencha o formulário acima e receba o ebook completo no seu e-mail. É gratuito e leva menos de 1 minuto.
-
-
-            <a href="#form" class="cta-block-btn reveal reveal-d2">
-                Quero meu Ebook
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-        
-
-
-    
-
-
-
-    
+    <!-- Menu mobile (Mantido) -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMenu()" aria-label="Fechar menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <a href="/#hero" onclick="toggleMenu()">Home</a>
+        <a href="/#sobre" onclick="toggleMenu()">Sobre</a>
+        <a href="/#projetos" onclick="toggleMenu()">Projetos</a>
+        <a href="/#contato" onclick="toggleMenu()">Contato</a>
+    </div>
+
+    <!-- ============================================================
+    HERO PARA EBOOK
+    ============================================================ -->
+    <section class="hero-ebook" id="ebook-hero">
+        <div class="hero-ebook-bg"></div>
+        <div class="hero-ebook-overlay"></div>
+        <div class="hero-ebook-content">
+            <p class="hero-ebook-pretitle">iBUILD São Carlos Apresenta</p>
+            <h1 class="hero-ebook-title">O Guia Definitivo do Steel Frame</h1>
+            <p class="hero-ebook-subtitle">
+                Descubra os segredos da construção inteligente, sustentável e rápida. 
+                Baixe nosso ebook gratuito e comece a planejar sua obra com confiança.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    SEÇÃO FORMULÁRIO DE CAPTURA (Lead Capture)
+    ============================================================ -->
+    <section class="lead-capture-section">
+        <div class="lead-capture-inner">
+            <div class="lead-capture-image reveal-scale">
+                <img src="assets/ebook-cover.webp" alt="Capa do Ebook iBUILD São Carlos - Guia do Steel Frame" loading="lazy">
+            </div>
+            <div class="lead-capture-form reveal">
+                <h2 class="lead-capture-form-title">Baixe Agora Seu Ebook Gratuito!</h2>
+                <p class="lead-capture-form-subtitle">Preencha seus dados e receba o link para download em seu e-mail.</p>
+                <!-- ATENÇÃO: Este formulário precisa ser adaptado para enviar os dados para um backend
+                     ou serviço de email marketing. O exemplo abaixo é apenas uma estrutura HTML. -->
+                <form action="/enviar-ebook" method="POST" id="ebook-form">
+                    <div>
+                        <label for="name">Seu Nome Completo</label>
+                        <input type="text" id="name" name="name" placeholder="Ex: João da Silva" required>
+                    </div>
+                    <div>
+                        <label for="email">Seu Melhor E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="Ex: joao.silva@email.com" required>
+                    </div>
+                    <div>
+                        <label for="phone">Seu Telefone (com DDD)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Ex: (16) 99999-9999" required pattern="(\(?\d{2}\)?\s?)?\d{4,5}-?\d{4}">
+                    </div>
+                    <button type="submit">QUERO MEU EBOOK!</button>
+                    <p class="lead-capture-form-terms">
+                        Ao clicar em "Quero meu Ebook!", você concorda com nossa 
+                        <a href="/politica-privacidade">Política de Privacidade</a> e em receber comunicações da iBUILD São Carlos.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    CTA FLUTUANTE LATERAL (#floatCta)
+    ============================================================ -->
+    <a href="/#contato" id="floatCta" class="cta-full" aria-label="Fale conosco">Fale Conosco</a>
+    <a href="https://wa.me/5516997634187" target="_blank" rel="noopener" class="cta-short" aria-label="Fale conosco pelo WhatsApp">Orçamento</a>
+
+    <!-- ============================================================
+    FOOTER (Mantido para consistência)
+    ============================================================ -->
     <footer class="footer">
-        
-            
-                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-                </svg>
-                iBUILD São Carlos
-            
-
-
-            
-                <a href="https://ibuildsaocarlos.com.br">Site Oficial</a>
-                <a href="https://wa.me/5516997634187">WhatsApp</a>
-                <a href="mailto:guilherme.cazu@ibuildconstrutora.com.br">E-mail</a>
-            
-
-
-        
-
-
-        &copy; 2026 iBUILD São Carlos · Construindo com propósito
-
-
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="assets/LOGOHORIZONTALNOVO.webp" alt="iBUILD São Carlos" loading="lazy" style="filter:brightness(10);">
+                <p>
+                    Construções inteligentes em Light Steel Frame. 
+                    Sua obra chave na mão em São Carlos — da fundação ao acabamento. 
+                    Deixa com a gente.
+                </p>
+                 <div style="display:flex;gap:12px;margin-top:20px;">
+                    <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="Instagram iBUILD">
+                        <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#fff" stroke="none"/></svg>
+                    </a>
+                    <a href="https://web.facebook.com/profile.php?id=61580847606903" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="Facebook iBUILD">
+                        <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UC1l4sZJADfljEzfWWwAfVvw" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="YouTube iBUILD">
+                        <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+                    </a>
+                    <a href="https://wa.me/5516997634187" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="WhatsApp iBUILD São Carlos">
+                        <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Navegação</h3>
+                <ul>
+                    <li><a href="/#hero">Home</a></li>
+                    <li><a href="/#sobre">Sobre</a></li>
+                    <li><a href="/#projetos">Projetos</a></li>
+                    <li><a href="/#contato">Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Entre em Contato</h3>
+                <ul>
+                    <li><a href="tel:+5516997634187">(16) 99763-4187</a></li>
+                    <li><a href="mailto:guilherme.cazu@ibuildconstrutora.com.br">guilherme.cazu@ibuildconstrutora.com.br</a></li>
+                    <li><a href="https://lp.ibuildsaocarlos.com.br/" target="_blank">ibuildscarlosconstrutora.com.br</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Visite-nos</h3>
+                <ul>
+                    <li><a href="https://maps.google.com/?q=Rua+Passeio+dos+Ipês,+350,+Torre+Nova+York,+Sala+604,+Parque+Faber+Castell+II,+São+Carlos+-+SP" target="_blank" rel="noopener">
+                        Rua Passeio dos Ipês, 350<br>
+                        Torre Nova York, Sala 604<br>
+                        Parque Faber Castell II<br>
+                        São Carlos - SP, 13561-385
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">
+                &copy; 2026 iBUILD São Carlos. Todos os direitos reservados. · CNPJ: 65.490.999/0001-40
+            </p>
+            <div class="footer-blinks">
+                <a href="#">Política de Privacidade</a>
+                <a href="#">Termos de Uso</a>
+            </div>
+        </div>
     </footer>
 
+    <!-- ============================================================
+    JAVASCRIPT (Adaptado para a nova página)
+    ============================================================ -->
     <script>
-        // Loader — esconde após 2.6s
-        setTimeout(function(){
-            var el = document.getElementById('loader');
-            if(el) el.style.display = 'none';
-        }, 2600);
+        // --- Loader ---
+        var ld = false;
+        function hideLoader() {
+            if (!ld) {
+                ld = true;
+                var el = document.getElementById('loader');
+                if (el) el.classList.add('hidden');
+            }
+        }
+        setTimeout(hideLoader, 2000);
 
-        // Nav scroll
-        window.addEventListener('scroll', function(){
+        // --- Nav scroll ---
+        window.addEventListener('scroll', function() {
             var n = document.getElementById('nav');
-            if(n) n.classList.toggle('scrolled', window.scrollY > 60);
-        }, {passive:true});
+            if (n) n.classList.toggle('scrolled', window.scrollY > 80);
+        }, { passive: true });
 
-        // Scroll reveal
-        var observer = new IntersectionObserver(function(entries){
-            entries.forEach(function(e){
-                if(e.isIntersecting){
-                    e.target.classList.add('visible');
-                    observer.unobserve(e.target);
+        // --- Menu mobile ---
+        function toggleMenu() {
+            var m = document.getElementById('mobileMenu');
+            m.classList.toggle('open');
+            var s = document.getElementById('hamburger').querySelectorAll('span');
+            if (m.classList.contains('open')) {
+                s[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+                s[1].style.opacity = '0';
+                s[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+            } else {
+                s[0].style.transform = '';
+                s[1].style.opacity = '';
+                s[2].style.transform = '';
+            }
+        }
+
+        // --- Scroll Reveal (Intersection Observer) ---
+        var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(en) {
+                if (en.isIntersecting) {
+                    en.target.classList.add('visible');
+                    obs.unobserve(en.target);
                 }
             });
-        }, {threshold:.1, rootMargin:'0px 0px -30px 0px'});
-        document.querySelectorAll('.reveal').forEach(function(el){ observer.observe(el); });
+        }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(function(a){
-            a.addEventListener('click', function(e){
-                var t = document.querySelector(this.getAttribute('href'));
-                if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth', block:'start'}); }
+        // Seleciona elementos de reveal para a nova página
+        document.querySelectorAll('.reveal, .reveal-line, .reveal-scale').forEach(function(el) {
+            obs.observe(el);
+        });
+
+        // --- Smooth scroll para links internos (adaptado para links da home) ---
+        document.querySelectorAll('a[href^="/#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+                // Se o link aponta para a página atual, faz o scroll suave
+                if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    var targetId = this.getAttribute('href').substring(2); // Remove "/#"
+                    var target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                } else {
+                    // Se não estiver na página principal, redireciona para a home com hash
+                    window.location.href = '/#' + this.getAttribute('href').substring(2);
+                }
             });
         });
 
-        // Submissão do formulário
-        function handleSubmit(e){
-            e.preventDefault();
+        // --- Lógica do formulário de captura ---
+        const ebookForm = document.getElementById('ebook-form');
+        if (ebookForm) {
+            ebookForm.addEventListener('submit', function(e) {
+                e.preventDefault(); // Previne o envio padrão do formulário
 
-            var nome = document.getElementById('nome').value.trim();
-            var telefone = document.getElementById('telefone').value.trim();
-            var email = document.getElementById('email').value.trim();
+                const nameInput = document.getElementById('name');
+                const emailInput = document.getElementById('email');
+                const phoneInput = document.getElementById('phone');
 
-            if(!nome || !telefone || !email){
-                alert('Por favor, preencha todos os campos.');
-                return false;
-            }
+                const name = nameInput.value.trim();
+                const email = emailInput.value.trim();
+                const phone = phoneInput.value.trim();
 
-            var btn = document.getElementById('formBtn');
-            btn.disabled = true;
-            btn.innerHTML = 'Enviando...';
+                // Validação básica (pode ser mais robusta)
+                if (!name || !email || !phone) {
+                    alert('Por favor, preencha todos os campos.');
+                    return;
+                }
 
-            // Envia para o backend salvar o lead
-            fetch('/lead-ebook1/salvar-lead', {
-                method: 'POST',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({nome:nome, telefone:telefone, email:email, ebook:'https://ibuildsaocarlos.com.br/ebook'})
-            })
-            .then(function(r){ return r.json().catch(function(){ return {}; }); })
-            .then(function(data){
-                document.getElementById('formState').style.display = 'none';
-                document.getElementById('successEmail').textContent = email;
-                document.getElementById('formSuccess').classList.add('show');
-            })
-            .catch(function(err){
-                document.getElementById('formState').style.display = 'none';
-                document.getElementById('successEmail').textContent = email;
-                document.getElementById('formSuccess').classList.add('show');
-                console.warn('Lead salvo localmente (servidor indisponível):', err);
+                // Simula o envio dos dados para um backend (substitua isso pela sua lógica real de envio)
+                console.log('Enviando dados do Ebook:');
+                console.log('Nome:', name);
+                console.log('Email:', email);
+                console.log('Telefone:', phone);
+
+                // Exemplo: Exibir uma mensagem de sucesso e limpar o formulário
+                alert('Obrigado por baixar nosso ebook! O link será enviado para o seu e-mail em breve.');
+                ebookForm.reset();
+
+                // Aqui você implementaria o envio real para seu servidor ou API de email marketing.
+                // Exemplo com Fetch API:
+                /*
+                fetch('/api/enviar-ebook', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phone })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Obrigado por baixar nosso ebook! O link será enviado para o seu e-mail em breve.');
+                        ebookForm.reset();
+                    } else {
+                        alert('Ocorreu um erro ao enviar sua solicitação. Tente novamente mais tarde.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro no envio:', error);
+                    alert('Ocorreu um erro inesperado. Tente novamente.');
+                });
+                */
             });
-
-            return false;
         }
     </script>
+
 </body>
 </html>
+```
