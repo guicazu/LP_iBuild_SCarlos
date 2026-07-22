@@ -279,105 +279,32 @@
             line-height: 1.3;
             letter-spacing: 1px;
         }
-        .form-group {
-            margin-bottom: 14px;
-            text-align: left;
-        }
-        .form-group label {
-            display: block;
-            font-size: .68rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--charcoal);
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
+
+        /* ============================================================
+           CONTAINER DO MICROSOFT FORMS (disfarçado)
+           ============================================================ */
+        .forms-container {
+            margin-top: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
             border: 1px solid var(--light-gray);
-            font-family: var(--font-body);
-            font-size: .88rem;
-            color: var(--black);
-            background: var(--warm-white);
-            transition: border-color .3s, box-shadow .3s;
-            outline: none;
-            border-radius: 6px;
+            background: #fff;
         }
-        .form-group input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(200, 169, 110, .15);
-        }
-        .form-group input::placeholder {
-            color: var(--gray);
-        }
-        .form-submit {
+        .forms-container iframe {
+            display: block;
             width: 100%;
-            padding: 16px 24px;
-            background: var(--gold);
-            color: var(--black);
-            font-family: var(--font-display);
-            font-size: .82rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border: 1px solid var(--gold);
-            cursor: pointer;
-            transition: all .4s var(--ease-out-expo);
-            margin-top: 10px;
-            border-radius: 6px;
+            height: 420px;
+            border: none;
         }
-        .form-submit:hover {
-            background: var(--black);
-            color: var(--gold);
-            border-color: var(--black);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
-        }
-        .form-disclaimer {
+        .forms-disclaimer {
             font-size: .62rem;
             color: var(--gray);
             text-align: center;
             margin-top: 14px;
             line-height: 1.5;
         }
-        .form-success {
-            display: none;
-            text-align: center;
-            padding: 20px 0;
-        }
-        .form-success.active {
-            display: block;
-        }
-        .form-success .success-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: var(--gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 16px;
-        }
-        .form-success .success-icon svg {
-            width: 28px;
-            height: 28px;
-            stroke: var(--black);
-            fill: none;
-            stroke-width: 2;
-        }
-        .form-success h3 {
-            font-family: var(--font-display);
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: var(--black);
-            margin-bottom: 8px;
-        }
-        .form-success p {
-            font-size: .82rem;
-            color: var(--charcoal);
-            line-height: 1.6;
-        }
+
         @media (max-width: 600px) {
             .main-wrapper {
                 padding: 100px 16px 40px;
@@ -391,14 +318,8 @@
                 font-size: 1.35rem;
                 letter-spacing: 0;
             }
-            .form-submit {
-                font-size: .75rem;
-                letter-spacing: 1px;
-                padding: 14px 20px;
-            }
-            .form-group input {
-                padding: 12px 14px;
-                font-size: .82rem;
+            .forms-container iframe {
+                height: 380px;
             }
         }
 
@@ -456,6 +377,21 @@
         .footer-col a:hover {
             color: var(--off-white);
         }
+
+        /* ícones sociais — hover via CSS, sem inline JS */
+        .footer-social-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, .08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .3s;
+        }
+        .footer-social-icon:hover {
+            background: var(--gold);
+        }
+
         .footer-bottom {
             max-width: var(--content-width);
             margin: 0 auto;
@@ -540,23 +476,26 @@
     </div>
 
     <!-- ============================================================
-    CONTEÚDO PRINCIPAL — ÚNICO CARTÃO COM FORMULÁRIO
+    CONTEÚDO PRINCIPAL
     ============================================================ -->
     <div class="main-wrapper">
         <div class="ebook-card">
+
+            <!-- Cabeçalho (mantido igual) -->
             <p class="card-eyebrow">E-BOOK GRATUITO</p>
             <h1 class="card-title">
                 O GUIA COMPLETO PARA CONSTRUIR <em>sem dor de cabeça</em>
             </h1>
             <p class="card-subtitle">
                 <strong>STEEL FRAME: 10 MITOS E VERDADES</strong><br><br>
-Descubra a verdade por trás dos maiores mitos da construção em <strong>Steel Frame</strong><br>
-— com dados técnicos reais, normas da ABNT e ensaios do IPT.<br><br>
+                Descubra a verdade por trás dos maiores mitos da construção em <strong>Steel Frame</strong><br>
+                — com dados técnicos reais, normas da ABNT e ensaios do IPT.<br><br>
                 Custo benefício real? Pega fogo? Enferruja? É frio no inverno?<br>
-                    Este guia definitivo responde cada dúvida com fatos, números e evidências — não opinião.<br>
-                        Ideal para quem quer tomar a melhor decisão para a família sem cair em armadilhas.
+                Este guia definitivo responde cada dúvida com fatos, números e evidências — não opinião.<br>
+                Ideal para quem quer tomar a melhor decisão para a família sem cair em armadilhas.
             </p>
 
+            <!-- Benefícios -->
             <ul class="benefits">
                 <li>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -572,6 +511,7 @@ Descubra a verdade por trás dos maiores mitos da construção em <strong>Steel 
                 </li>
             </ul>
 
+            <!-- Capa do E-book -->
             <div class="ebook-cover-preview">
                 <div class="ebook-placeholder">
                     CAPA DO<br>E-BOOK<br><span style="font-size:1.5rem;">📘</span>
@@ -579,38 +519,22 @@ Descubra a verdade por trás dos maiores mitos da construção em <strong>Steel 
                 <!-- Se tiver a imagem real: <img src="assets/ebook-cover.webp" alt="Capa do E-book iBUILD" style="width:100%;height:100%;object-fit:cover;"> -->
             </div>
 
+            <!-- Título da seção do formulário -->
             <p style="font-size:.62rem;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;">DOWNLOAD GRATUITO</p>
-            <h2 style="font-family:var(--font-display);font-size:1.15rem;font-weight:600;color:var(--black);margin-bottom:6px;">BAIXE AGORA O E-BOOK</h2>
-            <p style="font-size:.78rem;color:var(--charcoal);margin-bottom:24px;">Preencha os dados abaixo e receba o link de acesso no seu e-mail.</p>
+            <h2 style="font-family:var(--font-display);font-size:1.15rem;font-weight:600;color:var(--black);margin-bottom:14px;">PREECHA PARA RECEBER O E-BOOK</h2>
 
-            <!-- FORMULÁRIO -->
-            <form id="leadForm" novalidate>
-                <div class="form-group">
-                    <label for="leadName">NOME COMPLETO</label>
-                    <input type="text" id="leadName" name="name" placeholder="Seu nome completo" required autocomplete="name">
-                </div>
-                <div class="form-group">
-                    <label for="leadEmail">E-MAIL</label>
-                    <input type="email" id="leadEmail" name="email" placeholder="seu@email.com" required autocomplete="email">
-                </div>
-                <div class="form-group">
-                    <label for="leadPhone">TELEFONE / WHATSAPP</label>
-                    <input type="tel" id="leadPhone" name="phone" placeholder="(16) 99999-9999" required autocomplete="tel">
-                </div>
-                <button type="submit" class="form-submit" id="formSubmitBtn">
-                    QUERO BAIXAR O E-BOOK
-                </button>
-                <p class="form-disclaimer">Seus dados estão seguros. Não enviaremos spam.</p>
-            </form>
-
-            <!-- MENSAGEM DE SUCESSO -->
-            <div class="form-success" id="formSuccess">
-                <div class="success-icon">
-                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <h3>E-book enviado!</h3>
-                <p>Verifique sua caixa de entrada. O link de acesso ao e-book foi enviado para o seu e-mail. Se não encontrar, olhe na pasta de spam.</p>
+            <!-- ============================================================
+            MICROSOFT FORMS EMBUTIDO (disfarçado)
+            ============================================================ -->
+            <div class="forms-container">
+                <iframe
+                    src="https://forms.cloud.microsoft.com/Pages/ResponsePage.aspx?id=3jrDHMiA7kS27cDQjrOrbIiwSw6sofpDoU3qzKCmnHFUQlFCQVNDSjFITkpFRkhPOTlYMFNBUTNSQi4u&embed=true"
+                    title="Formulário E-book iBUILD São Carlos"
+                >Carregando formulário...</iframe>
             </div>
+
+            <p class="forms-disclaimer">Seus dados estão seguros. Não enviaremos spam.</p>
+
         </div>
     </div>
 
@@ -625,16 +549,16 @@ Descubra a verdade por trás dos maiores mitos da construção em <strong>Steel 
                     Construções inteligentes em Light Steel Frame. Sua obra chave na mão em São Carlos — da fundação ao acabamento. Deixa com a gente.
                 </p>
                 <div style="display:flex;gap:12px;margin-top:20px;">
-                    <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="Instagram iBUILD">
+                    <a href="https://www.instagram.com/ibuildsaocarlos/" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="Instagram iBUILD">
                         <svg width="16" height="16" fill="none" stroke="#fff" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#fff" stroke="none"/></svg>
                     </a>
-                    <a href="https://web.facebook.com/profile.php?id=61580847606903" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="Facebook iBUILD">
+                    <a href="https://web.facebook.com/profile.php?id=61580847606903" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="Facebook iBUILD">
                         <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
                     </a>
-                    <a href="https://www.youtube.com/channel/UC1l4sZJADfljEzfWWwAfVvw" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="YouTube iBUILD">
+                    <a href="https://www.youtube.com/channel/UC1l4sZJADfljEzfWWwAfVvw" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="YouTube iBUILD">
                         <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
                     </a>
-                    <a href="https://wa.me/5516997634187" target="_blank" style="width:36px;height:36px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;transition:all .3s;" onmouseover="this.style.background='var(--gold)'" onmouseout="this.style.background='rgba(255,255,255,.08)'" aria-label="WhatsApp iBUILD São Carlos">
+                    <a href="https://wa.me/5516997634187" target="_blank" rel="noopener noreferrer" class="footer-social-icon" aria-label="WhatsApp iBUILD São Carlos">
                         <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
                     </a>
                 </div>
@@ -652,7 +576,7 @@ Descubra a verdade por trás dos maiores mitos da construção em <strong>Steel 
                 <ul>
                     <li><a href="tel:+5516997634187">(16) 99763-4187</a></li>
                     <li><a href="mailto:guilherme.cazu@ibuildconstrutora.com.br">guilherme.cazu@ibuildconstrutora.com.br</a></li>
-                    <li><a href="https://lp.ibuildsaocarlos.com.br/" target="_blank">ibuildsaocarlos.com.br</a></li>
+                    <li><a href="https://lp.ibuildsaocarlos.com.br/" target="_blank" rel="noopener noreferrer">ibuildsaocarlos.com.br</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -663,7 +587,7 @@ Descubra a verdade por trás dos maiores mitos da construção em <strong>Steel 
                             Torre Nova York, Sala 604<br>
                             Parque Faber Castell II<br>
                             São Carlos - SP, 13561-385
-                        </a></li>
+                    </a></li>
                 </ul>
             </div>
         </div>
@@ -679,124 +603,24 @@ Descubra a verdade por trás dos maiores mitos da construção em <strong>Steel 
     </footer>
 
     <!-- ============================================================
-    JAVASCRIPT (apenas loader + formulário)
+    JAVASCRIPT (apenas loader)
     ============================================================ -->
     <script>
         // --- Loader ---
-        var ld = false;
-
+        let loaderDone = false;
         function hideLoader() {
-            if (!ld) {
-                ld = true;
-                var el = document.getElementById('loader');
+            if (!loaderDone) {
+                loaderDone = true;
+                const el = document.getElementById('loader');
                 if (el) el.classList.add('hidden');
             }
         }
         setTimeout(hideLoader, 2000);
 
-        // --- Formulário de Lead Capture ---
-        var leadForm = document.getElementById('leadForm');
-        var formSuccess = document.getElementById('formSuccess');
-        var formSubmitBtn = document.getElementById('formSubmitBtn');
-        const WEBHOOK_URL = 'https://default1cc33ade80c844eeb6edc0d08eb3ab.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/21/workflows/24c5df07bf3c4ffa904d568ad048ff21/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xl_8YQfl7L6cLstYiCOa9cywt6xnCERqlMMa70skMmw';
-        
-
-        leadForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            var name = document.getElementById('leadName').value.trim();
-            var email = document.getElementById('leadEmail').value.trim();
-            var phone = document.getElementById('leadPhone').value.trim();
-
-            if (!name || !email || !phone) {
-                alert('Por favor, preencha todos os campos antes de enviar.');
-                return;
-            }
-            if (!/\S+@\S+\.\S+/.test(email)) {
-                alert('Por favor, insira um e-mail válido.');
-                return;
-            }
-
-            formSubmitBtn.textContent = 'Enviando...';
-            formSubmitBtn.disabled = true;
-
-            // Simulação de envio — substitua pela sua integração real
-           
-            fetch(N8N_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            name: name,
-            email: email,
-            phone: phone,
-            source: 'ebook-landing-page',
-            ebook: 'steel-frame-10-mitos-e-verdades',
-            capturedAt: new Date().toISOString()
-        })
-    })
-    .then(function(response) {
-        if (!response.ok) throw new Error('Erro no servidor');
-        return response.json();
-    })
-    .then(function(data) {
-        // Sucesso
-        leadForm.style.display = 'none';
-        formSuccess.classList.add('active');
-
-        // Dispara eventos de conversão (Google Ads / Meta)
-        if (typeof gtag === 'function') {
-            gtag('event', 'generate_lead', {
-                event_category: 'ebook',
-                event_label: 'ebook_download'
-            });
-        }
-        if (typeof fbq === 'function') {
-            fbq('track', 'Lead', { content_name: 'ebook_steel_frame' });
-        }
-    })
-    .catch(function(error) {
-        console.error('Erro:', error);
-        alert('Ocorreu um erro ao enviar. Por favor, tente novamente.');
-    })
-    .finally(function() {
-        formSubmitBtn.textContent = 'QUERO BAIXAR O E-BOOK';
-        formSubmitBtn.disabled = false;
-    });
-            
-            // setTimeout(function() {
-             //   leadForm.style.display = 'none';
-               // formSuccess.classList.add('active');
-               // formSubmitBtn.textContent = 'QUERO BAIXAR O E-BOOK';
-               // formSubmitBtn.disabled = false;
-
-                // Dispara eventos de conversão (Google / Meta)
-                // if (typeof gtag === 'function') {
-                  //   gtag('event', 'generate_lead', { event_category: 'ebook', event_label: 'ebook_download' });
-                // }
-                // if (typeof fbq === 'function') {
-                  //   fbq('track', 'Lead', { content_name: 'ebook_steel_frame' });
-                // }
-            // }, 1500);
-        });
-
-        // --- Máscara simples de telefone ---
-        var phoneInput = document.getElementById('leadPhone');
-        if (phoneInput) {
-            phoneInput.addEventListener('input', function(e) {
-                var v = this.value.replace(/\D/g, '');
-                if (v.length > 11) v = v.substring(0, 11);
-                if (v.length > 0) {
-                    if (v.length <= 2) {
-                        v = '(' + v;
-                    } else if (v.length <= 7) {
-                        v = '(' + v.substring(0, 2) + ') ' + v.substring(2);
-                    } else {
-                        v = '(' + v.substring(0, 2) + ') ' + v.substring(2, 7) + '-' + v.substring(7);
-                    }
-                }
-                this.value = v;
-            });
-        }
+        // --- Listener para detectar envio do Forms (opcional) ---
+        // O Microsoft Forms não emite evento de submit acessível via JS
+        // cross-origin. Para tracking de conversão, use o Power Automate.
+        // Se quiser disparar gtag/fbq, veja as instruções abaixo ↓
     </script>
 </body>
 </html>
