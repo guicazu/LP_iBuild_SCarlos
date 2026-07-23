@@ -107,66 +107,7 @@
             color: inherit;
         }
 
-        /* ============================================================
-           LOADER (animação de entrada)
-           ============================================================ */
-        .loader {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: var(--black);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            transition: opacity .8s var(--ease-out-expo), visibility .8s;
-            animation: loaderAutoHide .8s ease 3s forwards;
-        }
-        .loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        @keyframes loaderAutoHide {
-            to {
-                opacity: 0;
-                visibility: hidden;
-                pointer-events: none;
-            }
-        }
-        .loader-logo {
-            width: 240px;
-            opacity: 0;
-            animation: loaderFade 1.5s var(--ease-out-expo) .3s forwards;
-        }
-        .loader-line {
-            width: 80px;
-            height: 1px;
-            background: var(--accent);
-            margin-top: 36px;
-            transform: scaleX(0);
-            animation: loaderLine 1.8s var(--ease-out-expo) .6s forwards;
-        }
-        .loader-text {
-            margin-top: 18px;
-            font-size: .65rem;
-            font-weight: 500;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: var(--gray);
-            opacity: 0;
-            animation: loaderFade 1s var(--ease-out-expo) 1s forwards;
-        }
-        @keyframes loaderFade {
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes loaderLine {
-            to {
-                transform: scaleX(1);
-            }
-        }
+
 
         /* ============================================================
            CONTEÚDO PRINCIPAL (centralizado verticalmente)
@@ -467,14 +408,7 @@
 </head>
 <body>
 
-    <!-- ============================================================
-    LOADER
-    ============================================================ -->
-    <div class="loader" id="loader">
-        <img src="assets/logo-light.webp" alt="iBUILD São Carlos" class="loader-logo" fetchpriority="high">
-        <div class="loader-line"></div>
-        <span class="loader-text">E-book Gratuito</span>
-    </div>
+
 
     <!-- ============================================================
     CONTEÚDO PRINCIPAL
@@ -609,25 +543,6 @@
         </div>
     </footer>
 
-    <!-- ============================================================
-    JAVASCRIPT (apenas loader)
-    ============================================================ -->
-    <script>
-        // --- Loader ---
-        let loaderDone = false;
-        function hideLoader() {
-            if (!loaderDone) {
-                loaderDone = true;
-                const el = document.getElementById('loader');
-                if (el) el.classList.add('hidden');
-            }
-        }
-        setTimeout(hideLoader, 2000);
 
-        // --- Listener para detectar envio do Forms (opcional) ---
-        // O Microsoft Forms não emite evento de submit acessível via JS
-        // cross-origin. Para tracking de conversão, use o Power Automate.
-        // Se quiser disparar gtag/fbq, veja as instruções abaixo ↓
-    </script>
 </body>
 </html>
