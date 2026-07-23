@@ -225,6 +225,7 @@
         /* ============================================================
            CONTAINER DO MICROSOFT FORMS (disfarçado)
            ============================================================ */
+        /* Container do Microsoft Forms */
         .forms-container {
             margin-top: 0;
             border-radius: 8px;
@@ -232,36 +233,35 @@
             box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
             border: 1px solid var(--light-gray);
             background: #fff;
+            position: relative;
+            -webkit-overflow-scrolling: touch; /* scroll suave iOS */
         }
+        
         .forms-container iframe {
             display: block;
             width: 100%;
-            height: 520px;
+            min-height: 520px;
+            height: 100%;
             border: none;
+            opacity: 0;
+            transition: opacity .3s ease;
         }
-        .forms-disclaimer {
-            font-size: .62rem;
-            color: var(--gray);
-            text-align: center;
-            margin-top: 14px;
-            line-height: 1.5;
-        }
-
+        
+        /* Ajuste para mobile */
         @media (max-width: 600px) {
-            .main-wrapper {
-                padding: 100px 16px 40px;
-                align-items: flex-start;
+            .forms-container {
+                border-radius: 8px;
             }
-            .ebook-card {
-                padding: 32px 20px 28px;
-                border-radius: 12px;
-            }
-            .ebook-card .card-title {
-                font-size: 1.35rem;
-                letter-spacing: 0;
-            }
+        
             .forms-container iframe {
-                height: 480px;
+                min-height: 560px; /* Mais altura no mobile */
+            }
+        }
+        
+        /* Ajuste para telas muito pequenas */
+        @media (max-width: 380px) {
+            .forms-container iframe {
+                min-height: 600px;
             }
         }
 
@@ -545,7 +545,31 @@
             </div>
         </div>
     </footer>
+// Solução robusta para iframe MS Forms no mobile
+(function() {
+    var iframe = document.getElementById('msFormsIframe');
+    if (!iframe) return;
 
+    function setHeight() {
+        var w = window.innerWidth;
+        if (w <= 380) {
+            iframe.style.height = '620px';
+        } else if (w <= 600) {
+            iframe.style.height = '580px';
+        } else {
+            iframe.style.height = '520px';
+        }
+    }
+
+    setHeight();
+    window.addEventListener('resize', setHeight);
+
+    // Força re-render no orientation change (iOS)
+    window.addEventListener('orientationchange', function() {
+        setTimeout(setHeight, 300);
+    });
+
+})();
 
 </body>
 </html>
