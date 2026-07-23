@@ -731,6 +731,8 @@
             .guardioes { padding: 60px 20px; }
         }
 
+
+        
         /* ============================================================
            SEÇÃO: NOSSOS PROJETOS (carrossel horizontal)
            ============================================================ */
@@ -1867,6 +1869,268 @@
         padding: 12px 9px;
     }
 }
+/* ============================================================
+   SEÇÃO: E-BOOK TEASER
+   ============================================================ */
+.ebook-teaser {
+    padding: 80px var(--side-padding);
+    background: var(--warm-white);
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+}
+.ebook-teaser::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: .5;
+}
+.ebook-teaser-inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+/* Capa do e-book */
+.ebook-teaser-cover {
+    display: flex;
+    justify-content: center;
+}
+.ebook-cover-mockup {
+    width: 220px;
+    height: 300px;
+    background: var(--black);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 48px rgba(0,0,0,.25), 0 4px 12px rgba(0,0,0,.08);
+    position: relative;
+    transition: transform .5s var(--ease-out-expo), box-shadow .5s;
+}
+.ebook-cover-mockup:hover {
+    transform: translateY(-8px) rotate(-2deg);
+    box-shadow: 0 28px 60px rgba(0,0,0,.35);
+}
+.ebook-cover-mockup img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Conteúdo textual */
+.ebook-teaser-content {
+    display: flex;
+    flex-direction: column;
+}
+.ebook-teaser-content .intro-label {
+    font-size: .7rem;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+}
+.ebook-teaser-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--black);
+    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.ebook-teaser-title em {
+    font-family: 'Brittany Signature', cursive !important;
+    font-style: normal;
+    color: var(--gold);
+    font-weight: normal;
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 1.25em;
+}
+.ebook-teaser-text {
+    font-size: .95rem;
+    line-height: 1.7;
+    color: var(--charcoal);
+    max-width: 520px;
+    margin-bottom: 20px;
+}
+
+/* Benefícios em coluna (já corrigidos!) */
+.ebook-teaser-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+    margin-bottom: 28px;
+    font-size: .82rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    padding: 0;
+}
+.ebook-teaser-benefits li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.ebook-teaser-benefits li svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--gold);
+    flex-shrink: 0;
+}
+
+/* Botão CTA */
+.ebook-teaser-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 16px 36px;
+    transition: all .4s var(--ease-out-expo);
+    white-space: nowrap;
+    align-self: flex-start;
+    text-decoration: none;
+}
+.ebook-teaser-cta svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    transition: transform .4s var(--ease-out-expo);
+}
+.ebook-teaser-cta:hover {
+    background: var(--black);
+    color: var(--gold);
+    border-color: var(--black);
+    box-shadow: 0 10px 28px rgba(0,0,0,.22);
+    transform: translateY(-3px);
+}
+.ebook-teaser-cta:hover svg {
+    transform: translateY(3px);
+}
+
+/* Nota pequena abaixo do botão */
+.ebook-teaser-note {
+    font-size: .62rem;
+    color: var(--gray);
+    margin-top: 12px;
+}
+
+/* --- Responsivo --- */
+@media (max-width: 900px) {
+    .ebook-teaser {
+        padding: 60px 20px;
+    }
+    .ebook-teaser-inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        text-align: center;
+    }
+    .ebook-teaser-content {
+        align-items: center;
+    }
+    .ebook-teaser-text {
+        max-width: 100%;
+    }
+    .ebook-teaser-benefits {
+        align-items: center;
+    }
+    .ebook-teaser-cta {
+        align-self: center;
+    }
+    .ebook-cover-mockup {
+        width: 170px;
+        height: 235px;
+    }
+    .intro-line {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media (max-width: 480px) {
+    .ebook-teaser-title {
+        font-size: 1.4rem;
+        letter-spacing: 0;
+    }
+    .ebook-teaser-cta {
+        padding: 14px 28px;
+        font-size: .7rem;
+        letter-spacing: 1px;
+    }
+}
+
+/* Barra flutuante inferior do E-book */
+.ebook-floating-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 110;
+    background: rgba(29,29,31,.96);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(200,169,110,.25);
+    padding: 14px 20px;
+    transform: translateY(100%);
+    transition: transform .5s var(--ease-out-expo);
+}
+.ebook-floating-bar.visible {
+    transform: translateY(0);
+}
+.ebook-floating-bar-inner {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.ebook-floating-bar-text {
+    font-size: .85rem;
+    color: var(--off-white);
+    letter-spacing: .5px;
+}
+.ebook-floating-bar-cta {
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 10px 22px;
+    border-radius: 4px;
+    transition: all .3s;
+    white-space: nowrap;
+    text-decoration: none;
+}
+.ebook-floating-bar-cta:hover {
+    background: var(--gold-light);
+    transform: scale(1.03);
+}
+
+@media (max-width: 600px) {
+    .ebook-floating-bar-inner {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    .ebook-floating-bar-text {
+        font-size: .75rem;
+    }
+}        
     </style>
 
     <!-- Pré-carregamento da imagem do hero (poster) para evitar flash -->
@@ -1880,7 +2144,22 @@
             var h=d.getElementsByTagName('script')[0];
             h.parentNode.insertBefore(s,h);
         })(window,document,'https://cdn.bitrix24.com.br/b15418859/crm/form/loader_344.js');
+
+            // Aparece a barra após 60% do scroll
+(function() {
+    var bar = document.getElementById('ebookFloatingBar');
+    if (!bar) return;
+    var shown = false;
+    window.addEventListener('scroll', function() {
+        var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+        if (pct > 0.6 && !shown) {
+            bar.classList.add('visible');
+            shown = true;
+        }
+    }, { passive: true });
+})();
         </script>
+    
 </head>
 <body>
 
@@ -2009,7 +2288,57 @@
             </div>
         </div>
     </section>
+/* ============================================================
+SEÇÃO: E-BOOK GRATUITO — Steel Frame: 10 Mitos e Verdades
+(Insira ENTRE </section> de "guardioes" e <section class="showcase">)
+============================================================ --> */
+<section class="ebook-teaser" id="ebook">
+    <div class="ebook-teaser-inner">
+        <!-- Coluna da capa -->
+        <div class="ebook-teaser-cover reveal-scale">
+            <div class="ebook-cover-mockup">
+                <img src="assets/ebook-cover.webp" alt="E-book Steel Frame: 10 Mitos e Verdades — iBUILD São Carlos" loading="lazy">
+            </div>
+        </div>
 
+        <!-- Coluna do conteúdo -->
+        <div class="ebook-teaser-content reveal">
+            <p class="intro-label">Material Gratuito</p>
+            <h2 class="ebook-teaser-title">
+                STEEL FRAME:<br><em>10 Mitos e Verdades</em>
+            </h2>
+            <div class="intro-line reveal-line" style="margin-bottom:20px;"></div>
+            <p class="ebook-teaser-text">
+                Descubra a verdade por trás dos maiores mitos da construção em 
+                <strong>Light Steel Frame</strong> — com dados técnicos reais, 
+                normas da ABNT e ensaios do IPT. Não é opinião, é fato.
+            </p>
+
+            <!-- Mini benefícios -->
+            <ul class="ebook-teaser-benefits">
+                <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Conteúdo 100% gratuito
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Acesso imediato no seu e-mail
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <strong>Bônus:</strong> Checklist com 7 perguntas antes de contratar
+                </li>
+            </ul>
+
+            <a href="https://ibuildsaocarlos.com.br/lead-ebook1" class="ebook-teaser-cta">
+                BAIXAR E-BOOK GRATUITO
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </a>
+
+            <p class="ebook-teaser-note">Sem spam. Seus dados estão seguros.</p>
+        </div>
+    </div>
+</section>
     <!-- ============================================================
     SEÇÃO: NOSSOS PROJETOS (Carrossel)
     ============================================================ -->
@@ -3060,5 +3389,12 @@ if (headerBtn) {
     });
 })();
 </script>
+    <!-- Barra flutuante inferior do E-book (insira antes do </body>) -->
+<div class="ebook-floating-bar" id="ebookFloatingBar">
+    <div class="ebook-floating-bar-inner">
+        <span class="ebook-floating-bar-text">📘 <strong>Steel Frame: 10 Mitos e Verdades</strong> — Baixe grátis</span>
+        <a href="https://ibuildsaocarlos.com.br/lead-ebook1" class="ebook-floating-bar-cta">QUERO MEU E-BOOK</a>
+    </div>
+</div>
 </body>
 </html>
