@@ -1,5 +1,6 @@
-# Os simuladores antigos desta pasta (simulador, simulador1, simulador2) usavam preços inventados.
-# O simulador oficial é o SOE 2.0, que reproduz a planilha "SOE 2.0 - Oficial São Carlos - v5.xlsx".
+# Os simuladores antigos (simulador, simulador1, simulador2) usavam preços inventados e foram apagados.
+# O único simulador é o SOE 2.0, que reproduz a planilha "SOE 2.0 - Oficial São Carlos - v5.xlsx";
+# estes redirecionamentos levam quem tiver um link antigo até ele.
 /simulador https://simulador.ibuildsaocarlos.com.br/ 302
 /simulador/ https://simulador.ibuildsaocarlos.com.br/ 302
 /simulador/* https://simulador.ibuildsaocarlos.com.br/ 302
