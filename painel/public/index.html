@@ -11,19 +11,21 @@
   * { box-sizing: border-box; margin: 0; }
   body { font-family: 'Transducer', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-weight: 300; background: var(--cream); color: var(--black); min-height: 100vh; }
   header { background: var(--black); color: #fff; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  header img { height: 28px; }
+  header img { height: 22px; }
   header a { color: var(--light-gray); font-size: 14px; text-decoration: none; }
   header a:hover { color: var(--gold); }
   main { max-width: 1040px; margin: 0 auto; padding: 48px 24px 64px; }
   h1 { font-weight: 300; font-size: 32px; }
   .sub { color: var(--charcoal); margin: 8px 0 40px; }
   h2 { font-weight: 300; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--gray); margin: 32px 0 14px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
-  .card { display: block; background: #fff; border: 1px solid var(--light-gray); border-radius: 14px; padding: 22px; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
-  .card:hover { border-color: var(--gold); transform: translateY(-2px); }
-  .card h3 { font-weight: 300; font-size: 19px; margin-bottom: 6px; }
-  .card p { color: var(--charcoal); font-size: 14px; line-height: 1.5; }
-  .card .url { margin-top: 14px; font-size: 12px; color: var(--gray); }
+  @media (max-width: 480px) { .grid { grid-template-columns: 1fr !important; } .card img { width: 96px; } }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 16px; }
+  .card { display: flex; align-items: center; gap: 18px; background: #fff; border: 1px solid var(--light-gray); border-radius: 14px; padding: 14px; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s, box-shadow .15s; }
+  .card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.06); }
+  .card img { width: 128px; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 8px; border: 1px solid var(--light-gray); flex-shrink: 0; background: var(--cream); }
+  .card h3 { font-weight: 300; font-size: 18px; margin-bottom: 4px; }
+  .card p { color: var(--charcoal); font-size: 13px; line-height: 1.45; }
+  .card .url { margin-top: 8px; font-size: 12px; color: var(--gray); }
   .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 99px; margin-left: 6px; vertical-align: middle; }
   .pub { background: #e8f3ea; color: #2f6b3a; }
   .int { background: #f6efe1; color: #8a6a2c; }
@@ -31,7 +33,7 @@
 </head>
 <body>
 <header>
-  <img src="logo-light.webp" alt="iBUILD">
+  <img src="logo.webp" alt="iBUILD">
   <a href="/cdn-cgi/access/logout">Sair</a>
 </header>
 <main>
@@ -41,38 +43,56 @@
   <h2>Ferramentas internas</h2>
   <div class="grid">
     <a class="card" href="https://orcamento.ibuildsaocarlos.com.br/">
+      <img src="miniaturas/orcamento.jpg" alt="" loading="lazy">
+      <div>
       <h3>Base Orçamentária SIENGE <span class="tag int">interno</span></h3>
       <p>Levantamento e base de preços do SIENGE usada nos orçamentos.</p>
       <div class="url">orcamento.ibuildsaocarlos.com.br</div>
+    </div>
     </a>
     <a class="card" href="https://apresentacao.ibuildsaocarlos.com.br/">
+      <img src="miniaturas/apresentacao.jpg" alt="" loading="lazy">
+      <div>
       <h3>Apresentação Comercial <span class="tag int">interno</span></h3>
       <p>Apresentação comercial exclusiva para reuniões com clientes.</p>
       <div class="url">apresentacao.ibuildsaocarlos.com.br</div>
+    </div>
     </a>
-    <a class="card" href="https://simulateste.ibuildsaocarlos.com.br/">
-      <h3>Simulador (teste) <span class="tag int">interno</span></h3>
-      <p>Cópia de testes do simulador, para validar mudanças antes de publicar.</p>
-      <div class="url">simulateste.ibuildsaocarlos.com.br</div>
+    <a class="card" href="https://simulador.ibuildsaocarlos.com.br/franqueado">
+      <img src="miniaturas/franqueado.jpg" alt="" loading="lazy">
+      <div>
+      <h3>Área do Franqueado <span class="tag int">interno</span></h3>
+      <p>Simulações dos clientes, orçamento detalhado, propostas, premissas e base de preços.</p>
+      <div class="url">simulador.ibuildsaocarlos.com.br/franqueado</div>
+    </div>
     </a>
   </div>
 
   <h2>Público</h2>
   <div class="grid">
     <a class="card" href="https://ibuildsaocarlos.com.br/">
+      <img src="miniaturas/site.jpg" alt="" loading="lazy">
+      <div>
       <h3>Site principal <span class="tag pub">público</span></h3>
       <p>Landing page da iBUILD São Carlos.</p>
       <div class="url">ibuildsaocarlos.com.br</div>
+    </div>
     </a>
     <a class="card" href="https://simulador.ibuildsaocarlos.com.br/">
+      <img src="miniaturas/simulador.jpg" alt="" loading="lazy">
+      <div>
       <h3>Simulador de Orçamento <span class="tag pub">público</span></h3>
-      <p>Simulador SOE 2.0 para clientes. A área do franqueado tem login próprio.</p>
+      <p>Simulador SOE 2.0 aberto para clientes, com captação de leads.</p>
       <div class="url">simulador.ibuildsaocarlos.com.br</div>
+    </div>
     </a>
     <a class="card" href="https://ibuildsaocarlos.com.br/ebook/">
+      <img src="miniaturas/ebook.jpg" alt="" loading="lazy">
+      <div>
       <h3>E-book <span class="tag pub">público</span></h3>
       <p>E-book de captação de leads e a página de cadastro.</p>
       <div class="url">ibuildsaocarlos.com.br/ebook</div>
+    </div>
     </a>
   </div>
 </main>
