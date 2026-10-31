@@ -1,0 +1,11 @@
+// Painel interno da iBUILD São Carlos: painel.ibuildsaocarlos.com.br.
+// O login é feito pelo Cloudflare Access (app "iBUILD São Carlos — área interna"),
+// não por este Worker. Publicar com: cd painel && wrangler deploy
+{
+  "name": "ibuild-painel",
+  "compatibility_date": "2026-10-31",
+  "assets": { "directory": "./public" },
+  // A LP tem a rota coringa *.ibuildsaocarlos.com.br/*, e rotas vencem Custom Domains;
+  // por isso o painel precisa de uma rota específica.
+  "routes": [{ "pattern": "painel.ibuildsaocarlos.com.br/*", "zone_name": "ibuildsaocarlos.com.br" }]
+}
